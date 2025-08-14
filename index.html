@@ -481,7 +481,7 @@
     }
 
     try {
-      const response = await fetch(`${API_CONFIG.LAMBDA_ENDPOINT}/analyze`, {
+      const response = await fetch(`${API_CONFIG.LAMBDA_ENDPOINT}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
