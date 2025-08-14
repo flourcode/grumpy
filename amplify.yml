@@ -1,0 +1,21 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Injecting environment variables..."
+        # Create environment configuration file
+        - echo "window.ENV = {" > env-config.js
+        - echo "  GOOGLE_API_KEY: '$GOOGLE_API_KEY'," >> env-config.js
+        - echo "  SEARCH_ENGINE_ID: '$SEARCH_ENGINE_ID'," >> env-config.js
+        - echo "  LAMBDA_ENDPOINT: '$LAMBDA_ENDPOINT'" >> env-config.js
+        - echo "};" >> env-config.js
+    build:
+      commands:
+        - echo "Build completed on `date`"
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths: []
