@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="env-config.js"></script>
 <style>
   :root{
     --bg:#f6f6f6; --card:#ffffff; --ink:#1f2328; --muted:#6b7280;
@@ -35,7 +36,7 @@
   header,main,footer{ max-width:1100px; margin:0 auto; padding:0 16px; }
 
   /* HERO */
-  .hero{ text-align:center; padding:48px 16px 28px; border-bottom:1px solid var(--line); background:#fafafa; }
+  .hero{ text-align:center; padding:48px 16px 28px;}
   .hero-wrap{ max-width:760px; margin:0 auto; }
   .hero-logo{ max-height:200px; width:auto; height:auto; margin-bottom:0px; }
   .hero-title{ font-size:2.6rem; font-weight:800; margin:0; letter-spacing:.2px; }
@@ -373,20 +374,10 @@
 
   // Load configuration from environment (will be injected by Amplify)
   function loadConfig() {
-    // Load from environment variables injected by Amplify
-    if (window.ENV) {
-      API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
-      API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
-      API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
-      
-      console.log('Configuration loaded:', {
-        googleApiKey: API_CONFIG.GOOGLE_API_KEY ? 'Present' : 'Missing',
-        searchEngineId: API_CONFIG.SEARCH_ENGINE_ID ? 'Present' : 'Missing',
-        lambdaEndpoint: API_CONFIG.LAMBDA_ENDPOINT ? 'Present' : 'Missing'
-      });
-    } else {
-      console.error('window.ENV not found - environment variables not loaded');
-    }
+    // In production, these will be injected by Amplify build process
+    API_CONFIG.GOOGLE_API_KEY = window.ENV?.GOOGLE_API_KEY || '';
+    API_CONFIG.SEARCH_ENGINE_ID = window.ENV?.SEARCH_ENGINE_ID || '';
+    API_CONFIG.LAMBDA_ENDPOINT = window.ENV?.LAMBDA_ENDPOINT || '';
   }
 
   let currentSearchResults = [];
@@ -490,8 +481,7 @@
     }
 
     try {
-      // Don't append /analyze - the Lambda function handles routing internally
-      const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+      const response = await fetch(`${API_CONFIG.LAMBDA_ENDPOINT}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -502,8 +492,7 @@
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`AI analysis failed: ${response.status} - ${errorText}`);
+        throw new Error(`AI analysis failed: ${response.status}`);
       }
 
       return await response.json();
@@ -790,12 +779,6 @@
   window.copyToClipboard = copyToClipboard;
 
   // Initialize
-  document.addEventListener('DOMContentLoaded', function() {
-    loadConfig();
-    updatePreviews();
-  });
-  
-  // Also load config immediately in case DOMContentLoaded already fired
   loadConfig();
   updatePreviews();
 </script>
