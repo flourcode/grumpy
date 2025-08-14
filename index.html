@@ -509,52 +509,52 @@
   }
 
   // Perform search and show results
-  async function performSearch(query, site, searchTitle) {
-    const resultsSection = $('#searchResults');
-    const resultsContent = $('#resultsContent');
-    const resultsTitle = $('.results-title');
-    const searchInfo = $('#searchInfo');
-    const aiAnalysis = $('#aiAnalysis');
+async function performSearch(query, site, searchTitle) {
+  const resultsSection = $('#searchResults');
+  const resultsContent = $('#resultsContent');
+  const resultsTitle = $('.results-title');
+  const searchInfo = $('#searchInfo');
+  const aiAnalysis = $('#aiAnalysis');
+  
+  // Show loading
+  resultsSection.classList.remove('hidden');
+  searchInfo.classList.add('hidden');
+  aiAnalysis.classList.add('hidden');
+  resultsTitle.textContent = `Searching: ${searchTitle}`;
+  resultsContent.innerHTML = `
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Hunting for pain points...</p>
+    </div>
+  `;
+  
+  resultsSection.scrollIntoView({ behavior: 'smooth' });
+  
+  try {
+    // Get search results
+    const searchData = await performGoogleSearch(query, site);
+    currentSearchResults = searchData.results;
     
-    // Show loading
-    resultsSection.classList.remove('hidden');
-    searchInfo.classList.add('hidden');
-    aiAnalysis.classList.add('hidden');
-    resultsTitle.textContent = `Searching: ${searchTitle}`;
-    resultsContent.innerHTML = `
-      <div class="loading-spinner">
-        <div class="spinner"></div>
-        <p>Hunting for pain points...</p>
-      </div>
-    `;
+    // Display search results
+    displayResults(searchData, searchTitle, site);
     
-    resultsSection.scrollIntoView({ behavior: 'smooth' });
-    
-    try {
-      // Get search results
-      const searchData = await performGoogleSearch(query, site);
-      currentSearchResults = searchData.results;
+    // Get AI analysis
+    if (searchData.results.length > 0) {
+      aiAnalysis.classList.remove('hidden');
+      $('#mainPainPoint').textContent = 'Analyzing...';
+      $('#contentOpportunities').textContent = 'Analyzing...';
+      $('#trendingPhrases').innerHTML = '';
+      $('#opportunityScore').textContent = '-';
+      $('#actionItems').textContent = 'Analyzing pain points...';
       
-      // Display search results
-      displayResults(searchData, searchTitle, site);
-      
-      // Get AI analysis
-      if (searchData.results.length > 0) {
-        aiAnalysis.classList.remove('hidden');
-        $('#mainPainPoint').textContent = 'Analyzing...';
-        $('#contentOpportunities').textContent = 'Analyzing...';
-        $('#trendingPhrases').innerHTML = '';
-        $('#opportunityScore').textContent = '-';
-        $('#actionItems').textContent = 'Analyzing pain points...';
-        
-        const analysis = await analyzeResults(searchData.results, query, site);
-        currentAnalysis = analysis;
-        displayAIAnalysis(analysis);
-      }
-    } catch (error) {
-      displayError(error.message);
+      const analysis = await analyzeResults(searchData.results, query, site);
+      currentAnalysis = analysis;
+      displayAIAnalysis(analysis);
     }
+  } catch (error) {
+    displayError(error.message);
   }
+}
 
   // Display search results
   function displayResults(searchData, searchTitle, site) {
