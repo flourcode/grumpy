@@ -373,10 +373,20 @@
 
   // Load configuration from environment (will be injected by Amplify)
   function loadConfig() {
-    // In production, these will be injected by Amplify build process
-    API_CONFIG.GOOGLE_API_KEY = window.ENV?.GOOGLE_API_KEY || '';
-    API_CONFIG.SEARCH_ENGINE_ID = window.ENV?.SEARCH_ENGINE_ID || '';
-    API_CONFIG.LAMBDA_ENDPOINT = window.ENV?.LAMBDA_ENDPOINT || '';
+    // Load from environment variables injected by Amplify
+    if (window.ENV) {
+      API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
+      API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
+      API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
+      
+      console.log('Configuration loaded:', {
+        googleApiKey: API_CONFIG.GOOGLE_API_KEY ? 'Present' : 'Missing',
+        searchEngineId: API_CONFIG.SEARCH_ENGINE_ID ? 'Present' : 'Missing',
+        lambdaEndpoint: API_CONFIG.LAMBDA_ENDPOINT ? 'Present' : 'Missing'
+      });
+    } else {
+      console.error('window.ENV not found - environment variables not loaded');
+    }
   }
 
   let currentSearchResults = [];
@@ -780,6 +790,12 @@
   window.copyToClipboard = copyToClipboard;
 
   // Initialize
+  document.addEventListener('DOMContentLoaded', function() {
+    loadConfig();
+    updatePreviews();
+  });
+  
+  // Also load config immediately in case DOMContentLoaded already fired
   loadConfig();
   updatePreviews();
 </script>
