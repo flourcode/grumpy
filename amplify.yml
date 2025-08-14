@@ -4,16 +4,16 @@ frontend:
     preBuild:
       commands:
         - echo "Creating environment configuration..."
-        - echo "window.ENV = {" > env-config.js
+        - echo 'window.ENV = {' > env-config.js
         - echo "  GOOGLE_API_KEY: '${GOOGLE_API_KEY:-}'," >> env-config.js
         - echo "  SEARCH_ENGINE_ID: '${SEARCH_ENGINE_ID:-}'," >> env-config.js
         - echo "  LAMBDA_ENDPOINT: '${LAMBDA_ENDPOINT:-}'" >> env-config.js
-        - echo "};" >> env-config.js
+        - echo '};' >> env-config.js
         - echo "Environment config created:"
         - cat env-config.js
     build:
       commands:
-        - echo "Build completed on `date`"
+        - echo "Build completed on $(date)"
   artifacts:
     baseDirectory: /
     files:
