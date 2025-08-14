@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TopicShark</title>
+<meta name="description" content="Hunt down viral content ideas in the wild. Discover what your audience is actually talking about across Reddit, LinkedIn, and X." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+ :root{
+   --bg:#f8fafc; --card:#ffffff; --ink:#0f172a; --muted:#64748b;
+   --line:#e2e8f0; --accent:#3b82f6; --accent-soft:#dbeafe;
+   --success:#10b981; --warning:#f59e0b;
+   --radius:12px; --shadow:0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+ }
+ *{ box-sizing:border-box; }
+ html,body{ margin:0; padding:0; }
+ body{ font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; }
+ 
+ /* Nav */
+ .nav{ position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+ .nav-inner{ max-width:1200px; margin:0 auto; padding:12px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+ .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
+ .logo{ width:40px; height:40px; border-radius:10px; background:#3b82f6; display:flex; align-items:center; justify-content:center; color:white; font-size:20px; box-shadow:var(--shadow); }
+ .nav-links{ display:flex; gap:8px; align-items:center; }
+ .nav-link{ padding:8px 12px; border-radius:8px; text-decoration:none; color:var(--ink); font-weight:500; }
+ .nav-link:hover{ background:#f1f5f9; }
+ .nav-cta{ background:var(--accent); color:#fff; text-decoration:none; padding:10px 16px; border-radius:8px; font-weight:600; }
+ .nav-cta:hover{ transform:translateY(-1px); box-shadow:var(--shadow); }
+ 
+ /* Layout */
+ header,main,footer{ max-width:1200px; margin:0 auto; padding:0 20px; }
+ header{ padding:40px 20px 20px; text-align:center; }
+ h1{ margin:0; font-size:2.5rem; font-weight:700; background:linear-gradient(135deg,var(--accent),#06b6d4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+ .sub{ margin:12px 0 0; color:var(--muted); font-size:1.1rem; max-width:600px; margin-left:auto; margin-right:auto; }
+ .highlight{ color:var(--accent); font-weight:600; }
+ 
+ .section{ margin-top:32px; }
+ .section-title{ display:flex; align-items:center; gap:10px; font-size:1.25rem; font-weight:600; margin:0 0 16px; }
+ .tag{ display:inline-block; font-size:.75rem; padding:4px 10px; border-radius:999px; color:var(--accent); background:var(--accent-soft); border:1px solid #bfdbfe; font-weight:500; }
+ .tag.hot{ color:#dc2626; background:#fef2f2; border-color:#fecaca; }
+ .tag.new{ color:var(--success); background:#f0fdf4; border-color:#bbf7d0; }
+ 
+ /* Cards and UI */
+ .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); }
+ .grid{ display:grid; grid-template-columns:1fr; gap:12px; }
+ @media (min-width:768px){ .grid.two{ grid-template-columns:1fr 1fr; } }
+ @media (min-width:1024px){ .grid.three{ grid-template-columns:1fr 1fr 1fr; } }
+ 
+ .content-btn{ width:100%; text-align:left; background:var(--card); border:1px solid var(--line);
+        padding:16px 18px; border-radius:12px; font-size:1rem; color:var(--ink); cursor:pointer; 
+        transition:all .2s ease; position:relative; overflow:hidden; }
+ .content-btn::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; 
+                      background:linear-gradient(90deg,var(--accent),#06b6d4); transform:scaleX(0); 
+                      transition:transform .2s ease; }
+ .content-btn:hover{ background:#f8fafc; border-color:var(--accent); transform:translateY(-2px); 
+                    box-shadow:0 4px 12px rgba(0,0,0,.15); }
+ .content-btn:hover::before{ transform:scaleX(1); }
+ .content-btn .title{ font-weight:600; color:var(--ink); margin-bottom:4px; }
+ .content-btn .desc{ font-size:.9rem; color:var(--muted); }
+ 
+ .hint{ color:var(--muted); font-size:.95rem; margin-top:12px; padding:12px; background:#f1f5f9; border-radius:8px; border-left:4px solid var(--accent); }
+ .row{ display:flex; gap:12px; flex-wrap:wrap; }
+ .field{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+ .label{ font-size:.95rem; color:#374151; font-weight:500; }
+ input[type="text"], input[type="email"], textarea, select{
+   width:100%; border:1px solid var(--line); background:var(--card); border-radius:10px; padding:12px 14px; font-size:1rem;
+   transition:border-color .2s ease; }
+ input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,.1); }
+ textarea{ min-height:80px; resize:vertical; }
+ 
+ .btn{ border:1px solid var(--line); background:#fff; padding:12px 16px; border-radius:10px; cursor:pointer; 
+      font-weight:500; transition:all .2s ease; }
+ .btn:hover{ background:#f8fafc; border-color:var(--accent); }
+ .btn.small{ padding:8px 12px; font-size:.9rem; }
+ .primary{ border:none; background:var(--accent); color:#fff; padding:14px 20px; border-radius:10px; 
+          font-weight:600; cursor:pointer; transition:all .2s ease; }
+ .primary:hover{ background:#2563eb; transform:translateY(-1px); box-shadow:var(--shadow); }
+ 
+ .actions{ display:flex; gap:12px; flex-wrap:wrap; }
+ .muted{ color:var(--muted); }
+ .small{ font-size:.9rem; }
+ .hidden{ display:none; }
+ 
+ footer{ color:var(--muted); font-size:.9rem; padding:32px 0 64px; border-top:1px solid var(--line); margin-top:48px; text-align:center; }
+ .hr{ height:1px; background:var(--line); margin:20px 0; }
+ .code{ font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; background:#f8fafc; 
+       border:1px solid #e2e8f0; padding:12px 14px; border-radius:8px; overflow:auto; font-size:.9rem; }
+ 
+ /* Content creator styling */
+ .creator-examples{ background:linear-gradient(135deg,#fef3c7,#ddd6fe); border-radius:16px; padding:24px; margin:20px 0; }
+ .platform-badge{ display:inline-block; padding:4px 8px; border-radius:6px; font-size:.75rem; font-weight:600; margin-right:8px; }
+ .reddit{ background:#ff4500; color:#fff; }
+ .linkedin{ background:#0077b5; color:#fff; }
+ .twitter{ background:#1da1f2; color:#fff; }
+ 
+ .tip-box{ background:#f0f9ff; border:1px solid #0284c7; border-radius:12px; padding:16px; margin:16px 0; }
+ .tip-icon{ color:#0284c7; font-weight:700; margin-right:8px; }
+</style>
+</head>
+<body>
+<nav class="nav">
+ <div class="nav-inner">
+   <a class="brand" href="#top">
+     <div class="logo">🦈</div>
+     <strong>TopicShark</strong>
+   </a>
+   <div class="nav-links">
+     <a class="nav-link" href="#configurator">Search Builder</a>
+     <a class="nav-cta" href="#configurator">Start Mining</a>
+   </div>
+ </div>
+</nav>
+
+<header id="top">
+ <h1>TopicShark</h1>
+ <img src="images/shark.png"/></img>
+ <p class="sub">Hunt down viral content ideas in the wild. Discover what your audience is <span class="highlight">actually talking about</span> across multiple platforms.</p>
+</header>
+
+<main>
+ <!-- Content Creator Examples -->
+ <section class="section">
+   <h2 class="section-title">Content Ideas Ready to Hunt <span class="tag hot">trending</span></h2>
+   <div class="creator-examples">
+     <p><strong>🦈 For Content Creators:</strong> Click any search to discover what people are struggling with in your niche. Turn their pain points into your next viral post, newsletter, or course idea.</p>
+   </div>
+   
+   <div class="grid three">
+     <!-- Reddit Examples -->
+     <button class="content-btn" type="button" data-url="https://www.reddit.com/search/?q=%22can%27t%20find%20good%20tutorials%20for%22%20OR%20%22wish%20someone%20would%20explain%22&sort=new">
+       <div class="title"><span class="platform-badge reddit">Reddit</span>Tutorial Gaps</div>
+       <div class="desc">"can't find good tutorials for" OR "wish someone would explain"</div>
+     </button>
+     
+     <button class="content-btn" type="button" data-url="https://www.reddit.com/r/Entrepreneur/search/?q=%22struggling%20with%22%20OR%20%22biggest%20challenge%22&sort=new">
+       <div class="title"><span class="platform-badge reddit">r/Entrepreneur</span>Business Struggles</div>
+       <div class="desc">Fresh entrepreneur pain points</div>
+     </button>
+
+     <!-- Hacker News -->
+     <button class="content-btn" type="button" data-url="https://www.google.com/search?q=site%3Anews.ycombinator.com+%22frustrating%22+OR+%22annoying%22+OR+%22wish+there+was%22">
+       <div class="title"><span class="platform-badge" style="background:#ff6600; color:#fff;">HN</span>Tech Pain Points</div>
+       <div class="desc">Hacker News frustrations and wishes</div>
+     </button>
+
+     <!-- Stack Overflow -->
+     <button class="content-btn" type="button" data-url="https://www.google.com/search?q=site%3Astackoverflow.com+%22no+good+way%22+OR+%22there+should+be%22+OR+%22why+is+there+no%22">
+       <div class="title"><span class="platform-badge" style="background:#f48024; color:#fff;">SO</span>Developer Gaps</div>
+       <div class="desc">Missing tools and better solutions needed</div>
+     </button>
+
+     <!-- Indie Hackers -->
+     <button class="content-btn" type="button" data-url="https://www.google.com/search?q=site%3Aindiehackers.com+%22struggling+with%22+OR+%22biggest+challenge%22+OR+%22pain+point%22">
+       <div class="title"><span class="platform-badge" style="background:#0e82d1; color:#fff;">IH</span>Indie Maker Pain</div>
+       <div class="desc">Side project and startup challenges</div>
+     </button>
+
+     <!-- Quora -->
+     <button class="content-btn" type="button" data-url="https://www.google.com/search?q=site%3Aquora.com+%22why+is+it+so+hard%22+OR+%22what%27s+the+best+way%22+OR+%22struggling+with%22">
+       <div class="title"><span class="platform-badge" style="background:#b92b27; color:#fff;">Quora</span>How-To Pain</div>
+       <div class="desc">Questions reveal pain points</div>
+     </button>
+
+     <!-- LinkedIn -->
+     <button class="content-btn" type="button" data-url="https://www.google.com/search?q=%22biggest%20mistake%22%20OR%20%22wish%20I%20knew%22%20site%3Alinkedin.com%2Fposts">
+       <div class="title"><span class="platform-badge linkedin">LinkedIn</span>Lessons Learned</div>
+       <div class="desc">"biggest mistake" OR "wish I knew"</div>
+     </button>
+
+     <!-- YouTube -->
+     <button class="content-btn" type="button" data-url="https://www.google.com/search?q=site%3Ayoutube.com+%22wish+someone+would+make%22+OR+%22this+is+so+annoying%22">
+       <div class="title"><span class="platform-badge" style="background:#ff0000; color:#fff;">YT</span>Video Comments</div>
+       <div class="desc">Comment section frustrations</div>
+     </button>
+
+     <!-- Medium -->
+     <button class="content-btn" type="button" data-url="https://www.google.com/search?q=site%3Amedium.com+%22problem+with%22+OR+%22frustrating%22+OR+%22needs+to+change%22">
+       <div class="title"><span class="platform-badge" style="background:#000; color:#fff;">Medium</span>Long-form Pain</div>
+       <div class="desc">Detailed problem discussions</div>
+     </button>
+   </div>
+   
+   <div class="tip-box">
+     <span class="tip-icon">💡</span><strong>Pro tip:</strong> On Reddit, always sort by "New" to find fresh pain points. On Google searches, add time filters for recent posts. Look for patterns in complaints to find your next content series!
+   </div>
+ </section>
+
+ <!-- Search Builder -->
+ <section id="configurator" class="section">
+   <h2 class="section-title">Smart Search Builder <span class="tag new">simplified</span></h2>
+   <div class="card">
+     <!-- Core fields -->
+     <div class="grid two">
+       <div class="field">
+         <span class="label">Content source</span>
+         <select id="contentSource">
+           <option value="reddit">Reddit (all)</option>
+           <option value="reddit-entrepreneur">Reddit - r/Entrepreneur</option>
+           <option value="reddit-sideproject">Reddit - r/SideProject</option>
+           <option value="reddit-webdev">Reddit - r/webdev</option>
+           <option value="reddit-startups">Reddit - r/startups</option>
+           <option value="hackernews">Hacker News</option>
+           <option value="stackoverflow">Stack Overflow</option>
+           <option value="indiehackers">Indie Hackers</option>
+           <option value="quora">Quora</option>
+           <option value="linkedin">LinkedIn Posts</option>
+           <option value="medium">Medium</option>
+           <option value="youtube">YouTube Comments</option>
+           <option value="twitter">X (Twitter)</option>
+           <option value="custom">Custom site...</option>
+         </select>
+       </div>
+       <div class="field">
+         <span class="label">Topic/Industry</span>
+         <input id="qTopic" type="text" placeholder="e.g., AWS, sales, React, marketing, SaaS" />
+       </div>
+     </div>
+
+     <div class="field">
+       <span class="label">Pain point type</span>
+       <select id="painType">
+         <option value="">Choose a pain point...</option>
+         <option value="struggling">Struggling with</option>
+         <option value="cant-find">Can't find good tutorials</option>
+         <option value="no-one-talks">No one talks about</option>
+         <option value="wish-knew">Wish I knew</option>
+         <option value="tired-of">Tired of seeing</option>
+         <option value="mistake">Biggest mistake</option>
+         <option value="frustrated">Frustrated with</option>
+         <option value="confused">Confused about</option>
+         <option value="need-help">Need help with</option>
+         <option value="interview">Interview prep</option>
+         <option value="custom">Custom phrase...</option>
+       </select>
+     </div>
+
+     <!-- Custom phrase field (hidden by default) -->
+     <div class="field hidden" id="customField">
+       <span class="label">Custom pain phrase</span>
+       <input id="qCustom" type="text" placeholder='e.g., "unrealistic quota", "poor documentation"' />
+     </div>
+
+     <!-- Custom site field (hidden by default) -->
+     <div class="field hidden" id="customSiteField">
+       <span class="label">Custom site domain</span>
+       <input id="qCustomSite" type="text" placeholder="e.g., discord.com, notion.so" />
+     </div>
+
+     <!-- Advanced toggle -->
+     <div style="margin-top:12px">
+       <button type="button" id="advancedToggle" class="btn small">⚙️ Advanced options</button>
+     </div>
+
+     <!-- Advanced fields (hidden by default) -->
+     <div id="advancedFields" class="hidden" style="margin-top:12px">
+       <div class="field">
+         <span class="label">Exclude words</span>
+         <input id="qExclude" type="text" placeholder="e.g., beginner, basic, simple" />
+       </div>
+     </div>
+
+     <div class="hr"></div>
+
+     <div class="grid two">
+       <div class="field">
+         <span class="label">Search query preview</span>
+         <div id="queryPreview" class="code small">—</div>
+       </div>
+       <div class="field">
+         <span class="label">Target URL</span>
+         <div id="urlPreview" class="code small">—</div>
+       </div>
+     </div>
+
+     <div class="actions" style="margin-top:16px">
+       <button id="openBtn" class="primary">🦈 Hunt Content Ideas</button>
+       <button id="copyBtn" class="btn">📋 Copy URL</button>
+       <button id="resetBtn" class="btn">🔄 Reset</button>
+     </div>
+
+     <div class="hint">
+       <strong>How it works:</strong> Choose your content source, topic, and pain point type. The tool automatically builds optimized search queries using proven phrases that find real user problems. Use advanced options for fine-tuning.
+     </div>
+   </div>
+ </section>
+</main>
+
+<footer>
+ © 2025 TopicShark. Made for creators who want real insights, not guesswork. <br>
+ <small class="muted">Hunt down pain points and turn them into content gold. Find what your audience actually needs.</small>
+</footer>
+
+<script>
+ // Utilities
+ const $ = sel => document.querySelector(sel);
+ const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+ // Smart query builder with templates and content sources
+ function buildQuery(){
+   const contentSource = $('#contentSource').value;
+   const topic = $('#qTopic').value.trim();
+   const painType = $('#painType').value;
+   const custom = $('#qCustom').value.trim();
+   const customSite = $('#qCustomSite').value.trim();
+   const exclude = $('#qExclude').value.trim();
+
+   // Content source mapping
+   const sourceMap = {
+     'reddit': { platform: 'reddit', site: '' },
+     'reddit-entrepreneur': { platform: 'reddit', site: 'reddit.com/r/Entrepreneur' },
+     'reddit-sideproject': { platform: 'reddit', site: 'reddit.com/r/SideProject' },
+     'reddit-webdev': { platform: 'reddit', site: 'reddit.com/r/webdev' },
+     'reddit-startups': { platform: 'reddit', site: 'reddit.com/r/startups' },
+     'hackernews': { platform: 'google', site: 'news.ycombinator.com' },
+     'stackoverflow': { platform: 'google', site: 'stackoverflow.com' },
+     'indiehackers': { platform: 'google', site: 'indiehackers.com' },
+     'quora': { platform: 'google', site: 'quora.com' },
+     'linkedin': { platform: 'google', site: 'linkedin.com/posts' },
+     'medium': { platform: 'google', site: 'medium.com' },
+     'youtube': { platform: 'google', site: 'youtube.com' },
+     'twitter': { platform: 'twitter', site: '' },
+     'custom': { platform: 'google', site: customSite }
+   };
+
+   const source = sourceMap[contentSource] || sourceMap['reddit'];
+
+   // Pain point templates
+   const templates = {
+     'struggling': `"struggling with" AND ${topic}`,
+     'cant-find': topic ? `("can't find good ${topic} tutorials" OR "can't find good" AND ${topic})` : '"can\'t find good tutorials"',
+     'no-one-talks': `"no one talks about" AND ${topic}`,
+     'wish-knew': `"wish I knew" AND ${topic}`,
+     'tired-of': `"tired of" AND ${topic}`,
+     'mistake': `"biggest mistake" AND ${topic}`,
+     'frustrated': `"frustrated with" AND ${topic}`,
+     'confused': `"confused about" AND ${topic}`,
+     'need-help': `"need help with" AND ${topic}`,
+     'interview': topic ? `("${topic} interview prep" OR "${topic} interview tips")` : '"interview prep"',
+     'custom': custom ? (topic ? `"${custom}" AND ${topic}` : `"${custom}"`) : topic
+   };
+
+   let q = '';
+   if (painType && templates[painType]) {
+     q = templates[painType];
+   } else if (topic) {
+     q = topic;
+   }
+
+   // Add exclusions
+   if (exclude) {
+     const exclWords = exclude.split(/[, ]+/).filter(Boolean);
+     q += ' ' + exclWords.map(w => `-${w.replace(/^-/,'')}`).join(' ');
+   }
+
+   q = q.replace(/\s+/g,' ').trim();
+
+   // Build URL based on platform
+   let url = '';
+   if (source.platform === 'reddit'){
+     let base = 'https://www.reddit.com/search/?';
+     if (source.site && source.site.includes('/r/')) {
+       // Specific subreddit
+       const subreddit = source.site.replace('reddit.com/', '');
+       base = `https://www.reddit.com/${subreddit}/search/?`;
+     }
+     const params = new URLSearchParams();
+     params.set('q', q || '');
+     params.set('sort', 'new');
+     url = base + params.toString();
+   } else if (source.platform === 'twitter'){
+     const base = 'https://twitter.com/search?';
+     const params = new URLSearchParams();
+     params.set('q', q || '');
+     params.set('f', 'live');
+     url = base + params.toString();
+   } else if (source.platform === 'google'){
+     const queryWithSite = source.site ? (q ? q + ' ' : '') + `site:${source.site}` : q;
+     const base = 'https://www.google.com/search?';
+     const params = new URLSearchParams();
+     params.set('q', queryWithSite);
+     url = base + params.toString();
+   }
+
+   return { platform: source.platform, q, url, contentSource };
+ }
+
+ function updatePreviews(){
+   const { q, url } = buildQuery();
+   $('#queryPreview').textContent = q || '—';
+   $('#urlPreview').textContent = url || '—';
+ }
+
+ // Wire inputs to preview
+ $('#contentSource').addEventListener('change', updatePreviews);
+ $('#qTopic').addEventListener('input', updatePreviews);
+ $('#painType').addEventListener('change', updatePreviews);
+ $('#qCustom').addEventListener('input', updatePreviews);
+ $('#qCustomSite').addEventListener('input', updatePreviews);
+ $('#qExclude').addEventListener('input', updatePreviews);
+
+ // Show/hide custom fields
+ $('#painType').addEventListener('change', () => {
+   const customField = $('#customField');
+   if ($('#painType').value === 'custom') {
+     customField.classList.remove('hidden');
+   } else {
+     customField.classList.add('hidden');
+   }
+   updatePreviews();
+ });
+
+ $('#contentSource').addEventListener('change', () => {
+   const customSiteField = $('#customSiteField');
+   if ($('#contentSource').value === 'custom') {
+     customSiteField.classList.remove('hidden');
+   } else {
+     customSiteField.classList.add('hidden');
+   }
+   updatePreviews();
+ });
+
+ // Advanced toggle
+ $('#advancedToggle').addEventListener('click', () => {
+   const fields = $('#advancedFields');
+   const btn = $('#advancedToggle');
+   if (fields.classList.contains('hidden')) {
+     fields.classList.remove('hidden');
+     btn.textContent = '⚙️ Hide advanced';
+   } else {
+     fields.classList.add('hidden');
+     btn.textContent = '⚙️ Advanced options';
+   }
+ });
+
+ // Buttons
+ $('#openBtn').addEventListener('click', () => {
+   const { url } = buildQuery();
+   if (!url) return;
+   window.open(url, '_blank', 'noopener,noreferrer');
+ });
+
+ $('#copyBtn').addEventListener('click', async () => {
+   const { url } = buildQuery();
+   if (!url) return;
+   try { 
+     await navigator.clipboard.writeText(url); 
+     $('#copyBtn').textContent = '✅ Copied!';
+     setTimeout(() => $('#copyBtn').textContent = '📋 Copy URL', 2000);
+   }
+   catch { alert('Copy failed. Select and copy from the Target URL box.'); }
+ });
+
+ $('#resetBtn').addEventListener('click', () => {
+   $('#contentSource').value = 'reddit';
+   $('#qTopic').value = '';
+   $('#painType').value = '';
+   $('#qCustom').value = '';
+   $('#qCustomSite').value = '';
+   $('#qExclude').value = '';
+   $('#customField').classList.add('hidden');
+   $('#customSiteField').classList.add('hidden');
+   $('#advancedFields').classList.add('hidden');
+   $('#advancedToggle').textContent = '⚙️ Advanced options';
+   updatePreviews();
+ });
+
+ // Initialize
+ updatePreviews();
+
+ // Example buttons open in new tab - Simple event delegation
+ document.addEventListener('click', (e) => {
+   if (e.target.closest('.content-btn[data-url]')) {
+     const btn = e.target.closest('.content-btn[data-url]');
+     const url = btn.getAttribute('data-url');
+     if (url) {
+       window.open(url, '_blank', 'noopener,noreferrer');
+     }
+   }
+ });
+
+ // Safety: prevent buttons from acting like submit in any future forms
+ $$('button.content-btn').forEach(b => {
+   if (!b.getAttribute('type')) b.setAttribute('type', 'button');
+ });
+</script>
+</body>
+</html>
