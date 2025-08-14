@@ -589,7 +589,7 @@ async function performSearch(query, site, searchTitle) {
       const painWords = ['struggling', 'frustrated', 'problem', 'issue', 'difficult', 'hard', 'challenge', 'pain', 'annoying', 'broken', 'worst', 'hate', 'terrible', 'awful', 'sucks', 'confused', 'stuck', 'wish', 'need help', 'can\'t find'];
       painWords.forEach(word => {
         const regex = new RegExp(`\\b${word}\\b`, 'gi');
-        highlightedSnippet = highlightedSnippet.replace(regex, `<mark style="background:#fef3cd; padding:1px 2px; border-radius:2px;">    resultsSection.scrollIntoView({ behavior: 'smooth' });</mark>`);
+        highlightedSnippet = highlightedSnippet.replace(regex, `<mark style="background:#fef3cd; padding:1px 2px; border-radius:2px;">$&</mark>`);
       });
       
       html += `
