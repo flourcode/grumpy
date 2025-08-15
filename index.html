@@ -86,7 +86,7 @@
   .close-results{ background:none; border:none; color:var(--muted); cursor:pointer; font-size:1.2rem; padding:4px 8px; border-radius:6px; }
   .close-results:hover{ background:#f3f4f6; }
 
-  .search-info{ background:#f8fffe; border:1px solid #dcfce7; padding:12px; border-radius:8px; margin-bottom:16px; font-size:.9rem; }
+  .search-info{ background:#f8fffe; border:1px solid #dcfce7; padding:12px; border-radius:8px; margin:16px 0; font-size:.9rem; }
   .search-query{ font-family:ui-monospace,Menlo,Consolas,monospace; background:#f1f5f9; padding:8px 10px; border-radius:6px; margin:6px 0; font-size:.85rem; word-break:break-all; cursor:pointer; transition:background .15s ease; }
   .search-query:hover{ background:#e2e8f0; }
   .search-url{ font-family:ui-monospace,Menlo,Consolas,monospace; background:#fef3cd; border:1px solid #fbbf24; color:#92400e; padding:8px 10px; border-radius:6px; margin:6px 0; font-size:.85rem; word-break:break-all; cursor:pointer; transition:all .15s ease; }
@@ -94,26 +94,81 @@
 
   .result-item{ padding:12px 0; border-bottom:1px solid #f0f0f0; }
   .result-item:last-child{ border-bottom:none; }
-  .result-title{ font-weight:600; color:#0ea5e9; margin:0 0 6px; font-size:.95rem; line-height:1.3; }
-  .result-title a{ color:#0ea5e9; text-decoration:none; }
-  .result-title a:hover{ text-decoration:underline; }
+  .result-title{ font-weight:600; color:#666; margin:0 0 6px; font-size:.95rem; line-height:1.3; }
+  .result-title-text{ color:#666; text-decoration:none; cursor:default; }
   .result-snippet{ color:var(--muted); font-size:.9rem; line-height:1.4; margin:0 0 6px; }
-  .result-meta{ color:#666; font-size:.8rem; margin-top:4px; }
+  .result-meta{ color:#999; font-size:.8rem; margin-top:4px; }
 
-  /* AI ANALYSIS */
-  .ai-analysis{ background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:#fff; border-radius:var(--radius); padding:20px; margin-top:16px; box-shadow:0 8px 25px rgba(102, 126, 234, 0.15); }
-  .ai-analysis h3{ margin:0 0 16px; display:flex; align-items:center; gap:8px; font-size:1.1rem; }
+  /* AI ANALYSIS - PROMINENT HERO CONTENT */
+  .ai-analysis{ 
+    order: -1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+    color:#fff; border-radius:var(--radius); padding:24px; 
+    margin:0 0 20px 0; 
+    box-shadow:0 12px 35px rgba(102, 126, 234, 0.2);
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .ai-analysis h3{ margin:0 0 20px; display:flex; align-items:center; gap:8px; font-size:1.3rem; }
   .analysis-grid{ display:grid; grid-template-columns:1fr; gap:16px; }
   @media (min-width:768px){ .analysis-grid{ grid-template-columns:1fr 1fr; } }
   .analysis-item{ background:rgba(255,255,255,0.1); border-radius:8px; padding:14px; backdrop-filter:blur(10px); }
   .analysis-item h4{ margin:0 0 8px; font-size:.9rem; opacity:0.9; }
   .analysis-item .value{ font-size:1.1rem; font-weight:600; }
-  .opportunity-score{ font-size:2rem; font-weight:700; margin:0; }
+  .opportunity-score{ 
+    font-size:2.5rem !important; font-weight:700; margin:0;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
   .score-high{ color:#10f5a8; }
   .score-medium{ color:#fbbf24; }
   .score-low{ color:#f87171; }
   .trending-phrases{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
   .phrase-tag{ background:rgba(255,255,255,0.2); padding:4px 8px; border-radius:16px; font-size:.8rem; }
+
+  /* COLLAPSED SEARCH RESULTS */
+  .search-results-collapsed {
+    max-height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .search-results-collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(transparent, white);
+  }
+
+  .show-more-btn {
+    margin: 10px 0;
+    background: var(--accent);
+    color: #222;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .show-more-btn:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+  }
 
   /* LOADING & ERROR */
   .loading-spinner{ text-align:center; padding:20px; color:var(--muted); }
@@ -121,6 +176,22 @@
   @keyframes spin{ 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
   .error-message{ background:#fef2f2; border:1px solid #fecaca; color:#dc2626; padding:12px; border-radius:8px; margin:10px 0; }
   .success-message{ background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; padding:12px; border-radius:8px; margin:10px 0; }
+
+  .progress-bar-container {
+    width: 100%; 
+    background: #f0f0f0; 
+    border-radius: 10px; 
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 6px; 
+    background: var(--accent); 
+    border-radius: 10px; 
+    transition: width 0.3s ease;
+    width: 0%;
+  }
 
   /* NEWSLETTER */
   .nl{ display:flex; flex-direction:column; gap:10px; }
@@ -284,34 +355,9 @@
       <button class="close-results" onclick="hideResults()">✕</button>
     </div>
     
-    <div id="searchInfo" class="search-info hidden">
-      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-        <strong>🔍 Search Details</strong>
-        <span class="small">Click to copy</span>
-      </div>
-      
-      <div>
-        <strong>Query:</strong>
-        <div id="searchQuery" class="search-query" onclick="copyToClipboard(this.textContent)" title="Click to copy search query"></div>
-      </div>
-      
-      <div>
-        <strong>Google Search URL:</strong>
-        <div id="searchUrl" class="search-url" onclick="copyToClipboard(this.textContent)" title="Click to copy Google search URL"></div>
-      </div>
-      
-      <div style="display:flex; gap:16px; font-size:.8rem; color:var(--muted); margin-top:8px; flex-wrap:wrap;">
-        <div>⏱️ <span id="searchTime">Search time</span></div>
-        <div>📊 <span id="resultCount">Results found</span></div>
-        <div>🎯 <span id="platformInfo">Platform</span></div>
-      </div>
-    </div>
-    
-    <div id="resultsContent"></div>
-    
-    <!-- AI Analysis Panel -->
+    <!-- AI Analysis Panel - Shows First -->
     <div id="aiAnalysis" class="ai-analysis hidden">
-      <h3>🤖 AI Pain Point Analysis</h3>
+      <h3>🎯 Business Opportunities Found</h3>
       <div class="analysis-grid">
         <div class="analysis-item">
           <h4>Main Pain Point</h4>
@@ -332,10 +378,40 @@
       </div>
       
       <div style="margin-top:16px; padding:14px; background:rgba(255,255,255,0.1); border-radius:8px;">
-        <h4 style="margin:0 0 8px; font-size:.9rem;">Action Items:</h4>
+        <h4 style="margin:0 0 8px; font-size:.9rem;">🚀 Action Items:</h4>
         <div id="actionItems" style="font-size:.9rem; line-height:1.5;">
           Based on this analysis, consider creating content that addresses these pain points.
         </div>
+        <div style="margin-top: 12px; text-align: center;">
+          <button class="copy-btn" onclick="copyAnalysis()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);">
+            📋 Copy Analysis
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="resultsContent"></div>
+    
+    <div id="searchInfo" class="search-info hidden">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+        <strong>🔍 Search Details</strong>
+        <span class="small">Click to copy</span>
+      </div>
+      
+      <div>
+        <strong>Query:</strong>
+        <div id="searchQuery" class="search-query" onclick="copyToClipboard(this.textContent)" title="Click to copy search query"></div>
+      </div>
+      
+      <div>
+        <strong>Google Search URL:</strong>
+        <div id="searchUrl" class="search-url" onclick="copyToClipboard(this.textContent)" title="Click to copy Google search URL"></div>
+      </div>
+      
+      <div style="display:flex; gap:16px; font-size:.8rem; color:var(--muted); margin-top:8px; flex-wrap:wrap;">
+        <div>⏱️ <span id="searchTime">Search time</span></div>
+        <div>📊 <span id="resultCount">Results found</span></div>
+        <div>🎯 <span id="platformInfo">Platform</span></div>
       </div>
     </div>
   </div>
@@ -425,6 +501,41 @@
     }
   }
 
+  // Copy analysis function
+  function copyAnalysis() {
+    const analysis = currentAnalysis;
+    if (!analysis) return;
+    
+    const text = `
+Pain Point Analysis:
+${analysis.mainPainPoint}
+
+Content Opportunities:
+${analysis.contentOpportunities.map((opp, i) => `${i+1}. ${opp}`).join('\n')}
+
+Action Items:
+${analysis.actionItems}
+
+Opportunity Score: ${analysis.opportunityScore}/10
+    `.trim();
+    
+    copyToClipboard(text);
+  }
+
+  // Toggle search results visibility
+  function toggleSearchResults() {
+    const resultsList = document.getElementById('searchResultsList');
+    const btn = document.querySelector('.show-more-btn');
+    
+    if (resultsList.classList.contains('search-results-collapsed')) {
+      resultsList.classList.remove('search-results-collapsed');
+      btn.textContent = '📄 Hide Source Results';
+    } else {
+      resultsList.classList.add('search-results-collapsed');
+      btn.textContent = `📄 View Source Results (${currentSearchResults.length})`;
+    }
+  }
+
   // Perform Google Custom Search
   async function performGoogleSearch(query, site = '') {
     if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
@@ -449,338 +560,356 @@
     
     const data = await response.json();
     const endTime = Date.now();
-    const searchTime = ((endTime - startTime) / 1000).toFixed(2);
-    
-    const results = data.items ? data.items.map(item => ({
-      title: item.title,
-      snippet: item.snippet,
-      url: item.link,
-      displayLink: item.displayLink,
-      formattedUrl: item.formattedUrl
-    })) : [];
-    
-    return {
-      results,
-      searchTime,
-      totalResults: data.searchInformation?.totalResults || '0',
-      searchQuery,
-      googleUrl: `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`
-    };
-  }
+   const searchTime = ((endTime - startTime) / 1000).toFixed(2);
+   
+   const results = data.items ? data.items.map(item => ({
+     title: item.title,
+     snippet: item.snippet,
+     url: item.link,
+     displayLink: item.displayLink,
+     formattedUrl: item.formattedUrl
+   })) : [];
+   
+   return {
+     results,
+     searchTime,
+     totalResults: data.searchInformation?.totalResults || '0',
+     searchQuery,
+     googleUrl: `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`
+   };
+ }
 
-  // Analyze search results with AI
-  async function analyzeResults(results, query, platform) {
-    if (!API_CONFIG.LAMBDA_ENDPOINT) {
-      return {
-        mainPainPoint: "AI analysis not configured",
-        contentOpportunities: ["Configure Lambda endpoint to get AI analysis"],
-        trendingPhrases: ["configuration", "needed"],
-        opportunityScore: 3,
-        actionItems: "Set up your Lambda function endpoint to enable AI-powered pain point analysis."
-      };
-    }
+ // Analyze search results with AI
+ async function analyzeResults(results, query, platform) {
+   if (!API_CONFIG.LAMBDA_ENDPOINT) {
+     return {
+       mainPainPoint: "AI analysis not configured",
+       contentOpportunities: ["Configure Lambda endpoint to get AI analysis"],
+       trendingPhrases: ["configuration", "needed"],
+       opportunityScore: 3,
+       actionItems: "Set up your Lambda function endpoint to enable AI-powered pain point analysis."
+     };
+   }
 
-    try {
-      const response = await fetch(`${API_CONFIG.LAMBDA_ENDPOINT}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query,
-          platform,
-          results: results.slice(0, 10)
-        })
-      });
+   try {
+     const response = await fetch(`${API_CONFIG.LAMBDA_ENDPOINT}`, {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({
+         query,
+         platform,
+         results: results.slice(0, 10)
+       })
+     });
 
-      if (!response.ok) {
-        throw new Error(`AI analysis failed: ${response.status}`);
-      }
+     if (!response.ok) {
+       throw new Error(`AI analysis failed: ${response.status}`);
+     }
 
-      return await response.json();
-    } catch (error) {
-      console.error('AI analysis error:', error);
-      return {
-        mainPainPoint: "AI analysis temporarily unavailable",
-        contentOpportunities: ["Manual analysis recommended"],
-        trendingPhrases: ["analysis", "unavailable"],
-        opportunityScore: 3,
-        actionItems: "Check your Lambda function configuration and try again."
-      };
-    }
-  }
+     return await response.json();
+   } catch (error) {
+     console.error('AI analysis error:', error);
+     return {
+       mainPainPoint: "AI analysis temporarily unavailable",
+       contentOpportunities: ["Manual analysis recommended"],
+       trendingPhrases: ["analysis", "unavailable"],
+       opportunityScore: 3,
+       actionItems: "Check your Lambda function configuration and try again."
+     };
+   }
+ }
 
-  // Perform search and show results
-async function performSearch(query, site, searchTitle) {
-  const resultsSection = $('#searchResults');
-  const resultsContent = $('#resultsContent');
-  const resultsTitle = $('.results-title');
-  const searchInfo = $('#searchInfo');
-  const aiAnalysis = $('#aiAnalysis');
-  
-  // Show loading
-  resultsSection.classList.remove('hidden');
-  searchInfo.classList.add('hidden');
-  aiAnalysis.classList.add('hidden');
-  resultsTitle.textContent = `Searching: ${searchTitle}`;
-  resultsContent.innerHTML = `
-    <div class="loading-spinner">
-      <div class="spinner"></div>
-      <p>Hunting for pain points...</p>
-    </div>
-  `;
-  
-  resultsSection.scrollIntoView({ behavior: 'smooth' });
-  
-  try {
-    // Get search results
-    const searchData = await performGoogleSearch(query, site);
-    currentSearchResults = searchData.results;
-    
-    // Display search results
-    displayResults(searchData, searchTitle, site);
-    
-    // Get AI analysis
-    if (searchData.results.length > 0) {
-      aiAnalysis.classList.remove('hidden');
-      $('#mainPainPoint').textContent = 'Analyzing...';
-      $('#contentOpportunities').textContent = 'Analyzing...';
-      $('#trendingPhrases').innerHTML = '';
-      $('#opportunityScore').textContent = '-';
-      $('#actionItems').textContent = 'Analyzing pain points...';
-      
-      const analysis = await analyzeResults(searchData.results, query, site);
-      currentAnalysis = analysis;
-      displayAIAnalysis(analysis);
-    }
-  } catch (error) {
-    displayError(error.message);
-  }
-}
+ // Perform search and show results
+ async function performSearch(query, site, searchTitle) {
+   const resultsSection = $('#searchResults');
+   const resultsContent = $('#resultsContent');
+   const resultsTitle = $('.results-title');
+   const searchInfo = $('#searchInfo');
+   const aiAnalysis = $('#aiAnalysis');
+   
+   // Show loading
+   resultsSection.classList.remove('hidden');
+   searchInfo.classList.add('hidden');
+   aiAnalysis.classList.add('hidden');
+   resultsTitle.textContent = `Searching: ${searchTitle}`;
+   resultsContent.innerHTML = `
+     <div class="loading-spinner">
+       <div class="spinner"></div>
+       <p>🎯 Analyzing <span id="resultCounter">0</span> pain points found...</p>
+       <div class="progress-bar-container">
+         <div id="progressBar" class="progress-bar"></div>
+       </div>
+     </div>
+   `;
+   
+   resultsSection.scrollIntoView({ behavior: 'smooth' });
+   
+   // Animate progress bar
+   setTimeout(() => $('#progressBar').style.width = '30%', 200);
+   
+   try {
+     // Get search results
+     const searchData = await performGoogleSearch(query, site);
+     currentSearchResults = searchData.results;
+     
+     // Update progress
+     $('#progressBar').style.width = '60%';
+     $('#resultCounter').textContent = searchData.results.length;
+     
+     // Show AI analysis first (before search results)
+     if (searchData.results.length > 0) {
+       aiAnalysis.classList.remove('hidden');
+       $('#mainPainPoint').textContent = 'Analyzing...';
+       $('#contentOpportunities').textContent = 'Analyzing...';
+       $('#trendingPhrases').innerHTML = '';
+       $('#opportunityScore').textContent = '-';
+       $('#actionItems').textContent = 'Analyzing pain points...';
+       
+       // Update progress
+       $('#progressBar').style.width = '80%';
+       
+       const analysis = await analyzeResults(searchData.results, query, site);
+       currentAnalysis = analysis;
+       displayAIAnalysis(analysis);
+       
+       // Complete progress
+       $('#progressBar').style.width = '100%';
+     }
+     
+     // Display search results after AI analysis
+     displayResults(searchData, searchTitle, site);
+     
+   } catch (error) {
+     displayError(error.message);
+   }
+ }
 
-  // Display search results
-  function displayResults(searchData, searchTitle, site) {
-    const resultsContent = $('#resultsContent');
-    const resultsTitle = $('.results-title');
-    const searchInfo = $('#searchInfo');
-    const { results, searchTime, totalResults, searchQuery, googleUrl } = searchData;
-    
-    resultsTitle.textContent = `Results: ${searchTitle}`;
-    
-    // Show search info
-    searchInfo.classList.remove('hidden');
-    $('#searchQuery').textContent = searchQuery;
-    $('#searchUrl').textContent = googleUrl;
-    $('#searchTime').textContent = `${searchTime}s`;
-    $('#resultCount').textContent = `${results.length} of ${parseInt(totalResults).toLocaleString()} total`;
-    $('#platformInfo').textContent = site ? site : 'All platforms';
-    
-    if (!results || results.length === 0) {
-      resultsContent.innerHTML = `
-        <div class="error-message">
-          No results found for "${searchQuery}". Try different search terms or remove platform restrictions.
-        </div>
-      `;
-      return;
-    }
-    
-    let html = '';
-    results.forEach((result, index) => {
-      // Highlight pain point keywords in snippets
-      let highlightedSnippet = result.snippet;
-      const painWords = ['struggling', 'frustrated', 'problem', 'issue', 'difficult', 'hard', 'challenge', 'pain', 'annoying', 'broken', 'worst', 'hate', 'terrible', 'awful', 'sucks', 'confused', 'stuck', 'wish', 'need help', 'can\'t find'];
-      painWords.forEach(word => {
-        const regex = new RegExp(`\\b${word}\\b`, 'gi');
-        highlightedSnippet = highlightedSnippet.replace(regex, `<mark style="background:#fef3cd; padding:1px 2px; border-radius:2px;">$&</mark>`);
-      });
-      
-      html += `
-        <div class="result-item">
-          <div class="result-title">
-            <a href="${result.url}" target="_blank" rel="noopener noreferrer">${result.title}</a>
-          </div>
-          <div class="result-snippet">${highlightedSnippet}</div>
-          <div class="result-meta">
-            ${result.displayLink} • <a href="${result.url}" target="_blank" style="color:#10b981; text-decoration:none;">View Original</a>
-          </div>
-        </div>
-      `;
-    });
-    
-    html += `
-      <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--line); text-align:center;">
-        <button class="btn" onclick="window.open('${googleUrl}', '_blank')" style="margin-right:8px;">
-          🔍 View All Results on Google
-        </button>
-        <button class="btn" onclick="copyToClipboard('${googleUrl}')">
-          📋 Copy Search URL
-        </button>
-      </div>
-    `;
-    
-    resultsContent.innerHTML = html;
-  }
+ // Display search results
+ function displayResults(searchData, searchTitle, site) {
+   const resultsContent = $('#resultsContent');
+   const resultsTitle = $('.results-title');
+   const searchInfo = $('#searchInfo');
+   const { results, searchTime, totalResults, searchQuery, googleUrl } = searchData;
+   
+   resultsTitle.textContent = `Results: ${searchTitle}`;
+   
+   if (!results || results.length === 0) {
+     resultsContent.innerHTML = `
+       <div class="error-message">
+         No results found for "${searchQuery}". Try different search terms or remove platform restrictions.
+       </div>
+     `;
+     return;
+   }
+   
+   let html = '';
+   results.forEach((result, index) => {
+     // Highlight pain point keywords in snippets
+     let highlightedSnippet = result.snippet;
+     const painWords = ['struggling', 'frustrated', 'problem', 'issue', 'difficult', 'hard', 'challenge', 'pain', 'annoying', 'broken', 'worst', 'hate', 'terrible', 'awful', 'sucks', 'confused', 'stuck', 'wish', 'need help', 'can\'t find'];
+     painWords.forEach(word => {
+       const regex = new RegExp(`\\b${word}\\b`, 'gi');
+       highlightedSnippet = highlightedSnippet.replace(regex, `<mark style="background:#fef3cd; padding:1px 2px; border-radius:2px;">$&</mark>`);
+     });
+     
+     html += `
+       <div class="result-item">
+         <div class="result-title">
+           <span class="result-title-text">${result.title}</span>
+         </div>
+         <div class="result-snippet">${highlightedSnippet}</div>
+         <div class="result-meta">
+           ${result.displayLink}
+         </div>
+       </div>
+     `;
+   });
+   
+   // Wrap in collapsible container
+   html = `<div class="search-results-collapsed" id="searchResultsList">` + html + `</div>`;
+   html += `
+     <div style="text-align: center; margin: 16px 0;">
+       <button class="show-more-btn" onclick="toggleSearchResults()">
+         📄 View Source Results (${results.length})
+       </button>
+     </div>
+   `;
+   
+   resultsContent.innerHTML = html;
+   
+   // Show search info at bottom
+   searchInfo.classList.remove('hidden');
+   $('#searchQuery').textContent = searchQuery;
+   $('#searchUrl').textContent = googleUrl;
+   $('#searchTime').textContent = `${searchTime}s`;
+   $('#resultCount').textContent = `${results.length} of ${parseInt(totalResults).toLocaleString()} total`;
+   $('#platformInfo').textContent = site ? site : 'All platforms';
+ }
 
-  // Display AI analysis
-  function displayAIAnalysis(analysis) {
-    $('#mainPainPoint').textContent = analysis.mainPainPoint || 'Analysis complete';
-    
-    // Content opportunities
-    if (analysis.contentOpportunities && analysis.contentOpportunities.length > 0) {
-      $('#contentOpportunities').innerHTML = analysis.contentOpportunities
-        .slice(0, 3)
-        .map(opp => `<div style="margin-bottom:8px;">• ${opp}</div>`)
-        .join('');
-    }
-    
-    // Trending phrases
-    if (analysis.trendingPhrases && analysis.trendingPhrases.length > 0) {
-      $('#trendingPhrases').innerHTML = analysis.trendingPhrases
-        .slice(0, 6)
-        .map(phrase => `<span class="phrase-tag">${phrase}</span>`)
-        .join('');
-    }
-    
-    // Opportunity score
-    const score = analysis.opportunityScore || 5;
-    const scoreElement = $('#opportunityScore');
-    scoreElement.textContent = `${score}/10`;
-    scoreElement.className = 'opportunity-score';
-    if (score >= 8) scoreElement.classList.add('score-high');
-    else if (score >= 6) scoreElement.classList.add('score-medium');
-    else scoreElement.classList.add('score-low');
-    
-    // Action items
-    if (analysis.actionItems) {
-      $('#actionItems').textContent = analysis.actionItems;
-    }
-  }
+ // Display AI analysis
+ function displayAIAnalysis(analysis) {
+   $('#mainPainPoint').textContent = analysis.mainPainPoint || 'Analysis complete';
+   
+   // Content opportunities
+   if (analysis.contentOpportunities && analysis.contentOpportunities.length > 0) {
+     $('#contentOpportunities').innerHTML = analysis.contentOpportunities
+       .slice(0, 3)
+       .map(opp => `<div style="margin-bottom:8px;">• ${opp}</div>`)
+       .join('');
+   }
+   
+   // Trending phrases
+   if (analysis.trendingPhrases && analysis.trendingPhrases.length > 0) {
+     $('#trendingPhrases').innerHTML = analysis.trendingPhrases
+       .slice(0, 6)
+       .map(phrase => `<span class="phrase-tag">${phrase}</span>`)
+       .join('');
+   }
+   
+   // Opportunity score
+   const score = analysis.opportunityScore || 5;
+   const scoreElement = $('#opportunityScore');
+   scoreElement.textContent = `${score}/10`;
+   scoreElement.className = 'opportunity-score';
+   if (score >= 8) scoreElement.classList.add('score-high');
+   else if (score >= 6) scoreElement.classList.add('score-medium');
+   else scoreElement.classList.add('score-low');
+   
+   // Action items
+   if (analysis.actionItems) {
+     $('#actionItems').textContent = analysis.actionItems;
+   }
+ }
 
-  // Display error
-  function displayError(message) {
-    const resultsContent = $('#resultsContent');
-    const searchInfo = $('#searchInfo');
-    const aiAnalysis = $('#aiAnalysis');
-    searchInfo.classList.add('hidden');
-    aiAnalysis.classList.add('hidden');
-    resultsContent.innerHTML = `<div class="error-message">${message}</div>`;
-  }
+ // Display error
+ function displayError(message) {
+   const resultsContent = $('#resultsContent');
+   const searchInfo = $('#searchInfo');
+   const aiAnalysis = $('#aiAnalysis');
+   searchInfo.classList.add('hidden');
+   aiAnalysis.classList.add('hidden');
+   resultsContent.innerHTML = `<div class="error-message">${message}</div>`;
+ }
 
-  // Hide results
-  function hideResults() {
-    $('#searchResults').classList.add('hidden');
-  }
+ // Hide results
+ function hideResults() {
+   $('#searchResults').classList.add('hidden');
+ }
 
-  // Build query + URL
-  function buildQuery(){
-    const src       = $('#src').value;
-    const topic     = $('#topic').value.trim();
-    const pain      = $('#pain').value;
-    const customP   = $('#customPhrase').value.trim();
-    const customS   = $('#customSite').value.trim();
-    const exclude   = $('#exclude').value.trim();
+ // Build query + URL
+ function buildQuery(){
+   const src       = $('#src').value;
+   const topic     = $('#topic').value.trim();
+   const pain      = $('#pain').value;
+   const customP   = $('#customPhrase').value.trim();
+   const customS   = $('#customSite').value.trim();
+   const exclude   = $('#exclude').value.trim();
 
-    const map = {
-      'reddit':              { platform:'reddit', site:'reddit.com' },
-      'reddit-entrepreneur': { platform:'reddit', site:'reddit.com/r/Entrepreneur' },
-      'linkedin':            { platform:'google', site:'linkedin.com' },
-      'twitter':             { platform:'twitter', site:'twitter.com' },
-      'hackernews':          { platform:'google', site:'news.ycombinator.com' },
-      'quora':               { platform:'google', site:'quora.com' },
-      'custom':              { platform:'google', site: customS }
-    };
-    const srcCfg = map[src] || map['reddit'];
+   const map = {
+     'reddit':              { platform:'reddit', site:'reddit.com' },
+     'reddit-entrepreneur': { platform:'reddit', site:'reddit.com/r/Entrepreneur' },
+     'linkedin':            { platform:'google', site:'linkedin.com' },
+     'twitter':             { platform:'twitter', site:'twitter.com' },
+     'hackernews':          { platform:'google', site:'news.ycombinator.com' },
+     'quora':               { platform:'google', site:'quora.com' },
+     'custom':              { platform:'google', site: customS }
+   };
+   const srcCfg = map[src] || map['reddit'];
 
-    const t = topic || '';
-    const templates = {
-      'struggling': `"struggling with" ${t}`,
-      'cantfind'  : t ? `"can't find good" ${t}` : `"can't find good"`,
-      'wishknew'  : `"wish I knew" ${t}`,
-      'needhelp'  : `"need help with" ${t}`,
-      'frustrated': `"frustrated with" ${t}`,
-      'tired'     : `"tired of" ${t}`,
-      'confused'  : `"confused about" ${t}`,
-      'wishsomeone': `"wish someone would make" ${t}`,
-      'custom'    : customP ? (t ? `"${customP}" ${t}` : `"${customP}"`) : t
-    };
+   const t = topic || '';
+   const templates = {
+     'struggling': `"struggling with" ${t}`,
+     'cantfind'  : t ? `"can't find good" ${t}` : `"can't find good"`,
+     'wishknew'  : `"wish I knew" ${t}`,
+     'needhelp'  : `"need help with" ${t}`,
+     'frustrated': `"frustrated with" ${t}`,
+     'tired'     : `"tired of" ${t}`,
+     'confused'  : `"confused about" ${t}`,
+     'wishsomeone': `"wish someone would make" ${t}`,
+     'custom'    : customP ? (t ? `"${customP}" ${t}` : `"${customP}"`) : t
+   };
 
-    let q = (pain && templates[pain]) ? templates[pain] : t;
+   let q = (pain && templates[pain]) ? templates[pain] : t;
 
-    if (exclude) {
-      const excl = exclude.split(/[, ]+/).filter(Boolean).map(w => `-${w.replace(/^-/,'')}`).join(' ');
-      q = (q ? q + ' ' : '') + excl;
-    }
-    q = (q || '').replace(/\s+/g,' ').trim();
+   if (exclude) {
+     const excl = exclude.split(/[, ]+/).filter(Boolean).map(w => `-${w.replace(/^-/,'')}`).join(' ');
+     q = (q ? q + ' ' : '') + excl;
+   }
+   q = (q || '').replace(/\s+/g,' ').trim();
 
-    let url = '';
-    const withSite = srcCfg.site ? ((q ? q + ' ' : '') + `site:${srcCfg.site}`) : q;
-    const p = new URLSearchParams();
-    p.set('q', withSite);
-    url = 'https://www.google.com/search?' + p.toString();
+   let url = '';
+   const withSite = srcCfg.site ? ((q ? q + ' ' : '') + `site:${srcCfg.site}`) : q;
+   const p = new URLSearchParams();
+   p.set('q', withSite);
+   url = 'https://www.google.com/search?' + p.toString();
 
-    return { q: withSite, url, site: srcCfg.site };
-  }
+   return { q: withSite, url, site: srcCfg.site };
+ }
 
-  function updatePreviews(){
-    const { q, url } = buildQuery();
-    $('#qPreview').textContent = q || '—';
-    $('#urlPreview').textContent = url || '—';
-  }
+ function updatePreviews(){
+   const { q, url } = buildQuery();
+   $('#qPreview').textContent = q || '—';
+   $('#urlPreview').textContent = url || '—';
+ }
 
-  // Wiring
-  $('#src').addEventListener('change', () => {
-    if ($('#src').value === 'custom') $('#customSiteWrap').style.display=''; else $('#customSiteWrap').style.display='none';
-    updatePreviews();
-  });
-  $('#pain').addEventListener('change', () => {
-    if ($('#pain').value === 'custom') $('#customPhraseWrap').style.display=''; else $('#customPhraseWrap').style.display='none';
-    updatePreviews();
-  });
+ // Wiring
+ $('#src').addEventListener('change', () => {
+   if ($('#src').value === 'custom') $('#customSiteWrap').style.display=''; else $('#customSiteWrap').style.display='none';
+   updatePreviews();
+ });
+ $('#pain').addEventListener('change', () => {
+   if ($('#pain').value === 'custom') $('#customPhraseWrap').style.display=''; else $('#customPhraseWrap').style.display='none';
+   updatePreviews();
+ });
 
-  ['topic','customPhrase','customSite','exclude'].forEach(id => $('#'+id).addEventListener('input', updatePreviews));
+ ['topic','customPhrase','customSite','exclude'].forEach(id => $('#'+id).addEventListener('input', updatePreviews));
 
-  // Buttons
-  $('#searchBtn').addEventListener('click', async () => {
-    const { q, site } = buildQuery();
-    if (!q) {
-      alert('Please enter search criteria');
-      return;
-    }
-    
-    const title = $('#topic').value ? `${$('#pain option:checked').text || 'Search'} - ${$('#topic').value}` : ($('#pain option:checked').text || 'Custom Search');
-    await performSearch(q.replace(/site:\S+\s*/, ''), site, title);
-  });
+ // Buttons
+ $('#searchBtn').addEventListener('click', async () => {
+   const { q, site } = buildQuery();
+   if (!q) {
+     alert('Please enter search criteria');
+     return;
+   }
+   
+   const title = $('#topic').value ? `${$('#pain option:checked').text || 'Search'} - ${$('#topic').value}` : ($('#pain option:checked').text || 'Custom Search');
+   await performSearch(q.replace(/site:\S+\s*/, ''), site, title);
+ });
 
-  $('#openBtn').addEventListener('click', () => {
-    const { url } = buildQuery();
-    if (url) window.open(url, '_blank', 'noopener,noreferrer');
-  });
-  
-  $('#copyBtn').addEventListener('click', async () => {
-    const { url } = buildQuery();
-    await copyToClipboard(url);
-  });
-  
-  $('#resetBtn').addEventListener('click', () => {
-    $('#src').value='reddit'; $('#topic').value=''; $('#pain').value='';
-    $('#customPhrase').value=''; $('#customSite').value=''; $('#exclude').value='';
-    $('#customPhraseWrap').style.display='none'; $('#customSiteWrap').style.display='none';
-    updatePreviews();
-    hideResults();
-  });
+ $('#openBtn').addEventListener('click', () => {
+   const { url } = buildQuery();
+   if (url) window.open(url, '_blank', 'noopener,noreferrer');
+ });
+ 
+ $('#copyBtn').addEventListener('click', async () => {
+   const { url } = buildQuery();
+   await copyToClipboard(url);
+ });
+ 
+ $('#resetBtn').addEventListener('click', () => {
+   $('#src').value='reddit'; $('#topic').value=''; $('#pain').value='';
+   $('#customPhrase').value=''; $('#customSite').value=''; $('#exclude').value='';
+   $('#customPhraseWrap').style.display='none'; $('#customSiteWrap').style.display='none';
+   updatePreviews();
+   hideResults();
+ });
 
-  // Newsletter demo (replace with ESP)
-  const nlForm = $('#nlForm'), nlThanks = $('#nlThanks');
-  nlForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    nlForm.style.display='none'; nlThanks.style.display='';
-  });
+ // Newsletter demo (replace with ESP)
+ const nlForm = $('#nlForm'), nlThanks = $('#nlThanks');
+ nlForm.addEventListener('submit', (e) => {
+   e.preventDefault();
+   nlForm.style.display='none'; nlThanks.style.display='';
+ });
 
-  // Make functions global for inline onclick handlers
-  window.hideResults = hideResults;
-  window.copyToClipboard = copyToClipboard;
+ // Make functions global for inline onclick handlers
+ window.hideResults = hideResults;
+ window.copyToClipboard = copyToClipboard;
+ window.copyAnalysis = copyAnalysis;
+ window.toggleSearchResults = toggleSearchResults;
 
-  // Initialize
-  loadConfig();
-  updatePreviews();
+ // Initialize
+ loadConfig();
+ updatePreviews();
 </script>
 </body>
 </html>
