@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>GrumpyLinks – Turn Customer Complaints Into Million-Dollar Ideas</title>
+<title>GrumpyLinks – AI-Powered Pain Point Discovery</title>
 <script src="env-config.js"></script>
 <style>
 :root {
@@ -126,252 +126,57 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 }
 
 /* Main Content */
-.main-content { flex:1; padding:0; overflow-y:auto; background:var(--bg); }
+.main-content { flex:1; padding:24px 32px; overflow-y:auto; background:var(--bg); }
 
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 60px 40px;
-  text-align: center;
+/* Header - Compact */
+.content-header {
+  margin-bottom:20px;
+}
+.page-title { 
+  font-size:24px; font-weight:800; margin:0 0 4px 0; 
+  color:var(--ink); letter-spacing:-0.5px;
+}
+.page-subtitle { 
+  font-size:14px; color:var(--muted); margin:0; font-weight:500;
 }
 
-.hero-title {
-  font-size: 42px;
-  font-weight: 800;
-  margin: 0 0 16px 0;
-  line-height: 1.2;
-  letter-spacing: -1px;
-}
-
-.hero-subtitle {
-  font-size: 20px;
-  margin: 0 0 32px 0;
-  opacity: 0.9;
-  font-weight: 500;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-
-.stat {
-  font-size: 16px;
-  font-weight: 600;
-  opacity: 0.9;
-}
-
-/* Benefits Section */
-.benefits-section {
-  padding: 80px 40px;
-  text-align: center;
-  background: white;
-}
-
-.benefits-section h2 {
-  font-size: 36px;
-  font-weight: 800;
-  margin: 0 0 48px 0;
-  color: var(--ink);
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 32px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.benefit-card {
-  padding: 32px 24px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  transition: all 0.3s ease;
-}
-
-.benefit-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-}
-
-.benefit-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-}
-
-.benefit-card h3 {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-  color: var(--ink);
-}
-
-.benefit-card p {
-  color: var(--muted);
-  margin: 0;
-  font-size: 16px;
-}
-
-/* How It Works Section */
-.how-it-works {
-  padding: 80px 40px;
-  background: var(--subtle);
-  text-align: center;
-}
-
-.how-it-works h2 {
-  font-size: 36px;
-  font-weight: 800;
-  margin: 0 0 48px 0;
-  color: var(--ink);
-}
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 32px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.step {
-  text-align: center;
-}
-
-.step-number {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: white;
-  font-size: 24px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 16px auto;
-}
-
-.step h3 {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-  color: var(--ink);
-}
-
-.step p {
-  color: var(--muted);
-  margin: 0;
-  font-size: 16px;
-}
-
-/* Social Proof Section */
-.social-proof {
-  padding: 80px 40px;
-  background: white;
-  text-align: center;
-}
-
-.social-proof h2 {
-  font-size: 36px;
-  font-weight: 800;
-  margin: 0 0 48px 0;
-  color: var(--ink);
-}
-
-.testimonials {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.testimonial {
-  background: var(--subtle);
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-}
-
-.testimonial p {
-  font-size: 16px;
-  margin: 0 0 12px 0;
-  color: var(--ink);
-  font-style: italic;
-}
-
-.testimonial span {
-  font-size: 14px;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-/* Results Section */
-.results-section {
-  padding: 40px;
-  background: white;
-}
-
+/* Results Header - Simplified */
 .results-header {
-  margin-bottom: 24px;
-  text-align: center;
+  margin-bottom:16px;
 }
-
-.section-title { 
-  font-size: 28px; 
-  font-weight: 700; 
-  margin: 0 0 8px 0; 
-  color: var(--ink); 
-}
-
-.section-subtitle {
-  font-size: 16px;
-  color: var(--muted);
-  margin: 0;
-}
+.section-title { font-size:18px; font-weight:700; margin:0; color:var(--ink); }
 
 .results-grid {
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr));
+  gap:16px;
 }
 
 /* Card Design - More Compact */
 .result-card {
-  background:white; border:1px solid var(--border); border-radius:12px;
-  padding:24px; transition:all 0.3s ease; position:relative;
+  background:white; border:1px solid var(--border); border-radius:10px;
+  padding:20px; transition:all 0.3s ease; position:relative;
   box-shadow:var(--shadow);
 }
 .result-card:hover {
   box-shadow:var(--shadow-xl);
-  transform:translateY(-2px);
+  transform:translateY(-1px);
   border-color:#d1d5db;
 }
 
 .card-header {
-  margin-bottom:16px;
+  margin-bottom:12px;
 }
 
 .result-title {
-  font-weight:700; font-size:16px; line-height:1.4; margin:0 0 10px 0;
+  font-weight:700; font-size:15px; line-height:1.4; margin:0 0 8px 0;
   color:var(--ink);
 }
 .result-title a { color:inherit; text-decoration:none; }
 .result-title a:hover { color:var(--accent); }
 
 .source-badge {
-  display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:6px; 
-  font-size:11px; font-weight:600; color:white; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:4px; padding:3px 6px; border-radius:4px; 
+  font-size:10px; font-weight:600; color:white; text-transform:uppercase;
   letter-spacing:0.5px;
 }
 .source-reddit { background:var(--reddit); }
@@ -392,23 +197,23 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 .source-default { background:var(--muted); }
 
 .result-snippet {
-  color:var(--muted); font-size:14px; line-height:1.5; 
-  margin-bottom:18px; display:-webkit-box; -webkit-line-clamp:3; 
+  color:var(--muted); font-size:13px; line-height:1.5; 
+  margin-bottom:16px; display:-webkit-box; -webkit-line-clamp:3; 
   -webkit-box-orient:vertical; overflow:hidden;
 }
 
-/* AI Insight - Enhanced */
+/* AI Insight - Compact */
 .ai-insight {
   background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border:1px solid #e2e8f0; border-radius:8px; padding:16px; margin-bottom:16px;
+  border:1px solid #e2e8f0; border-radius:6px; padding:12px; margin-bottom:12px;
 }
 .ai-insight-label {
-  font-size:11px; font-weight:600; color:var(--muted);
-  text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;
+  font-size:10px; font-weight:600; color:var(--muted);
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;
   display:flex; justify-content:space-between; align-items:center;
 }
 .urgency-badge {
-  padding:3px 8px; border-radius:12px; font-size:10px; font-weight:700;
+  padding:2px 6px; border-radius:10px; font-size:9px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.5px;
 }
 .urgency-high { background:var(--danger); color:white; }
@@ -416,20 +221,20 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 .urgency-low { background:var(--muted); color:white; }
 
 .ai-insight-text {
-  font-size:14px; color:var(--ink); line-height:1.5;
+  font-size:13px; color:var(--ink); line-height:1.4;
   font-weight:500;
 }
 
 .card-footer {
   display:flex; justify-content:space-between; align-items:center;
-  font-size:12px; color:var(--muted); margin-top:18px;
-  padding-top:16px; border-top:1px solid var(--border);
+  font-size:11px; color:var(--muted); margin-top:16px;
+  padding-top:12px; border-top:1px solid var(--border);
 }
 
 .copy-link {
   color:var(--accent); cursor:pointer; font-weight:600;
-  padding:6px 12px; border-radius:6px; transition:all 0.2s ease;
-  font-size:12px; text-transform:uppercase; letter-spacing:0.5px;
+  padding:4px 8px; border-radius:4px; transition:all 0.2s ease;
+  font-size:11px; text-transform:uppercase; letter-spacing:0.5px;
 }
 .copy-link:hover { 
   background:var(--accent); 
@@ -439,23 +244,56 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 
 /* Loading & Empty States */
 .loading { 
-  text-align:center; padding:80px 20px; color:var(--muted);
+  text-align:center; padding:60px 20px; color:var(--muted);
   grid-column:1 / -1;
 }
 .spinner {
-  display:inline-block; width:20px; height:20px; margin-right:12px;
-  border:3px solid var(--border); border-top:3px solid var(--accent);
+  display:inline-block; width:18px; height:18px; margin-right:8px;
+  border:2px solid var(--border); border-top:2px solid var(--accent);
   border-radius:50%; animation:spin 1s linear infinite;
 }
 @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
 
 .empty-state { 
-  text-align:center; padding:80px 20px; color:var(--muted);
+  text-align:center; padding:60px 20px; color:var(--muted);
   grid-column:1 / -1;
 }
-.empty-state h3 { color:var(--ink); font-weight:700; margin-bottom:8px; font-size:18px; }
+.empty-state h3 { color:var(--ink); font-weight:700; margin-bottom:8px; font-size:16px; }
 
-/* Mobile Responsive */
+/* Mobile logo adjustments */
+@media (max-width: 1024px) {
+  .logo {
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+    margin-bottom:16px;
+  }
+  .logo-emoji {
+    font-size:36px;
+  }
+  .logo-text {
+    font-size:22px;
+  }
+  .logo-subtitle {
+    font-size:10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    padding:12px 0;
+  }
+  .logo-emoji {
+    font-size:40px;
+  }
+  .logo-text {
+    font-size:24px;
+  }
+}
+
+/* Responsive - Fixed */
+@media (max-width: 1200px) {
+  .results-grid { grid-template-columns:1fr; }
+}
 @media (max-width: 1024px) {
   .app { flex-direction:column; }
   .sidebar { 
@@ -465,36 +303,39 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
     border-right:none;
     border-bottom:1px solid var(--border);
   }
-  .hero-title { font-size: 32px; }
-  .hero-subtitle { font-size: 18px; }
-  .hero-stats { gap: 16px; }
-  .benefits-section, .how-it-works, .social-proof { padding: 60px 20px; }
-  .benefits-section h2, .how-it-works h2, .social-proof h2 { font-size: 28px; }
-  .results-section { padding: 20px; }
-  .results-grid { grid-template-columns: 1fr; gap: 16px; }
-  .result-card { padding: 20px; }
-  .logo {
-    padding:16px 0;
-    border-bottom:1px solid var(--border);
+  .main-content { 
+    padding:16px; 
+    width:100%;
+  }
+  .content-header {
     margin-bottom:16px;
   }
-  .logo-emoji { font-size:36px; }
-  .logo-text { font-size:22px; }
-  .logo-subtitle { font-size:10px; }
+  .page-title {
+    font-size:20px;
+  }
+  .results-grid {
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .result-card {
+    padding:16px;
+  }
 }
 
+/* Additional mobile fixes */
 @media (max-width: 768px) {
-  .sidebar { padding:12px; }
-  .nav-section { margin-bottom:16px; }
-  .search-input, .query-dropdown, .filter-select { font-size:16px; }
-  .hero-section { padding: 40px 20px; }
-  .hero-title { font-size: 28px; }
-  .hero-subtitle { font-size: 16px; }
-  .hero-stats { flex-direction: column; gap: 12px; }
-  .benefits-grid, .steps, .testimonials { grid-template-columns: 1fr; }
-  .logo { padding:12px 0; }
-  .logo-emoji { font-size:40px; }
-  .logo-text { font-size:24px; }
+  .sidebar {
+    padding:12px;
+  }
+  .main-content {
+    padding:12px;
+  }
+  .nav-section {
+    margin-bottom:16px;
+  }
+  .search-input, .query-dropdown, .filter-select {
+    font-size:16px; /* Prevents zoom on iOS */
+  }
 }
 </style>
 </head>
@@ -525,23 +366,6 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
     </div>
 
     <div class="nav-section">
-      <div class="nav-title">📧 The Daily Grumpy</div>
-      <p class="newsletter-desc">
-        Get the juiciest pain points and business opportunities delivered to your inbox
-      </p>
-      <div id="newsletterForm">
-        <input id="emailInput" class="search-input" type="email" 
-               placeholder="your@email.com" style="margin-bottom:6px;" />
-        <button id="subscribeBtn" class="search-btn newsletter-btn">
-          Subscribe Free
-        </button>
-      </div>
-      <div class="newsletter-privacy">
-        No spam, unsubscribe anytime
-      </div>
-    </div>
-
-    <div class="nav-section">
       <div class="nav-title">Filters</div>
       <select id="platformSelect" class="filter-select">
         <option value="all">All Platforms</option>
@@ -566,104 +390,36 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
         <option value="d365">Last year</option>
       </select>
     </div>
+	    <div class="nav-section">
+      <div class="nav-title">Daily Grumpy</div>
+      <p class="newsletter-desc">
+        User pain points and business opportunities delivered to your inbox
+      </p>
+      <div id="newsletterForm">
+        <input id="emailInput" class="search-input" type="email" 
+               placeholder="your@email.com" style="margin-bottom:6px;" />
+        <button id="subscribeBtn" class="search-btn newsletter-btn">
+          Subscribe Free
+        </button>
+      </div>
+      <div class="newsletter-privacy">
+        No spam, unsubscribe anytime
+      </div>
+    </div>
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <h1 class="hero-title">Turn Customer Complaints Into Million-Dollar Ideas</h1>
-      <p class="hero-subtitle">Find pain points across Reddit, Twitter, and 12+ platforms. Get AI-powered business opportunities delivered instantly.</p>
-      <div class="hero-stats">
-        <span class="stat">🔍 Search 12+ platforms</span>
-        <span class="stat">🤖 AI business insights</span>
-        <span class="stat">⚡ Results in seconds</span>
-      </div>
-    </section>
+    <header class="content-header">
+      <h1 class="page-title">User Pain Points</h1>
+    </header>
 
-    <!-- Benefits Section -->
-    <section class="benefits-section">
-      <h2>Stop Guessing What to Build Next</h2>
-      <div class="benefits-grid">
-        <div class="benefit-card">
-          <div class="benefit-icon">💡</div>
-          <h3>Find Startup Ideas</h3>
-          <p>Discover what people are complaining about right now</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">✅</div>
-          <h3>Validate Products</h3>
-          <p>See real demand before you build anything</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">📈</div>
-          <h3>Content Ideas</h3>
-          <p>Create content around trending pain points</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">🎯</div>
-          <h3>Market Gaps</h3>
-          <p>Spot underserved niches and opportunities</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="how-it-works">
-      <h2>From Complaint to Cash in 3 Steps</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>Search Any Topic</h3>
-          <p>Enter a keyword and we'll find complaints across 12+ platforms</p>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>Get AI Insights</h3>
-          <p>Our AI analyzes each complaint and suggests business opportunities</p>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>Build & Profit</h3>
-          <p>Pick the best opportunity and start building your solution</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Social Proof Section -->
-    <section class="social-proof">
-      <h2>Join 1,000+ Entrepreneurs Finding Their Next Big Idea</h2>
-      <div class="testimonials">
-        <div class="testimonial">
-          <p>"Found my SaaS idea in 10 minutes. Now at $5K MRR."</p>
-          <span>- Sarah K, Founder</span>
-        </div>
-        <div class="testimonial">
-          <p>"GrumpyLinks showed me exactly what my target market was struggling with. Game changer."</p>
-          <span>- Mike T, Entrepreneur</span>
-        </div>
-        <div class="testimonial">
-          <p>"I use this daily for content ideas. My YouTube channel blew up covering these pain points."</p>
-          <span>- Jenny L, Content Creator</span>
-        </div>
-        <div class="testimonial">
-          <p>"Better than spending weeks in Reddit rabbit holes. Found 3 viable startup ideas in one afternoon."</p>
-          <span>- Alex R, Serial Founder</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Results Section -->
     <section class="results-section">
-      <div class="results-header">
-        <h2 class="section-title">Live Example: Airplane WiFi Pain Points</h2>
-        <p class="section-subtitle">See how GrumpyLinks turns real complaints into business opportunities</p>
-      </div>
       
       <div id="resultsGrid" class="results-grid">
         <div class="loading">
           <div class="spinner"></div>
-          <p>Loading live example...</p>
+          <p>Loading demo search...</p>
         </div>
       </div>
     </section>
@@ -760,193 +516,193 @@ const DEMO_RESULTS = {
     {
       title: "iOS - NextDNS Help Center",
       snippet: "Public WiFis / Airplane WiFi / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
-     link: "https://help.nextdns.io/tag/ios",
-     displayLink: "help.nextdns.io",
-     insight: {
-       businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.",
-       urgency: "high"
-     }
-   },
-   {
-     title: "How to Connect Laptop to Airplane Wifi | TikTok",
-     snippet: "... Airplane Wifi Spirit, How to Fix Unable to Connect to Wifi Hp Laptop ... How to Connect Phone to Pc with Broken Screen · Cara Guna Usb Wifi Adapter.",
-     link: "https://www.tiktok.com/discover/how-to-connect-laptop-to-airplane-wifi",
-     displayLink: "www.tiktok.com",
-     insight: {
-       businessOpportunity: "Develop a simplified step-by-step video tutorial series on connecting different laptop brands to airplane wifi, monetized through ads or premium content.",
-       urgency: "low"
-     }
-   },
-   {
-     title: "Reclining your seat on a flight. I didn't know it was so taboo ...",
-     snippet: "airplane wifi is ass so I used my Nintendo Switch) But for longer flights ... What do you need help on? Cancel X. Post New Message. You're browsing the ...",
-     link: "https://gamefaqs.gamespot.com/boards/264562-playstation-5/81025624",
-     displayLink: "gamefaqs.gamespot.com",
-     insight: {
-       businessOpportunity: "Develop a curated entertainment package (movies, games, ebooks) that can be downloaded before the flight and enjoyed without relying on airplane wifi.",
-       urgency: "low"
-     }
-   },
-   {
-     title: "Starlink MCI to IAH : r/unitedairlines",
-     snippet: "... airplane WiFi. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
-     link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
-     displayLink: "www.reddit.com",
-     insight: {
-       businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.",
-       urgency: "medium"
-     }
-   }
- ]
+      link: "https://help.nextdns.io/tag/ios",
+      displayLink: "help.nextdns.io",
+      insight: {
+        businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.",
+        urgency: "high"
+      }
+    },
+    {
+      title: "How to Connect Laptop to Airplane Wifi | TikTok",
+      snippet: "... Airplane Wifi Spirit, How to Fix Unable to Connect to Wifi Hp Laptop ... How to Connect Phone to Pc with Broken Screen · Cara Guna Usb Wifi Adapter.",
+      link: "https://www.tiktok.com/discover/how-to-connect-laptop-to-airplane-wifi",
+      displayLink: "www.tiktok.com",
+      insight: {
+        businessOpportunity: "Develop a simplified step-by-step video tutorial series on connecting different laptop brands to airplane wifi, monetized through ads or premium content.",
+        urgency: "low"
+      }
+    },
+    {
+      title: "Reclining your seat on a flight. I didn't know it was so taboo ...",
+      snippet: "airplane wifi is ass so I used my Nintendo Switch) But for longer flights ... What do you need help on? Cancel X. Post New Message. You're browsing the ...",
+      link: "https://gamefaqs.gamespot.com/boards/264562-playstation-5/81025624",
+      displayLink: "gamefaqs.gamespot.com",
+      insight: {
+        businessOpportunity: "Develop a curated entertainment package (movies, games, ebooks) that can be downloaded before the flight and enjoyed without relying on airplane wifi.",
+        urgency: "low"
+      }
+    },
+    {
+      title: "Starlink MCI to IAH : r/unitedairlines",
+      snippet: "... airplane WiFi. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
+      link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
+      displayLink: "www.reddit.com",
+      insight: {
+        businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.",
+        urgency: "medium"
+      }
+    }
+  ]
 };
 
 // Initialize
 function init() {
- loadConfig();
- setupEventListeners();
- loadDemoSearch();
+  loadConfig();
+  setupEventListeners();
+  loadDemoSearch();
 }
 
 function setupEventListeners() {
- document.getElementById('searchBtn').onclick = performSearch;
- document.getElementById('searchInput').onkeydown = (e) => {
-   if (e.key === 'Enter') performSearch();
- };
- document.getElementById('searchInput').oninput = (e) => {
-   localStorage.setItem('grumpy_search', e.target.value);
- };
- 
- // Newsletter signup handler
- document.getElementById('subscribeBtn').onclick = handleNewsletterSignup;
- document.getElementById('emailInput').onkeydown = (e) => {
-   if (e.key === 'Enter') handleNewsletterSignup();
- };
+  document.getElementById('searchBtn').onclick = performSearch;
+  document.getElementById('searchInput').onkeydown = (e) => {
+    if (e.key === 'Enter') performSearch();
+  };
+  document.getElementById('searchInput').oninput = (e) => {
+    localStorage.setItem('grumpy_search', e.target.value);
+  };
+  
+  // Newsletter signup handler
+  document.getElementById('subscribeBtn').onclick = handleNewsletterSignup;
+  document.getElementById('emailInput').onkeydown = (e) => {
+    if (e.key === 'Enter') handleNewsletterSignup();
+  };
 }
 
 function handleNewsletterSignup() {
- const email = document.getElementById('emailInput').value.trim();
- if (!email) {
-   alert('Please enter your email address');
-   return;
- }
- 
- if (!email.includes('@')) {
-   alert('Please enter a valid email address');
-   return;
- }
- 
- // For now, just show success message
- // Replace this with your newsletter service integration
- const btn = document.getElementById('subscribeBtn');
- const originalText = btn.textContent;
- btn.textContent = 'Subscribed! ✓';
- btn.style.background = 'var(--success)';
- 
- setTimeout(() => {
-   btn.textContent = originalText;
-   document.getElementById('emailInput').value = '';
- }, 2000);
- 
- // TODO: Replace with actual newsletter service integration
- console.log('Newsletter signup:', email);
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email) {
+    alert('Please enter your email address');
+    return;
+  }
+  
+  if (!email.includes('@')) {
+    alert('Please enter a valid email address');
+    return;
+  }
+  
+  // For now, just show success message
+  // Replace this with your newsletter service integration
+  const btn = document.getElementById('subscribeBtn');
+  const originalText = btn.textContent;
+  btn.textContent = 'Subscribed! ✓';
+  btn.style.background = 'var(--success)';
+  
+  setTimeout(() => {
+    btn.textContent = originalText;
+    document.getElementById('emailInput').value = '';
+  }, 2000);
+  
+  // TODO: Replace with actual newsletter service integration
+  console.log('Newsletter signup:', email);
 }
 
 function loadDemoSearch() {
- document.getElementById('searchInput').value = DEMO_RESULTS.query;
- displayDemoResults();
+  document.getElementById('searchInput').value = DEMO_RESULTS.query;
+  displayDemoResults();
 }
 
 function displayDemoResults() {
- const grid = document.getElementById('resultsGrid');
- 
- let html = '';
- DEMO_RESULTS.results.forEach(result => {
-   const platformClass = getPlatformClass(result.displayLink);
-   const platformName = getPlatformName(result.displayLink);
-   
-   let snippet = result.snippet;
-   const painWords = ['painful', 'sucks', 'hate', 'broken', 'annoying', 'ass', 'taboo', 'blocked', 'help'];
-   painWords.forEach(word => {
-     const regex = new RegExp(`\\b${word}\\b`, 'gi');
-     snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
-   });
-   
-   html += `
-     <div class="result-card">
-       <div class="card-header">
-         <h3 class="result-title">
-           <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
-         </h3>
-         <span class="source-badge ${platformClass}">${platformName}</span>
-       </div>
-       
-       <div class="result-snippet">${snippet}</div>
-       
-       <div class="ai-insight">
-         <div class="ai-insight-label">
-           💡 Business Opportunity
-           <span class="urgency-badge urgency-${result.insight.urgency}">
-             ${result.insight.urgency.toUpperCase()}
-           </span>
-         </div>
-         <div class="ai-insight-text">${result.insight.businessOpportunity}</div>
-       </div>
-       
-       <div class="card-footer">
-         <span>${result.displayLink}</span>
-         <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
-       </div>
-     </div>
-   `;
- });
- 
- grid.innerHTML = html;
+  const grid = document.getElementById('resultsGrid');
+  
+  let html = '';
+  DEMO_RESULTS.results.forEach(result => {
+    const platformClass = getPlatformClass(result.displayLink);
+    const platformName = getPlatformName(result.displayLink);
+    
+    let snippet = result.snippet;
+    const painWords = ['painful', 'sucks', 'hate', 'broken', 'annoying', 'ass', 'taboo', 'blocked', 'help'];
+    painWords.forEach(word => {
+      const regex = new RegExp(`\\b${word}\\b`, 'gi');
+      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
+    });
+    
+    html += `
+      <div class="result-card">
+        <div class="card-header">
+          <h3 class="result-title">
+            <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
+          </h3>
+          <span class="source-badge ${platformClass}">${platformName}</span>
+        </div>
+        
+        <div class="result-snippet">${snippet}</div>
+        
+        <div class="ai-insight">
+          <div class="ai-insight-label">
+            Business Opportunity
+            <span class="urgency-badge urgency-${result.insight.urgency}">
+              ${result.insight.urgency.toUpperCase()}
+            </span>
+          </div>
+          <div class="ai-insight-text">${result.insight.businessOpportunity}</div>
+        </div>
+        
+        <div class="card-footer">
+          <span>${result.displayLink}</span>
+          <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
+        </div>
+      </div>
+    `;
+  });
+  
+  grid.innerHTML = html;
 }
 
 function buildSearchQuery(template, keyword, platform) {
- let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
- 
- const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
- if (platformConfig.sites.length > 0) {
-   query += ' (' + platformConfig.sites.join(' OR ') + ')';
- }
- 
- return query;
+  let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
+  
+  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+  if (platformConfig.sites.length > 0) {
+    query += ' (' + platformConfig.sites.join(' OR ') + ')';
+  }
+  
+  return query;
 }
 
 function buildNormalSearchQuery(keyword, platform) {
- let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
- 
- const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
- if (platformConfig.sites.length > 0) {
-   query += ' (' + platformConfig.sites.join(' OR ') + ')';
- }
- 
- return query;
+  let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
+  
+  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+  if (platformConfig.sites.length > 0) {
+    query += ' (' + platformConfig.sites.join(' OR ') + ')';
+  }
+  
+  return query;
 }
 
 function getPlatformClass(domain) {
- if (domain.includes('reddit')) return 'source-reddit';
- if (domain.includes('twitter') || domain.includes('x.com')) return 'source-twitter';
- if (domain.includes('linkedin')) return 'source-linkedin';
- if (domain.includes('news.ycombinator')) return 'source-hackernews';
- if (domain.includes('github')) return 'source-github';
- if (domain.includes('stackoverflow')) return 'source-stackoverflow';
- if (domain.includes('medium')) return 'source-medium';
- if (domain.includes('quora')) return 'source-quora';
- if (domain.includes('youtube')) return 'source-youtube';
- if (domain.includes('producthunt')) return 'source-producthunt';
- if (domain.includes('discord')) return 'source-discord';
- if (domain.includes('glassdoor')) return 'source-glassdoor';
- if (domain.includes('trustpilot')) return 'source-trustpilot';
- if (domain.includes('tiktok')) return 'source-tiktok';
- if (domain.includes('apps.apple.com') || domain.includes('play.google.com')) return 'source-appstore';
- return 'source-default';
+  if (domain.includes('reddit')) return 'source-reddit';
+  if (domain.includes('twitter') || domain.includes('x.com')) return 'source-twitter';
+  if (domain.includes('linkedin')) return 'source-linkedin';
+  if (domain.includes('news.ycombinator')) return 'source-hackernews';
+  if (domain.includes('github')) return 'source-github';
+  if (domain.includes('stackoverflow')) return 'source-stackoverflow';
+  if (domain.includes('medium')) return 'source-medium';
+  if (domain.includes('quora')) return 'source-quora';
+  if (domain.includes('youtube')) return 'source-youtube';
+  if (domain.includes('producthunt')) return 'source-producthunt';
+  if (domain.includes('discord')) return 'source-discord';
+  if (domain.includes('glassdoor')) return 'source-glassdoor';
+  if (domain.includes('trustpilot')) return 'source-trustpilot';
+  if (domain.includes('tiktok')) return 'source-tiktok';
+  if (domain.includes('apps.apple.com') || domain.includes('play.google.com')) return 'source-appstore';
+  return 'source-default';
 }
 
 function getPlatformName(domain) {
- if (domain.includes('reddit')) return 'Reddit';
- if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
+  if (domain.includes('reddit')) return 'Reddit';
+  if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
  if (domain.includes('linkedin')) return 'LinkedIn';
  if (domain.includes('news.ycombinator')) return 'Hacker News';
  if (domain.includes('github')) return 'GitHub';
@@ -1142,7 +898,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
      html += `
        <div class="ai-insight">
          <div class="ai-insight-label">
-           💡 Business Opportunity
+           Business Opportunity
            <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
              ${(insight.urgency || 'medium').toUpperCase()}
            </span>
