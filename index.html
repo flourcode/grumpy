@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>GrumpyLinks – AI-Powered Pain Point Discovery</title>
 <script src="env-config.js"></script>
 <style>
@@ -35,7 +35,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 }
 
 .logo { 
-  font-size:18px; font-weight:700; margin-bottom:24px; color:var(--ink);
+  font-size:24px; font-weight:700; margin-bottom:14px; color:var(--ink);
   padding:8px 0; display:flex; align-items:center; gap:8px;
 }
 
@@ -229,14 +229,66 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 }
 .empty-state h3 { color:var(--ink); font-weight:700; margin-bottom:8px; font-size:16px; }
 
-/* Responsive */
+/* Responsive - Fixed */
 @media (max-width: 1200px) {
   .results-grid { grid-template-columns:1fr; }
 }
 @media (max-width: 1024px) {
   .app { flex-direction:column; }
-  .sidebar { width:100%; padding:16px; }
-  .main-content { padding:20px 16px; }
+  .sidebar { 
+    width:100%; 
+    padding:16px; 
+    box-shadow:none;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+  .main-content { 
+    padding:16px; 
+    width:100%;
+  }
+  .content-header {
+    margin-bottom:16px;
+  }
+  .page-title {
+    font-size:20px;
+  }
+  .results-grid {
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .result-card {
+    padding:16px;
+  }
+}
+
+/* Additional mobile fixes */
+@media (max-width: 768px) {
+  .sidebar {
+    padding:12px;
+  }
+  .main-content {
+    padding:12px;
+  }
+  .nav-section {
+    margin-bottom:16px;
+  }
+  .search-input, .query-dropdown, .filter-select {
+    font-size:16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Ensure no horizontal overflow */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.app {
+  width: 100%;
+  max-width: 100vw;
 }
 </style>
 </head>
