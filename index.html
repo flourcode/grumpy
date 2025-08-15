@@ -366,23 +366,6 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
     </div>
 
     <div class="nav-section">
-      <div class="nav-title">📧 The Daily Grumpy</div>
-      <p class="newsletter-desc">
-        Get the juiciest pain points and business opportunities delivered to your inbox
-      </p>
-      <div id="newsletterForm">
-        <input id="emailInput" class="search-input" type="email" 
-               placeholder="your@email.com" style="margin-bottom:6px;" />
-        <button id="subscribeBtn" class="search-btn newsletter-btn">
-          Subscribe Free
-        </button>
-      </div>
-      <div class="newsletter-privacy">
-        No spam, unsubscribe anytime
-      </div>
-    </div>
-
-    <div class="nav-section">
       <div class="nav-title">Filters</div>
       <select id="platformSelect" class="filter-select">
         <option value="all">All Platforms</option>
@@ -407,19 +390,31 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
         <option value="d365">Last year</option>
       </select>
     </div>
+	    <div class="nav-section">
+      <div class="nav-title">Daily Grumpy</div>
+      <p class="newsletter-desc">
+        User pain points and business opportunities delivered to your inbox
+      </p>
+      <div id="newsletterForm">
+        <input id="emailInput" class="search-input" type="email" 
+               placeholder="your@email.com" style="margin-bottom:6px;" />
+        <button id="subscribeBtn" class="search-btn newsletter-btn">
+          Subscribe Free
+        </button>
+      </div>
+      <div class="newsletter-privacy">
+        No spam, unsubscribe anytime
+      </div>
+    </div>
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
     <header class="content-header">
-      <h1 class="page-title">Pain Point Discovery</h1>
-      <p class="page-subtitle">Find customer frustrations and turn them into business opportunities</p>
+      <h1 class="page-title">User Pain Points</h1>
     </header>
 
     <section class="results-section">
-      <div class="results-header">
-        <h2 class="section-title">User Pain Points</h2>
-      </div>
       
       <div id="resultsGrid" class="results-grid">
         <div class="loading">
