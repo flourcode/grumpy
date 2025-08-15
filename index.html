@@ -242,6 +242,120 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
   transform:translateY(-1px);
 }
 
+/* Footer Section */
+.footer-section {
+  background: white;
+  border-top: 1px solid var(--border);
+  padding: 60px 32px;
+  margin-top: 60px;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-value-prop {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.footer-value-prop h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: var(--ink);
+}
+
+.footer-value-prop p {
+  font-size: 16px;
+  color: var(--muted);
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faqs-section {
+  margin-bottom: 40px;
+}
+
+.faqs-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  color: var(--ink);
+  text-align: center;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 16px 20px;
+  background: var(--subtle);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+  border: none;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.faq-question:hover {
+  background: var(--hover);
+}
+
+.faq-arrow {
+  transition: transform 0.2s ease;
+  color: var(--muted);
+}
+
+.faq-question.active .faq-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.faq-answer.active {
+  padding: 16px 20px;
+  max-height: 200px;
+}
+
+.faq-answer p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
 /* Loading & Empty States */
 .loading { 
   text-align:center; padding:60px 20px; color:var(--muted);
@@ -320,6 +434,12 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
   .result-card {
     padding:16px;
   }
+  .footer-section {
+    padding: 40px 16px;
+  }
+  .footer-value-prop h2 {
+    font-size: 24px;
+  }
 }
 
 /* Additional mobile fixes */
@@ -336,8 +456,12 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
   .search-input, .query-dropdown, .filter-select {
     font-size:16px; /* Prevents zoom on iOS */
   }
+  .footer-section {
+    padding: 30px 12px;
+  }
 }
 </style>
+
 </head>
 <body>
 
@@ -390,7 +514,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
         <option value="d365">Last year</option>
       </select>
     </div>
-	    <div class="nav-section">
+    <div class="nav-section">
       <div class="nav-title">Daily Grumpy</div>
       <p class="newsletter-desc">
         User pain points and business opportunities delivered to your inbox
@@ -415,7 +539,6 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
     </header>
 
     <section class="results-section">
-      
       <div id="resultsGrid" class="results-grid">
         <div class="loading">
           <div class="spinner"></div>
@@ -423,6 +546,74 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
         </div>
       </div>
     </section>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+      <div class="footer-content">
+        <div class="footer-value-prop">
+          <h2>Turn Customer Complaints Into Your Next Big Idea</h2>
+          <p>Search across 12+ platforms to find real pain points, get AI-powered business insights, and discover opportunities before your competitors do.</p>
+        </div>
+
+        <div class="faqs-section">
+          <h3 class="faqs-title">Frequently Asked Questions</h3>
+          
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              How does GrumpyLinks find business opportunities?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>We search across Reddit, Twitter, YouTube, and 9+ other platforms for customer complaints, then use AI to analyze each pain point and suggest specific business opportunities you could build or create.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              What platforms do you search?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>We search Reddit, Twitter, LinkedIn, Hacker News, YouTube, Medium, Product Hunt, Discord, Glassdoor, Trustpilot, App Stores, and major forums like Stack Overflow and Quora.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              Is this different from regular Google search?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>Yes! We specifically search for complaints and frustrations, then analyze each one with AI to suggest business opportunities. Regular search won't give you actionable business insights from customer pain points.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              How accurate are the AI business suggestions?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>Our AI analyzes each complaint and suggests specific, actionable business opportunities. While not every suggestion will be viable, they provide concrete starting points for market research and idea validation.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              Can I export or save the results?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>You can copy individual links from each result card. For bulk export and advanced features, subscribe to our Daily Grumpy newsletter to get curated pain points delivered to your inbox.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2025 GrumpyLinks. Find your next business opportunity in customer complaints.</p>
+        </div>
+      </div>
+    </footer>
   </main>
 </div>
 
@@ -439,6 +630,24 @@ function loadConfig() {
     API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
     API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
     API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
+  }
+}
+
+// FAQ Toggle Function
+function toggleFAQ(element) {
+  const answer = element.nextElementSibling;
+  const isActive = element.classList.contains('active');
+  
+  // Close all FAQs first
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.classList.remove('active');
+    q.nextElementSibling.classList.remove('active');
+  });
+  
+  // If this wasn't active, open it
+  if (!isActive) {
+    element.classList.add('active');
+    answer.classList.add('active');
   }
 }
 
@@ -545,337 +754,83 @@ const DEMO_RESULTS = {
     },
     {
       title: "Starlink MCI to IAH : r/unitedairlines",
-      snippet: "... airplane WiFi. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
-      link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
-      displayLink: "www.reddit.com",
-      insight: {
-        businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.",
-        urgency: "medium"
-      }
-    }
-  ]
+     snippet: "... airplane WiFi. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
+     link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
+     displayLink: "www.reddit.com",
+     insight: {
+       businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.",
+       urgency: "medium"
+     }
+   }
+ ]
 };
 
 // Initialize
 function init() {
-  loadConfig();
-  setupEventListeners();
-  loadDemoSearch();
+ loadConfig();
+ setupEventListeners();
+ loadDemoSearch();
 }
 
 function setupEventListeners() {
-  document.getElementById('searchBtn').onclick = performSearch;
-  document.getElementById('searchInput').onkeydown = (e) => {
-    if (e.key === 'Enter') performSearch();
-  };
-  document.getElementById('searchInput').oninput = (e) => {
-    localStorage.setItem('grumpy_search', e.target.value);
-  };
-  
-  // Newsletter signup handler
-  document.getElementById('subscribeBtn').onclick = handleNewsletterSignup;
-  document.getElementById('emailInput').onkeydown = (e) => {
-    if (e.key === 'Enter') handleNewsletterSignup();
-  };
-}
-
-function handleNewsletterSignup() {
-  const email = document.getElementById('emailInput').value.trim();
-  if (!email) {
-    alert('Please enter your email address');
-    return;
-  }
-  
-  if (!email.includes('@')) {
-    alert('Please enter a valid email address');
-    return;
-  }
-  
-  // For now, just show success message
-  // Replace this with your newsletter service integration
-  const btn = document.getElementById('subscribeBtn');
-  const originalText = btn.textContent;
-  btn.textContent = 'Subscribed! ✓';
-  btn.style.background = 'var(--success)';
-  
-  setTimeout(() => {
-    btn.textContent = originalText;
-    document.getElementById('emailInput').value = '';
-  }, 2000);
-  
-  // TODO: Replace with actual newsletter service integration
-  console.log('Newsletter signup:', email);
-}
-
-function loadDemoSearch() {
-  document.getElementById('searchInput').value = DEMO_RESULTS.query;
-  displayDemoResults();
-}
-
-function displayDemoResults() {
-  const grid = document.getElementById('resultsGrid');
-  
-  let html = '';
-  DEMO_RESULTS.results.forEach(result => {
-    const platformClass = getPlatformClass(result.displayLink);
-    const platformName = getPlatformName(result.displayLink);
-    
-    let snippet = result.snippet;
-    const painWords = ['painful', 'sucks', 'hate', 'broken', 'annoying', 'ass', 'taboo', 'blocked', 'help'];
-    painWords.forEach(word => {
-      const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
-    });
-    
-    html += `
-      <div class="result-card">
-        <div class="card-header">
-          <h3 class="result-title">
-            <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
-          </h3>
-          <span class="source-badge ${platformClass}">${platformName}</span>
-        </div>
-        
-        <div class="result-snippet">${snippet}</div>
-        
-        <div class="ai-insight">
-          <div class="ai-insight-label">
-            Business Opportunity
-            <span class="urgency-badge urgency-${result.insight.urgency}">
-              ${result.insight.urgency.toUpperCase()}
-            </span>
-          </div>
-          <div class="ai-insight-text">${result.insight.businessOpportunity}</div>
-        </div>
-        
-        <div class="card-footer">
-          <span>${result.displayLink}</span>
-          <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
-        </div>
-      </div>
-    `;
-  });
-  
-  grid.innerHTML = html;
-}
-
-function buildSearchQuery(template, keyword, platform) {
-  let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
-  
-  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
-  if (platformConfig.sites.length > 0) {
-    query += ' (' + platformConfig.sites.join(' OR ') + ')';
-  }
-  
-  return query;
-}
-
-function buildNormalSearchQuery(keyword, platform) {
-  let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
-  
-  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
-  if (platformConfig.sites.length > 0) {
-    query += ' (' + platformConfig.sites.join(' OR ') + ')';
-  }
-  
-  return query;
-}
-
-function getPlatformClass(domain) {
-  if (domain.includes('reddit')) return 'source-reddit';
-  if (domain.includes('twitter') || domain.includes('x.com')) return 'source-twitter';
-  if (domain.includes('linkedin')) return 'source-linkedin';
-  if (domain.includes('news.ycombinator')) return 'source-hackernews';
-  if (domain.includes('github')) return 'source-github';
-  if (domain.includes('stackoverflow')) return 'source-stackoverflow';
-  if (domain.includes('medium')) return 'source-medium';
-  if (domain.includes('quora')) return 'source-quora';
-  if (domain.includes('youtube')) return 'source-youtube';
-  if (domain.includes('producthunt')) return 'source-producthunt';
-  if (domain.includes('discord')) return 'source-discord';
-  if (domain.includes('glassdoor')) return 'source-glassdoor';
-  if (domain.includes('trustpilot')) return 'source-trustpilot';
-  if (domain.includes('tiktok')) return 'source-tiktok';
-  if (domain.includes('apps.apple.com') || domain.includes('play.google.com')) return 'source-appstore';
-  return 'source-default';
-}
-
-function getPlatformName(domain) {
-  if (domain.includes('reddit')) return 'Reddit';
-  if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
- if (domain.includes('linkedin')) return 'LinkedIn';
- if (domain.includes('news.ycombinator')) return 'Hacker News';
- if (domain.includes('github')) return 'GitHub';
- if (domain.includes('stackoverflow')) return 'Stack Overflow';
- if (domain.includes('medium')) return 'Medium';
- if (domain.includes('quora')) return 'Quora';
- if (domain.includes('youtube')) return 'YouTube';
- if (domain.includes('producthunt')) return 'Product Hunt';
- if (domain.includes('discord')) return 'Discord';
- if (domain.includes('glassdoor')) return 'Glassdoor';
- if (domain.includes('trustpilot')) return 'Trustpilot';
- if (domain.includes('tiktok')) return 'TikTok';
- if (domain.includes('apps.apple.com')) return 'App Store';
- if (domain.includes('play.google.com')) return 'Play Store';
- return domain.split('.')[0];
-}
-
-function findInsightForResult(result, analysis) {
- if (!analysis || !analysis.resultInsights) {
-   return {
-     businessOpportunity: "AI analysis not available for this result",
-     urgency: "low"
-   };
- }
+ document.getElementById('searchBtn').onclick = performSearch;
+ document.getElementById('searchInput').onkeydown = (e) => {
+   if (e.key === 'Enter') performSearch();
+ };
+ document.getElementById('searchInput').oninput = (e) => {
+   localStorage.setItem('grumpy_search', e.target.value);
+ };
  
- const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
- 
- const matchingInsight = analysis.resultInsights.find(insight => {
-   const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-   return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
-          insightTitleWords.includes(resultTitleWords.slice(0, 20));
- });
- 
- if (matchingInsight) {
-   return matchingInsight;
- }
- 
- return analysis.resultInsights[0] || {
-   businessOpportunity: "Monitor this result for business opportunities",
-   urgency: "medium"
+ // Newsletter signup handler
+ document.getElementById('subscribeBtn').onclick = handleNewsletterSignup;
+ document.getElementById('emailInput').onkeydown = (e) => {
+   if (e.key === 'Enter') handleNewsletterSignup();
  };
 }
 
-async function performGoogleSearch(query, timeRange) {
- if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
-   throw new Error('Google API not configured');
- }
- 
- const params = new URLSearchParams({
-   key: API_CONFIG.GOOGLE_API_KEY,
-   cx: API_CONFIG.SEARCH_ENGINE_ID,
-   q: query,
-   num: '8',
-   dateRestrict: timeRange
- });
- 
- const response = await fetch(`https://www.googleapis.com/customsearch/v1?${params}`);
- if (!response.ok) {
-   const error = await response.json();
-   throw new Error(error.error?.message || 'Search failed');
- }
- 
- const data = await response.json();
- return data.items || [];
-}
-
-async function analyzeWithAI(results, query, platform) {
- if (!API_CONFIG.LAMBDA_ENDPOINT) {
-   return {
-     mainPainPoint: "AI analysis not configured",
-     resultInsights: [],
-     overallOpportunityScore: 3,
-     topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
-   };
- }
-
- try {
-   const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-     method: 'POST',
-     headers: { 'Content-Type': 'application/json' },
-     body: JSON.stringify({ query, platform, results: results.slice(0, 8) })
-   });
-
-   if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
-   return await response.json();
- } catch (error) {
-   console.error('AI analysis error:', error);
-   return {
-     mainPainPoint: "AI analysis temporarily unavailable",
-     resultInsights: [],
-     overallOpportunityScore: 3,
-     topActionableIdeas: ["AI analysis error - please try again"]
-   };
- }
-}
-
-async function performSearch() {
- const keyword = document.getElementById('searchInput').value.trim();
- if (!keyword) {
-   alert('Please enter a search term');
+function handleNewsletterSignup() {
+ const email = document.getElementById('emailInput').value.trim();
+ if (!email) {
+   alert('Please enter your email address');
    return;
  }
  
- const queryType = document.getElementById('queryDropdown').value;
- const platform = document.getElementById('platformSelect').value;
- const timeRange = document.getElementById('timeSelect').value;
- 
- showLoading();
- 
- try {
-   let query;
-   let powerQuery = null;
-   
-   if (queryType && POWER_QUERIES[queryType]) {
-     powerQuery = POWER_QUERIES[queryType];
-     query = buildSearchQuery(powerQuery.template, keyword, platform);
-   } else {
-     query = buildNormalSearchQuery(keyword, platform);
-   }
-   
-   const results = await performGoogleSearch(query, timeRange);
-   
-   let analysis = null;
-   if (results.length > 0) {
-     analysis = await analyzeWithAI(results, query, platform);
-     currentAnalysis = analysis;
-   }
-   
-   displayResults(results, powerQuery, keyword, analysis);
-   
- } catch (error) {
-   showError(error.message);
+ if (!email.includes('@')) {
+   alert('Please enter a valid email address');
+   return;
  }
+ 
+ // For now, just show success message
+ // Replace this with your newsletter service integration
+ const btn = document.getElementById('subscribeBtn');
+ const originalText = btn.textContent;
+ btn.textContent = 'Subscribed! ✓';
+ btn.style.background = 'var(--success)';
+ 
+ setTimeout(() => {
+   btn.textContent = originalText;
+   document.getElementById('emailInput').value = '';
+ }, 2000);
+ 
+ // TODO: Replace with actual newsletter service integration
+ console.log('Newsletter signup:', email);
 }
 
-function showLoading() {
- document.getElementById('resultsGrid').innerHTML = `
-   <div class="loading">
-     <div class="spinner"></div>
-     <p>Analyzing pain points...</p>
-   </div>
- `;
+function loadDemoSearch() {
+ document.getElementById('searchInput').value = DEMO_RESULTS.query;
+ displayDemoResults();
 }
 
-function showError(message) {
- document.getElementById('resultsGrid').innerHTML = `
-   <div class="empty-state">
-     <h3>Search Error</h3>
-     <p>${message}</p>
-   </div>
- `;
-}
-
-function displayResults(results, powerQuery, keyword, analysis) {
+function displayDemoResults() {
  const grid = document.getElementById('resultsGrid');
  
- if (!results.length) {
-   grid.innerHTML = `
-     <div class="empty-state">
-       <h3>No Results Found</h3>
-       <p>Try a different search term or platform.</p>
-     </div>
-   `;
-   return;
- }
- 
  let html = '';
- results.forEach(result => {
+ DEMO_RESULTS.results.forEach(result => {
    const platformClass = getPlatformClass(result.displayLink);
    const platformName = getPlatformName(result.displayLink);
    
-   let snippet = result.snippet || '';
-   const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+   let snippet = result.snippet;
+   const painWords = ['painful', 'sucks', 'hate', 'broken', 'annoying', 'ass', 'taboo', 'blocked', 'help'];
    painWords.forEach(word => {
      const regex = new RegExp(`\\b${word}\\b`, 'gi');
      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
@@ -891,24 +846,17 @@ function displayResults(results, powerQuery, keyword, analysis) {
        </div>
        
        <div class="result-snippet">${snippet}</div>
-   `;
-   
-   if (analysis) {
-     const insight = findInsightForResult(result, analysis);
-     html += `
+       
        <div class="ai-insight">
          <div class="ai-insight-label">
            Business Opportunity
-           <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
-             ${(insight.urgency || 'medium').toUpperCase()}
+           <span class="urgency-badge urgency-${result.insight.urgency}">
+             ${result.insight.urgency.toUpperCase()}
            </span>
          </div>
-         <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
+         <div class="ai-insight-text">${result.insight.businessOpportunity}</div>
        </div>
-     `;
-   }
-   
-   html += `
+       
        <div class="card-footer">
          <span>${result.displayLink}</span>
          <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
@@ -920,13 +868,275 @@ function displayResults(results, powerQuery, keyword, analysis) {
  grid.innerHTML = html;
 }
 
+function buildSearchQuery(template, keyword, platform) {
+ let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
+ 
+ const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+ if (platformConfig.sites.length > 0) {
+   query += ' (' + platformConfig.sites.join(' OR ') + ')';
+ }
+ 
+ return query;
+}
+
+function buildNormalSearchQuery(keyword, platform) {
+ let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
+ 
+ const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+ if (platformConfig.sites.length > 0) {
+   query += ' (' + platformConfig.sites.join(' OR ') + ')';
+ }
+ 
+ return query;
+}
+
+function getPlatformClass(domain) {
+ if (domain.includes('reddit')) return 'source-reddit';
+ if (domain.includes('twitter') || domain.includes('x.com')) return 'source-twitter';
+ if (domain.includes('linkedin')) return 'source-linkedin';
+ if (domain.includes('news.ycombinator')) return 'source-hackernews';
+ if (domain.includes('github')) return 'source-github';
+ if (domain.includes('stackoverflow')) return 'source-stackoverflow';
+ if (domain.includes('medium')) return 'source-medium';
+ if (domain.includes('quora')) return 'source-quora';
+ if (domain.includes('youtube')) return 'source-youtube';
+ if (domain.includes('producthunt')) return 'source-producthunt';
+ if (domain.includes('discord')) return 'source-discord';
+ if (domain.includes('glassdoor')) return 'source-glassdoor';
+ if (domain.includes('trustpilot')) return 'source-trustpilot';
+ if (domain.includes('tiktok')) return 'source-tiktok';
+ if (domain.includes('apps.apple.com') || domain.includes('play.google.com')) return 'source-appstore';
+ return 'source-default';
+}
+
+function getPlatformName(domain) {
+ if (domain.includes('reddit')) return 'Reddit';
+ if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
+if (domain.includes('linkedin')) return 'LinkedIn';
+if (domain.includes('news.ycombinator')) return 'Hacker News';
+if (domain.includes('github')) return 'GitHub';
+if (domain.includes('stackoverflow')) return 'Stack Overflow';
+if (domain.includes('medium')) return 'Medium';
+if (domain.includes('quora')) return 'Quora';
+if (domain.includes('youtube')) return 'YouTube';
+if (domain.includes('producthunt')) return 'Product Hunt';
+if (domain.includes('discord')) return 'Discord';
+if (domain.includes('glassdoor')) return 'Glassdoor';
+if (domain.includes('trustpilot')) return 'Trustpilot';
+if (domain.includes('tiktok')) return 'TikTok';
+if (domain.includes('apps.apple.com')) return 'App Store';
+if (domain.includes('play.google.com')) return 'Play Store';
+return domain.split('.')[0];
+}
+
+function findInsightForResult(result, analysis) {
+if (!analysis || !analysis.resultInsights) {
+  return {
+    businessOpportunity: "AI analysis not available for this result",
+    urgency: "low"
+  };
+}
+
+const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+
+const matchingInsight = analysis.resultInsights.find(insight => {
+  const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+  return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
+         insightTitleWords.includes(resultTitleWords.slice(0, 20));
+});
+
+if (matchingInsight) {
+  return matchingInsight;
+}
+
+return analysis.resultInsights[0] || {
+  businessOpportunity: "Monitor this result for business opportunities",
+  urgency: "medium"
+};
+}
+
+async function performGoogleSearch(query, timeRange) {
+if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
+  throw new Error('Google API not configured');
+}
+
+const params = new URLSearchParams({
+  key: API_CONFIG.GOOGLE_API_KEY,
+  cx: API_CONFIG.SEARCH_ENGINE_ID,
+  q: query,
+  num: '8',
+  dateRestrict: timeRange
+});
+
+const response = await fetch(`https://www.googleapis.com/customsearch/v1?${params}`);
+if (!response.ok) {
+  const error = await response.json();
+  throw new Error(error.error?.message || 'Search failed');
+}
+
+const data = await response.json();
+return data.items || [];
+}
+
+async function analyzeWithAI(results, query, platform) {
+if (!API_CONFIG.LAMBDA_ENDPOINT) {
+  return {
+    mainPainPoint: "AI analysis not configured",
+    resultInsights: [],
+    overallOpportunityScore: 3,
+    topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
+  };
+}
+
+try {
+  const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, platform, results: results.slice(0, 8) })
+  });
+
+  if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
+  return await response.json();
+} catch (error) {
+  console.error('AI analysis error:', error);
+  return {
+    mainPainPoint: "AI analysis temporarily unavailable",
+    resultInsights: [],
+    overallOpportunityScore: 3,
+    topActionableIdeas: ["AI analysis error - please try again"]
+  };
+}
+}
+
+async function performSearch() {
+const keyword = document.getElementById('searchInput').value.trim();
+if (!keyword) {
+  alert('Please enter a search term');
+  return;
+}
+
+const queryType = document.getElementById('queryDropdown').value;
+const platform = document.getElementById('platformSelect').value;
+const timeRange = document.getElementById('timeSelect').value;
+
+showLoading();
+
+try {
+  let query;
+  let powerQuery = null;
+  
+  if (queryType && POWER_QUERIES[queryType]) {
+    powerQuery = POWER_QUERIES[queryType];
+    query = buildSearchQuery(powerQuery.template, keyword, platform);
+  } else {
+    query = buildNormalSearchQuery(keyword, platform);
+  }
+  
+  const results = await performGoogleSearch(query, timeRange);
+  
+  let analysis = null;
+  if (results.length > 0) {
+    analysis = await analyzeWithAI(results, query, platform);
+    currentAnalysis = analysis;
+  }
+  
+  displayResults(results, powerQuery, keyword, analysis);
+  
+} catch (error) {
+  showError(error.message);
+}
+}
+
+function showLoading() {
+document.getElementById('resultsGrid').innerHTML = `
+  <div class="loading">
+    <div class="spinner"></div>
+    <p>Analyzing pain points...</p>
+  </div>
+`;
+}
+
+function showError(message) {
+document.getElementById('resultsGrid').innerHTML = `
+  <div class="empty-state">
+    <h3>Search Error</h3>
+    <p>${message}</p>
+  </div>
+`;
+}
+
+function displayResults(results, powerQuery, keyword, analysis) {
+const grid = document.getElementById('resultsGrid');
+
+if (!results.length) {
+  grid.innerHTML = `
+    <div class="empty-state">
+      <h3>No Results Found</h3>
+      <p>Try a different search term or platform.</p>
+    </div>
+  `;
+  return;
+}
+
+let html = '';
+results.forEach(result => {
+  const platformClass = getPlatformClass(result.displayLink);
+  const platformName = getPlatformName(result.displayLink);
+  
+  let snippet = result.snippet || '';
+  const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+  painWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
+  });
+  
+  html += `
+    <div class="result-card">
+      <div class="card-header">
+        <h3 class="result-title">
+          <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
+        </h3>
+        <span class="source-badge ${platformClass}">${platformName}</span>
+      </div>
+      
+      <div class="result-snippet">${snippet}</div>
+  `;
+  
+  if (analysis) {
+    const insight = findInsightForResult(result, analysis);
+    html += `
+      <div class="ai-insight">
+        <div class="ai-insight-label">
+          Business Opportunity
+          <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
+            ${(insight.urgency || 'medium').toUpperCase()}
+          </span>
+        </div>
+        <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
+      </div>
+    `;
+  }
+  
+  html += `
+      <div class="card-footer">
+        <span>${result.displayLink}</span>
+        <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
+      </div>
+    </div>
+  `;
+});
+
+grid.innerHTML = html;
+}
+
 function copyToClipboard(text) {
- navigator.clipboard.writeText(text).then(() => {
-   // Could add success toast here
- });
+navigator.clipboard.writeText(text).then(() => {
+  // Could add success toast here
+});
 }
 
 window.copyToClipboard = copyToClipboard;
+window.toggleFAQ = toggleFAQ;
 
 init();
 </script>
