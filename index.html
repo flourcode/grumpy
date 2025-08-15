@@ -532,7 +532,8 @@ function buildSearchQuery(template, keyword, platform) {
 }
 
 function buildNormalSearchQuery(keyword, platform) {
-  let query = `"${keyword}"`;
+  // Default search should still look for pain points and frustration
+  let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
   
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
   if (platformConfig.sites.length > 0) {
@@ -668,7 +669,7 @@ async function runNormalSearch() {
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
   
-  document.getElementById('statusBadge').textContent = 'Searching...';
+  document.getElementById('statusBadge').textContent = 'Searching for pain points...';
   document.getElementById('statusBadge').className = 'status-badge status-warning';
   
   showLoading();
@@ -677,9 +678,20 @@ async function runNormalSearch() {
     const query = buildNormalSearchQuery(keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
     
-    displayResults(results, null, keyword, null);
+    // Get AI analysis for default search too
+    let analysis = null;
+    if (results.length > 0) {
+      analysis = await analyzeWithAI(results, query, platform);
+      currentAnalysis = analysis;
+    }
     
-    document.getElementById('statusBadge').textContent = `Found ${results.length} results`;
+    displayResults(results, { title: 'General Pain Points' }, keyword, analysis);
+    
+    if (analysis) {
+      displayAISummary(analysis);
+    }
+    
+    document.getElementById('statusBadge').textContent = `Found ${results.length} pain points`;
     document.getElementById('statusBadge').className = 'status-badge status-success';
     
   } catch (error) {
