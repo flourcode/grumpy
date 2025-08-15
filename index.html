@@ -342,6 +342,90 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
     font-size:16px; /* Prevents zoom on iOS */
   }
 }
+/* Trending Section */
+.trending-section {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.trending-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.trending-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ink);
+}
+
+.trending-subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.trending-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.trending-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: var(--subtle);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trending-tag:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.trending-count {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.trending-tag:hover .trending-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.no-trends {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .trending-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
 </style>
 </head>
 <body>
@@ -371,23 +455,6 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
     </div>
 
     <div class="nav-section">
-      <div class="nav-title">📰 The Daily Grumpy</div>
-      <p class="newsletter-desc">
-        Get the juiciest pain points and business opportunities delivered to your inbox
-      </p>
-      <div id="newsletterForm">
-        <input id="emailInput" class="search-input" type="email" 
-               placeholder="your@email.com" style="margin-bottom:6px;" />
-        <button id="subscribeBtn" class="search-btn newsletter-btn">
-          Subscribe Free
-        </button>
-      </div>
-      <div class="newsletter-privacy">
-        No spam, unsubscribe anytime
-      </div>
-    </div>
-
-    <div class="nav-section">
       <div class="nav-title">Filters</div>
       <select id="platformSelect" class="filter-select">
         <option value="all">All Platforms</option>
@@ -412,14 +479,39 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
         <option value="d365">Last year</option>
       </select>
     </div>
+	    <div class="nav-section">
+      <div class="nav-title">Get Your Daily Grumpy</div>
+      <p class="newsletter-desc">
+        User pain points and business opportunities delivered to your inbox
+      </p>
+      <div id="newsletterForm">
+        <input id="emailInput" class="search-input" type="email" 
+               placeholder="your@email.com" style="margin-bottom:6px;" />
+        <button id="subscribeBtn" class="search-btn newsletter-btn">
+          Subscribe Free
+        </button>
+      </div>
+      <div class="newsletter-privacy">
+        No spam, unsubscribe anytime
+      </div>
+    </div>
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
     <header class="content-header">
-      <h1 class="page-title">Customer Pain Points</h1>
+      <h1 class="page-title">User Pain Points</h1>
     </header>
-
+<!-- Add this right after the content-header -->
+<div class="trending-section">
+  <div class="trending-header">
+    <h3 class="trending-title">🔥 Trending Searches</h3>
+    <span class="trending-subtitle">Based on recent activity</span>
+  </div>
+  <div id="trendingKeywords" class="trending-keywords">
+    <div class="no-trends">Start searching to see trending keywords</div>
+  </div>
+</div>
     <section class="results-section">
       <div class="results-header">
         <h2 class="section-title">Results</h2>
@@ -810,48 +902,52 @@ async function analyzeWithAI(results, query, platform) {
  }
 }
 
+// Modify your existing performSearch function to track trends
 async function performSearch() {
- const keyword = document.getElementById('searchInput').value.trim();
- if (!keyword) {
-   alert('Please enter a search term');
-   return;
- }
- 
- const queryType = document.getElementById('queryDropdown').value;
- const platform = document.getElementById('platformSelect').value;
- const timeRange = document.getElementById('timeSelect').value;
- 
- document.getElementById('statusResults').textContent = 'Searching...';
- 
- showLoading();
- 
- try {
-   let query;
-   let powerQuery = null;
-   
-   if (queryType && POWER_QUERIES[queryType]) {
-     powerQuery = POWER_QUERIES[queryType];
-     query = buildSearchQuery(powerQuery.template, keyword, platform);
-   } else {
-     query = buildNormalSearchQuery(keyword, platform);
-   }
-   
-   const results = await performGoogleSearch(query, timeRange);
-   
-   let analysis = null;
-   if (results.length > 0) {
-     analysis = await analyzeWithAI(results, query, platform);
-     currentAnalysis = analysis;
-   }
-   
-   displayResults(results, powerQuery, keyword, analysis);
-   
-   document.getElementById('statusResults').textContent = `${results.length} pain points found`;
-   
- } catch (error) {
-   document.getElementById('statusResults').textContent = 'Search failed';
-   showError(error.message);
- }
+  const keyword = document.getElementById('searchInput').value.trim();
+  if (!keyword) {
+    alert('Please enter a search term');
+    return;
+  }
+  
+  const queryType = document.getElementById('queryDropdown').value;
+  const platform = document.getElementById('platformSelect').value;
+  const timeRange = document.getElementById('timeSelect').value;
+  
+  document.getElementById('statusResults').textContent = 'Searching...';
+  showLoading();
+  
+  try {
+    let query;
+    let powerQuery = null;
+    
+    if (queryType && POWER_QUERIES[queryType]) {
+      powerQuery = POWER_QUERIES[queryType];
+      query = buildSearchQuery(powerQuery.template, keyword, platform);
+    } else {
+      query = buildNormalSearchQuery(keyword, platform);
+    }
+    
+    const results = await performGoogleSearch(query, timeRange);
+    
+    // 🔥 TRACK THIS SEARCH FOR TRENDING
+    trendingTracker.trackSearch(keyword, platform, results.length);
+    
+    let analysis = null;
+    if (results.length > 0) {
+      analysis = await analyzeWithAI(results, query, platform);
+      currentAnalysis = analysis;
+    }
+    
+    displayResults(results, powerQuery, keyword, analysis);
+    updateTrendingDisplay(); // 🔥 UPDATE TRENDING SECTION
+    
+    document.getElementById('statusResults').textContent = `${results.length} pain points found`;
+    
+  } catch (error) {
+    document.getElementById('statusResults').textContent = 'Search failed';
+    showError(error.message);
+  }
 }
 
 function showLoading() {
@@ -935,13 +1031,127 @@ function displayResults(results, powerQuery, keyword, analysis) {
  
  grid.innerHTML = html;
 }
+// Add this after your existing JavaScript
+class TrendingTracker {
+  constructor() {
+    this.storageKey = 'grumpy_trending';
+    this.maxAge = 24 * 60 * 60 * 1000; // 24 hours
+  }
+  
+  trackSearch(keyword, platform, resultCount) {
+    const trends = this.getTrends();
+    const now = Date.now();
+    const key = keyword.toLowerCase().trim();
+    
+    if (!trends[key]) {
+      trends[key] = {
+        keyword: keyword,
+        searches: [],
+        totalResults: 0,
+        platforms: new Set()
+      };
+    }
+    
+    trends[key].searches.push({
+      timestamp: now,
+      platform: platform,
+      resultCount: resultCount
+    });
+    
+    trends[key].totalResults += resultCount;
+    trends[key].platforms.add(platform);
+    
+    // Keep only recent searches
+    trends[key].searches = trends[key].searches.filter(
+      search => now - search.timestamp < this.maxAge
+    );
+    
+    // Convert Set back to Array for storage
+    trends[key].platforms = Array.from(trends[key].platforms);
+    
+    this.saveTrends(trends);
+  }
+  
+  getTrends() {
+    try {
+      const stored = localStorage.getItem(this.storageKey);
+      return stored ? JSON.parse(stored) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+  
+  saveTrends(trends) {
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(trends));
+    } catch (e) {
+      console.warn('Could not save trends');
+    }
+  }
+  
+  getTopTrending(limit = 5) {
+    const trends = this.getTrends();
+    const now = Date.now();
+    
+    return Object.values(trends)
+      .filter(trend => {
+        // Only show keywords searched in last 24 hours
+        return trend.searches.some(search => 
+          now - search.timestamp < this.maxAge
+        );
+      })
+      .map(trend => ({
+        keyword: trend.keyword,
+        searchCount: trend.searches.length,
+        resultCount: trend.totalResults,
+        lastSearched: Math.max(...trend.searches.map(s => s.timestamp)),
+        platforms: [...new Set(trend.platforms)]
+      }))
+      .sort((a, b) => {
+        // Sort by frequency, then by recency
+        if (a.searchCount !== b.searchCount) {
+          return b.searchCount - a.searchCount;
+        }
+        return b.lastSearched - a.lastSearched;
+      })
+      .slice(0, limit);
+  }
+}
 
+const trendingTracker = new TrendingTracker();
 function copyToClipboard(text) {
  navigator.clipboard.writeText(text).then(() => {
    // Could add success toast here
  });
 }
+function updateTrendingDisplay() {
+  const container = document.getElementById('trendingKeywords');
+  const trending = trendingTracker.getTopTrending(6);
+  
+  if (trending.length === 0) {
+    container.innerHTML = '<div class="no-trends">Start searching to see trending keywords</div>';
+    return;
+  }
+  
+  const html = trending.map(trend => `
+    <span class="trending-tag" onclick="searchTrendingKeyword('${trend.keyword}')">
+      ${trend.keyword}
+      <span class="trending-count">${trend.searchCount}</span>
+    </span>
+  `).join('');
+  
+  container.innerHTML = html;
+}
 
+function searchTrendingKeyword(keyword) {
+  document.getElementById('searchInput').value = keyword;
+  performSearch();
+}
+
+// Initialize trending display
+document.addEventListener('DOMContentLoaded', () => {
+  updateTrendingDisplay();
+});
 window.copyToClipboard = copyToClipboard;
 
 init();
