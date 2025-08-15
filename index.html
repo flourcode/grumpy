@@ -11,39 +11,45 @@
   --accent:#3b82f6; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
   --border:#e2e8f0; --hover:#f1f5f9; --ai:#8b5cf6;
   --shadow:0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
-  --shadow-lg:0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --shadow-lg:0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
   
   /* Platform Colors */
   --reddit:#ff4500; --twitter:#1da1f2; --linkedin:#0077b5; --hackernews:#ff6600;
   --github:#333; --stackoverflow:#f48024; --medium:#000; --quora:#b92b27;
+  
+  /* Priority Colors (like Taskly) */
+  --high-priority:#ef4444; --medium-priority:#f59e0b; --low-priority:#64748b;
 }
 
 * { box-sizing: border-box; }
-html,body { margin:0; padding:0; font-family: Inter, system-ui, sans-serif; }
+html,body { margin:0; padding:0; font-family: 'Inter', system-ui, sans-serif; }
 body { background:var(--bg); color:var(--ink); line-height:1.5; }
 
 /* Layout */
 .app { display:flex; min-height:100vh; }
 
-/* Sidebar */
+/* Sidebar - Taskly Style */
 .sidebar {
   width:280px; background:var(--sidebar); border-right:1px solid var(--border);
-  padding:20px; overflow-y:auto; flex-shrink:0;
+  padding:24px 16px; overflow-y:auto; flex-shrink:0;
 }
-.logo { font-size:20px; font-weight:700; margin-bottom:24px; color:var(--ink); }
-.logo .emoji { margin-right:8px; }
 
-.section { margin-bottom:24px; }
-.section-title { 
-  font-size:14px; font-weight:600; color:var(--muted); 
-  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px; 
+.logo { 
+  font-size:22px; font-weight:700; margin-bottom:32px; color:var(--ink);
+  display:flex; align-items:center; gap:8px;
+}
+
+.nav-section { margin-bottom:28px; }
+.nav-title { 
+  font-size:12px; font-weight:600; color:var(--muted); 
+  text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px; 
 }
 
 /* Search */
 .search-input {
-  width:100%; padding:12px 16px; border:2px solid var(--border);
-  border-radius:8px; font-size:15px; background:var(--bg);
-  transition:border-color 0.2s ease;
+  width:100%; padding:12px 16px; border:1px solid var(--border);
+  border-radius:8px; font-size:14px; background:white;
+  transition:border-color 0.2s ease; margin-bottom:8px;
 }
 .search-input:focus {
   outline:none; border-color:var(--accent);
@@ -51,108 +57,97 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 }
 
 .search-btn {
-  width:100%; margin-top:8px; padding:12px; background:var(--accent);
-  color:white; border:none; border-radius:8px; font-weight:600;
-  cursor:pointer; transition:background 0.2s ease;
+  width:100%; padding:10px; background:var(--accent);
+  color:white; border:none; border-radius:6px; font-weight:500;
+  cursor:pointer; transition:background 0.2s ease; font-size:14px;
 }
 .search-btn:hover { background:#2563eb; }
 
-/* Power Queries */
+/* Power Queries - Taskly Navigation Style */
 .power-query {
-  display:block; width:100%; text-align:left; padding:12px 16px;
-  background:white; border:2px solid var(--border); border-radius:8px;
-  margin-bottom:8px; cursor:pointer; transition:all 0.2s ease;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 12px; margin-bottom:4px; border-radius:6px;
+  cursor:pointer; transition:background 0.2s ease; font-size:14px;
 }
-.power-query:hover {
-  border-color:var(--accent); background:var(--hover);
-  transform:translateY(-1px); box-shadow:var(--shadow);
-}
-.power-query .title { font-weight:600; color:var(--ink); margin-bottom:4px; }
-.power-query .desc { font-size:13px; color:var(--muted); }
+.power-query:hover { background:var(--hover); }
+.power-query.active { background:#dbeafe; color:var(--accent); }
+
+.query-info { display:flex; align-items:center; gap:8px; }
+.query-icon { font-size:16px; }
+.query-details { }
+.query-title { font-weight:500; margin:0; }
+.query-desc { font-size:12px; color:var(--muted); margin:2px 0 0 0; }
 
 /* Filters */
 .filter-select {
-  width:100%; padding:10px 12px; border:2px solid var(--border);
-  border-radius:8px; background:white; margin-bottom:8px;
+  width:100%; padding:8px 12px; border:1px solid var(--border);
+  border-radius:6px; background:white; margin-bottom:8px; font-size:14px;
 }
 
 /* Main Content */
-.main-content {
-  flex:1; padding:20px; overflow-y:auto;
-}
+.main-content { flex:1; padding:24px; overflow-y:auto; }
 
-/* Header */
+/* Header - Taskly Style */
 .content-header {
   display:flex; justify-content:space-between; align-items:center;
-  margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--border);
+  margin-bottom:24px;
 }
-.page-title { font-size:24px; font-weight:700; margin:0; }
+.page-title { font-size:28px; font-weight:700; margin:0; }
+.header-actions { display:flex; gap:12px; align-items:center; }
 .status-badge {
-  padding:4px 12px; border-radius:20px; font-size:13px; font-weight:500;
+  padding:6px 12px; border-radius:20px; font-size:12px; font-weight:500;
+  display:flex; align-items:center; gap:6px;
 }
 .status-success { background:#dcfce7; color:#166534; }
 .status-warning { background:#fef3c7; color:#92400e; }
 .status-info { background:#dbeafe; color:#1e40af; }
 
-/* Compact AI Summary */
-.ai-summary {
-  background:linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
-  border:2px solid var(--ai); border-radius:12px; padding:16px; margin-bottom:20px;
-  display:none;
-}
-.ai-summary-header {
-  display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;
-}
-.ai-summary-title { font-weight:600; color:var(--ai); margin:0; }
-.ai-summary-score {
-  font-size:18px; font-weight:700; padding:4px 8px; border-radius:8px;
-}
-.score-high { background:#dcfce7; color:#166534; }
-.score-medium { background:#fef3c7; color:#92400e; }
-.score-low { background:#fecaca; color:#dc2626; }
-.ai-summary-content { font-size:14px; color:var(--muted); }
-
-/* Results */
-.results-header {
+/* Results Grid - Taskly Card Style */
+.results-section { }
+.section-header {
   display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
 }
+.section-title { font-size:18px; font-weight:600; margin:0; }
 .results-count { color:var(--muted); font-size:14px; }
 
 .results-grid {
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr));
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(380px, 1fr));
   gap:16px;
 }
 
+/* Card Design - Exact Taskly Style */
 .result-card {
-  background:white; border:2px solid var(--border); border-radius:12px;
+  background:white; border:1px solid var(--border); border-radius:8px;
   padding:16px; transition:all 0.2s ease; position:relative;
 }
 .result-card:hover {
-  border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow-lg);
+  box-shadow:var(--shadow-lg); transform:translateY(-1px);
 }
 
-/* AI-Enhanced Card Features */
+/* Priority Indicator (like Taskly) */
+.priority-dot {
+  position:absolute; top:16px; right:16px; width:8px; height:8px;
+  border-radius:50%; 
+}
+.priority-high { background:var(--high-priority); }
+.priority-medium { background:var(--medium-priority); }
+.priority-low { background:var(--low-priority); }
+
 .card-header {
-  display:flex; justify-content:space-between; align-items:start; margin-bottom:12px; gap:12px;
+  display:flex; justify-content:space-between; align-items:start;
+  margin-bottom:12px; gap:16px;
 }
-
-.relevance-bar {
-  position:absolute; top:0; left:0; height:4px; border-radius:12px 12px 0 0;
-  transition:width 0.3s ease;
-}
-.relevance-high { background:var(--success); width:80%; }
-.relevance-medium { background:var(--warning); width:60%; }
-.relevance-low { background:var(--muted); width:40%; }
 
 .result-title {
-  font-weight:600; font-size:15px; line-height:1.4; margin:0; flex:1;
+  font-weight:600; font-size:15px; line-height:1.4; margin:0;
+  color:var(--ink); flex:1;
 }
-.result-title a { color:var(--ink); text-decoration:none; }
+.result-title a { color:inherit; text-decoration:none; }
 .result-title a:hover { color:var(--accent); }
 
 .source-badge {
-  padding:4px 8px; border-radius:16px; font-size:11px; font-weight:600;
-  white-space:nowrap; color:white; text-transform:uppercase;
+  padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600;
+  color:white; text-transform:uppercase; flex-shrink:0;
 }
 .source-reddit { background:var(--reddit); }
 .source-twitter { background:var(--twitter); }
@@ -165,35 +160,32 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 .source-default { background:var(--muted); }
 
 .result-snippet {
-  color:var(--muted); font-size:14px; line-height:1.5; margin-bottom:12px;
+  color:var(--muted); font-size:14px; line-height:1.5; 
+  margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:3; 
+  -webkit-box-orient:vertical; overflow:hidden;
 }
 
-/* AI Insights in Card */
-.ai-insights {
-  background:rgba(139, 92, 246, 0.05); border:1px solid rgba(139, 92, 246, 0.2);
-  border-radius:8px; padding:10px; margin:12px 0; font-size:12px;
+/* Action Button - The Key Addition */
+.action-btn {
+  background:rgba(59,130,246,0.1); color:var(--accent); border:1px solid rgba(59,130,246,0.2);
+  padding:8px 12px; border-radius:6px; font-size:12px; font-weight:500;
+  cursor:pointer; transition:all 0.2s ease; display:inline-flex;
+  align-items:center; gap:6px; margin-bottom:8px;
 }
-.ai-insights-header {
-  display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;
-}
-.ai-label { color:var(--ai); font-weight:600; }
-.pain-score {
-  background:var(--ai); color:white; padding:2px 6px; border-radius:12px;
-  font-size:10px; font-weight:600;
-}
-.ai-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
-.ai-tag {
-  background:rgba(139, 92, 246, 0.1); color:var(--ai); padding:2px 6px;
-  border-radius:10px; font-size:10px; font-weight:500;
+.action-btn:hover {
+  background:var(--accent); color:white;
 }
 
-.result-footer {
+.card-footer {
   display:flex; justify-content:space-between; align-items:center;
   font-size:12px; color:var(--muted); margin-top:12px;
+  padding-top:12px; border-top:1px solid #f1f5f9;
 }
 
-/* Loading */
-.loading { text-align:center; padding:40px; color:var(--muted); }
+.card-meta { display:flex; gap:12px; }
+
+/* Loading & Empty States */
+.loading { text-align:center; padding:60px 20px; color:var(--muted); }
 .spinner {
   display:inline-block; width:20px; height:20px; margin-right:8px;
   border:2px solid #e5e7eb; border-top:2px solid var(--accent);
@@ -201,8 +193,11 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 }
 @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
 
-.empty-state { text-align:center; padding:60px 20px; color:var(--muted); }
-.empty-state .emoji { font-size:48px; margin-bottom:16px; }
+.empty-state { 
+  text-align:center; padding:80px 20px; color:var(--muted);
+  grid-column:1 / -1;
+}
+.empty-state .emoji { font-size:48px; margin-bottom:16px; display:block; }
 
 /* Responsive */
 @media (max-width: 1024px) {
@@ -210,12 +205,6 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   .sidebar { width:100%; padding:16px; }
   .main-content { padding:16px; }
   .results-grid { grid-template-columns:1fr; }
-}
-
-@media (max-width: 640px) {
-  .content-header { flex-direction:column; align-items:start; gap:12px; }
-  .results-header { flex-direction:column; align-items:start; gap:8px; }
-  .card-header { flex-direction:column; align-items:start; gap:8px; }
 }
 </style>
 </head>
@@ -225,37 +214,37 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="logo">
-      <span class="emoji">😠</span>GrumpyLinks
+      <span>😠</span>
+      <span>GrumpyLinks</span>
     </div>
 
-    <div class="section">
-      <div class="section-title">Search</div>
+    <div class="nav-section">
+      <div class="nav-title">Search</div>
       <input id="searchInput" class="search-input" type="text" 
-             placeholder="Enter brand, product, or topic..." />
+             placeholder="Brand, product, or topic..." />
       <button id="searchBtn" class="search-btn">🔍 Hunt Pain Points</button>
     </div>
 
-    <div class="section">
-      <div class="section-title">Power Queries</div>
+    <div class="nav-section">
+      <div class="nav-title">Power Queries</div>
       <div id="powerQueries"></div>
     </div>
 
-    <div class="section">
-      <div class="section-title">Filters</div>
+    <div class="nav-section">
+      <div class="nav-title">Filters</div>
       <select id="platformSelect" class="filter-select">
         <option value="all">All Platforms</option>
         <option value="reddit">Reddit</option>
         <option value="twitter">Twitter/X</option>
         <option value="linkedin">LinkedIn</option>
         <option value="hackernews">Hacker News</option>
-        <option value="forums">Forums & Communities</option>
+        <option value="forums">Forums</option>
       </select>
       
       <select id="timeSelect" class="filter-select">
-        <option value="d30">Last 30 days</option>
         <option value="d7">Last 7 days</option>
         <option value="d1">Last 24 hours</option>
-        <option value="y1">Last year</option>
+        <option value="d30">Last 30 days</option>
       </select>
     </div>
   </aside>
@@ -264,30 +253,24 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   <main class="main-content">
     <header class="content-header">
       <h1 class="page-title">Pain Point Discovery</h1>
-      <span id="statusBadge" class="status-badge status-info">Ready to hunt</span>
+      <div class="header-actions">
+        <span id="statusBadge" class="status-badge status-info">
+          <span>●</span> Ready to hunt
+        </span>
+      </div>
     </header>
 
-    <!-- Compact AI Summary -->
-    <div id="aiSummary" class="ai-summary">
-      <div class="ai-summary-header">
-        <h3 class="ai-summary-title">🤖 AI Analysis</h3>
-        <span id="overallScore" class="ai-summary-score">-</span>
-      </div>
-      <div id="summaryContent" class="ai-summary-content"></div>
-    </div>
-
-    <!-- Results -->
-    <section>
-      <div class="results-header">
-        <h2 style="margin:0; font-size:18px; font-weight:600;">Search Results</h2>
+    <section class="results-section">
+      <div class="section-header">
+        <h2 class="section-title">Results</h2>
         <span id="resultsCount" class="results-count">No results yet</span>
       </div>
       
       <div id="resultsGrid" class="results-grid">
         <div class="empty-state">
-          <div class="emoji">🔍</div>
-          <h3>Ready to Hunt Pain Points</h3>
-          <p>Enter a search term and select a power query to discover customer frustrations and opportunities.</p>
+          <span class="emoji">🎯</span>
+          <h3>Ready to Discover Pain Points</h3>
+          <p>Select a power query to find customer frustrations and turn them into opportunities.</p>
         </div>
       </div>
     </section>
@@ -302,7 +285,6 @@ const API_CONFIG = {
   LAMBDA_ENDPOINT: ''
 };
 
-// Load configuration
 function loadConfig() {
   if (window.ENV) {
     API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
@@ -311,47 +293,45 @@ function loadConfig() {
   }
 }
 
-// Power Queries
+// Power Queries with actionable focus
 const POWER_QUERIES = [
   {
-    id: 'wish_list',
-    title: 'Wish List Signals',
-    desc: 'People begging for solutions',
-    template: '"I wish there was" OR "I wish someone would" {{keyword}}'
-  },
-  {
     id: 'competitor_hate',
+    icon: '🔥',
     title: 'Competitor Complaints',
-    desc: 'Frustrations with competitors',
+    desc: 'Find unhappy customers to convert',
     template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}'
   },
   {
     id: 'switching_signals',
+    icon: '🔄',
     title: 'Switching Signals',
-    desc: 'Looking for alternatives',
-    template: '("switching from" OR "alternative to" OR "better than") {{keyword}}'
+    desc: 'Catch people ready to switch',
+    template: '("switching from" OR "alternative to" OR "leaving") {{keyword}}'
+  },
+  {
+    id: 'wish_list',
+    icon: '💫',
+    title: 'Wish List Signals',
+    desc: 'Find unmet market needs',
+    template: '"I wish there was" OR "I wish someone would" {{keyword}}'
   },
   {
     id: 'feature_requests',
+    icon: '💡',
     title: 'Feature Requests',
-    desc: 'Product improvement demands',
-    template: '("should add" OR "please add" OR "feature request") {{keyword}}'
-  },
-  {
-    id: 'broken_promises',
-    title: 'Broken Promises',
-    desc: 'Unmet expectations',
-    template: '("said it would" OR "supposed to") {{keyword}} ("not" OR "never")'
+    desc: 'Product improvement opportunities',
+    template: '("should add" OR "please add" OR "missing feature") {{keyword}}'
   },
   {
     id: 'urgent_help',
-    title: 'Urgent Help',
-    desc: 'Immediate pain points',
-    template: '("need help with" OR "how do I fix" OR "urgent") {{keyword}}'
+    icon: '🚨',
+    title: 'Urgent Help Needed',
+    desc: 'Immediate sales opportunities',
+    template: '("need help with" OR "urgent" OR "ASAP") {{keyword}}'
   }
 ];
 
-// Platform configurations
 const PLATFORMS = {
   all: { sites: [] },
   reddit: { sites: ['site:reddit.com'] },
@@ -361,8 +341,8 @@ const PLATFORMS = {
   forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
 };
 
-let currentSearchResults = [];
-let currentAnalysis = null;
+let currentQuery = null;
+let currentResults = [];
 
 // Initialize
 function init() {
@@ -372,34 +352,48 @@ function init() {
   loadLastSearch();
 }
 
-// Initialize power queries
 function initPowerQueries() {
   const container = document.getElementById('powerQueries');
   
   POWER_QUERIES.forEach(query => {
-    const btn = document.createElement('button');
+    const btn = document.createElement('div');
     btn.className = 'power-query';
     btn.innerHTML = `
-      <div class="title">${query.title}</div>
-      <div class="desc">${query.desc}</div>
+      <div class="query-info">
+        <span class="query-icon">${query.icon}</span>
+        <div class="query-details">
+          <div class="query-title">${query.title}</div>
+          <div class="query-desc">${query.desc}</div>
+        </div>
+      </div>
     `;
-    btn.onclick = () => runPowerQuery(query);
+    btn.onclick = () => {
+      document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
+      btn.classList.add('active');
+      runPowerQuery(query);
+    };
     container.appendChild(btn);
   });
 }
 
-// Setup event listeners
 function setupEventListeners() {
-  document.getElementById('searchBtn').onclick = () => runPowerQuery(POWER_QUERIES[1]);
-  document.getElementById('searchInput').onkeydown = (e) => {
-    if (e.key === 'Enter') runPowerQuery(POWER_QUERIES[1]);
+  document.getElementById('searchBtn').onclick = () => {
+    if (currentQuery) runPowerQuery(currentQuery);
+    else runPowerQuery(POWER_QUERIES[0]);
   };
+  
+  document.getElementById('searchInput').onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      if (currentQuery) runPowerQuery(currentQuery);
+      else runPowerQuery(POWER_QUERIES[0]);
+    }
+  };
+  
   document.getElementById('searchInput').oninput = (e) => {
     localStorage.setItem('grumpy_search', e.target.value);
   };
 }
 
-// Load last search
 function loadLastSearch() {
   const lastSearch = localStorage.getItem('grumpy_search');
   if (lastSearch) {
@@ -407,7 +401,6 @@ function loadLastSearch() {
   }
 }
 
-// Build search query
 function buildSearchQuery(template, keyword, platform) {
   let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
   
@@ -419,7 +412,6 @@ function buildSearchQuery(template, keyword, platform) {
   return query;
 }
 
-// Get platform class for source badge
 function getPlatformClass(domain) {
   if (domain.includes('reddit')) return 'source-reddit';
   if (domain.includes('twitter') || domain.includes('x.com')) return 'source-twitter';
@@ -432,69 +424,66 @@ function getPlatformClass(domain) {
   return 'source-default';
 }
 
-// Get platform name
 function getPlatformName(domain) {
   if (domain.includes('reddit')) return 'Reddit';
   if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
   if (domain.includes('linkedin')) return 'LinkedIn';
-  if (domain.includes('news.ycombinator')) return 'HackerNews';
+  if (domain.includes('news.ycombinator')) return 'HN';
   if (domain.includes('github')) return 'GitHub';
-  if (domain.includes('stackoverflow')) return 'StackOverflow';
+  if (domain.includes('stackoverflow')) return 'Stack';
   if (domain.includes('medium')) return 'Medium';
   if (domain.includes('quora')) return 'Quora';
-  return domain.split('.')[0].toUpperCase();
+  return domain.split('.')[0];
 }
 
-// Calculate pain score for individual result
-function calculatePainScore(result, analysis) {
+// Generate actionable insights
+function generateActionableInsight(result, queryType, keyword) {
   const text = `${result.title} ${result.snippet}`.toLowerCase();
-  const painWords = ['hate', 'frustrated', 'terrible', 'broken', 'annoying', 'awful', 'worst'];
-  const urgentWords = ['urgent', 'help', 'fix', 'stuck', 'critical'];
-  const wishWords = ['wish', 'want', 'need', 'should', 'please'];
   
-  let score = 5; // base score
-  
-  // Pain indicators
-  painWords.forEach(word => {
-    if (text.includes(word)) score += 2;
-  });
-  
-  // Urgency indicators
-  urgentWords.forEach(word => {
-    if (text.includes(word)) score += 1;
-  });
-  
-  // Wish/demand indicators
-  wishWords.forEach(word => {
-    if (text.includes(word)) score += 1;
-  });
-  
-  // Trending phrase bonus
-  if (analysis?.trendingPhrases) {
-    analysis.trendingPhrases.forEach(phrase => {
-      if (text.includes(phrase.toLowerCase())) score += 1;
-    });
+  // Different actions based on query type and content
+  if (queryType === 'competitor_hate') {
+    if (text.includes('support') || text.includes('customer service')) {
+      return { action: '📞 Reach out about support', icon: '📞' };
+    }
+    if (text.includes('pricing') || text.includes('expensive')) {
+      return { action: '💰 Share pricing comparison', icon: '💰' };
+    }
+    return { action: '💬 Join the conversation', icon: '💬' };
   }
   
-  return Math.min(Math.max(score, 1), 10);
+  if (queryType === 'switching_signals') {
+    return { action: '🎯 Send migration guide', icon: '🎯' };
+  }
+  
+  if (queryType === 'wish_list') {
+    return { action: '💡 Validate product idea', icon: '💡' };
+  }
+  
+  if (queryType === 'feature_requests') {
+    return { action: '📋 Add to roadmap', icon: '📋' };
+  }
+  
+  if (queryType === 'urgent_help') {
+    return { action: '🚀 Offer immediate help', icon: '🚀' };
+  }
+  
+  return { action: '👀 Monitor thread', icon: '👀' };
 }
 
-// Get AI tags for result
-function getAITags(result, analysis) {
+// Calculate priority
+function calculatePriority(result, queryType) {
   const text = `${result.title} ${result.snippet}`.toLowerCase();
-  const tags = [];
+  const urgentWords = ['urgent', 'asap', 'immediately', 'help', 'stuck', 'critical'];
+  const engagementWords = ['comments', 'replies', 'upvotes', 'views'];
   
-  if (text.includes('alternative') || text.includes('switch')) tags.push('switching');
-  if (text.includes('feature') || text.includes('add')) tags.push('feature-req');
-  if (text.includes('broken') || text.includes('bug')) tags.push('broken');
-  if (text.includes('expensive') || text.includes('price')) tags.push('pricing');
-  if (text.includes('urgent') || text.includes('help')) tags.push('urgent');
-  if (text.includes('wish') || text.includes('want')) tags.push('wishlist');
+  let score = 1; // low by default
   
-  return tags.slice(0, 3); // Max 3 tags
+  if (urgentWords.some(word => text.includes(word))) score = 3; // high
+  else if (engagementWords.some(word => text.includes(word))) score = 2; // medium
+  
+  return score;
 }
 
-// Perform Google search
 async function performGoogleSearch(query, timeRange) {
   if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
     throw new Error('Google API not configured');
@@ -504,7 +493,7 @@ async function performGoogleSearch(query, timeRange) {
     key: API_CONFIG.GOOGLE_API_KEY,
     cx: API_CONFIG.SEARCH_ENGINE_ID,
     q: query,
-    num: '10',
+    num: '8', // Limit to 8 results for better AI analysis
     dateRestrict: timeRange
   });
   
@@ -518,39 +507,6 @@ async function performGoogleSearch(query, timeRange) {
   return data.items || [];
 }
 
-// Analyze with AI
-async function analyzeWithAI(results, query, platform) {
-  if (!API_CONFIG.LAMBDA_ENDPOINT) {
-    return {
-      mainPainPoint: "AI analysis not configured",
-      contentOpportunities: ["Configure Lambda endpoint"],
-      trendingPhrases: ["setup", "needed"],
-      opportunityScore: 3,
-      actionItems: "Configure your Lambda endpoint to enable AI analysis."
-    };
-  }
-
-  try {
-    const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
-    });
-
-    if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    return {
-      mainPainPoint: "AI analysis temporarily unavailable",
-      contentOpportunities: ["Manual analysis recommended"],
-      trendingPhrases: ["error", "retry"],
-      opportunityScore: 3,
-      actionItems: "Please try again later."
-    };
-  }
-}
-
-// Run power query
 async function runPowerQuery(powerQuery) {
   const keyword = document.getElementById('searchInput').value.trim();
   if (!keyword) {
@@ -558,11 +514,12 @@ async function runPowerQuery(powerQuery) {
     return;
   }
   
+  currentQuery = powerQuery;
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
   
   // Update status
-  document.getElementById('statusBadge').textContent = 'Searching...';
+  document.getElementById('statusBadge').innerHTML = '<span>●</span> Searching...';
   document.getElementById('statusBadge').className = 'status-badge status-warning';
   
   // Show loading
@@ -571,78 +528,47 @@ async function runPowerQuery(powerQuery) {
   try {
     const query = buildSearchQuery(powerQuery.template, keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
-    currentSearchResults = results;
+    currentResults = results;
     
-    // Get AI analysis first
-    let analysis = null;
-    if (results.length > 0) {
-      analysis = await analyzeWithAI(results, query, platform);
-      currentAnalysis = analysis;
-    }
+    displayResults(results, powerQuery);
     
-    // Display results with AI insights
-    displayResults(results, powerQuery.title, analysis);
-    
-    // Show compact summary
-    if (analysis) {
-      displayCompactSummary(analysis);
-    }
-    
-    // Update status
-    document.getElementById('statusBadge').textContent = `Found ${results.length} results`;
+    document.getElementById('statusBadge').innerHTML = `<span>●</span> Found ${results.length} opportunities`;
     document.getElementById('statusBadge').className = 'status-badge status-success';
     
   } catch (error) {
-    document.getElementById('statusBadge').textContent = 'Error occurred';
+    document.getElementById('statusBadge').innerHTML = '<span>●</span> Error occurred';
     document.getElementById('statusBadge').className = 'status-badge status-warning';
     showError(error.message);
   }
 }
 
-// Show loading
 function showLoading() {
-  document.getElementById('aiSummary').style.display = 'none';
   document.getElementById('resultsGrid').innerHTML = `
     <div class="loading">
       <div class="spinner"></div>
-      Hunting for pain points...
+      <p>Hunting for pain points...</p>
     </div>
   `;
   document.getElementById('resultsCount').textContent = 'Searching...';
 }
 
-// Show error
 function showError(message) {
   document.getElementById('resultsGrid').innerHTML = `
     <div class="empty-state">
-      <div class="emoji">⚠️</div>
+      <span class="emoji">⚠️</span>
       <h3>Search Error</h3>
       <p>${message}</p>
     </div>
   `;
 }
 
-// Display compact summary
-function displayCompactSummary(analysis) {
-  const summary = document.getElementById('aiSummary');
-  const score = analysis.opportunityScore || 5;
-  
-  document.getElementById('overallScore').textContent = `${score}/10`;
-  document.getElementById('overallScore').className = `ai-summary-score ${score >= 8 ? 'score-high' : score >= 6 ? 'score-medium' : 'score-low'}`;
-  
-  document.getElementById('summaryContent').textContent = analysis.mainPainPoint || 'Analysis complete';
-  
-  summary.style.display = 'block';
-}
-
-// Display results with AI insights
-function displayResults(results, queryTitle, analysis) {
+function displayResults(results, powerQuery) {
   const grid = document.getElementById('resultsGrid');
   
   if (!results.length) {
     grid.innerHTML = `
       <div class="empty-state">
-        <div class="emoji">🔍</div>
+        <span class="emoji">🔍</span>
         <h3>No Results Found</h3>
         <p>Try a different search term or platform.</p>
       </div>
@@ -650,48 +576,48 @@ function displayResults(results, queryTitle, analysis) {
     return;
   }
   
-  document.getElementById('resultsCount').textContent = `${results.length} results found`;
+  document.getElementById('resultsCount').textContent = `${results.length} pain points found`;
   
   let html = '';
   results.forEach(result => {
-    const painScore = calculatePainScore(result, analysis);
-    const aiTags = getAITags(result, analysis);
+    const keyword = document.getElementById('searchInput').value.trim();
+    const actionInsight = generateActionableInsight(result, powerQuery.id, keyword);
+    const priority = calculatePriority(result, powerQuery.id);
     const platformClass = getPlatformClass(result.displayLink);
     const platformName = getPlatformName(result.displayLink);
     
+    const priorityClass = priority === 3 ? 'priority-high' : priority === 2 ? 'priority-medium' : 'priority-low';
+    
     // Highlight pain words
     let snippet = result.snippet || '';
-    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent'];
+    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative'];
     painWords.forEach(word => {
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:4px;">$&</mark>`);
+      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:500;">$&</mark>`);
     });
-    
-    // Relevance bar class
-    const relevanceClass = painScore >= 8 ? 'relevance-high' : painScore >= 6 ? 'relevance-medium' : 'relevance-low';
     
     html += `
       <div class="result-card">
-        <div class="${relevanceClass} relevance-bar"></div>
+        <div class="${priorityClass} priority-dot"></div>
+        
         <div class="card-header">
           <h3 class="result-title">
             <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
           </h3>
           <span class="source-badge ${platformClass}">${platformName}</span>
         </div>
+        
         <div class="result-snippet">${snippet}</div>
         
-        <div class="ai-insights">
-          <div class="ai-insights-header">
-            <span class="ai-label">🤖 AI Insights</span>
-            <span class="pain-score">${painScore}/10</span>
-          </div>
-          ${aiTags.length > 0 ? `<div class="ai-tags">${aiTags.map(tag => `<span class="ai-tag">${tag}</span>`).join('')}</div>` : ''}
-        </div>
+        <button class="action-btn" onclick="window.open('${result.link}', '_blank')">
+          ${actionInsight.icon} ${actionInsight.action}
+        </button>
         
-        <div class="result-footer">
-          <span>Source: ${result.displayLink}</span>
-          <a href="${result.link}" target="_blank" rel="noopener" style="color:var(--accent);">View →</a>
+        <div class="card-footer">
+          <div class="card-meta">
+            <span>${result.displayLink}</span>
+          </div>
+          <span style="color:var(--accent); cursor:pointer;" onclick="copyToClipboard('${result.link}')">Copy link</span>
         </div>
       </div>
     `;
@@ -699,6 +625,16 @@ function displayResults(results, queryTitle, analysis) {
   
   grid.innerHTML = html;
 }
+
+// Utility function
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    // Could add a toast notification here
+  });
+}
+
+// Make functions global
+window.copyToClipboard = copyToClipboard;
 
 // Initialize app
 init();
