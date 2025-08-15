@@ -28,28 +28,28 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 /* Layout */
 .app { display:flex; min-height:100vh; }
 
-/* Sidebar - Modern App Style */
+/* Sidebar - Compact */
 .sidebar {
-  width:280px; background:var(--sidebar); border-right:1px solid var(--border);
-  padding:24px; overflow-y:auto; flex-shrink:0; box-shadow:var(--shadow);
+  width:260px; background:var(--sidebar); border-right:1px solid var(--border);
+  padding:20px; overflow-y:auto; flex-shrink:0; box-shadow:var(--shadow);
 }
 
 .logo { 
-  font-size:20px; font-weight:700; margin-bottom:32px; color:var(--ink);
-  padding:12px 0; display:flex; align-items:center; gap:8px;
+  font-size:18px; font-weight:700; margin-bottom:24px; color:var(--ink);
+  padding:8px 0; display:flex; align-items:center; gap:8px;
 }
 
-.nav-section { margin-bottom:32px; }
+.nav-section { margin-bottom:24px; }
 .nav-title { 
   font-size:11px; font-weight:600; color:var(--muted); 
-  text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; 
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; 
 }
 
 /* Search */
 .search-input {
   width:100%; padding:12px 16px; border:1px solid var(--border);
   border-radius:8px; font-size:15px; background:var(--subtle);
-  transition:all 0.2s ease; margin-bottom:12px; font-weight:500;
+  transition:all 0.2s ease; margin-bottom:8px; font-weight:500;
 }
 .search-input:focus {
   outline:none; border-color:var(--accent); background:white;
@@ -68,37 +68,21 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
   box-shadow:var(--shadow-lg);
 }
 
-/* Power Queries - Toggle Style */
-.power-query {
-  display:flex; align-items:center; width:100%;
-  padding:12px 16px; margin-bottom:6px; border-radius:8px;
-  cursor:pointer; transition:all 0.2s ease; font-size:14px;
-  background:var(--subtle); border:1px solid var(--border); text-align:left;
-  position:relative;
+/* Power Query Dropdown */
+.query-dropdown {
+  width:100%; padding:10px 16px; border:1px solid var(--border);
+  border-radius:8px; background:white; margin-bottom:8px; font-size:14px;
+  font-weight:500; cursor:pointer; transition:all 0.2s ease;
 }
-.power-query:hover { 
-  background:var(--hover); 
-  border-color:#d1d5db;
-  transform:translateY(-1px);
-  box-shadow:var(--shadow);
+.query-dropdown:focus {
+  outline:none; border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
 }
-.power-query.active { 
-  background:var(--accent); 
-  color:white; 
-  border-color:var(--accent);
-  box-shadow:var(--shadow-lg);
-  transform:translateY(-1px);
-}
-
-.query-content { flex:1; }
-.query-title { font-weight:600; margin-bottom:2px; font-size:14px; }
-.query-desc { font-size:12px; color:var(--muted); line-height:1.4; }
-.power-query.active .query-desc { color:rgba(255,255,255,0.8); }
 
 /* Filters */
 .filter-select {
-  width:100%; padding:10px 16px; border:1px solid var(--border);
-  border-radius:8px; background:white; margin-bottom:8px; font-size:14px;
+  width:100%; padding:8px 12px; border:1px solid var(--border);
+  border-radius:6px; background:white; margin-bottom:6px; font-size:13px;
   font-weight:500; cursor:pointer; transition:all 0.2s ease;
 }
 .filter-select:focus {
@@ -107,81 +91,62 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 }
 
 /* Main Content */
-.main-content { flex:1; padding:32px 40px; overflow-y:auto; background:var(--bg); }
+.main-content { flex:1; padding:24px 32px; overflow-y:auto; background:var(--bg); }
 
-/* Header */
+/* Header - Compact */
 .content-header {
-  margin-bottom:32px;
+  margin-bottom:20px;
 }
 .page-title { 
-  font-size:28px; font-weight:800; margin:0 0 8px 0; 
+  font-size:24px; font-weight:800; margin:0 0 4px 0; 
   color:var(--ink); letter-spacing:-0.5px;
 }
 .page-subtitle { 
-  font-size:16px; color:var(--muted); margin:0; font-weight:500;
+  font-size:14px; color:var(--muted); margin:0; font-weight:500;
 }
 
-/* AI Summary - Minimal */
-.ai-summary {
-  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color:white; border-radius:12px; padding:16px 20px; margin-bottom:24px; 
-  display:none; box-shadow:var(--shadow-lg);
-}
-.summary-header {
-  display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;
-}
-.summary-title { 
-  font-weight:600; margin:0; font-size:12px; 
-  text-transform:uppercase; letter-spacing:1px; opacity:0.9;
-}
-.opportunity-score {
-  font-size:14px; font-weight:700; padding:4px 8px; border-radius:6px;
-  background:rgba(255,255,255,0.2); backdrop-filter:blur(10px);
-}
-
-/* Results Section */
-.results-section { }
-.section-header {
+/* Status - Inline with results */
+.results-header {
   display:flex; justify-content:space-between; align-items:center; 
-  margin-bottom:24px;
+  margin-bottom:16px;
 }
-.section-title { font-size:20px; font-weight:700; margin:0; color:var(--ink); }
-.results-count { 
-  color:var(--muted); font-size:14px; font-weight:500;
-  padding:6px 12px; background:var(--subtle); border-radius:20px;
+.section-title { font-size:18px; font-weight:700; margin:0; color:var(--ink); }
+.status-results { 
+  color:var(--muted); font-size:13px; font-weight:500;
+  padding:4px 10px; background:var(--subtle); border-radius:12px;
 }
 
 .results-grid {
   display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr));
-  gap:20px;
+  gap:16px;
 }
 
-/* Card Design - Modern App Style */
+/* Card Design - More Compact */
 .result-card {
-  background:white; border:1px solid var(--border); border-radius:12px;
-  padding:24px; transition:all 0.3s ease; position:relative;
+  background:white; border:1px solid var(--border); border-radius:10px;
+  padding:20px; transition:all 0.3s ease; position:relative;
   box-shadow:var(--shadow);
 }
 .result-card:hover {
   box-shadow:var(--shadow-xl);
-  transform:translateY(-2px);
+  transform:translateY(-1px);
   border-color:#d1d5db;
 }
 
 .card-header {
-  margin-bottom:16px;
+  margin-bottom:12px;
 }
 
 .result-title {
-  font-weight:700; font-size:16px; line-height:1.4; margin:0 0 12px 0;
+  font-weight:700; font-size:15px; line-height:1.4; margin:0 0 8px 0;
   color:var(--ink);
 }
 .result-title a { color:inherit; text-decoration:none; }
 .result-title a:hover { color:var(--accent); }
 
 .source-badge {
-  display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:6px; 
-  font-size:11px; font-weight:600; color:white; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:4px; padding:3px 6px; border-radius:4px; 
+  font-size:10px; font-weight:600; color:white; text-transform:uppercase;
   letter-spacing:0.5px;
 }
 .source-reddit { background:var(--reddit); }
@@ -201,23 +166,23 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 .source-default { background:var(--muted); }
 
 .result-snippet {
-  color:var(--muted); font-size:14px; line-height:1.6; 
-  margin-bottom:20px; display:-webkit-box; -webkit-line-clamp:3; 
+  color:var(--muted); font-size:13px; line-height:1.5; 
+  margin-bottom:16px; display:-webkit-box; -webkit-line-clamp:3; 
   -webkit-box-orient:vertical; overflow:hidden;
 }
 
-/* AI Insight */
+/* AI Insight - Compact */
 .ai-insight {
   background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border:1px solid #e2e8f0; border-radius:8px; padding:16px; margin-bottom:16px;
+  border:1px solid #e2e8f0; border-radius:6px; padding:12px; margin-bottom:12px;
 }
 .ai-insight-label {
-  font-size:11px; font-weight:600; color:var(--muted);
-  text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;
+  font-size:10px; font-weight:600; color:var(--muted);
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;
   display:flex; justify-content:space-between; align-items:center;
 }
 .urgency-badge {
-  padding:3px 8px; border-radius:12px; font-size:10px; font-weight:700;
+  padding:2px 6px; border-radius:10px; font-size:9px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.5px;
 }
 .urgency-high { background:var(--danger); color:white; }
@@ -225,20 +190,20 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 .urgency-low { background:var(--muted); color:white; }
 
 .ai-insight-text {
-  font-size:14px; color:var(--ink); line-height:1.5;
+  font-size:13px; color:var(--ink); line-height:1.4;
   font-weight:500;
 }
 
 .card-footer {
   display:flex; justify-content:space-between; align-items:center;
-  font-size:12px; color:var(--muted); margin-top:20px;
-  padding-top:16px; border-top:1px solid var(--border);
+  font-size:11px; color:var(--muted); margin-top:16px;
+  padding-top:12px; border-top:1px solid var(--border);
 }
 
 .copy-link {
   color:var(--accent); cursor:pointer; font-weight:600;
-  padding:6px 12px; border-radius:6px; transition:all 0.2s ease;
-  font-size:12px; text-transform:uppercase; letter-spacing:0.5px;
+  padding:4px 8px; border-radius:4px; transition:all 0.2s ease;
+  font-size:11px; text-transform:uppercase; letter-spacing:0.5px;
 }
 .copy-link:hover { 
   background:var(--accent); 
@@ -246,33 +211,23 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
   transform:translateY(-1px);
 }
 
-/* Status Badge */
-.status-badge {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 16px; border-radius:8px; font-size:13px; font-weight:600;
-  margin-bottom:20px; box-shadow:var(--shadow);
-}
-.status-success { background:#ecfdf5; color:var(--success); border:1px solid #a7f3d0; }
-.status-warning { background:#fffbeb; color:var(--warning); border:1px solid #fde68a; }
-.status-info { background:#eff6ff; color:var(--accent); border:1px solid #bfdbfe; }
-
 /* Loading & Empty States */
 .loading { 
-  text-align:center; padding:80px 20px; color:var(--muted);
+  text-align:center; padding:60px 20px; color:var(--muted);
   grid-column:1 / -1;
 }
 .spinner {
-  display:inline-block; width:20px; height:20px; margin-right:12px;
-  border:3px solid var(--border); border-top:3px solid var(--accent);
+  display:inline-block; width:18px; height:18px; margin-right:8px;
+  border:2px solid var(--border); border-top:2px solid var(--accent);
   border-radius:50%; animation:spin 1s linear infinite;
 }
 @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
 
 .empty-state { 
-  text-align:center; padding:80px 20px; color:var(--muted);
+  text-align:center; padding:60px 20px; color:var(--muted);
   grid-column:1 / -1;
 }
-.empty-state h3 { color:var(--ink); font-weight:700; margin-bottom:8px; }
+.empty-state h3 { color:var(--ink); font-weight:700; margin-bottom:8px; font-size:16px; }
 
 /* Responsive */
 @media (max-width: 1200px) {
@@ -280,8 +235,8 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 }
 @media (max-width: 1024px) {
   .app { flex-direction:column; }
-  .sidebar { width:100%; padding:20px; }
-  .main-content { padding:24px 20px; }
+  .sidebar { width:100%; padding:16px; }
+  .main-content { padding:20px 16px; }
 }
 </style>
 </head>
@@ -299,12 +254,15 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
       <div class="nav-title">Search</div>
       <input id="searchInput" class="search-input" type="text" 
              placeholder="Brand, product, or topic..." />
+      <select id="queryDropdown" class="query-dropdown">
+        <option value="">General Pain Points</option>
+        <option value="competitor_hate">Competitor Complaints</option>
+        <option value="switching_signals">Switching Signals</option>
+        <option value="wish_list">Unmet Needs</option>
+        <option value="feature_requests">Feature Requests</option>
+        <option value="urgent_help">Urgent Problems</option>
+      </select>
       <button id="searchBtn" class="search-btn">Search</button>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-title">Power Queries</div>
-      <div id="powerQueries"></div>
     </div>
 
     <div class="nav-section">
@@ -341,27 +299,16 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
       <p class="page-subtitle">Find customer frustrations and turn them into business opportunities</p>
     </header>
 
-    <div id="statusBadge" class="status-badge status-info">Ready to search</div>
-
-    <!-- AI Summary -->
-    <div id="aiSummary" class="ai-summary">
-      <div class="summary-header">
-        <h3 class="summary-title">AI Analysis</h3>
-        <span id="overallScore" class="opportunity-score">-</span>
-      </div>
-      <div id="summaryContent"></div>
-    </div>
-
     <section class="results-section">
-      <div class="section-header">
+      <div class="results-header">
         <h2 class="section-title">Results</h2>
-        <span id="resultsCount" class="results-count">No results yet</span>
+        <span id="statusResults" class="status-results">Loading demo...</span>
       </div>
       
       <div id="resultsGrid" class="results-grid">
-        <div class="empty-state">
-          <h3>Ready to Discover Pain Points</h3>
-          <p>Enter a search term and click Search, or select a power query to find customer frustrations and business opportunities.</p>
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading demo search...</p>
         </div>
       </div>
     </section>
@@ -385,38 +332,33 @@ function loadConfig() {
 }
 
 // Power Queries
-const POWER_QUERIES = [
-  {
+const POWER_QUERIES = {
+  'competitor_hate': {
     id: 'competitor_hate',
     title: 'Competitor Complaints',
-    desc: 'Find unhappy customers to convert',
     template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}'
   },
-  {
+  'switching_signals': {
     id: 'switching_signals',
-    title: 'Switching Signals', 
-    desc: 'People ready to change solutions',
+    title: 'Switching Signals',
     template: '("switching from" OR "alternative to" OR "leaving") {{keyword}}'
   },
-  {
+  'wish_list': {
     id: 'wish_list',
     title: 'Unmet Needs',
-    desc: 'Market gaps and opportunities',
     template: '"I wish there was" OR "someone should build" {{keyword}}'
   },
-  {
+  'feature_requests': {
     id: 'feature_requests',
     title: 'Feature Requests',
-    desc: 'Product improvement ideas',
     template: '("should add" OR "missing feature" OR "needs to support") {{keyword}}'
   },
-  {
+  'urgent_help': {
     id: 'urgent_help',
     title: 'Urgent Problems',
-    desc: 'Immediate business opportunities',
     template: '("need help with" OR "urgent" OR "stuck with") {{keyword}}'
   }
-];
+};
 
 const PLATFORMS = {
   all: { sites: [] },
@@ -434,90 +376,29 @@ const PLATFORMS = {
   forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
 };
 
-let currentQuery = null;
 let currentAnalysis = null;
 
 // Initialize
 function init() {
   loadConfig();
-  initPowerQueries();
   setupEventListeners();
-  loadLastSearch();
-}
-
-function initPowerQueries() {
-  const container = document.getElementById('powerQueries');
-  
-  POWER_QUERIES.forEach(query => {
-    const btn = document.createElement('button');
-    btn.className = 'power-query';
-    btn.innerHTML = `
-      <div class="query-content">
-        <div class="query-title">${query.title}</div>
-        <div class="query-desc">${query.desc}</div>
-      </div>
-    `;
-    btn.onclick = () => {
-      // Toggle behavior - click again to deselect
-      if (currentQuery && currentQuery.id === query.id) {
-        // Deselect current query
-        btn.classList.remove('active');
-        currentQuery = null;
-        resetToInitialState();
-      } else {
-        // Select new query
-        document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
-        btn.classList.add('active');
-        currentQuery = query;
-        runPowerQuery(query);
-      }
-    };
-    container.appendChild(btn);
-  });
-}
-
-function resetToInitialState() {
-  document.getElementById('aiSummary').style.display = 'none';
-  document.getElementById('resultsGrid').innerHTML = `
-    <div class="empty-state">
-      <h3>Ready to Discover Pain Points</h3>
-      <p>Enter a search term and click Search, or select a power query to find customer frustrations and business opportunities.</p>
-    </div>
-  `;
-  document.getElementById('resultsCount').textContent = 'No results yet';
-  document.getElementById('statusBadge').textContent = 'Ready to search';
-  document.getElementById('statusBadge').className = 'status-badge status-info';
+  loadDemoSearch();
 }
 
 function setupEventListeners() {
-  document.getElementById('searchBtn').onclick = () => {
-    if (currentQuery) {
-      runPowerQuery(currentQuery);
-    } else {
-      runNormalSearch();
-    }
-  };
-  
+  document.getElementById('searchBtn').onclick = performSearch;
   document.getElementById('searchInput').onkeydown = (e) => {
-    if (e.key === 'Enter') {
-      if (currentQuery) {
-        runPowerQuery(currentQuery);
-      } else {
-        runNormalSearch();
-      }
-    }
+    if (e.key === 'Enter') performSearch();
   };
-  
   document.getElementById('searchInput').oninput = (e) => {
     localStorage.setItem('grumpy_search', e.target.value);
   };
 }
 
-function loadLastSearch() {
-  const lastSearch = localStorage.getItem('grumpy_search');
-  if (lastSearch) {
-    document.getElementById('searchInput').value = lastSearch;
-  }
+function loadDemoSearch() {
+  // Load with a universally frustrating topic
+  document.getElementById('searchInput').value = 'airplane wifi';
+  performSearch();
 }
 
 function buildSearchQuery(template, keyword, platform) {
@@ -532,7 +413,6 @@ function buildSearchQuery(template, keyword, platform) {
 }
 
 function buildNormalSearchQuery(keyword, platform) {
-  // Default search should still look for pain points and frustration
   let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
   
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
@@ -659,65 +539,32 @@ async function analyzeWithAI(results, query, platform) {
   }
 }
 
-async function runNormalSearch() {
+async function performSearch() {
   const keyword = document.getElementById('searchInput').value.trim();
   if (!keyword) {
     alert('Please enter a search term');
     return;
   }
   
+  const queryType = document.getElementById('queryDropdown').value;
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
   
-  document.getElementById('statusBadge').textContent = 'Searching for pain points...';
-  document.getElementById('statusBadge').className = 'status-badge status-warning';
+  document.getElementById('statusResults').textContent = 'Searching...';
   
   showLoading();
   
   try {
-    const query = buildNormalSearchQuery(keyword, platform);
-    const results = await performGoogleSearch(query, timeRange);
+    let query;
+    let powerQuery = null;
     
-    // Get AI analysis for default search too
-    let analysis = null;
-    if (results.length > 0) {
-      analysis = await analyzeWithAI(results, query, platform);
-      currentAnalysis = analysis;
+    if (queryType && POWER_QUERIES[queryType]) {
+      powerQuery = POWER_QUERIES[queryType];
+      query = buildSearchQuery(powerQuery.template, keyword, platform);
+    } else {
+      query = buildNormalSearchQuery(keyword, platform);
     }
     
-    displayResults(results, { title: 'General Pain Points' }, keyword, analysis);
-    
-    if (analysis) {
-      displayAISummary(analysis);
-    }
-    
-    document.getElementById('statusBadge').textContent = `Found ${results.length} pain points`;
-    document.getElementById('statusBadge').className = 'status-badge status-success';
-    
-  } catch (error) {
-    document.getElementById('statusBadge').textContent = 'Search failed';
-    document.getElementById('statusBadge').className = 'status-badge status-warning';
-    showError(error.message);
-  }
-}
-
-async function runPowerQuery(powerQuery) {
-  const keyword = document.getElementById('searchInput').value.trim();
-  if (!keyword) {
-    alert('Please enter a search term');
-    return;
-  }
-  
-  const platform = document.getElementById('platformSelect').value;
-  const timeRange = document.getElementById('timeSelect').value;
-  
-  document.getElementById('statusBadge').textContent = 'Analyzing pain points...';
-  document.getElementById('statusBadge').className = 'status-badge status-warning';
-  
-  showLoading();
-  
-  try {
-    const query = buildSearchQuery(powerQuery.template, keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
     
     let analysis = null;
@@ -728,125 +575,100 @@ async function runPowerQuery(powerQuery) {
     
     displayResults(results, powerQuery, keyword, analysis);
     
-    if (analysis) {
-      displayAISummary(analysis);
-    }
-    
-    document.getElementById('statusBadge').textContent = `Found ${results.length} opportunities`;
-    document.getElementById('statusBadge').className = 'status-badge status-success';
+    document.getElementById('statusResults').textContent = `${results.length} pain points found`;
     
   } catch (error) {
-    document.getElementById('statusBadge').textContent = 'Search failed';
-   document.getElementById('statusBadge').className = 'status-badge status-warning';
-   showError(error.message);
- }
+    document.getElementById('statusResults').textContent = 'Search failed';
+    showError(error.message);
+  }
 }
 
 function showLoading() {
- document.getElementById('aiSummary').style.display = 'none';
- document.getElementById('resultsGrid').innerHTML = `
-   <div class="loading">
-     <div class="spinner"></div>
-     <p>Analyzing pain points...</p>
-   </div>
- `;
- document.getElementById('resultsCount').textContent = 'Searching...';
+  document.getElementById('resultsGrid').innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Analyzing pain points...</p>
+    </div>
+  `;
 }
 
 function showError(message) {
- document.getElementById('resultsGrid').innerHTML = `
-   <div class="empty-state">
-     <h3>Search Error</h3>
-     <p>${message}</p>
-   </div>
- `;
-}
-
-function displayAISummary(analysis) {
- const summary = document.getElementById('aiSummary');
- const score = analysis.overallOpportunityScore || 5;
- 
- document.getElementById('overallScore').textContent = `${score}/10`;
- 
- const summaryContent = `${analysis.mainPainPoint || 'Analyzing customer pain points...'}`;
- 
- document.getElementById('summaryContent').innerHTML = summaryContent;
- summary.style.display = 'block';
+  document.getElementById('resultsGrid').innerHTML = `
+    <div class="empty-state">
+      <h3>Search Error</h3>
+      <p>${message}</p>
+    </div>
+  `;
 }
 
 function displayResults(results, powerQuery, keyword, analysis) {
- const grid = document.getElementById('resultsGrid');
- 
- if (!results.length) {
-   grid.innerHTML = `
-     <div class="empty-state">
-       <h3>No Results Found</h3>
-       <p>Try a different search term or platform.</p>
-     </div>
-   `;
-   return;
- }
- 
- const resultType = powerQuery ? 'pain points' : 'results';
- document.getElementById('resultsCount').textContent = `${results.length} ${resultType}`;
- 
- let html = '';
- results.forEach(result => {
-   const platformClass = getPlatformClass(result.displayLink);
-   const platformName = getPlatformName(result.displayLink);
-   
-   let snippet = result.snippet || '';
-   if (powerQuery) {
-     const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-     painWords.forEach(word => {
-       const regex = new RegExp(`\\b${word}\\b`, 'gi');
-       snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
-     });
-   }
-   
-   html += `
-     <div class="result-card">
-       <div class="card-header">
-         <h3 class="result-title">
-           <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
-         </h3>
-         <span class="source-badge ${platformClass}">${platformName}</span>
-       </div>
-       
-       <div class="result-snippet">${snippet}</div>
-   `;
-   
-   if (powerQuery && analysis) {
-     const insight = findInsightForResult(result, analysis);
-     html += `
-       <div class="ai-insight">
-         <div class="ai-insight-label">
-           Business Opportunity
-           <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
-             ${(insight.urgency || 'medium').toUpperCase()}
-           </span>
-         </div>
-         <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
-       </div>
-     `;
-   }
-   
-   html += `
-       <div class="card-footer">
-         <span>${result.displayLink}</span>
-         <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
-       </div>
-     </div>
-   `;
- });
- 
- grid.innerHTML = html;
+  const grid = document.getElementById('resultsGrid');
+  
+  if (!results.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>No Results Found</h3>
+        <p>Try a different search term or platform.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = '';
+  results.forEach(result => {
+    const platformClass = getPlatformClass(result.displayLink);
+    const platformName = getPlatformName(result.displayLink);
+    
+    let snippet = result.snippet || '';
+    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+    painWords.forEach(word => {
+      const regex = new RegExp(`\\b${word}\\b`, 'gi');
+      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
+    });
+    
+    html += `
+      <div class="result-card">
+        <div class="card-header">
+          <h3 class="result-title">
+            <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
+          </h3>
+          <span class="source-badge ${platformClass}">${platformName}</span>
+        </div>
+        
+        <div class="result-snippet">${snippet}</div>
+    `;
+    
+    if (analysis) {
+      const insight = findInsightForResult(result, analysis);
+      html += `
+        <div class="ai-insight">
+          <div class="ai-insight-label">
+            Business Opportunity
+            <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
+              ${(insight.urgency || 'medium').toUpperCase()}
+            </span>
+          </div>
+          <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
+        </div>
+      `;
+    }
+    
+    html += `
+        <div class="card-footer">
+          <span>${result.displayLink}</span>
+          <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
+        </div>
+      </div>
+    `;
+  });
+  
+  grid.innerHTML = html;
 }
 
 function copyToClipboard(text) {
- navigator.clipboard.writeText(text).then(() => {
-   // Could add success toast here
- });
+  navigator.clipboard.writeText(text).then(() => {
+    // Could add success toast here
+  });
 }
 
 window.copyToClipboard = copyToClipboard;
