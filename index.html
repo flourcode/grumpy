@@ -96,6 +96,22 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   font-size:16px; color:var(--muted); margin:0;
 }
 
+/* AI Summary */
+.ai-summary {
+  background:var(--subtle); border:1px solid var(--border);
+  border-radius:8px; padding:16px; margin-bottom:24px; display:none;
+}
+.summary-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;
+}
+.summary-title { font-weight:600; margin:0; }
+.opportunity-score {
+  font-size:18px; font-weight:700; padding:4px 8px; border-radius:6px;
+}
+.score-high { background:#dcfce7; color:var(--success); }
+.score-medium { background:#fef3c7; color:var(--warning); }
+.score-low { background:#fecaca; color:var(--danger); }
+
 /* Results Section */
 .results-section { }
 .section-header {
@@ -158,7 +174,15 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 .ai-insight-label {
   font-size:11px; font-weight:500; color:var(--muted);
   text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;
+  display:flex; justify-content:space-between; align-items:center;
 }
+.urgency-badge {
+  padding:2px 6px; border-radius:10px; font-size:10px; font-weight:600;
+}
+.urgency-high { background:var(--danger); color:white; }
+.urgency-medium { background:var(--warning); color:white; }
+.urgency-low { background:var(--muted); color:white; }
+
 .ai-insight-text {
   font-size:14px; color:var(--ink); line-height:1.4;
   font-weight:500;
@@ -259,6 +283,15 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 
     <div id="statusBadge" class="status-badge status-info">Ready to search</div>
 
+    <!-- AI Summary -->
+    <div id="aiSummary" class="ai-summary">
+      <div class="summary-header">
+        <h3 class="summary-title">AI Analysis Summary</h3>
+        <span id="overallScore" class="opportunity-score">-</span>
+      </div>
+      <div id="summaryContent"></div>
+    </div>
+
     <section class="results-section">
       <div class="section-header">
         <h2 class="section-title">Results</h2>
@@ -291,7 +324,7 @@ function loadConfig() {
   }
 }
 
-// Power Queries - business focused
+// Power Queries
 const POWER_QUERIES = [
   {
     id: 'competitor_hate',
@@ -335,6 +368,7 @@ const PLATFORMS = {
 };
 
 let currentQuery = null;
+let currentAnalysis = null;
 
 // Initialize
 function init() {
@@ -426,53 +460,33 @@ function getPlatformName(domain) {
   return domain.split('.')[0];
 }
 
-// Generate business-focused AI insights
-function generateBusinessInsight(result, queryType, keyword) {
-  const text = `${result.title} ${result.snippet}`.toLowerCase();
-  const domain = result.displayLink;
-  
-  if (queryType === 'competitor_hate') {
-    if (text.includes('support') || text.includes('customer service')) {
-      return `Create superior customer support content highlighting ${keyword}'s service gaps. Target users frustrated with slow response times.`;
-    }
-    if (text.includes('pricing') || text.includes('expensive') || text.includes('cost')) {
-      return `Develop pricing comparison content showing cost-effective alternatives to ${keyword}. Consider freemium model targeting price-sensitive users.`;
-    }
-    if (text.includes('feature') || text.includes('missing') || text.includes('lack')) {
-      return `Build the missing features that ${keyword} users are demanding. Position as the solution that "gets it right."`;
-    }
-    return `Reach out to this frustrated ${keyword} user with a helpful solution or alternative. Convert their pain into your opportunity.`;
+// Match AI insight to result by title
+function findInsightForResult(result, analysis) {
+  if (!analysis || !analysis.resultInsights) {
+    return {
+      businessOpportunity: "AI analysis not available for this result",
+      urgency: "low"
+    };
   }
   
-  if (queryType === 'switching_signals') {
-    if (domain.includes('reddit') || domain.includes('forum')) {
-      return `Create migration guides and comparison content for users leaving ${keyword}. Offer personalized consultation calls.`;
-    }
-    return `Develop onboarding sequences specifically for ${keyword} switchers. Address their migration concerns proactively.`;
+  // Try to match by title (first few words)
+  const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+  
+  const matchingInsight = analysis.resultInsights.find(insight => {
+    const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+    return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
+           insightTitleWords.includes(resultTitleWords.slice(0, 20));
+  });
+  
+  if (matchingInsight) {
+    return matchingInsight;
   }
   
-  if (queryType === 'wish_list') {
-    if (text.includes('integration') || text.includes('connect')) {
-      return `Build integration solutions between ${keyword} and other tools. Market as "the missing bridge" users are requesting.`;
-    }
-    if (text.includes('mobile') || text.includes('app')) {
-      return `Develop mobile-first solutions that ${keyword} currently lacks. Target users frustrated with desktop-only limitations.`;
-    }
-    return `Validate this product idea with ${keyword} users. Survey demand and build MVP targeting this specific need.`;
-  }
-  
-  if (queryType === 'feature_requests') {
-    return `Add this requested feature to your roadmap. ${keyword} users are actively asking for this - first mover advantage available.`;
-  }
-  
-  if (queryType === 'urgent_help') {
-    if (text.includes('setup') || text.includes('configure')) {
-      return `Offer setup consulting services for ${keyword}. Create premium onboarding packages for complex implementations.`;
-    }
-    return `Provide immediate solution to this ${keyword} problem. Consider it for your emergency support service tier.`;
-  }
-  
-  return `Monitor this conversation for follow-up opportunities. Engage authentically with helpful resources about ${keyword}.`;
+  // Fallback: use the first available insight or a generic one
+  return analysis.resultInsights[0] || {
+    businessOpportunity: "Monitor this pain point for business opportunities",
+    urgency: "medium"
+  };
 }
 
 async function performGoogleSearch(query, timeRange) {
@@ -498,6 +512,36 @@ async function performGoogleSearch(query, timeRange) {
   return data.items || [];
 }
 
+async function analyzeWithAI(results, query, platform) {
+  if (!API_CONFIG.LAMBDA_ENDPOINT) {
+    return {
+      mainPainPoint: "AI analysis not configured",
+      resultInsights: [],
+      overallOpportunityScore: 3,
+      topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
+    };
+  }
+
+  try {
+    const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, platform, results: results.slice(0, 8) })
+    });
+
+    if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error('AI analysis error:', error);
+    return {
+      mainPainPoint: "AI analysis temporarily unavailable",
+      resultInsights: [],
+      overallOpportunityScore: 3,
+      topActionableIdeas: ["AI analysis error - please try again"]
+    };
+  }
+}
+
 async function runPowerQuery(powerQuery) {
   const keyword = document.getElementById('searchInput').value.trim();
   if (!keyword) {
@@ -517,7 +561,18 @@ async function runPowerQuery(powerQuery) {
     const query = buildSearchQuery(powerQuery.template, keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
     
-    displayResults(results, powerQuery, keyword);
+    // Get AI analysis
+    let analysis = null;
+    if (results.length > 0) {
+      analysis = await analyzeWithAI(results, query, platform);
+      currentAnalysis = analysis;
+    }
+    
+    displayResults(results, powerQuery, keyword, analysis);
+    
+    if (analysis) {
+      displayAISummary(analysis);
+    }
     
     document.getElementById('statusBadge').textContent = `Found ${results.length} opportunities`;
     document.getElementById('statusBadge').className = 'status-badge status-success';
@@ -530,6 +585,7 @@ async function runPowerQuery(powerQuery) {
 }
 
 function showLoading() {
+  document.getElementById('aiSummary').style.display = 'none';
   document.getElementById('resultsGrid').innerHTML = `
     <div class="loading">
       <div class="spinner"></div>
@@ -548,7 +604,28 @@ function showError(message) {
   `;
 }
 
-function displayResults(results, powerQuery, keyword) {
+function displayAISummary(analysis) {
+  const summary = document.getElementById('aiSummary');
+  const score = analysis.overallOpportunityScore || 5;
+  
+  document.getElementById('overallScore').textContent = `${score}/10`;
+  document.getElementById('overallScore').className = `opportunity-score ${score >= 8 ? 'score-high' : score >= 6 ? 'score-medium' : 'score-low'}`;
+  
+  let summaryContent = `<p><strong>Main Issue:</strong> ${analysis.mainPainPoint || 'Analysis in progress'}</p>`;
+  
+  if (analysis.topActionableIdeas && analysis.topActionableIdeas.length > 0) {
+    summaryContent += `<p><strong>Top Opportunities:</strong></p><ul>`;
+    analysis.topActionableIdeas.slice(0, 3).forEach(idea => {
+      summaryContent += `<li>${idea}</li>`;
+    });
+    summaryContent += `</ul>`;
+  }
+  
+  document.getElementById('summaryContent').innerHTML = summaryContent;
+  summary.style.display = 'block';
+}
+
+function displayResults(results, powerQuery, keyword, analysis) {
   const grid = document.getElementById('resultsGrid');
   
   if (!results.length) {
@@ -565,7 +642,7 @@ function displayResults(results, powerQuery, keyword) {
   
   let html = '';
   results.forEach(result => {
-    const businessInsight = generateBusinessInsight(result, powerQuery.id, keyword);
+    const insight = findInsightForResult(result, analysis);
     const platformClass = getPlatformClass(result.displayLink);
     const platformName = getPlatformName(result.displayLink);
     
@@ -589,8 +666,13 @@ function displayResults(results, powerQuery, keyword) {
         <div class="result-snippet">${snippet}</div>
         
         <div class="ai-insight">
-          <div class="ai-insight-label">Business Opportunity</div>
-          <div class="ai-insight-text">${businessInsight}</div>
+          <div class="ai-insight-label">
+            Business Opportunity
+            <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
+              ${(insight.urgency || 'medium').toUpperCase()}
+            </span>
+          </div>
+          <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
         </div>
         
         <div class="card-footer">
