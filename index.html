@@ -98,6 +98,13 @@
   .result-title-text{ color:#666; text-decoration:none; cursor:default; }
   .result-snippet{ color:var(--muted); font-size:.9rem; line-height:1.4; margin:0 0 6px; }
   .result-meta{ color:#999; font-size:.8rem; margin-top:4px; }
+  .result-title a{ 
+  color:#0ea5e9; 
+  text-decoration:none; 
+}
+.result-title a:hover{ 
+  text-decoration:underline; 
+}
 
   /* AI ANALYSIS - PROMINENT HERO CONTENT */
   .ai-analysis{ 
@@ -122,12 +129,6 @@
   .analysis-item .value{ font-size:1.1rem; font-weight:600; }
   .opportunity-score{ 
     font-size:2.5rem !important; font-weight:700; margin:0;
-    animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
   }
   
   .score-high{ color:#10f5a8; }
@@ -522,20 +523,6 @@ Opportunity Score: ${analysis.opportunityScore}/10
     copyToClipboard(text);
   }
 
-  // Toggle search results visibility
-  function toggleSearchResults() {
-    const resultsList = document.getElementById('searchResultsList');
-    const btn = document.querySelector('.show-more-btn');
-    
-    if (resultsList.classList.contains('search-results-collapsed')) {
-      resultsList.classList.remove('search-results-collapsed');
-      btn.textContent = '📄 Hide Source Results';
-    } else {
-      resultsList.classList.add('search-results-collapsed');
-      btn.textContent = `📄 View Source Results (${currentSearchResults.length})`;
-    }
-  }
-
   // Perform Google Custom Search
   async function performGoogleSearch(query, site = '') {
     if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
@@ -715,8 +702,8 @@ Opportunity Score: ${analysis.opportunityScore}/10
      html += `
        <div class="result-item">
          <div class="result-title">
-           <span class="result-title-text">${result.title}</span>
-         </div>
+  <a href="${result.url}" target="_blank" rel="noopener noreferrer">${result.title}</a>
+</div>
          <div class="result-snippet">${highlightedSnippet}</div>
          <div class="result-meta">
            ${result.displayLink}
@@ -726,14 +713,7 @@ Opportunity Score: ${analysis.opportunityScore}/10
    });
    
    // Wrap in collapsible container
-   html = `<div class="search-results-collapsed" id="searchResultsList">` + html + `</div>`;
-   html += `
-     <div style="text-align: center; margin: 16px 0;">
-       <button class="show-more-btn" onclick="toggleSearchResults()">
-         📄 View Source Results (${results.length})
-       </button>
-     </div>
-   `;
+   html = html;
    
    resultsContent.innerHTML = html;
    
@@ -905,7 +885,6 @@ Opportunity Score: ${analysis.opportunityScore}/10
  window.hideResults = hideResults;
  window.copyToClipboard = copyToClipboard;
  window.copyAnalysis = copyAnalysis;
- window.toggleSearchResults = toggleSearchResults;
 
  // Initialize
  loadConfig();
