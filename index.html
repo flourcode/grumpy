@@ -3,259 +3,492 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>GrumpyLinks – AI-Powered Pain Point Discovery</title>
+<title>GrumpyLinks — AI-Powered Pain Point Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="env-config.js"></script>
 <style>
 :root {
-  --bg:#fafafa; --sidebar:#ffffff; --card:#ffffff; --ink:#1a1a1a; --muted:#6b7280;
-  --accent:#3b82f6; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
-  --border:#e5e7eb; --hover:#f9fafb; --subtle:#f8fafc;
-  --shadow:0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-lg:0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl:0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* Dark Theme Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+  --bg-card: #141414;
+  --bg-card-hover: #1f1f1f;
+  --bg-input: #1a1a1a;
+  --bg-button: #2563eb;
+  --bg-button-hover: #1d4ed8;
+  --bg-accent: #1e293b;
+  --bg-success: #059669;
+  --bg-warning: #d97706;
+  --bg-danger: #dc2626;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-accent: #3b82f6;
+  
+  /* Border Colors */
+  --border-primary: #27272a;
+  --border-secondary: #3f3f46;
+  --border-accent: #3b82f6;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
   
   /* Platform Colors */
-  --reddit:#ff4500; --twitter:#1da1f2; --linkedin:#0077b5; --hackernews:#ff6600;
-  --github:#333; --stackoverflow:#f48024; --medium:#000; --quora:#b92b27;
-  --youtube:#ff0000; --producthunt:#da552f; --discord:#5865f2; --glassdoor:#0caa41;
-  --trustpilot:#00b67a; --appstore:#007aff; --tiktok:#000000;
+  --reddit: #ff4500;
+  --twitter: #1da1f2;
+  --linkedin: #0077b5;
+  --hackernews: #ff6600;
+  --github: #ffffff;
+  --stackoverflow: #f48024;
+  --medium: #ffffff;
+  --quora: #b92b27;
+  --youtube: #ff0000;
+  --producthunt: #da552f;
+  --discord: #5865f2;
+  --glassdoor: #0caa41;
+  --trustpilot: #00b67a;
+  --appstore: #007aff;
+  --tiktok: #ffffff;
 }
 
-* { box-sizing: border-box; }
-html,body { margin:0; padding:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Helvetica, sans-serif; }
-body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; overflow-x: hidden; }
+* { 
+  box-sizing: border-box; 
+  margin: 0;
+  padding: 0;
+}
+
+html, body { 
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 14px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 /* Layout */
-.app { display:flex; min-height:100vh; width: 100%; max-width: 100vw; }
+.app { 
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
 
-/* Sidebar - Compact */
+/* Sidebar */
 .sidebar {
-  width:260px; background:var(--sidebar); border-right:1px solid var(--border);
-  padding:16px; overflow-y:auto; flex-shrink:0; box-shadow:var(--shadow);
+  width: 280px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-primary);
+  padding: 24px;
+  overflow-y: auto;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
 }
 
-.nav-section { margin-bottom:16px; }
-.nav-title { 
-  font-size:11px; font-weight:600; color:var(--muted); 
-  text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; 
-}
-
-/* Logo - Compact */
-.logo { 
-  font-size:20px; font-weight:700; margin-bottom:12px; color:var(--ink);
-  padding:8px 0; display:flex; align-items:center; justify-content:center;
-  flex-direction:column; gap:4px; text-align:center;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .logo-emoji {
-  font-size:40px; line-height:1;
+  font-size: 32px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .logo-text {
-  font-size:18px; font-weight:700; letter-spacing:-0.5px;
-  color:var(--ink);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-accent);
 }
 
-.logo-subtitle {
-  font-size:10px; color:var(--muted); font-weight:500;
-  text-transform:uppercase; letter-spacing:0.5px;
-  margin-top:1px;
+.search-section {
+  margin-bottom: 24px;
 }
 
-/* Search */
+.section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
 .search-input {
-  width:100%; padding:10px 14px; border:1px solid var(--border);
-  border-radius:6px; font-size:14px; background:var(--subtle);
-  transition:all 0.2s ease; margin-bottom:6px; font-weight:500;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  margin-bottom: 12px;
 }
+
 .search-input:focus {
-  outline:none; border-color:var(--accent); background:white;
-  box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--bg-secondary);
 }
 
-.search-btn {
-  width:100%; padding:10px 14px; background:var(--accent);
-  color:white; border:none; border-radius:6px; font-weight:600;
-  cursor:pointer; transition:all 0.2s ease; font-size:14px;
-  box-shadow:var(--shadow);
-}
-.search-btn:hover { 
-  background:#2563eb; 
-  transform:translateY(-1px);
-  box-shadow:var(--shadow-lg);
+.search-input::placeholder {
+  color: var(--text-muted);
 }
 
-/* Power Query Dropdown */
-.query-dropdown {
-  width:100%; padding:8px 14px; border:1px solid var(--border);
-  border-radius:6px; background:white; margin-bottom:6px; font-size:13px;
-  font-weight:500; cursor:pointer; transition:all 0.2s ease;
-}
-.query-dropdown:focus {
-  outline:none; border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
+.select-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  margin-bottom: 8px;
 }
 
-/* Filters */
-.filter-select {
-  width:100%; padding:6px 10px; border:1px solid var(--border);
-  border-radius:6px; background:white; margin-bottom:4px; font-size:12px;
-  font-weight:500; cursor:pointer; transition:all 0.2s ease;
+.select-input:focus {
+  outline: none;
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
-.filter-select:focus {
-  outline:none; border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
+
+.search-button {
+  width: 100%;
+  background: var(--bg-button);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-button:hover {
+  background: var(--bg-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Hero Section */
+.hero {
+  background: var(--bg-secondary);
+  padding: 60px 32px 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.hero-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 /* Main Content */
-.main-content { flex:1; padding:24px 32px; overflow-y:auto; background:var(--bg); }
-
-/* Header - Compact */
-.content-header {
-  margin-bottom:20px;
-}
-.page-title { 
-  font-size:24px; font-weight:800; margin:0 0 4px 0; 
-  color:var(--ink); letter-spacing:-0.5px;
-}
-.page-subtitle { 
-  font-size:14px; color:var(--muted); margin:0; font-weight:500;
+.main-content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  background: var(--bg-primary);
 }
 
-/* Results Header - Simplified */
 .results-header {
-  margin-bottom:16px;
+  margin-bottom: 24px;
+  text-align: center;
 }
-.section-title { font-size:18px; font-weight:700; margin:0; color:var(--ink); }
+
+.results-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.025em;
+}
+
+.results-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
 
 .results-grid {
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr));
-  gap:16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
 }
 
-/* Card Design - More Compact */
+/* Result Cards */
 .result-card {
-  background:white; border:1px solid var(--border); border-radius:10px;
-  padding:20px; transition:all 0.3s ease; position:relative;
-  box-shadow:var(--shadow);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--bg-button);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 .result-card:hover {
-  box-shadow:var(--shadow-xl);
-  transform:translateY(-1px);
-  border-color:#d1d5db;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-secondary);
+  background: var(--bg-card-hover);
+}
+
+.result-card:hover::before {
+  opacity: 1;
 }
 
 .card-header {
-  margin-bottom:12px;
+  margin-bottom: 12px;
 }
 
 .result-title {
-  font-weight:700; font-size:15px; line-height:1.4; margin:0 0 8px 0;
-  color:var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.result-title a { color:inherit; text-decoration:none; }
-.result-title a:hover { color:var(--accent); }
+
+.result-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.result-title a:hover {
+  color: var(--text-accent);
+}
 
 .source-badge {
-  display:inline-flex; align-items:center; gap:4px; padding:3px 6px; border-radius:4px; 
-  font-size:10px; font-weight:600; color:white; text-transform:uppercase;
-  letter-spacing:0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
 }
-.source-reddit { background:var(--reddit); }
-.source-twitter { background:var(--twitter); }
-.source-linkedin { background:var(--linkedin); }
-.source-hackernews { background:var(--hackernews); }
-.source-github { background:var(--github); }
-.source-stackoverflow { background:var(--stackoverflow); }
-.source-medium { background:var(--medium); }
-.source-quora { background:var(--quora); }
-.source-youtube { background:var(--youtube); }
-.source-producthunt { background:var(--producthunt); }
-.source-discord { background:var(--discord); }
-.source-glassdoor { background:var(--glassdoor); }
-.source-trustpilot { background:var(--trustpilot); }
-.source-appstore { background:var(--appstore); }
-.source-tiktok { background:var(--tiktok); }
-.source-default { background:var(--muted); }
+
+.source-reddit { background: var(--reddit); }
+.source-twitter { background: var(--twitter); }
+.source-linkedin { background: var(--linkedin); }
+.source-hackernews { background: var(--hackernews); }
+.source-github { background: var(--github); color: var(--bg-primary); }
+.source-stackoverflow { background: var(--stackoverflow); }
+.source-medium { background: var(--medium); color: var(--bg-primary); }
+.source-quora { background: var(--quora); }
+.source-youtube { background: var(--youtube); }
+.source-producthunt { background: var(--producthunt); }
+.source-discord { background: var(--discord); }
+.source-glassdoor { background: var(--glassdoor); }
+.source-trustpilot { background: var(--trustpilot); }
+.source-appstore { background: var(--appstore); }
+.source-tiktok { background: var(--tiktok); color: var(--bg-primary); }
+.source-default { background: var(--text-muted); }
 
 .result-snippet {
-  color:var(--muted); font-size:13px; line-height:1.5; 
-  margin-bottom:16px; display:-webkit-box; -webkit-line-clamp:3; 
-  -webkit-box-orient:vertical; overflow:hidden;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* AI Insight - Compact */
+.result-snippet mark {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--text-accent);
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* AI Insight */
 .ai-insight {
-  background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border:1px solid #e2e8f0; border-radius:6px; padding:12px; margin-bottom:12px;
+  background: var(--bg-accent);
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
 }
+
+.ai-insight-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
 .ai-insight-label {
-  font-size:10px; font-weight:600; color:var(--muted);
-  text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;
-  display:flex; justify-content:space-between; align-items:center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
+
 .urgency-badge {
-  padding:2px 6px; border-radius:10px; font-size:9px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.5px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.urgency-high { background:var(--danger); color:white; }
-.urgency-medium { background:var(--warning); color:white; }
-.urgency-low { background:var(--muted); color:white; }
+
+.urgency-high { 
+  background: var(--bg-danger);
+  color: white;
+}
+
+.urgency-medium { 
+  background: var(--bg-warning);
+  color: white;
+}
+
+.urgency-low { 
+  background: var(--bg-success);
+  color: white;
+}
 
 .ai-insight-text {
-  font-size:13px; color:var(--ink); line-height:1.4;
-  font-weight:500;
+  color: var(--text-primary);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 500;
 }
 
 .card-footer {
-  display:flex; justify-content:space-between; align-items:center;
-  font-size:11px; color:var(--muted); margin-top:16px;
-  padding-top:12px; border-top:1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-primary);
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
 .copy-link {
-  color:var(--accent); cursor:pointer; font-weight:600;
-  padding:4px 8px; border-radius:4px; transition:all 0.2s ease;
-  font-size:11px; text-transform:uppercase; letter-spacing:0.5px;
-}
-.copy-link:hover { 
-  background:var(--accent); 
-  color:white;
-  transform:translateY(-1px);
+  color: var(--text-accent);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
 }
 
-/* Footer Section */
-.footer-section {
-  background: white;
-  border-top: 1px solid var(--border);
-  padding: 60px 32px;
+.copy-link:hover {
+  background: var(--text-accent);
+  color: white;
+  transform: translateY(-1px);
+  border-color: var(--text-accent);
+}
+
+/* Footer */
+.footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-primary);
+  padding: 60px 32px 32px;
   margin-top: 60px;
 }
 
 .footer-content {
-  max-width: 1000px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
-.footer-value-prop {
+.footer-hero {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
-.footer-value-prop h2 {
+.footer-hero h2 {
   font-size: 28px;
-  font-weight: 700;
-  margin: 0 0 12px 0;
-  color: var(--ink);
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
 }
 
-.footer-value-prop p {
+.footer-hero p {
   font-size: 16px;
-  color: var(--muted);
-  margin: 0;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .faqs-section {
@@ -264,199 +497,258 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
 
 .faqs-title {
   font-size: 20px;
-  font-weight: 700;
-  margin: 0 0 24px 0;
-  color: var(--ink);
+  font-weight: 800;
   text-align: center;
+  margin-bottom: 24px;
+  color: var(--text-primary);
 }
 
 .faq-item {
-  margin-bottom: 20px;
-  border: 1px solid var(--border);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
+  margin-bottom: 12px;
   overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+  border-color: var(--border-secondary);
 }
 
 .faq-question {
-  padding: 16px 20px;
-  background: var(--subtle);
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--ink);
-  border: none;
   width: 100%;
+  background: none;
+  border: none;
+  padding: 16px 20px;
   text-align: left;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
 .faq-question:hover {
-  background: var(--hover);
+  background: var(--bg-card-hover);
 }
 
 .faq-arrow {
-  transition: transform 0.2s ease;
-  color: var(--muted);
+  transition: transform 0.3s ease;
+  color: var(--text-muted);
+  font-size: 12px;
 }
 
 .faq-question.active .faq-arrow {
   transform: rotate(180deg);
+  color: var(--text-accent);
 }
 
 .faq-answer {
-  padding: 0 20px;
   max-height: 0;
   overflow: hidden;
   transition: all 0.3s ease;
-  background: white;
+  background: var(--bg-tertiary);
 }
 
 .faq-answer.active {
+  max-height: 150px;
   padding: 16px 20px;
-  max-height: 200px;
 }
 
 .faq-answer p {
-  margin: 0;
-  font-size: 14px;
-  color: var(--muted);
+  color: var(--text-secondary);
+  font-size: 13px;
   line-height: 1.5;
+  margin: 0;
 }
 
 .footer-bottom {
   text-align: center;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  border-top: 1px solid var(--border-primary);
 }
 
 .footer-bottom p {
-  margin: 0;
+  color: var(--text-muted);
   font-size: 12px;
-  color: var(--muted);
+  margin: 0;
 }
 
-/* Loading & Empty States */
-.loading { 
-  text-align:center; padding:60px 20px; color:var(--muted);
-  grid-column:1 / -1;
+/* Loading States */
+.loading-container {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
 }
-.spinner {
-  display:inline-block; width:18px; height:18px; margin-right:8px;
-  border:2px solid var(--border); border-top:2px solid var(--accent);
-  border-radius:50%; animation:spin 1s linear infinite;
-}
-@keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
 
-.empty-state { 
-  text-align:center; padding:60px 20px; color:var(--muted);
-  grid-column:1 / -1;
+.loading-spinner {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--border-primary);
+  border-top: 2px solid var(--text-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
 }
-.empty-state h3 { color:var(--ink); font-weight:700; margin-bottom:8px; font-size:16px; }
 
-/* Responsive */
-@media (max-width: 1200px) {
-  .results-grid { grid-template-columns:1fr; }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state h3 {
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 1024px) {
-  .app { flex-direction:column; }
-  .sidebar { 
-    width:100%; 
-    padding:16px; 
-    box-shadow:none;
-    border-right:none;
-    border-bottom:1px solid var(--border);
+  .app {
+    flex-direction: column;
   }
-  .main-content { 
-    padding:16px; 
-    width:100%;
+  
+  .sidebar {
+    width: 100%;
+    padding: 20px;
+    box-shadow: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border-primary);
   }
-  .content-header {
-    margin-bottom:16px;
-  }
-  .page-title {
-    font-size:20px;
-  }
-  .results-grid {
-    grid-template-columns:1fr;
-    gap:12px;
-  }
-  .result-card {
-    padding:16px;
-  }
-  .footer-section {
-    padding: 40px 16px;
-  }
-  .footer-value-prop h2 {
-    font-size: 24px;
-  }
+  
   .logo {
-    padding:12px 0;
-    border-bottom:1px solid var(--border);
-    margin-bottom:12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
   }
-  .logo-emoji {
-    font-size:32px;
+  
+  .main-content {
+    padding: 20px;
   }
-  .logo-text {
-    font-size:18px;
+  
+  .results-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-  .logo-subtitle {
-    font-size:9px;
+  
+  .hero {
+    padding: 40px 20px 24px;
   }
-  .nav-section {
-    margin-bottom:12px;
+  
+  .hero-title {
+    font-size: 28px;
+  }
+  
+  .hero-subtitle {
+    font-size: 14px;
   }
 }
 
 @media (max-width: 768px) {
   .sidebar {
-    padding:10px;
+    padding: 16px;
   }
+  
   .main-content {
-    padding:12px;
+    padding: 16px;
   }
-  .nav-section {
-    margin-bottom:10px;
+  
+  .result-card {
+    padding: 12px;
   }
-  .search-input, .query-dropdown, .filter-select {
-    font-size:16px; /* Prevents zoom on iOS */
+  
+  .search-input,
+  .select-input {
+    font-size: 16px; /* Prevents zoom on iOS */
   }
-  .footer-section {
-    padding: 30px 12px;
+  
+  .footer {
+    padding: 40px 16px 24px;
   }
-  .logo {
-    padding:10px 0;
+  
+  .hero {
+    padding: 32px 16px 20px;
   }
-  .logo-emoji {
-    font-size:36px;
-  }
-  .logo-text {
-    font-size:20px;
+  
+  .hero-title {
+    font-size: 24px;
   }
 }
-</style>
 
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-card {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.result-card:nth-child(1) { animation-delay: 0.05s; }
+.result-card:nth-child(2) { animation-delay: 0.1s; }
+.result-card:nth-child(3) { animation-delay: 0.15s; }
+.result-card:nth-child(4) { animation-delay: 0.2s; }
+.result-card:nth-child(5) { animation-delay: 0.25s; }
+.result-card:nth-child(6) { animation-delay: 0.3s; }
+.result-card:nth-child(7) { animation-delay: 0.35s; }
+.result-card:nth-child(8) { animation-delay: 0.4s; }
+.result-card:nth-child(9) { animation-delay: 0.45s; }
+.result-card:nth-child(10) { animation-delay: 0.5s; }
+.result-card:nth-child(11) { animation-delay: 0.55s; }
+.result-card:nth-child(12) { animation-delay: 0.6s; }
+</style>
 </head>
 <body>
 
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo">
+    <a href="#" class="logo">
       <span class="logo-emoji">😠</span>
       <span class="logo-text">GrumpyLinks</span>
-      <span class="logo-subtitle">Turn frustrations into opportunities</span>
-    </div>
+    </a>
 
-    <div class="nav-section">
-      <div class="nav-title"></div>
+    <div class="search-section">
+      <div class="section-title">Search Pain Points</div>
       <input id="searchInput" class="search-input" type="text" 
              placeholder="Brand, product, or topic..." />
-      <select id="queryDropdown" class="query-dropdown">
+      <select id="queryDropdown" class="select-input">
         <option value="">General Pain Points</option>
         <option value="competitor_hate">Competitor Complaints</option>
         <option value="switching_signals">Switching Signals</option>
@@ -464,12 +756,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
         <option value="feature_requests">Feature Requests</option>
         <option value="urgent_help">Urgent Problems</option>
       </select>
-      <button id="searchBtn" class="search-btn">Search</button>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-title"></div>
-      <select id="platformSelect" class="filter-select">
+      <select id="platformSelect" class="select-input">
         <option value="all">All Platforms</option>
         <option value="reddit">Reddit</option>
         <option value="twitter">Twitter</option>
@@ -484,101 +771,107 @@ body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; 
         <option value="appstore">App Stores</option>
         <option value="forums">Forums</option>
       </select>
-      
-      <select id="timeSelect" class="filter-select">
+      <select id="timeSelect" class="select-input">
         <option value="d7">Last 7 days</option>
         <option value="d1">Last 24 hours</option>
         <option value="d30">Last 30 days</option>
         <option value="d365">Last year</option>
       </select>
+      <button id="searchBtn" class="search-button">Search</button>
     </div>
- 
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
-    <header class="content-header">
-      <h1 class="page-title">User Pain Points</h1>
-    </header>
-
-    <section class="results-section">
-      <div id="resultsGrid" class="results-grid">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading demo search...</p>
-        </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Turn Customer Complaints Into Your Next Big Idea</h1>
+        <p class="hero-subtitle">Search across 12+ platforms to find real pain points, get AI-powered business insights, and discover opportunities before your competitors do.</p>
       </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer class="footer-section">
-      <div class="footer-content">
-        <div class="footer-value-prop">
-          <h2>Turn Customer Complaints Into Your Next Big Idea</h2>
-          <p>Search across 12+ platforms to find real pain points, get AI-powered business insights, and discover opportunities before your competitors do.</p>
-        </div>
+    <div class="results-header" id="resultsHeader" style="display: none;">
+      <h2 class="results-title">Pain Points Found</h2>
+      <p class="results-subtitle">AI-analyzed customer complaints with business opportunities</p>
+    </div>
 
-        <div class="faqs-section">
-          <h3 class="faqs-title">Frequently Asked Questions</h3>
-          
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              How does GrumpyLinks find business opportunities?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>We search across Reddit, Twitter, YouTube, and 9+ other platforms for customer complaints, then use AI to analyze each pain point and suggest specific business opportunities you could build or create.</p>
-            </div>
-          </div>
+    <div id="resultsGrid" class="results-grid">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading demo search results...</p>
+      </div>
+    </div>
 
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              What platforms do you search?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>We search Reddit, Twitter, LinkedIn, Hacker News, YouTube, Medium, Product Hunt, Discord, Glassdoor, Trustpilot, App Stores, and major forums like Stack Overflow and Quora.</p>
-            </div>
-          </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-hero">
+        <h2>Discover Hidden Opportunities</h2>
+        <p>Join thousands of entrepreneurs who use GrumpyLinks to find their next business idea in customer complaints and pain points.</p>
+      </div>
 
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              Is this different from regular Google search?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>Yes! We specifically search for complaints and frustrations, then analyze each one with AI to suggest business opportunities. Regular search won't give you actionable business insights from customer pain points.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              How accurate are the AI business suggestions?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>Our AI analyzes each complaint and suggests specific, actionable business opportunities. While not every suggestion will be viable, they provide concrete starting points for market research and idea validation.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              Can I export or save the results?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>You can copy individual links from each result card. For bulk export and advanced features, subscribe to our Daily Grumpy newsletter to get curated pain points delivered to your inbox.</p>
-            </div>
+      <div class="faqs-section">
+        <h3 class="faqs-title">Frequently Asked Questions</h3>
+        
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            How does GrumpyLinks find business opportunities?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>We search across Reddit, Twitter, YouTube, and 9+ other platforms for customer complaints, then use AI to analyze each pain point and suggest specific business opportunities you could build or create.</p>
           </div>
         </div>
 
-        <div class="footer-bottom">
-          <p>© 2025 GrumpyLinks. Find your next business opportunity in customer complaints.</p>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            What platforms do you search?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>We search Reddit, Twitter, LinkedIn, Hacker News, YouTube, Medium, Product Hunt, Discord, Glassdoor, Trustpilot, App Stores, and major forums like Stack Overflow and Quora.</p>
+          </div>
+        </div>
+		<div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Is this different from regular Google search?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! We specifically search for complaints and frustrations, then analyze each one with AI to suggest business opportunities. Regular search won't give you actionable business insights from customer pain points.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            How accurate are the AI business suggestions?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Our AI analyzes each complaint and suggests specific, actionable business opportunities. While not every suggestion will be viable, they provide concrete starting points for market research and idea validation.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Can I export or save the results?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>You can copy individual links from each result card. For bulk export and advanced features, subscribe to our Daily Grumpy newsletter to get curated pain points delivered to your inbox.</p>
+          </div>
         </div>
       </div>
-    </footer>
+
+      <div class="footer-bottom">
+        <p>© 2025 GrumpyLinks. Find your next business opportunity in customer complaints.</p>
+      </div>
+    </div>
+  </footer>
   </main>
 </div>
+
 
 <script>
 // Configuration
@@ -717,7 +1010,7 @@ const DEMO_RESULTS = {
     },
     {
       title: "Starlink MCI to IAH : r/unitedairlines",
-     snippet: "... airplane WiFi. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
+     snippet: "... airplane WiFI. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
      link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
      displayLink: "www.reddit.com",
      insight: {
@@ -752,9 +1045,12 @@ function loadDemoSearch() {
 
 function displayDemoResults() {
  const grid = document.getElementById('resultsGrid');
+ const resultsHeader = document.getElementById('resultsHeader');
+ 
+ resultsHeader.style.display = 'block';
  
  let html = '';
- DEMO_RESULTS.results.forEach(result => {
+ DEMO_RESULTS.results.forEach((result, index) => {
    const platformClass = getPlatformClass(result.displayLink);
    const platformName = getPlatformName(result.displayLink);
    
@@ -762,11 +1058,11 @@ function displayDemoResults() {
    const painWords = ['painful', 'sucks', 'hate', 'broken', 'annoying', 'ass', 'taboo', 'blocked', 'help'];
    painWords.forEach(word => {
      const regex = new RegExp(`\\b${word}\\b`, 'gi');
-     snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
+     snippet = snippet.replace(regex, `<mark>$&</mark>`);
    });
    
    html += `
-     <div class="result-card">
+     <div class="result-card" style="animation-delay: ${index * 0.1}s">
        <div class="card-header">
          <h3 class="result-title">
            <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
@@ -777,8 +1073,8 @@ function displayDemoResults() {
        <div class="result-snippet">${snippet}</div>
        
        <div class="ai-insight">
-         <div class="ai-insight-label">
-           Business Opportunity
+         <div class="ai-insight-header">
+           <div class="ai-insight-label">AI Business Opportunity</div>
            <span class="urgency-badge urgency-${result.insight.urgency}">
              ${result.insight.urgency.toUpperCase()}
            </span>
@@ -841,227 +1137,235 @@ function getPlatformClass(domain) {
 function getPlatformName(domain) {
  if (domain.includes('reddit')) return 'Reddit';
  if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
-if (domain.includes('linkedin')) return 'LinkedIn';
-if (domain.includes('news.ycombinator')) return 'Hacker News';
-if (domain.includes('github')) return 'GitHub';
-if (domain.includes('stackoverflow')) return 'Stack Overflow';
-if (domain.includes('medium')) return 'Medium';
-if (domain.includes('quora')) return 'Quora';
-if (domain.includes('youtube')) return 'YouTube';
-if (domain.includes('producthunt')) return 'Product Hunt';
-if (domain.includes('discord')) return 'Discord';
-if (domain.includes('glassdoor')) return 'Glassdoor';
-if (domain.includes('trustpilot')) return 'Trustpilot';
-if (domain.includes('tiktok')) return 'TikTok';
-if (domain.includes('apps.apple.com')) return 'App Store';
-if (domain.includes('play.google.com')) return 'Play Store';
-return domain.split('.')[0];
+ if (domain.includes('linkedin')) return 'LinkedIn';
+ if (domain.includes('news.ycombinator')) return 'Hacker News';
+ if (domain.includes('github')) return 'GitHub';
+ if (domain.includes('stackoverflow')) return 'Stack Overflow';
+ if (domain.includes('medium')) return 'Medium';
+ if (domain.includes('quora')) return 'Quora';
+ if (domain.includes('youtube')) return 'YouTube';
+ if (domain.includes('producthunt')) return 'Product Hunt';
+ if (domain.includes('discord')) return 'Discord';
+ if (domain.includes('glassdoor')) return 'Glassdoor';
+ if (domain.includes('trustpilot')) return 'Trustpilot';
+ if (domain.includes('tiktok')) return 'TikTok';
+ if (domain.includes('apps.apple.com')) return 'App Store';
+ if (domain.includes('play.google.com')) return 'Play Store';
+ return domain.split('.')[0];
 }
 
 function findInsightForResult(result, analysis) {
-if (!analysis || !analysis.resultInsights) {
-  return {
-    businessOpportunity: "AI analysis not available for this result",
-    urgency: "low"
-  };
-}
+ if (!analysis || !analysis.resultInsights) {
+   return {
+     businessOpportunity: "AI analysis not available for this result",
+     urgency: "low"
+   };
+ }
 
-const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+ const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
 
-const matchingInsight = analysis.resultInsights.find(insight => {
-  const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-  return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
-         insightTitleWords.includes(resultTitleWords.slice(0, 20));
-});
+ const matchingInsight = analysis.resultInsights.find(insight => {
+   const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+   return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
+          insightTitleWords.includes(resultTitleWords.slice(0, 20));
+ });
 
-if (matchingInsight) {
-  return matchingInsight;
-}
+ if (matchingInsight) {
+   return matchingInsight;
+ }
 
-return analysis.resultInsights[0] || {
-  businessOpportunity: "Monitor this result for business opportunities",
-  urgency: "medium"
-};
+ return analysis.resultInsights[0] || {
+   businessOpportunity: "Monitor this result for business opportunities",
+   urgency: "medium"
+ };
 }
 
 async function performGoogleSearch(query, timeRange) {
-if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
-  throw new Error('Google API not configured');
-}
+ if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
+   throw new Error('Google API not configured');
+ }
 
-const params = new URLSearchParams({
-  key: API_CONFIG.GOOGLE_API_KEY,
-  cx: API_CONFIG.SEARCH_ENGINE_ID,
-  q: query,
-  num: '8',
-  dateRestrict: timeRange
-});
+ const params = new URLSearchParams({
+   key: API_CONFIG.GOOGLE_API_KEY,
+   cx: API_CONFIG.SEARCH_ENGINE_ID,
+   q: query,
+   num: '8',
+   dateRestrict: timeRange
+ });
 
-const response = await fetch(`https://www.googleapis.com/customsearch/v1?${params}`);
-if (!response.ok) {
-  const error = await response.json();
-  throw new Error(error.error?.message || 'Search failed');
-}
+ const response = await fetch(`https://www.googleapis.com/customsearch/v1?${params}`);
+ if (!response.ok) {
+   const error = await response.json();
+   throw new Error(error.error?.message || 'Search failed');
+ }
 
-const data = await response.json();
-return data.items || [];
+ const data = await response.json();
+ return data.items || [];
 }
 
 async function analyzeWithAI(results, query, platform) {
-if (!API_CONFIG.LAMBDA_ENDPOINT) {
-  return {
-    mainPainPoint: "AI analysis not configured",
-    resultInsights: [],
-    overallOpportunityScore: 3,
-    topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
-  };
-}
+ if (!API_CONFIG.LAMBDA_ENDPOINT) {
+   return {
+     mainPainPoint: "AI analysis not configured",
+     resultInsights: [],
+     overallOpportunityScore: 3,
+     topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
+   };
+ }
 
-try {
-  const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, platform, results: results.slice(0, 8) })
-  });
+ try {
+   const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify({ query, platform, results: results.slice(0, 8) })
+   });
 
-  if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
-  return await response.json();
-} catch (error) {
-  console.error('AI analysis error:', error);
-  return {
-    mainPainPoint: "AI analysis temporarily unavailable",
-    resultInsights: [],
-    overallOpportunityScore: 3,
-    topActionableIdeas: ["AI analysis error - please try again"]
-  };
-}
+   if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
+   return await response.json();
+ } catch (error) {
+   console.error('AI analysis error:', error);
+   return {
+     mainPainPoint: "AI analysis temporarily unavailable",
+     resultInsights: [],
+     overallOpportunityScore: 3,
+     topActionableIdeas: ["AI analysis error - please try again"]
+   };
+ }
 }
 
 async function performSearch() {
-const keyword = document.getElementById('searchInput').value.trim();
-if (!keyword) {
-  alert('Please enter a search term');
-  return;
-}
+ const keyword = document.getElementById('searchInput').value.trim();
+ if (!keyword) {
+   alert('Please enter a search term');
+   return;
+ }
 
-const queryType = document.getElementById('queryDropdown').value;
-const platform = document.getElementById('platformSelect').value;
-const timeRange = document.getElementById('timeSelect').value;
+ const queryType = document.getElementById('queryDropdown').value;
+ const platform = document.getElementById('platformSelect').value;
+ const timeRange = document.getElementById('timeSelect').value;
 
-showLoading();
+ showLoading();
 
-try {
-  let query;
-  let powerQuery = null;
-  
-  if (queryType && POWER_QUERIES[queryType]) {
-    powerQuery = POWER_QUERIES[queryType];
-    query = buildSearchQuery(powerQuery.template, keyword, platform);
-  } else {
-    query = buildNormalSearchQuery(keyword, platform);
-  }
-  
-  const results = await performGoogleSearch(query, timeRange);
-  
-  let analysis = null;
-  if (results.length > 0) {
-    analysis = await analyzeWithAI(results, query, platform);
-    currentAnalysis = analysis;
-  }
-  
-  displayResults(results, powerQuery, keyword, analysis);
-  
-} catch (error) {
-  showError(error.message);
-}
+ try {
+   let query;
+   let powerQuery = null;
+   
+   if (queryType && POWER_QUERIES[queryType]) {
+     powerQuery = POWER_QUERIES[queryType];
+     query = buildSearchQuery(powerQuery.template, keyword, platform);
+   } else {
+     query = buildNormalSearchQuery(keyword, platform);
+   }
+   
+   const results = await performGoogleSearch(query, timeRange);
+   
+   let analysis = null;
+   if (results.length > 0) {
+     analysis = await analyzeWithAI(results, query, platform);
+     currentAnalysis = analysis;
+   }
+   
+   displayResults(results, powerQuery, keyword, analysis);
+   
+ } catch (error) {
+   showError(error.message);
+ }
 }
 
 function showLoading() {
-document.getElementById('resultsGrid').innerHTML = `
-  <div class="loading">
-    <div class="spinner"></div>
-    <p>Analyzing pain points...</p>
-  </div>
-`;
+ const grid = document.getElementById('resultsGrid');
+ const resultsHeader = document.getElementById('resultsHeader');
+ 
+ resultsHeader.style.display = 'block';
+ grid.innerHTML = `
+   <div class="loading-container">
+     <div class="loading-spinner"></div>
+     <p class="loading-text">Analyzing pain points across platforms...</p>
+   </div>
+ `;
 }
 
 function showError(message) {
-document.getElementById('resultsGrid').innerHTML = `
-  <div class="empty-state">
-    <h3>Search Error</h3>
-    <p>${message}</p>
-  </div>
-`;
+ const grid = document.getElementById('resultsGrid');
+ grid.innerHTML = `
+   <div class="empty-state">
+     <h3>Search Error</h3>
+     <p>${message}</p>
+   </div>
+ `;
 }
 
 function displayResults(results, powerQuery, keyword, analysis) {
-const grid = document.getElementById('resultsGrid');
+ const grid = document.getElementById('resultsGrid');
+ const resultsHeader = document.getElementById('resultsHeader');
 
-if (!results.length) {
-  grid.innerHTML = `
-    <div class="empty-state">
-      <h3>No Results Found</h3>
-      <p>Try a different search term or platform.</p>
-    </div>
-  `;
-  return;
-}
+ resultsHeader.style.display = 'block';
 
-let html = '';
-results.forEach(result => {
-  const platformClass = getPlatformClass(result.displayLink);
-  const platformName = getPlatformName(result.displayLink);
-  
-  let snippet = result.snippet || '';
-  const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-  painWords.forEach(word => {
-    const regex = new RegExp(`\\b${word}\\b`, 'gi');
-    snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
-  });
-  
-  html += `
-    <div class="result-card">
-      <div class="card-header">
-        <h3 class="result-title">
-          <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
-        </h3>
-        <span class="source-badge ${platformClass}">${platformName}</span>
-      </div>
-      
-      <div class="result-snippet">${snippet}</div>
-  `;
-  
-  if (analysis) {
-    const insight = findInsightForResult(result, analysis);
-    html += `
-      <div class="ai-insight">
-        <div class="ai-insight-label">
-          Business Opportunity
-          <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
-            ${(insight.urgency || 'medium').toUpperCase()}
-          </span>
-        </div>
-        <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
-      </div>
-    `;
-  }
-  
-  html += `
-      <div class="card-footer">
-        <span>${result.displayLink}</span>
-        <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
-      </div>
-    </div>
-  `;
-});
+ if (!results.length) {
+   grid.innerHTML = `
+     <div class="empty-state">
+       <h3>No Pain Points Found</h3>
+       <p>Try a different search term, platform, or time range to discover customer complaints.</p>
+     </div>
+   `;
+   return;
+ }
 
-grid.innerHTML = html;
+ let html = '';
+ results.forEach((result, index) => {
+   const platformClass = getPlatformClass(result.displayLink);
+   const platformName = getPlatformName(result.displayLink);
+   
+   let snippet = result.snippet || '';
+   const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+   painWords.forEach(word => {
+     const regex = new RegExp(`\\b${word}\\b`, 'gi');
+     snippet = snippet.replace(regex, `<mark>$&</mark>`);
+   });
+   
+   html += `
+     <div class="result-card" style="animation-delay: ${index * 0.1}s">
+       <div class="card-header">
+         <h3 class="result-title">
+           <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
+         </h3>
+         <span class="source-badge ${platformClass}">${platformName}</span>
+       </div>
+       
+       <div class="result-snippet">${snippet}</div>
+   `;
+   
+   if (analysis) {
+     const insight = findInsightForResult(result, analysis);
+     html += `
+       <div class="ai-insight">
+         <div class="ai-insight-header">
+           <div class="ai-insight-label">AI Business Opportunity</div>
+           <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
+             ${(insight.urgency || 'medium').toUpperCase()}
+           </span>
+         </div>
+         <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
+       </div>
+     `;
+   }
+   
+   html += `
+       <div class="card-footer">
+         <span>${result.displayLink}</span>
+         <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
+       </div>
+     </div>
+   `;
+ });
+
+ grid.innerHTML = html;
 }
 
 function copyToClipboard(text) {
-navigator.clipboard.writeText(text).then(() => {
-  // Could add success toast here
-});
+ navigator.clipboard.writeText(text).then(() => {
+   // Could add success toast here
+ });
 }
 
 window.copyToClipboard = copyToClipboard;
@@ -1071,3 +1375,4 @@ init();
 </script>
 </body>
 </html>
+        
