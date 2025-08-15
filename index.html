@@ -12,6 +12,10 @@
   --border:#e2e8f0; --hover:#f1f5f9; --ai:#8b5cf6;
   --shadow:0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
   --shadow-lg:0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  
+  /* Platform Colors */
+  --reddit:#ff4500; --twitter:#1da1f2; --linkedin:#0077b5; --hackernews:#ff6600;
+  --github:#333; --stackoverflow:#f48024; --medium:#000; --quora:#b92b27;
 }
 
 * { box-sizing: border-box; }
@@ -79,7 +83,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 
 /* Header */
 .content-header {
-  display:flex; justify-content:between; align-items:center;
+  display:flex; justify-content:space-between; align-items:center;
   margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--border);
 }
 .page-title { font-size:24px; font-weight:700; margin:0; }
@@ -90,50 +94,32 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 .status-warning { background:#fef3c7; color:#92400e; }
 .status-info { background:#dbeafe; color:#1e40af; }
 
-/* AI Analysis Cards */
-.ai-overview {
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-  gap:16px; margin-bottom:24px;
+/* Compact AI Summary */
+.ai-summary {
+  background:linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  border:2px solid var(--ai); border-radius:12px; padding:16px; margin-bottom:20px;
+  display:none;
 }
-
-.ai-card {
-  background:white; border:2px solid var(--border); border-radius:12px;
-  padding:20px; box-shadow:var(--shadow); transition:all 0.2s ease;
+.ai-summary-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;
 }
-.ai-card:hover { box-shadow:var(--shadow-lg); }
-
-.ai-card.primary { border-color:var(--ai); background:linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%); }
-.ai-card.success { border-color:var(--success); background:linear-gradient(135deg, #f0fdf9 0%, #ecfdf5 100%); }
-.ai-card.warning { border-color:var(--warning); background:linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
-
-.ai-card-header {
-  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+.ai-summary-title { font-weight:600; color:var(--ai); margin:0; }
+.ai-summary-score {
+  font-size:18px; font-weight:700; padding:4px 8px; border-radius:8px;
 }
-.ai-card-title { font-size:16px; font-weight:600; margin:0; }
-.ai-icon { font-size:20px; }
+.score-high { background:#dcfce7; color:#166534; }
+.score-medium { background:#fef3c7; color:#92400e; }
+.score-low { background:#fecaca; color:#dc2626; }
+.ai-summary-content { font-size:14px; color:var(--muted); }
 
-.opportunity-score {
-  font-size:2.5rem; font-weight:800; margin:8px 0;
-  background:linear-gradient(135deg, var(--success), #059669);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-}
-.score-medium { background:linear-gradient(135deg, var(--warning), #d97706); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.score-low { background:linear-gradient(135deg, var(--danger), #dc2626); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-
-.phrase-tag {
-  display:inline-block; padding:4px 8px; margin:2px 4px 2px 0;
-  background:var(--hover); color:var(--ink); border-radius:16px;
-  font-size:12px; font-weight:500;
-}
-
-/* Results Grid */
+/* Results */
 .results-header {
   display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
 }
 .results-count { color:var(--muted); font-size:14px; }
 
 .results-grid {
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(400px, 1fr));
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr));
   gap:16px;
 }
 
@@ -145,36 +131,69 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow-lg);
 }
 
-.result-header {
-  display:flex; justify-content:space-between; align-items:start;
-  margin-bottom:12px; gap:12px;
+/* AI-Enhanced Card Features */
+.card-header {
+  display:flex; justify-content:space-between; align-items:start; margin-bottom:12px; gap:12px;
 }
+
+.relevance-bar {
+  position:absolute; top:0; left:0; height:4px; border-radius:12px 12px 0 0;
+  transition:width 0.3s ease;
+}
+.relevance-high { background:var(--success); width:80%; }
+.relevance-medium { background:var(--warning); width:60%; }
+.relevance-low { background:var(--muted); width:40%; }
+
 .result-title {
-  font-weight:600; font-size:15px; line-height:1.4;
-  margin:0; flex:1;
+  font-weight:600; font-size:15px; line-height:1.4; margin:0; flex:1;
 }
 .result-title a { color:var(--ink); text-decoration:none; }
 .result-title a:hover { color:var(--accent); }
 
-.domain-badge {
-  padding:4px 8px; background:var(--hover); color:var(--muted);
-  border-radius:16px; font-size:12px; font-weight:500; white-space:nowrap;
+.source-badge {
+  padding:4px 8px; border-radius:16px; font-size:11px; font-weight:600;
+  white-space:nowrap; color:white; text-transform:uppercase;
 }
+.source-reddit { background:var(--reddit); }
+.source-twitter { background:var(--twitter); }
+.source-linkedin { background:var(--linkedin); }
+.source-hackernews { background:var(--hackernews); }
+.source-github { background:var(--github); }
+.source-stackoverflow { background:var(--stackoverflow); }
+.source-medium { background:var(--medium); }
+.source-quora { background:var(--quora); }
+.source-default { background:var(--muted); }
 
 .result-snippet {
-  color:var(--muted); font-size:14px; line-height:1.5;
-  margin-bottom:12px;
+  color:var(--muted); font-size:14px; line-height:1.5; margin-bottom:12px;
+}
+
+/* AI Insights in Card */
+.ai-insights {
+  background:rgba(139, 92, 246, 0.05); border:1px solid rgba(139, 92, 246, 0.2);
+  border-radius:8px; padding:10px; margin:12px 0; font-size:12px;
+}
+.ai-insights-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;
+}
+.ai-label { color:var(--ai); font-weight:600; }
+.pain-score {
+  background:var(--ai); color:white; padding:2px 6px; border-radius:12px;
+  font-size:10px; font-weight:600;
+}
+.ai-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
+.ai-tag {
+  background:rgba(139, 92, 246, 0.1); color:var(--ai); padding:2px 6px;
+  border-radius:10px; font-size:10px; font-weight:500;
 }
 
 .result-footer {
   display:flex; justify-content:space-between; align-items:center;
-  font-size:12px; color:var(--muted);
+  font-size:12px; color:var(--muted); margin-top:12px;
 }
 
 /* Loading */
-.loading {
-  text-align:center; padding:40px; color:var(--muted);
-}
+.loading { text-align:center; padding:40px; color:var(--muted); }
 .spinner {
   display:inline-block; width:20px; height:20px; margin-right:8px;
   border:2px solid #e5e7eb; border-top:2px solid var(--accent);
@@ -182,9 +201,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 }
 @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
 
-.empty-state {
-  text-align:center; padding:60px 20px; color:var(--muted);
-}
+.empty-state { text-align:center; padding:60px 20px; color:var(--muted); }
 .empty-state .emoji { font-size:48px; margin-bottom:16px; }
 
 /* Responsive */
@@ -192,13 +209,13 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   .app { flex-direction:column; }
   .sidebar { width:100%; padding:16px; }
   .main-content { padding:16px; }
-  .ai-overview { grid-template-columns:1fr; }
   .results-grid { grid-template-columns:1fr; }
 }
 
 @media (max-width: 640px) {
   .content-header { flex-direction:column; align-items:start; gap:12px; }
   .results-header { flex-direction:column; align-items:start; gap:8px; }
+  .card-header { flex-direction:column; align-items:start; gap:8px; }
 }
 </style>
 </head>
@@ -250,48 +267,13 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
       <span id="statusBadge" class="status-badge status-info">Ready to hunt</span>
     </header>
 
-    <!-- AI Analysis Overview -->
-    <div id="aiOverview" class="ai-overview" style="display:none;">
-      <div class="ai-card primary">
-        <div class="ai-card-header">
-          <h3 class="ai-card-title">Opportunity Score</h3>
-          <span class="ai-icon">🎯</span>
-        </div>
-        <div class="opportunity-score" id="opportunityScore">-</div>
-        <p style="margin:0; color:var(--muted); font-size:14px;">Market opportunity rating</p>
+    <!-- Compact AI Summary -->
+    <div id="aiSummary" class="ai-summary">
+      <div class="ai-summary-header">
+        <h3 class="ai-summary-title">🤖 AI Analysis</h3>
+        <span id="overallScore" class="ai-summary-score">-</span>
       </div>
-
-      <div class="ai-card success">
-        <div class="ai-card-header">
-          <h3 class="ai-card-title">Main Pain Point</h3>
-          <span class="ai-icon">😤</span>
-        </div>
-        <p id="mainPainPoint" style="margin:8px 0; font-weight:500;">Analyzing...</p>
-      </div>
-
-      <div class="ai-card warning">
-        <div class="ai-card-header">
-          <h3 class="ai-card-title">Top Opportunities</h3>
-          <span class="ai-icon">💡</span>
-        </div>
-        <div id="contentOpportunities">Analyzing...</div>
-      </div>
-
-      <div class="ai-card">
-        <div class="ai-card-header">
-          <h3 class="ai-card-title">Action Items</h3>
-          <span class="ai-icon">🚀</span>
-        </div>
-        <p id="actionItems" style="margin:8px 0;">Analyzing...</p>
-      </div>
-
-      <div class="ai-card" style="grid-column: 1 / -1;">
-        <div class="ai-card-header">
-          <h3 class="ai-card-title">Trending Phrases</h3>
-          <span class="ai-icon">📊</span>
-        </div>
-        <div id="trendingPhrases"></div>
-      </div>
+      <div id="summaryContent" class="ai-summary-content"></div>
     </div>
 
     <!-- Results -->
@@ -437,6 +419,81 @@ function buildSearchQuery(template, keyword, platform) {
   return query;
 }
 
+// Get platform class for source badge
+function getPlatformClass(domain) {
+  if (domain.includes('reddit')) return 'source-reddit';
+  if (domain.includes('twitter') || domain.includes('x.com')) return 'source-twitter';
+  if (domain.includes('linkedin')) return 'source-linkedin';
+  if (domain.includes('news.ycombinator')) return 'source-hackernews';
+  if (domain.includes('github')) return 'source-github';
+  if (domain.includes('stackoverflow')) return 'source-stackoverflow';
+  if (domain.includes('medium')) return 'source-medium';
+  if (domain.includes('quora')) return 'source-quora';
+  return 'source-default';
+}
+
+// Get platform name
+function getPlatformName(domain) {
+  if (domain.includes('reddit')) return 'Reddit';
+  if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
+  if (domain.includes('linkedin')) return 'LinkedIn';
+  if (domain.includes('news.ycombinator')) return 'HackerNews';
+  if (domain.includes('github')) return 'GitHub';
+  if (domain.includes('stackoverflow')) return 'StackOverflow';
+  if (domain.includes('medium')) return 'Medium';
+  if (domain.includes('quora')) return 'Quora';
+  return domain.split('.')[0].toUpperCase();
+}
+
+// Calculate pain score for individual result
+function calculatePainScore(result, analysis) {
+  const text = `${result.title} ${result.snippet}`.toLowerCase();
+  const painWords = ['hate', 'frustrated', 'terrible', 'broken', 'annoying', 'awful', 'worst'];
+  const urgentWords = ['urgent', 'help', 'fix', 'stuck', 'critical'];
+  const wishWords = ['wish', 'want', 'need', 'should', 'please'];
+  
+  let score = 5; // base score
+  
+  // Pain indicators
+  painWords.forEach(word => {
+    if (text.includes(word)) score += 2;
+  });
+  
+  // Urgency indicators
+  urgentWords.forEach(word => {
+    if (text.includes(word)) score += 1;
+  });
+  
+  // Wish/demand indicators
+  wishWords.forEach(word => {
+    if (text.includes(word)) score += 1;
+  });
+  
+  // Trending phrase bonus
+  if (analysis?.trendingPhrases) {
+    analysis.trendingPhrases.forEach(phrase => {
+      if (text.includes(phrase.toLowerCase())) score += 1;
+    });
+  }
+  
+  return Math.min(Math.max(score, 1), 10);
+}
+
+// Get AI tags for result
+function getAITags(result, analysis) {
+  const text = `${result.title} ${result.snippet}`.toLowerCase();
+  const tags = [];
+  
+  if (text.includes('alternative') || text.includes('switch')) tags.push('switching');
+  if (text.includes('feature') || text.includes('add')) tags.push('feature-req');
+  if (text.includes('broken') || text.includes('bug')) tags.push('broken');
+  if (text.includes('expensive') || text.includes('price')) tags.push('pricing');
+  if (text.includes('urgent') || text.includes('help')) tags.push('urgent');
+  if (text.includes('wish') || text.includes('want')) tags.push('wishlist');
+  
+  return tags.slice(0, 3); // Max 3 tags
+}
+
 // Perform Google search
 async function performGoogleSearch(query, timeRange) {
   if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
@@ -516,14 +573,19 @@ async function runPowerQuery(powerQuery) {
     const results = await performGoogleSearch(query, timeRange);
     currentSearchResults = results;
     
-    // Display results
-    displayResults(results, powerQuery.title);
-    
-    // Get AI analysis
+    // Get AI analysis first
+    let analysis = null;
     if (results.length > 0) {
-      const analysis = await analyzeWithAI(results, query, platform);
+      analysis = await analyzeWithAI(results, query, platform);
       currentAnalysis = analysis;
-      displayAIAnalysis(analysis);
+    }
+    
+    // Display results with AI insights
+    displayResults(results, powerQuery.title, analysis);
+    
+    // Show compact summary
+    if (analysis) {
+      displayCompactSummary(analysis);
     }
     
     // Update status
@@ -539,7 +601,7 @@ async function runPowerQuery(powerQuery) {
 
 // Show loading
 function showLoading() {
-  document.getElementById('aiOverview').style.display = 'none';
+  document.getElementById('aiSummary').style.display = 'none';
   document.getElementById('resultsGrid').innerHTML = `
     <div class="loading">
       <div class="spinner"></div>
@@ -560,8 +622,21 @@ function showError(message) {
   `;
 }
 
-// Display results
-function displayResults(results, queryTitle) {
+// Display compact summary
+function displayCompactSummary(analysis) {
+  const summary = document.getElementById('aiSummary');
+  const score = analysis.opportunityScore || 5;
+  
+  document.getElementById('overallScore').textContent = `${score}/10`;
+  document.getElementById('overallScore').className = `ai-summary-score ${score >= 8 ? 'score-high' : score >= 6 ? 'score-medium' : 'score-low'}`;
+  
+  document.getElementById('summaryContent').textContent = analysis.mainPainPoint || 'Analysis complete';
+  
+  summary.style.display = 'block';
+}
+
+// Display results with AI insights
+function displayResults(results, queryTitle, analysis) {
   const grid = document.getElementById('resultsGrid');
   
   if (!results.length) {
@@ -579,23 +654,41 @@ function displayResults(results, queryTitle) {
   
   let html = '';
   results.forEach(result => {
+    const painScore = calculatePainScore(result, analysis);
+    const aiTags = getAITags(result, analysis);
+    const platformClass = getPlatformClass(result.displayLink);
+    const platformName = getPlatformName(result.displayLink);
+    
     // Highlight pain words
     let snippet = result.snippet || '';
-    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help'];
+    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent'];
     painWords.forEach(word => {
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
       snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:4px;">$&</mark>`);
     });
     
+    // Relevance bar class
+    const relevanceClass = painScore >= 8 ? 'relevance-high' : painScore >= 6 ? 'relevance-medium' : 'relevance-low';
+    
     html += `
       <div class="result-card">
-        <div class="result-header">
+        <div class="${relevanceClass} relevance-bar"></div>
+        <div class="card-header">
           <h3 class="result-title">
             <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
           </h3>
-          <span class="domain-badge">${result.displayLink}</span>
+          <span class="source-badge ${platformClass}">${platformName}</span>
         </div>
         <div class="result-snippet">${snippet}</div>
+        
+        <div class="ai-insights">
+          <div class="ai-insights-header">
+            <span class="ai-label">🤖 AI Insights</span>
+            <span class="pain-score">${painScore}/10</span>
+          </div>
+          ${aiTags.length > 0 ? `<div class="ai-tags">${aiTags.map(tag => `<span class="ai-tag">${tag}</span>`).join('')}</div>` : ''}
+        </div>
+        
         <div class="result-footer">
           <span>Source: ${result.displayLink}</span>
           <a href="${result.link}" target="_blank" rel="noopener" style="color:var(--accent);">View →</a>
@@ -605,42 +698,6 @@ function displayResults(results, queryTitle) {
   });
   
   grid.innerHTML = html;
-}
-
-// Display AI analysis
-function displayAIAnalysis(analysis) {
-  document.getElementById('aiOverview').style.display = 'grid';
-  
-  // Opportunity score
-  const score = analysis.opportunityScore || 5;
-  const scoreElement = document.getElementById('opportunityScore');
-  scoreElement.textContent = `${score}/10`;
-  scoreElement.className = 'opportunity-score';
-  if (score >= 8) scoreElement.classList.add('score-high');
-  else if (score >= 6) scoreElement.classList.add('score-medium');
-  else scoreElement.classList.add('score-low');
-  
-  // Main pain point
-  document.getElementById('mainPainPoint').textContent = analysis.mainPainPoint || 'Analysis complete';
-  
-  // Content opportunities
-  if (analysis.contentOpportunities && analysis.contentOpportunities.length > 0) {
-    document.getElementById('contentOpportunities').innerHTML = analysis.contentOpportunities
-      .slice(0, 3)
-      .map(opp => `<div style="margin-bottom:8px;">• ${opp}</div>`)
-      .join('');
-  }
-  
-  // Action items
-  document.getElementById('actionItems').textContent = analysis.actionItems || 'No specific actions identified';
-  
-  // Trending phrases
-  if (analysis.trendingPhrases && analysis.trendingPhrases.length > 0) {
-    document.getElementById('trendingPhrases').innerHTML = analysis.trendingPhrases
-      .slice(0, 8)
-      .map(phrase => `<span class="phrase-tag">${phrase}</span>`)
-      .join('');
-  }
 }
 
 // Initialize app
