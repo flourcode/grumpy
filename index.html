@@ -2,161 +2,230 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GrumpyLinks — AI-Powered Pain Point Discovery</title>
 <script src="env-config.js"></script>
 <style>
 :root {
-  --bg:#0f1115; --card:#151924; --ink:#e6e9ef; --muted:#9aa3b2;
-  --accent:#6ee7b7; --chip:#1c2230; --chipOn:#263048;
-  --good:#a7f3d0; --bad:#fecaca; --border:#1e2433; --field:#0c0f16;
-  --ai:#8b5cf6; --opportunity:#f59e0b;
+  --bg:#f8fafc; --sidebar:#ffffff; --card:#ffffff; --ink:#1e293b; --muted:#64748b;
+  --accent:#3b82f6; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
+  --border:#e2e8f0; --hover:#f1f5f9; --ai:#8b5cf6;
+  --shadow:0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
 }
-* { box-sizing: border-box; }
-html,body {
-  margin:0; background:var(--bg); color:var(--ink);
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-}
-body { overflow-x:hidden; }
 
-/* Header */
-header {
-  position:sticky; top:0; z-index:10;
-  backdrop-filter:saturate(120%) blur(6px);
-  background:linear-gradient(180deg, rgba(15,17,21,.92), rgba(15,17,21,.85));
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:12px 16px; border-bottom:1px solid #212636;
-}
-.badge {
-  display:inline-block; padding:2px 8px; border-radius:999px;
-  font-size:.75rem; background:#172033; color:#9cb3ff;
-}
+* { box-sizing: border-box; }
+html,body { margin:0; padding:0; font-family: Inter, system-ui, sans-serif; }
+body { background:var(--bg); color:var(--ink); line-height:1.5; }
 
 /* Layout */
-main { padding:12px; }
-.container {
-  max-width:1200px; margin:0 auto;
-  display:grid; grid-template-columns:380px 1fr; gap:16px;
-}
-.panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
-.panel h3 { margin:0 0 10px 0; font-size:13px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); }
+.app { display:flex; min-height:100vh; }
 
-/* Controls */
-.searchbar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-input[type="text"] {
-  flex:1 1 220px; min-width:0;
-  background:var(--field); border:1px solid #20273a; color:var(--ink);
-  padding:12px 14px; border-radius:10px; font-size:16px;
+/* Sidebar */
+.sidebar {
+  width:280px; background:var(--sidebar); border-right:1px solid var(--border);
+  padding:20px; overflow-y:auto; flex-shrink:0;
 }
-input[type="text"]::placeholder { color:#7d8596; }
+.logo { font-size:20px; font-weight:700; margin-bottom:24px; color:var(--ink); }
+.logo .emoji { margin-right:8px; }
 
-button, select {
-  background:var(--chip); color:var(--ink); border:1px solid #273149;
-  border-radius:10px; padding:10px 12px; cursor:pointer; font-size:15px;
-  flex:0 1 auto; min-width:0;
+.section { margin-bottom:24px; }
+.section-title { 
+  font-size:14px; font-weight:600; color:var(--muted); 
+  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px; 
 }
-button:hover { background:var(--chipOn); }
-button:active { transform:translateY(1px); }
 
-/* Power Query Buttons */
-.power-queries {
-  display:grid; grid-template-columns:1fr; gap:6px;
+/* Search */
+.search-input {
+  width:100%; padding:12px 16px; border:2px solid var(--border);
+  border-radius:8px; font-size:15px; background:var(--bg);
+  transition:border-color 0.2s ease;
 }
-.power-btn {
-  background:linear-gradient(135deg, #1e2a3e 0%, #2a3f5f 100%);
-  border:1px solid #344267; color:var(--ink); text-align:left;
-  padding:10px 12px; border-radius:8px; cursor:pointer;
-  transition:all 0.2s ease; font-size:13px;
+.search-input:focus {
+  outline:none; border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(59,130,246,0.1);
 }
-.power-btn:hover {
-  background:linear-gradient(135deg, #2a3f5f 0%, #344267 100%);
-  transform:translateY(-1px);
-}
-.power-btn .title { font-weight:600; color:var(--accent); margin-bottom:2px; }
-.power-btn .desc { color:var(--muted); font-size:12px; }
 
-/* AI Analysis Panel */
-.ai-panel {
-  background:linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
-  color:#fff; border:none; margin-bottom:16px;
+.search-btn {
+  width:100%; margin-top:8px; padding:12px; background:var(--accent);
+  color:white; border:none; border-radius:8px; font-weight:600;
+  cursor:pointer; transition:background 0.2s ease;
 }
-.ai-panel h3 { color:#fff; }
+.search-btn:hover { background:#2563eb; }
+
+/* Power Queries */
+.power-query {
+  display:block; width:100%; text-align:left; padding:12px 16px;
+  background:white; border:2px solid var(--border); border-radius:8px;
+  margin-bottom:8px; cursor:pointer; transition:all 0.2s ease;
+}
+.power-query:hover {
+  border-color:var(--accent); background:var(--hover);
+  transform:translateY(-1px); box-shadow:var(--shadow);
+}
+.power-query .title { font-weight:600; color:var(--ink); margin-bottom:4px; }
+.power-query .desc { font-size:13px; color:var(--muted); }
+
+/* Filters */
+.filter-select {
+  width:100%; padding:10px 12px; border:2px solid var(--border);
+  border-radius:8px; background:white; margin-bottom:8px;
+}
+
+/* Main Content */
+.main-content {
+  flex:1; padding:20px; overflow-y:auto;
+}
+
+/* Header */
+.content-header {
+  display:flex; justify-content:between; align-items:center;
+  margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--border);
+}
+.page-title { font-size:24px; font-weight:700; margin:0; }
+.status-badge {
+  padding:4px 12px; border-radius:20px; font-size:13px; font-weight:500;
+}
+.status-success { background:#dcfce7; color:#166534; }
+.status-warning { background:#fef3c7; color:#92400e; }
+.status-info { background:#dbeafe; color:#1e40af; }
+
+/* AI Analysis Cards */
+.ai-overview {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:16px; margin-bottom:24px;
+}
+
+.ai-card {
+  background:white; border:2px solid var(--border); border-radius:12px;
+  padding:20px; box-shadow:var(--shadow); transition:all 0.2s ease;
+}
+.ai-card:hover { box-shadow:var(--shadow-lg); }
+
+.ai-card.primary { border-color:var(--ai); background:linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%); }
+.ai-card.success { border-color:var(--success); background:linear-gradient(135deg, #f0fdf9 0%, #ecfdf5 100%); }
+.ai-card.warning { border-color:var(--warning); background:linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
+
+.ai-card-header {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+.ai-card-title { font-size:16px; font-weight:600; margin:0; }
+.ai-icon { font-size:20px; }
+
 .opportunity-score {
-  font-size:2rem; font-weight:700; color:var(--good);
-  text-align:center; margin:10px 0;
+  font-size:2.5rem; font-weight:800; margin:8px 0;
+  background:linear-gradient(135deg, var(--success), #059669);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
 }
-.score-medium { color:var(--opportunity); }
-.score-low { color:var(--bad); }
-.ai-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;
-}
-.ai-item {
-  background:rgba(255,255,255,0.1); padding:10px; border-radius:8px;
-}
-.ai-item h4 { margin:0 0 6px; font-size:12px; opacity:0.8; }
+.score-medium { background:linear-gradient(135deg, var(--warning), #d97706); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.score-low { background:linear-gradient(135deg, var(--danger), #dc2626); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
 .phrase-tag {
-  background:rgba(255,255,255,0.2); padding:2px 6px; margin:2px;
-  border-radius:12px; font-size:11px; display:inline-block;
+  display:inline-block; padding:4px 8px; margin:2px 4px 2px 0;
+  background:var(--hover); color:var(--ink); border-radius:16px;
+  font-size:12px; font-weight:500;
 }
 
-/* Results */
-.list { display:grid; gap:10px; }
-.item { background:var(--field); border:1px solid var(--border); border-radius:12px; padding:12px; }
-.badgeb {
-  display:inline-block; font-size:12px; padding:3px 8px; border-radius:999px;
-  background:#182033; color:var(--muted); margin-right:6px;
+/* Results Grid */
+.results-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
 }
-.score { background:#182a22; color:var(--good); }
-.neg { background:#2a1a1a; color:var(--bad); }
+.results-count { color:var(--muted); font-size:14px; }
 
-a { color:#8ab4ff; text-decoration:none; }
-a:hover { text-decoration:underline; }
+.results-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(400px, 1fr));
+  gap:16px;
+}
+
+.result-card {
+  background:white; border:2px solid var(--border); border-radius:12px;
+  padding:16px; transition:all 0.2s ease; position:relative;
+}
+.result-card:hover {
+  border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow-lg);
+}
+
+.result-header {
+  display:flex; justify-content:space-between; align-items:start;
+  margin-bottom:12px; gap:12px;
+}
+.result-title {
+  font-weight:600; font-size:15px; line-height:1.4;
+  margin:0; flex:1;
+}
+.result-title a { color:var(--ink); text-decoration:none; }
+.result-title a:hover { color:var(--accent); }
+
+.domain-badge {
+  padding:4px 8px; background:var(--hover); color:var(--muted);
+  border-radius:16px; font-size:12px; font-weight:500; white-space:nowrap;
+}
+
+.result-snippet {
+  color:var(--muted); font-size:14px; line-height:1.5;
+  margin-bottom:12px;
+}
+
+.result-footer {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:12px; color:var(--muted);
+}
 
 /* Loading */
-.loading { text-align:center; padding:20px; color:var(--muted); }
-.spinner { 
+.loading {
+  text-align:center; padding:40px; color:var(--muted);
+}
+.spinner {
   display:inline-block; width:20px; height:20px; margin-right:8px;
-  border:2px solid #333; border-top:2px solid var(--accent); 
-  border-radius:50%; animation:spin 1s linear infinite; 
+  border:2px solid #e5e7eb; border-top:2px solid var(--accent);
+  border-radius:50%; animation:spin 1s linear infinite;
 }
 @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
 
+.empty-state {
+  text-align:center; padding:60px 20px; color:var(--muted);
+}
+.empty-state .emoji { font-size:48px; margin-bottom:16px; }
+
 /* Responsive */
-@media (max-width:1100px){
-  .container { grid-template-columns:320px 1fr; }
+@media (max-width: 1024px) {
+  .app { flex-direction:column; }
+  .sidebar { width:100%; padding:16px; }
+  .main-content { padding:16px; }
+  .ai-overview { grid-template-columns:1fr; }
+  .results-grid { grid-template-columns:1fr; }
 }
-@media (max-width:900px){
-  header .hint { display:none; }
-  .container { grid-template-columns:1fr; gap:12px; }
-  .ai-grid { grid-template-columns:1fr; }
-}
-@media (max-width:420px){
-  input[type="text"] { font-size:16px; padding:14px; }
-  button, select { padding:12px 14px; font-size:16px; }
+
+@media (max-width: 640px) {
+  .content-header { flex-direction:column; align-items:start; gap:12px; }
+  .results-header { flex-direction:column; align-items:start; gap:8px; }
 }
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">😠 GrumpyLinks <span class="badge">AI-Powered</span></div>
-  <div class="hint">Find customer pain points. Turn complaints into opportunities.</div>
-</header>
 
-<main>
-  <div class="container">
-    <!-- Controls -->
-    <section class="panel">
-      <h3>Search</h3>
-      <div class="searchbar">
-        <input id="kw" type="text" placeholder="Brand, product, or topic" />
-        <button id="runBtn" type="button">Hunt</button>
-      </div>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="emoji">😠</span>GrumpyLinks
+    </div>
 
-      <h3 style="margin-top:16px">Power Queries ⚡</h3>
-      <div class="power-queries" id="powerQueries"></div>
+    <div class="section">
+      <div class="section-title">Search</div>
+      <input id="searchInput" class="search-input" type="text" 
+             placeholder="Enter brand, product, or topic..." />
+      <button id="searchBtn" class="search-btn">🔍 Hunt Pain Points</button>
+    </div>
 
-      <h3 style="margin-top:16px">Platforms</h3>
-      <select id="platformSelect" style="width:100%;">
+    <div class="section">
+      <div class="section-title">Power Queries</div>
+      <div id="powerQueries"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Filters</div>
+      <select id="platformSelect" class="filter-select">
         <option value="all">All Platforms</option>
         <option value="reddit">Reddit</option>
         <option value="twitter">Twitter/X</option>
@@ -164,52 +233,87 @@ a:hover { text-decoration:underline; }
         <option value="hackernews">Hacker News</option>
         <option value="forums">Forums & Communities</option>
       </select>
-
-      <h3 style="margin-top:16px">Time Range</h3>
-      <select id="timeSelect" style="width:100%;">
+      
+      <select id="timeSelect" class="filter-select">
         <option value="d30">Last 30 days</option>
         <option value="d7">Last 7 days</option>
         <option value="d1">Last 24 hours</option>
         <option value="y1">Last year</option>
       </select>
-    </section>
+    </div>
+  </aside>
 
-    <!-- Output -->
-    <section class="panel">
-      <!-- AI Analysis Panel -->
-      <div id="aiAnalysis" class="ai-panel" style="display:none;">
-        <h3>🤖 AI Pain Point Analysis</h3>
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="content-header">
+      <h1 class="page-title">Pain Point Discovery</h1>
+      <span id="statusBadge" class="status-badge status-info">Ready to hunt</span>
+    </header>
+
+    <!-- AI Analysis Overview -->
+    <div id="aiOverview" class="ai-overview" style="display:none;">
+      <div class="ai-card primary">
+        <div class="ai-card-header">
+          <h3 class="ai-card-title">Opportunity Score</h3>
+          <span class="ai-icon">🎯</span>
+        </div>
         <div class="opportunity-score" id="opportunityScore">-</div>
-        <div class="ai-grid">
-          <div class="ai-item">
-            <h4>Main Pain Point</h4>
-            <div id="mainPainPoint">Analyzing...</div>
-          </div>
-          <div class="ai-item">
-            <h4>Opportunity</h4>
-            <div id="contentOpportunities">Analyzing...</div>
-          </div>
-        </div>
-        <div class="ai-item">
-          <h4>🚀 Action Items</h4>
-          <div id="actionItems">Analyzing...</div>
-        </div>
-        <div class="ai-item" style="margin-top:8px;">
-          <h4>Trending Phrases</h4>
-          <div id="trendingPhrases"></div>
-        </div>
+        <p style="margin:0; color:var(--muted); font-size:14px;">Market opportunity rating</p>
       </div>
 
-      <h3>Results</h3>
-      <div id="results" class="list">
-        <div class="muted">Enter a search term and pick a power query to find pain points.</div>
+      <div class="ai-card success">
+        <div class="ai-card-header">
+          <h3 class="ai-card-title">Main Pain Point</h3>
+          <span class="ai-icon">😤</span>
+        </div>
+        <p id="mainPainPoint" style="margin:8px 0; font-weight:500;">Analyzing...</p>
+      </div>
+
+      <div class="ai-card warning">
+        <div class="ai-card-header">
+          <h3 class="ai-card-title">Top Opportunities</h3>
+          <span class="ai-icon">💡</span>
+        </div>
+        <div id="contentOpportunities">Analyzing...</div>
+      </div>
+
+      <div class="ai-card">
+        <div class="ai-card-header">
+          <h3 class="ai-card-title">Action Items</h3>
+          <span class="ai-icon">🚀</span>
+        </div>
+        <p id="actionItems" style="margin:8px 0;">Analyzing...</p>
+      </div>
+
+      <div class="ai-card" style="grid-column: 1 / -1;">
+        <div class="ai-card-header">
+          <h3 class="ai-card-title">Trending Phrases</h3>
+          <span class="ai-icon">📊</span>
+        </div>
+        <div id="trendingPhrases"></div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <section>
+      <div class="results-header">
+        <h2 style="margin:0; font-size:18px; font-weight:600;">Search Results</h2>
+        <span id="resultsCount" class="results-count">No results yet</span>
+      </div>
+      
+      <div id="resultsGrid" class="results-grid">
+        <div class="empty-state">
+          <div class="emoji">🔍</div>
+          <h3>Ready to Hunt Pain Points</h3>
+          <p>Enter a search term and select a power query to discover customer frustrations and opportunities.</p>
+        </div>
       </div>
     </section>
-  </div>
-</main>
+  </main>
+</div>
 
 <script>
-// Configuration - loaded from env-config.js
+// Configuration
 const API_CONFIG = {
   GOOGLE_API_KEY: '',
   SEARCH_ENGINE_ID: '',
@@ -225,25 +329,25 @@ function loadConfig() {
   }
 }
 
-// Power Queries Library
+// Power Queries
 const POWER_QUERIES = [
   {
     id: 'wish_list',
     title: 'Wish List Signals',
-    desc: 'Find people begging for solutions',
+    desc: 'People begging for solutions',
     template: '"I wish there was" OR "I wish someone would" {{keyword}}'
   },
   {
     id: 'competitor_hate',
     title: 'Competitor Complaints',
-    desc: 'Catch competitor frustrations',
+    desc: 'Frustrations with competitors',
     template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}'
   },
   {
     id: 'switching_signals',
     title: 'Switching Signals',
-    desc: 'People looking for alternatives',
-    template: '("thinking of switching from" OR "looking for an alternative to" OR "better than") {{keyword}}'
+    desc: 'Looking for alternatives',
+    template: '("switching from" OR "alternative to" OR "better than") {{keyword}}'
   },
   {
     id: 'feature_requests',
@@ -255,25 +359,13 @@ const POWER_QUERIES = [
     id: 'broken_promises',
     title: 'Broken Promises',
     desc: 'Unmet expectations',
-    template: '("said it would" OR "supposed to" OR "promised") {{keyword}} ("not" OR "never" OR "doesnt")'
+    template: '("said it would" OR "supposed to") {{keyword}} ("not" OR "never")'
   },
   {
     id: 'urgent_help',
-    title: 'Urgent Help Needed',
+    title: 'Urgent Help',
     desc: 'Immediate pain points',
     template: '("need help with" OR "how do I fix" OR "urgent") {{keyword}}'
-  },
-  {
-    id: 'buying_intent',
-    title: 'Hidden Buying Intent',
-    desc: 'Recommendation requests',
-    template: '("recommend me" OR "best way to" OR "what should I use") {{keyword}}'
-  },
-  {
-    id: 'niche_demand',
-    title: 'Unmet Niche Demand',
-    desc: 'Underserved market segments',
-    template: '("how do I" OR "anyone know how to" OR "is there a way") {{keyword}}'
   }
 ];
 
@@ -281,36 +373,62 @@ const POWER_QUERIES = [
 const PLATFORMS = {
   all: { sites: [] },
   reddit: { sites: ['site:reddit.com'] },
-  twitter: { sites: ['site:twitter.com', 'site:x.com'] },
+  twitter: { sites: ['site:twitter.com'] },
   linkedin: { sites: ['site:linkedin.com'] },
   hackernews: { sites: ['site:news.ycombinator.com'] },
-  forums: { sites: ['site:stackoverflow.com', 'site:quora.com', 'inurl:forum', 'inurl:community'] }
+  forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
 };
 
 let currentSearchResults = [];
 let currentAnalysis = null;
 
-// Initialize UI
-function initUI() {
-  const powerQueriesContainer = document.getElementById('powerQueries');
+// Initialize
+function init() {
+  loadConfig();
+  initPowerQueries();
+  setupEventListeners();
+  loadLastSearch();
+}
+
+// Initialize power queries
+function initPowerQueries() {
+  const container = document.getElementById('powerQueries');
   
   POWER_QUERIES.forEach(query => {
     const btn = document.createElement('button');
-    btn.className = 'power-btn';
+    btn.className = 'power-query';
     btn.innerHTML = `
       <div class="title">${query.title}</div>
       <div class="desc">${query.desc}</div>
     `;
     btn.onclick = () => runPowerQuery(query);
-    powerQueriesContainer.appendChild(btn);
+    container.appendChild(btn);
   });
 }
 
+// Setup event listeners
+function setupEventListeners() {
+  document.getElementById('searchBtn').onclick = () => runPowerQuery(POWER_QUERIES[1]);
+  document.getElementById('searchInput').onkeydown = (e) => {
+    if (e.key === 'Enter') runPowerQuery(POWER_QUERIES[1]);
+  };
+  document.getElementById('searchInput').oninput = (e) => {
+    localStorage.setItem('grumpy_search', e.target.value);
+  };
+}
+
+// Load last search
+function loadLastSearch() {
+  const lastSearch = localStorage.getItem('grumpy_search');
+  if (lastSearch) {
+    document.getElementById('searchInput').value = lastSearch;
+  }
+}
+
 // Build search query
-function buildSearchQuery(template, keyword, platform, timeRange) {
+function buildSearchQuery(template, keyword, platform) {
   let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
   
-  // Add platform restrictions
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
   if (platformConfig.sites.length > 0) {
     query += ' (' + platformConfig.sites.join(' OR ') + ')';
@@ -319,8 +437,8 @@ function buildSearchQuery(template, keyword, platform, timeRange) {
   return query;
 }
 
-// Perform Google Custom Search
-async function performGoogleSearch(query, timeRange = 'd30') {
+// Perform Google search
+async function performGoogleSearch(query, timeRange) {
   if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
     throw new Error('Google API not configured');
   }
@@ -333,12 +451,10 @@ async function performGoogleSearch(query, timeRange = 'd30') {
     dateRestrict: timeRange
   });
   
-  const url = `https://www.googleapis.com/customsearch/v1?${params.toString()}`;
-  
-  const response = await fetch(url);
+  const response = await fetch(`https://www.googleapis.com/customsearch/v1?${params}`);
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error?.message || `Search failed: ${response.status}`);
+    throw new Error(error.error?.message || 'Search failed');
   }
   
   const data = await response.json();
@@ -361,20 +477,12 @@ async function analyzeWithAI(results, query, platform) {
     const response = await fetch(API_CONFIG.LAMBDA_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query,
-        platform,
-        results: results.slice(0, 10)
-      })
+      body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
     });
 
-    if (!response.ok) {
-      throw new Error(`AI analysis failed: ${response.status}`);
-    }
-
+    if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
     return await response.json();
   } catch (error) {
-    console.error('AI analysis error:', error);
     return {
       mainPainPoint: "AI analysis temporarily unavailable",
       contentOpportunities: ["Manual analysis recommended"],
@@ -387,7 +495,7 @@ async function analyzeWithAI(results, query, platform) {
 
 // Run power query
 async function runPowerQuery(powerQuery) {
-  const keyword = document.getElementById('kw').value.trim();
+  const keyword = document.getElementById('searchInput').value.trim();
   if (!keyword) {
     alert('Please enter a search term');
     return;
@@ -396,27 +504,15 @@ async function runPowerQuery(powerQuery) {
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
   
+  // Update status
+  document.getElementById('statusBadge').textContent = 'Searching...';
+  document.getElementById('statusBadge').className = 'status-badge status-warning';
+  
   // Show loading
-  const resultsDiv = document.getElementById('results');
-  const aiDiv = document.getElementById('aiAnalysis');
-  
-  resultsDiv.innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      Hunting for pain points...
-    </div>
-  `;
-  
-  aiDiv.style.display = 'block';
-  document.getElementById('mainPainPoint').textContent = 'Analyzing...';
-  document.getElementById('contentOpportunities').textContent = 'Analyzing...';
-  document.getElementById('actionItems').textContent = 'Analyzing...';
-  document.getElementById('opportunityScore').textContent = '-';
-  document.getElementById('trendingPhrases').innerHTML = '';
+  showLoading();
   
   try {
-    // Build and execute search
-    const query = buildSearchQuery(powerQuery.template, keyword, platform, timeRange);
+    const query = buildSearchQuery(powerQuery.template, keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
     currentSearchResults = results;
     
@@ -430,60 +526,90 @@ async function runPowerQuery(powerQuery) {
       displayAIAnalysis(analysis);
     }
     
+    // Update status
+    document.getElementById('statusBadge').textContent = `Found ${results.length} results`;
+    document.getElementById('statusBadge').className = 'status-badge status-success';
+    
   } catch (error) {
-    resultsDiv.innerHTML = `<div class="neg">Error: ${error.message}</div>`;
-    aiDiv.style.display = 'none';
+    document.getElementById('statusBadge').textContent = 'Error occurred';
+    document.getElementById('statusBadge').className = 'status-badge status-warning';
+    showError(error.message);
   }
 }
 
-// Display search results
+// Show loading
+function showLoading() {
+  document.getElementById('aiOverview').style.display = 'none';
+  document.getElementById('resultsGrid').innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      Hunting for pain points...
+    </div>
+  `;
+  document.getElementById('resultsCount').textContent = 'Searching...';
+}
+
+// Show error
+function showError(message) {
+  document.getElementById('resultsGrid').innerHTML = `
+    <div class="empty-state">
+      <div class="emoji">⚠️</div>
+      <h3>Search Error</h3>
+      <p>${message}</p>
+    </div>
+  `;
+}
+
+// Display results
 function displayResults(results, queryTitle) {
-  const resultsDiv = document.getElementById('results');
+  const grid = document.getElementById('resultsGrid');
   
   if (!results.length) {
-    resultsDiv.innerHTML = '<div class="muted">No results found. Try a different search term or platform.</div>';
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">🔍</div>
+        <h3>No Results Found</h3>
+        <p>Try a different search term or platform.</p>
+      </div>
+    `;
     return;
   }
   
-  let html = `<div style="margin-bottom:12px;"><strong>${queryTitle}</strong> - ${results.length} results found</div>`;
+  document.getElementById('resultsCount').textContent = `${results.length} results found`;
   
-  results.forEach((result, index) => {
+  let html = '';
+  results.forEach(result => {
     // Highlight pain words
     let snippet = result.snippet || '';
     const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help'];
     painWords.forEach(word => {
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      snippet = snippet.replace(regex, `<mark style="background:#fef3cd; padding:1px 2px; border-radius:2px;">$&</mark>`);
+      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:4px;">$&</mark>`);
     });
     
     html += `
-      <div class="item">
-        <div style="display:flex; justify-content:space-between; align-items:start; gap:8px;">
-          <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
-          <span class="badgeb">${result.displayLink}</span>
+      <div class="result-card">
+        <div class="result-header">
+          <h3 class="result-title">
+            <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
+          </h3>
+          <span class="domain-badge">${result.displayLink}</span>
         </div>
-        <div class="muted" style="margin-top:6px;">${snippet}</div>
+        <div class="result-snippet">${snippet}</div>
+        <div class="result-footer">
+          <span>Source: ${result.displayLink}</span>
+          <a href="${result.link}" target="_blank" rel="noopener" style="color:var(--accent);">View →</a>
+        </div>
       </div>
     `;
   });
   
-  resultsDiv.innerHTML = html;
+  grid.innerHTML = html;
 }
 
 // Display AI analysis
 function displayAIAnalysis(analysis) {
-  document.getElementById('mainPainPoint').textContent = analysis.mainPainPoint || 'Analysis complete';
-  
-  // Content opportunities
-  if (analysis.contentOpportunities && analysis.contentOpportunities.length > 0) {
-    document.getElementById('contentOpportunities').innerHTML = analysis.contentOpportunities
-      .slice(0, 2)
-      .map(opp => `• ${opp}`)
-      .join('<br>');
-  }
-  
-  // Action items
-  document.getElementById('actionItems').textContent = analysis.actionItems || 'No specific actions identified';
+  document.getElementById('aiOverview').style.display = 'grid';
   
   // Opportunity score
   const score = analysis.opportunityScore || 5;
@@ -494,41 +620,31 @@ function displayAIAnalysis(analysis) {
   else if (score >= 6) scoreElement.classList.add('score-medium');
   else scoreElement.classList.add('score-low');
   
+  // Main pain point
+  document.getElementById('mainPainPoint').textContent = analysis.mainPainPoint || 'Analysis complete';
+  
+  // Content opportunities
+  if (analysis.contentOpportunities && analysis.contentOpportunities.length > 0) {
+    document.getElementById('contentOpportunities').innerHTML = analysis.contentOpportunities
+      .slice(0, 3)
+      .map(opp => `<div style="margin-bottom:8px;">• ${opp}</div>`)
+      .join('');
+  }
+  
+  // Action items
+  document.getElementById('actionItems').textContent = analysis.actionItems || 'No specific actions identified';
+  
   // Trending phrases
   if (analysis.trendingPhrases && analysis.trendingPhrases.length > 0) {
     document.getElementById('trendingPhrases').innerHTML = analysis.trendingPhrases
-      .slice(0, 6)
+      .slice(0, 8)
       .map(phrase => `<span class="phrase-tag">${phrase}</span>`)
       .join('');
   }
 }
 
-// Event listeners
-document.getElementById('runBtn').addEventListener('click', () => {
-  // Default to competitor complaints if no specific power query selected
-  runPowerQuery(POWER_QUERIES[1]);
-});
-
-document.getElementById('kw').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    runPowerQuery(POWER_QUERIES[1]);
-  }
-});
-
-// Initialize
-loadConfig();
-initUI();
-
-// Load last search term
-const lastSearch = localStorage.getItem('grumpy_kw');
-if (lastSearch) {
-  document.getElementById('kw').value = lastSearch;
-}
-
-// Save search term on input
-document.getElementById('kw').addEventListener('input', (e) => {
-  localStorage.setItem('grumpy_kw', e.target.value);
-});
+// Initialize app
+init();
 </script>
 </body>
 </html>
