@@ -85,6 +85,19 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 .query-desc { font-size:12px; color:var(--muted); }
 .power-query.active .query-desc { color:rgba(255,255,255,0.8); }
 
+/* Clear Selection Button */
+.clear-selection {
+  width:100%; padding:6px 12px; background:transparent;
+  color:var(--muted); border:1px solid var(--border); border-radius:6px; 
+  font-weight:500; cursor:pointer; transition:all 0.15s ease; 
+  font-size:13px; margin-bottom:6px; display:none;
+}
+.clear-selection:hover { 
+  background:var(--hover); 
+  color:var(--ink);
+  border-color:var(--muted);
+}
+
 /* Filters */
 .filter-select {
   width:100%; padding:6px 12px; border:1px solid var(--border);
@@ -266,6 +279,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 
     <div class="nav-section">
       <div class="nav-title">Power Queries</div>
+      <button id="clearSelection" class="clear-selection">✕ Clear Selection</button>
       <div id="powerQueries"></div>
     </div>
 
@@ -408,28 +422,55 @@ function initPowerQueries() {
       document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
       btn.classList.add('active');
       currentQuery = query;
+      document.getElementById('clearSelection').style.display = 'block';
       runPowerQuery(query);
     };
     container.appendChild(btn);
   });
 }
 
+function clearPowerQuerySelection() {
+  document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
+  currentQuery = null;
+  document.getElementById('clearSelection').style.display = 'none';
+  
+  // Reset to initial state
+  document.getElementById('aiSummary').style.display = 'none';
+  document.getElementById('resultsGrid').innerHTML = `
+    <div class="empty-state">
+      <h3>Ready to Discover Pain Points</h3>
+      <p>Enter a search term and click Search, or select a power query to find customer frustrations and business opportunities.</p>
+    </div>
+  `;
+  document.getElementById('resultsCount').textContent = 'No results yet';
+  document.getElementById('statusBadge').textContent = 'Ready to search';
+  document.getElementById('statusBadge').className = 'status-badge status-info';
+}
+
 function setupEventListeners() {
   document.getElementById('searchBtn').onclick = () => {
-    if (currentQuery) runPowerQuery(currentQuery);
-    else runPowerQuery(POWER_QUERIES[0]);
+    if (currentQuery) {
+      runPowerQuery(currentQuery);
+    } else {
+      runNormalSearch();
+    }
   };
   
   document.getElementById('searchInput').onkeydown = (e) => {
     if (e.key === 'Enter') {
-      if (currentQuery) runPowerQuery(currentQuery);
-      else runPowerQuery(POWER_QUERIES[0]);
+      if (currentQuery) {
+        runPowerQuery(currentQuery);
+      } else {
+        runNormalSearch();
+      }
     }
   };
   
   document.getElementById('searchInput').oninput = (e) => {
     localStorage.setItem('grumpy_search', e.target.value);
   };
+  
+  document.getElementById('clearSelection').onclick = clearPowerQuerySelection;
 }
 
 function loadLastSearch() {
@@ -441,6 +482,17 @@ function loadLastSearch() {
 
 function buildSearchQuery(template, keyword, platform) {
   let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
+  
+  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+  if (platformConfig.sites.length > 0) {
+    query += ' (' + platformConfig.sites.join(' OR ') + ')';
+  }
+  
+  return query;
+}
+
+function buildNormalSearchQuery(keyword, platform) {
+  let query = `"${keyword}"`;
   
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
   if (platformConfig.sites.length > 0) {
@@ -498,7 +550,7 @@ function findInsightForResult(result, analysis) {
   
   // Fallback: use the first available insight or a generic one
   return analysis.resultInsights[0] || {
-    businessOpportunity: "Monitor this pain point for business opportunities",
+    businessOpportunity: "Monitor this result for business opportunities",
     urgency: "medium"
   };
 }
@@ -553,6 +605,38 @@ async function analyzeWithAI(results, query, platform) {
       overallOpportunityScore: 3,
       topActionableIdeas: ["AI analysis error - please try again"]
     };
+  }
+}
+
+async function runNormalSearch() {
+  const keyword = document.getElementById('searchInput').value.trim();
+  if (!keyword) {
+    alert('Please enter a search term');
+    return;
+  }
+  
+  const platform = document.getElementById('platformSelect').value;
+  const timeRange = document.getElementById('timeSelect').value;
+  
+  document.getElementById('statusBadge').textContent = 'Searching...';
+  document.getElementById('statusBadge').className = 'status-badge status-warning';
+  
+  showLoading();
+  
+  try {
+    const query = buildNormalSearchQuery(keyword, platform);
+    const results = await performGoogleSearch(query, timeRange);
+    
+    // For normal search, don't use AI analysis - just show results
+    displayResults(results, null, keyword, null);
+    
+    document.getElementById('statusBadge').textContent = `Found ${results.length} results`;
+    document.getElementById('statusBadge').className = 'status-badge status-success';
+    
+  } catch (error) {
+    document.getElementById('statusBadge').textContent = 'Search failed';
+    document.getElementById('statusBadge').className = 'status-badge status-warning';
+    showError(error.message);
   }
 }
 
@@ -645,21 +729,23 @@ function displayResults(results, powerQuery, keyword, analysis) {
     return;
   }
   
-  document.getElementById('resultsCount').textContent = `${results.length} pain points`;
+  const resultType = powerQuery ? 'pain points' : 'results';
+  document.getElementById('resultsCount').textContent = `${results.length} ${resultType}`;
   
   let html = '';
   results.forEach(result => {
-    const insight = findInsightForResult(result, analysis);
     const platformClass = getPlatformClass(result.displayLink);
     const platformName = getPlatformName(result.displayLink);
     
-    // Highlight pain words
+    // Highlight pain words only for power queries
     let snippet = result.snippet || '';
-    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-    painWords.forEach(word => {
-      const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:1px 3px; border-radius:2px; font-weight:500;">$&</mark>`);
-    });
+    if (powerQuery) {
+      const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+      painWords.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:1px 3px; border-radius:2px; font-weight:500;">$&</mark>`);
+      });
+    }
     
     html += `
       <div class="result-card">
@@ -671,32 +757,40 @@ function displayResults(results, powerQuery, keyword, analysis) {
         </div>
         
         <div class="result-snippet">${snippet}</div>
-        
-        <div class="ai-insight">
-          <div class="ai-insight-label">
-            Business Opportunity
-            <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
-              ${(insight.urgency || 'medium').toUpperCase()}
-            </span>
-          </div>
-          <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
-        </div>
-        
-        <div class="card-footer">
-          <span>${result.displayLink}</span>
-          <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy link</span>
-        </div>
-      </div>
     `;
-  });
-  
-  grid.innerHTML = html;
+    
+    // Only show AI insight for power queries
+    if (powerQuery && analysis) {
+      const insight = findInsightForResult(result, analysis);
+      html += `
+        <div class="ai-insight">
+         <div class="ai-insight-label">
+           Business Opportunity
+           <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
+             ${(insight.urgency || 'medium').toUpperCase()}
+           </span>
+         </div>
+         <div class="ai-insight-text">${insight.businessOpportunity || 'Analyzing business opportunity...'}</div>
+       </div>
+     `;
+   }
+   
+   html += `
+       <div class="card-footer">
+         <span>${result.displayLink}</span>
+         <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy link</span>
+       </div>
+     </div>
+   `;
+ });
+ 
+ grid.innerHTML = html;
 }
 
 function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    // Success feedback could go here
-  });
+ navigator.clipboard.writeText(text).then(() => {
+   // Success feedback could go here
+ });
 }
 
 window.copyToClipboard = copyToClipboard;
