@@ -7,147 +7,132 @@
 <script src="env-config.js"></script>
 <style>
 :root {
-  --bg:#f8fafc; --sidebar:#ffffff; --card:#ffffff; --ink:#1e293b; --muted:#64748b;
-  --accent:#3b82f6; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
-  --border:#e2e8f0; --hover:#f1f5f9; --ai:#8b5cf6;
-  --shadow:0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
-  --shadow-lg:0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --bg:#ffffff; --sidebar:#f7f7f7; --card:#ffffff; --ink:#37352f; --muted:#787774;
+  --accent:#2383e2; --success:#448361; --warning:#d9730d; --danger:#e03e3e;
+  --border:#e9e9e7; --hover:#f1f1ef; --subtle:#f7f6f3;
+  --shadow:rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  --shadow-lg:rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 5px 10px, rgba(15, 15, 15, 0.4) 0px 15px 40px;
   
   /* Platform Colors */
   --reddit:#ff4500; --twitter:#1da1f2; --linkedin:#0077b5; --hackernews:#ff6600;
   --github:#333; --stackoverflow:#f48024; --medium:#000; --quora:#b92b27;
-  
-  /* Priority Colors (like Taskly) */
-  --high-priority:#ef4444; --medium-priority:#f59e0b; --low-priority:#64748b;
 }
 
 * { box-sizing: border-box; }
-html,body { margin:0; padding:0; font-family: 'Inter', system-ui, sans-serif; }
+html,body { margin:0; padding:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif; }
 body { background:var(--bg); color:var(--ink); line-height:1.5; }
 
 /* Layout */
 .app { display:flex; min-height:100vh; }
 
-/* Sidebar - Taskly Style */
+/* Sidebar - Notion Style */
 .sidebar {
-  width:280px; background:var(--sidebar); border-right:1px solid var(--border);
-  padding:24px 16px; overflow-y:auto; flex-shrink:0;
+  width:260px; background:var(--sidebar); border-right:1px solid var(--border);
+  padding:16px; overflow-y:auto; flex-shrink:0;
 }
 
 .logo { 
-  font-size:22px; font-weight:700; margin-bottom:32px; color:var(--ink);
-  display:flex; align-items:center; gap:8px;
+  font-size:16px; font-weight:600; margin-bottom:24px; color:var(--ink);
+  padding:8px 12px;
 }
 
-.nav-section { margin-bottom:28px; }
+.nav-section { margin-bottom:20px; }
 .nav-title { 
-  font-size:12px; font-weight:600; color:var(--muted); 
-  text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px; 
+  font-size:11px; font-weight:500; color:var(--muted); 
+  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; 
+  padding:0 12px;
 }
 
 /* Search */
 .search-input {
-  width:100%; padding:12px 16px; border:1px solid var(--border);
-  border-radius:8px; font-size:14px; background:white;
-  transition:border-color 0.2s ease; margin-bottom:8px;
+  width:100%; padding:8px 12px; border:1px solid var(--border);
+  border-radius:6px; font-size:14px; background:white;
+  transition:all 0.15s ease; margin-bottom:6px;
 }
 .search-input:focus {
   outline:none; border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(59,130,246,0.1);
+  box-shadow:0 0 0 1px var(--accent);
 }
 
 .search-btn {
-  width:100%; padding:10px; background:var(--accent);
+  width:100%; padding:8px 12px; background:var(--accent);
   color:white; border:none; border-radius:6px; font-weight:500;
-  cursor:pointer; transition:background 0.2s ease; font-size:14px;
+  cursor:pointer; transition:background 0.15s ease; font-size:14px;
 }
-.search-btn:hover { background:#2563eb; }
+.search-btn:hover { background:#1a6bb8; }
 
-/* Power Queries - Taskly Navigation Style */
+/* Power Queries - Notion Button Style */
 .power-query {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:10px 12px; margin-bottom:4px; border-radius:6px;
-  cursor:pointer; transition:background 0.2s ease; font-size:14px;
+  display:flex; align-items:center; width:100%;
+  padding:6px 12px; margin-bottom:2px; border-radius:6px;
+  cursor:pointer; transition:background 0.15s ease; font-size:14px;
+  background:transparent; border:none; text-align:left;
 }
 .power-query:hover { background:var(--hover); }
-.power-query.active { background:#dbeafe; color:var(--accent); }
+.power-query.active { background:var(--accent); color:white; }
 
-.query-info { display:flex; align-items:center; gap:8px; }
-.query-icon { font-size:16px; }
-.query-details { }
-.query-title { font-weight:500; margin:0; }
-.query-desc { font-size:12px; color:var(--muted); margin:2px 0 0 0; }
+.query-title { font-weight:500; margin-bottom:2px; }
+.query-desc { font-size:12px; color:var(--muted); }
+.power-query.active .query-desc { color:rgba(255,255,255,0.8); }
 
 /* Filters */
 .filter-select {
-  width:100%; padding:8px 12px; border:1px solid var(--border);
-  border-radius:6px; background:white; margin-bottom:8px; font-size:14px;
+  width:100%; padding:6px 12px; border:1px solid var(--border);
+  border-radius:6px; background:white; margin-bottom:6px; font-size:14px;
 }
 
 /* Main Content */
-.main-content { flex:1; padding:24px; overflow-y:auto; }
+.main-content { flex:1; padding:32px 40px; overflow-y:auto; }
 
-/* Header - Taskly Style */
+/* Header - Notion Style */
 .content-header {
-  display:flex; justify-content:space-between; align-items:center;
-  margin-bottom:24px;
+  margin-bottom:32px;
 }
-.page-title { font-size:28px; font-weight:700; margin:0; }
-.header-actions { display:flex; gap:12px; align-items:center; }
-.status-badge {
-  padding:6px 12px; border-radius:20px; font-size:12px; font-weight:500;
-  display:flex; align-items:center; gap:6px;
+.page-title { 
+  font-size:32px; font-weight:700; margin:0 0 8px 0; 
+  color:var(--ink);
 }
-.status-success { background:#dcfce7; color:#166534; }
-.status-warning { background:#fef3c7; color:#92400e; }
-.status-info { background:#dbeafe; color:#1e40af; }
+.page-subtitle { 
+  font-size:16px; color:var(--muted); margin:0;
+}
 
-/* Results Grid - Taskly Card Style */
+/* Results Section */
 .results-section { }
 .section-header {
-  display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
+  display:flex; justify-content:space-between; align-items:center; 
+  margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border);
 }
-.section-title { font-size:18px; font-weight:600; margin:0; }
+.section-title { font-size:20px; font-weight:600; margin:0; }
 .results-count { color:var(--muted); font-size:14px; }
 
 .results-grid {
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(380px, 1fr));
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(400px, 1fr));
   gap:16px;
 }
 
-/* Card Design - Exact Taskly Style */
+/* Card Design - Notion Style */
 .result-card {
   background:white; border:1px solid var(--border); border-radius:8px;
-  padding:16px; transition:all 0.2s ease; position:relative;
+  padding:20px; transition:all 0.15s ease; position:relative;
 }
 .result-card:hover {
-  box-shadow:var(--shadow-lg); transform:translateY(-1px);
+  box-shadow:var(--shadow-lg);
 }
-
-/* Priority Indicator (like Taskly) */
-.priority-dot {
-  position:absolute; top:16px; right:16px; width:8px; height:8px;
-  border-radius:50%; 
-}
-.priority-high { background:var(--high-priority); }
-.priority-medium { background:var(--medium-priority); }
-.priority-low { background:var(--low-priority); }
 
 .card-header {
-  display:flex; justify-content:space-between; align-items:start;
-  margin-bottom:12px; gap:16px;
+  margin-bottom:12px;
 }
 
 .result-title {
-  font-weight:600; font-size:15px; line-height:1.4; margin:0;
-  color:var(--ink); flex:1;
+  font-weight:600; font-size:16px; line-height:1.3; margin:0 0 8px 0;
+  color:var(--ink);
 }
 .result-title a { color:inherit; text-decoration:none; }
 .result-title a:hover { color:var(--accent); }
 
 .source-badge {
-  padding:3px 8px; border-radius:12px; font-size:11px; font-weight:600;
-  color:white; text-transform:uppercase; flex-shrink:0;
+  display:inline-block; padding:2px 8px; border-radius:4px; 
+  font-size:11px; font-weight:500; color:white; text-transform:uppercase;
 }
 .source-reddit { background:var(--reddit); }
 .source-twitter { background:var(--twitter); }
@@ -160,35 +145,55 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 .source-default { background:var(--muted); }
 
 .result-snippet {
-  color:var(--muted); font-size:14px; line-height:1.5; 
-  margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:3; 
+  color:var(--muted); font-size:14px; line-height:1.4; 
+  margin-bottom:16px; display:-webkit-box; -webkit-line-clamp:3; 
   -webkit-box-orient:vertical; overflow:hidden;
 }
 
-/* Action Button - The Key Addition */
-.action-btn {
-  background:rgba(59,130,246,0.1); color:var(--accent); border:1px solid rgba(59,130,246,0.2);
-  padding:8px 12px; border-radius:6px; font-size:12px; font-weight:500;
-  cursor:pointer; transition:all 0.2s ease; display:inline-flex;
-  align-items:center; gap:6px; margin-bottom:8px;
+/* AI Insight - The Key Feature */
+.ai-insight {
+  background:var(--subtle); border:1px solid var(--border);
+  border-radius:6px; padding:12px; margin-bottom:12px;
 }
-.action-btn:hover {
-  background:var(--accent); color:white;
+.ai-insight-label {
+  font-size:11px; font-weight:500; color:var(--muted);
+  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;
+}
+.ai-insight-text {
+  font-size:14px; color:var(--ink); line-height:1.4;
+  font-weight:500;
 }
 
 .card-footer {
   display:flex; justify-content:space-between; align-items:center;
-  font-size:12px; color:var(--muted); margin-top:12px;
-  padding-top:12px; border-top:1px solid #f1f5f9;
+  font-size:12px; color:var(--muted); margin-top:16px;
+  padding-top:12px; border-top:1px solid var(--border);
 }
 
-.card-meta { display:flex; gap:12px; }
+.copy-link {
+  color:var(--accent); cursor:pointer; font-weight:500;
+  padding:4px 8px; border-radius:4px; transition:background 0.15s ease;
+}
+.copy-link:hover { background:var(--hover); }
+
+/* Status Badge */
+.status-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500;
+  margin-bottom:16px;
+}
+.status-success { background:#e6f2ed; color:var(--success); }
+.status-warning { background:#fdf2e9; color:var(--warning); }
+.status-info { background:#e9f3ff; color:var(--accent); }
 
 /* Loading & Empty States */
-.loading { text-align:center; padding:60px 20px; color:var(--muted); }
+.loading { 
+  text-align:center; padding:80px 20px; color:var(--muted);
+  grid-column:1 / -1;
+}
 .spinner {
-  display:inline-block; width:20px; height:20px; margin-right:8px;
-  border:2px solid #e5e7eb; border-top:2px solid var(--accent);
+  display:inline-block; width:16px; height:16px; margin-right:8px;
+  border:2px solid var(--border); border-top:2px solid var(--accent);
   border-radius:50%; animation:spin 1s linear infinite;
 }
 @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
@@ -197,13 +202,12 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   text-align:center; padding:80px 20px; color:var(--muted);
   grid-column:1 / -1;
 }
-.empty-state .emoji { font-size:48px; margin-bottom:16px; display:block; }
 
 /* Responsive */
 @media (max-width: 1024px) {
   .app { flex-direction:column; }
   .sidebar { width:100%; padding:16px; }
-  .main-content { padding:16px; }
+  .main-content { padding:20px; }
   .results-grid { grid-template-columns:1fr; }
 }
 </style>
@@ -213,16 +217,13 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo">
-      <span>😠</span>
-      <span>GrumpyLinks</span>
-    </div>
+    <div class="logo">GrumpyLinks</div>
 
     <div class="nav-section">
       <div class="nav-title">Search</div>
       <input id="searchInput" class="search-input" type="text" 
              placeholder="Brand, product, or topic..." />
-      <button id="searchBtn" class="search-btn">🔍 Hunt Pain Points</button>
+      <button id="searchBtn" class="search-btn">Search</button>
     </div>
 
     <div class="nav-section">
@@ -235,7 +236,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
       <select id="platformSelect" class="filter-select">
         <option value="all">All Platforms</option>
         <option value="reddit">Reddit</option>
-        <option value="twitter">Twitter/X</option>
+        <option value="twitter">Twitter</option>
         <option value="linkedin">LinkedIn</option>
         <option value="hackernews">Hacker News</option>
         <option value="forums">Forums</option>
@@ -253,12 +254,10 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   <main class="main-content">
     <header class="content-header">
       <h1 class="page-title">Pain Point Discovery</h1>
-      <div class="header-actions">
-        <span id="statusBadge" class="status-badge status-info">
-          <span>●</span> Ready to hunt
-        </span>
-      </div>
+      <p class="page-subtitle">Find customer frustrations and turn them into business opportunities</p>
     </header>
+
+    <div id="statusBadge" class="status-badge status-info">Ready to search</div>
 
     <section class="results-section">
       <div class="section-header">
@@ -268,9 +267,8 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
       
       <div id="resultsGrid" class="results-grid">
         <div class="empty-state">
-          <span class="emoji">🎯</span>
           <h3>Ready to Discover Pain Points</h3>
-          <p>Select a power query to find customer frustrations and turn them into opportunities.</p>
+          <p>Select a power query to find customer frustrations and business opportunities.</p>
         </div>
       </div>
     </section>
@@ -293,42 +291,37 @@ function loadConfig() {
   }
 }
 
-// Power Queries with actionable focus
+// Power Queries - business focused
 const POWER_QUERIES = [
   {
     id: 'competitor_hate',
-    icon: '🔥',
     title: 'Competitor Complaints',
     desc: 'Find unhappy customers to convert',
     template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}'
   },
   {
     id: 'switching_signals',
-    icon: '🔄',
-    title: 'Switching Signals',
-    desc: 'Catch people ready to switch',
+    title: 'Switching Signals', 
+    desc: 'People ready to change solutions',
     template: '("switching from" OR "alternative to" OR "leaving") {{keyword}}'
   },
   {
     id: 'wish_list',
-    icon: '💫',
-    title: 'Wish List Signals',
-    desc: 'Find unmet market needs',
-    template: '"I wish there was" OR "I wish someone would" {{keyword}}'
+    title: 'Unmet Needs',
+    desc: 'Market gaps and opportunities',
+    template: '"I wish there was" OR "someone should build" {{keyword}}'
   },
   {
     id: 'feature_requests',
-    icon: '💡',
     title: 'Feature Requests',
-    desc: 'Product improvement opportunities',
-    template: '("should add" OR "please add" OR "missing feature") {{keyword}}'
+    desc: 'Product improvement ideas',
+    template: '("should add" OR "missing feature" OR "needs to support") {{keyword}}'
   },
   {
     id: 'urgent_help',
-    icon: '🚨',
-    title: 'Urgent Help Needed',
-    desc: 'Immediate sales opportunities',
-    template: '("need help with" OR "urgent" OR "ASAP") {{keyword}}'
+    title: 'Urgent Problems',
+    desc: 'Immediate business opportunities',
+    template: '("need help with" OR "urgent" OR "stuck with") {{keyword}}'
   }
 ];
 
@@ -342,7 +335,6 @@ const PLATFORMS = {
 };
 
 let currentQuery = null;
-let currentResults = [];
 
 // Initialize
 function init() {
@@ -356,20 +348,18 @@ function initPowerQueries() {
   const container = document.getElementById('powerQueries');
   
   POWER_QUERIES.forEach(query => {
-    const btn = document.createElement('div');
+    const btn = document.createElement('button');
     btn.className = 'power-query';
     btn.innerHTML = `
-      <div class="query-info">
-        <span class="query-icon">${query.icon}</span>
-        <div class="query-details">
-          <div class="query-title">${query.title}</div>
-          <div class="query-desc">${query.desc}</div>
-        </div>
+      <div>
+        <div class="query-title">${query.title}</div>
+        <div class="query-desc">${query.desc}</div>
       </div>
     `;
     btn.onclick = () => {
       document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
       btn.classList.add('active');
+      currentQuery = query;
       runPowerQuery(query);
     };
     container.appendChild(btn);
@@ -428,60 +418,61 @@ function getPlatformName(domain) {
   if (domain.includes('reddit')) return 'Reddit';
   if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
   if (domain.includes('linkedin')) return 'LinkedIn';
-  if (domain.includes('news.ycombinator')) return 'HN';
+  if (domain.includes('news.ycombinator')) return 'Hacker News';
   if (domain.includes('github')) return 'GitHub';
-  if (domain.includes('stackoverflow')) return 'Stack';
+  if (domain.includes('stackoverflow')) return 'Stack Overflow';
   if (domain.includes('medium')) return 'Medium';
   if (domain.includes('quora')) return 'Quora';
   return domain.split('.')[0];
 }
 
-// Generate actionable insights
-function generateActionableInsight(result, queryType, keyword) {
+// Generate business-focused AI insights
+function generateBusinessInsight(result, queryType, keyword) {
   const text = `${result.title} ${result.snippet}`.toLowerCase();
+  const domain = result.displayLink;
   
-  // Different actions based on query type and content
   if (queryType === 'competitor_hate') {
     if (text.includes('support') || text.includes('customer service')) {
-      return { action: '📞 Reach out about support', icon: '📞' };
+      return `Create superior customer support content highlighting ${keyword}'s service gaps. Target users frustrated with slow response times.`;
     }
-    if (text.includes('pricing') || text.includes('expensive')) {
-      return { action: '💰 Share pricing comparison', icon: '💰' };
+    if (text.includes('pricing') || text.includes('expensive') || text.includes('cost')) {
+      return `Develop pricing comparison content showing cost-effective alternatives to ${keyword}. Consider freemium model targeting price-sensitive users.`;
     }
-    return { action: '💬 Join the conversation', icon: '💬' };
+    if (text.includes('feature') || text.includes('missing') || text.includes('lack')) {
+      return `Build the missing features that ${keyword} users are demanding. Position as the solution that "gets it right."`;
+    }
+    return `Reach out to this frustrated ${keyword} user with a helpful solution or alternative. Convert their pain into your opportunity.`;
   }
   
   if (queryType === 'switching_signals') {
-    return { action: '🎯 Send migration guide', icon: '🎯' };
+    if (domain.includes('reddit') || domain.includes('forum')) {
+      return `Create migration guides and comparison content for users leaving ${keyword}. Offer personalized consultation calls.`;
+    }
+    return `Develop onboarding sequences specifically for ${keyword} switchers. Address their migration concerns proactively.`;
   }
   
   if (queryType === 'wish_list') {
-    return { action: '💡 Validate product idea', icon: '💡' };
+    if (text.includes('integration') || text.includes('connect')) {
+      return `Build integration solutions between ${keyword} and other tools. Market as "the missing bridge" users are requesting.`;
+    }
+    if (text.includes('mobile') || text.includes('app')) {
+      return `Develop mobile-first solutions that ${keyword} currently lacks. Target users frustrated with desktop-only limitations.`;
+    }
+    return `Validate this product idea with ${keyword} users. Survey demand and build MVP targeting this specific need.`;
   }
   
   if (queryType === 'feature_requests') {
-    return { action: '📋 Add to roadmap', icon: '📋' };
+    return `Add this requested feature to your roadmap. ${keyword} users are actively asking for this - first mover advantage available.`;
   }
   
   if (queryType === 'urgent_help') {
-    return { action: '🚀 Offer immediate help', icon: '🚀' };
+    if (text.includes('setup') || text.includes('configure')) {
+      return `Offer setup consulting services for ${keyword}. Create premium onboarding packages for complex implementations.`;
+    }
+    return `Provide immediate solution to this ${keyword} problem. Consider it for your emergency support service tier.`;
   }
   
-  return { action: '👀 Monitor thread', icon: '👀' };
-}
-
-// Calculate priority
-function calculatePriority(result, queryType) {
-  const text = `${result.title} ${result.snippet}`.toLowerCase();
-  const urgentWords = ['urgent', 'asap', 'immediately', 'help', 'stuck', 'critical'];
-  const engagementWords = ['comments', 'replies', 'upvotes', 'views'];
-  
-  let score = 1; // low by default
-  
-  if (urgentWords.some(word => text.includes(word))) score = 3; // high
-  else if (engagementWords.some(word => text.includes(word))) score = 2; // medium
-  
-  return score;
+  return `Monitor this conversation for follow-up opportunities. Engage authentically with helpful resources about ${keyword}.`;
 }
 
 async function performGoogleSearch(query, timeRange) {
@@ -493,7 +484,7 @@ async function performGoogleSearch(query, timeRange) {
     key: API_CONFIG.GOOGLE_API_KEY,
     cx: API_CONFIG.SEARCH_ENGINE_ID,
     q: query,
-    num: '8', // Limit to 8 results for better AI analysis
+    num: '8',
     dateRestrict: timeRange
   });
   
@@ -514,29 +505,25 @@ async function runPowerQuery(powerQuery) {
     return;
   }
   
-  currentQuery = powerQuery;
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
   
-  // Update status
-  document.getElementById('statusBadge').innerHTML = '<span>●</span> Searching...';
+  document.getElementById('statusBadge').textContent = 'Searching...';
   document.getElementById('statusBadge').className = 'status-badge status-warning';
   
-  // Show loading
   showLoading();
   
   try {
     const query = buildSearchQuery(powerQuery.template, keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
-    currentResults = results;
     
-    displayResults(results, powerQuery);
+    displayResults(results, powerQuery, keyword);
     
-    document.getElementById('statusBadge').innerHTML = `<span>●</span> Found ${results.length} opportunities`;
+    document.getElementById('statusBadge').textContent = `Found ${results.length} opportunities`;
     document.getElementById('statusBadge').className = 'status-badge status-success';
     
   } catch (error) {
-    document.getElementById('statusBadge').innerHTML = '<span>●</span> Error occurred';
+    document.getElementById('statusBadge').textContent = 'Search failed';
     document.getElementById('statusBadge').className = 'status-badge status-warning';
     showError(error.message);
   }
@@ -546,7 +533,7 @@ function showLoading() {
   document.getElementById('resultsGrid').innerHTML = `
     <div class="loading">
       <div class="spinner"></div>
-      <p>Hunting for pain points...</p>
+      <p>Analyzing pain points...</p>
     </div>
   `;
   document.getElementById('resultsCount').textContent = 'Searching...';
@@ -555,20 +542,18 @@ function showLoading() {
 function showError(message) {
   document.getElementById('resultsGrid').innerHTML = `
     <div class="empty-state">
-      <span class="emoji">⚠️</span>
       <h3>Search Error</h3>
       <p>${message}</p>
     </div>
   `;
 }
 
-function displayResults(results, powerQuery) {
+function displayResults(results, powerQuery, keyword) {
   const grid = document.getElementById('resultsGrid');
   
   if (!results.length) {
     grid.innerHTML = `
       <div class="empty-state">
-        <span class="emoji">🔍</span>
         <h3>No Results Found</h3>
         <p>Try a different search term or platform.</p>
       </div>
@@ -576,30 +561,24 @@ function displayResults(results, powerQuery) {
     return;
   }
   
-  document.getElementById('resultsCount').textContent = `${results.length} pain points found`;
+  document.getElementById('resultsCount').textContent = `${results.length} pain points`;
   
   let html = '';
   results.forEach(result => {
-    const keyword = document.getElementById('searchInput').value.trim();
-    const actionInsight = generateActionableInsight(result, powerQuery.id, keyword);
-    const priority = calculatePriority(result, powerQuery.id);
+    const businessInsight = generateBusinessInsight(result, powerQuery.id, keyword);
     const platformClass = getPlatformClass(result.displayLink);
     const platformName = getPlatformName(result.displayLink);
     
-    const priorityClass = priority === 3 ? 'priority-high' : priority === 2 ? 'priority-medium' : 'priority-low';
-    
     // Highlight pain words
     let snippet = result.snippet || '';
-    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative'];
+    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
     painWords.forEach(word => {
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:500;">$&</mark>`);
+      snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:1px 3px; border-radius:2px; font-weight:500;">$&</mark>`);
     });
     
     html += `
       <div class="result-card">
-        <div class="${priorityClass} priority-dot"></div>
-        
         <div class="card-header">
           <h3 class="result-title">
             <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
@@ -609,15 +588,14 @@ function displayResults(results, powerQuery) {
         
         <div class="result-snippet">${snippet}</div>
         
-        <button class="action-btn" onclick="window.open('${result.link}', '_blank')">
-          ${actionInsight.icon} ${actionInsight.action}
-        </button>
+        <div class="ai-insight">
+          <div class="ai-insight-label">Business Opportunity</div>
+          <div class="ai-insight-text">${businessInsight}</div>
+        </div>
         
         <div class="card-footer">
-          <div class="card-meta">
-            <span>${result.displayLink}</span>
-          </div>
-          <span style="color:var(--accent); cursor:pointer;" onclick="copyToClipboard('${result.link}')">Copy link</span>
+          <span>${result.displayLink}</span>
+          <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy link</span>
         </div>
       </div>
     `;
@@ -626,17 +604,14 @@ function displayResults(results, powerQuery) {
   grid.innerHTML = html;
 }
 
-// Utility function
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => {
-    // Could add a toast notification here
+    // Success feedback could go here
   });
 }
 
-// Make functions global
 window.copyToClipboard = copyToClipboard;
 
-// Initialize app
 init();
 </script>
 </body>
