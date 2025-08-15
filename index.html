@@ -7,175 +7,182 @@
 <script src="env-config.js"></script>
 <style>
 :root {
-  --bg:#ffffff; --sidebar:#f7f7f7; --card:#ffffff; --ink:#37352f; --muted:#787774;
-  --accent:#2383e2; --success:#448361; --warning:#d9730d; --danger:#e03e3e;
-  --border:#e9e9e7; --hover:#f1f1ef; --subtle:#f7f6f3;
-  --shadow:rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
-  --shadow-lg:rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 5px 10px, rgba(15, 15, 15, 0.4) 0px 15px 40px;
+  --bg:#fafafa; --sidebar:#ffffff; --card:#ffffff; --ink:#1a1a1a; --muted:#6b7280;
+  --accent:#3b82f6; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
+  --border:#e5e7eb; --hover:#f9fafb; --subtle:#f8fafc;
+  --shadow:0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-lg:0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl:0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   
   /* Platform Colors */
   --reddit:#ff4500; --twitter:#1da1f2; --linkedin:#0077b5; --hackernews:#ff6600;
   --github:#333; --stackoverflow:#f48024; --medium:#000; --quora:#b92b27;
+  --youtube:#ff0000; --producthunt:#da552f; --discord:#5865f2; --glassdoor:#0caa41;
+  --trustpilot:#00b67a; --appstore:#007aff;
 }
 
 * { box-sizing: border-box; }
-html,body { margin:0; padding:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif; }
-body { background:var(--bg); color:var(--ink); line-height:1.5; }
+html,body { margin:0; padding:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Helvetica, sans-serif; }
+body { background:var(--bg); color:var(--ink); line-height:1.6; font-size:14px; }
 
 /* Layout */
 .app { display:flex; min-height:100vh; }
 
-/* Sidebar - Notion Style */
+/* Sidebar - Modern App Style */
 .sidebar {
-  width:260px; background:var(--sidebar); border-right:1px solid var(--border);
-  padding:16px; overflow-y:auto; flex-shrink:0;
+  width:280px; background:var(--sidebar); border-right:1px solid var(--border);
+  padding:24px; overflow-y:auto; flex-shrink:0; box-shadow:var(--shadow);
 }
 
 .logo { 
-  font-size:16px; font-weight:600; margin-bottom:24px; color:var(--ink);
-  padding:8px 12px;
+  font-size:20px; font-weight:700; margin-bottom:32px; color:var(--ink);
+  padding:12px 0; display:flex; align-items:center; gap:8px;
 }
 
-.nav-section { margin-bottom:20px; }
+.nav-section { margin-bottom:32px; }
 .nav-title { 
-  font-size:11px; font-weight:500; color:var(--muted); 
-  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; 
-  padding:0 12px;
+  font-size:11px; font-weight:600; color:var(--muted); 
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; 
 }
 
 /* Search */
 .search-input {
-  width:100%; padding:8px 12px; border:1px solid var(--border);
-  border-radius:6px; font-size:14px; background:white;
-  transition:all 0.15s ease; margin-bottom:6px;
+  width:100%; padding:12px 16px; border:1px solid var(--border);
+  border-radius:8px; font-size:15px; background:var(--subtle);
+  transition:all 0.2s ease; margin-bottom:12px; font-weight:500;
 }
 .search-input:focus {
-  outline:none; border-color:var(--accent);
-  box-shadow:0 0 0 1px var(--accent);
+  outline:none; border-color:var(--accent); background:white;
+  box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .search-btn {
-  width:100%; padding:8px 12px; background:var(--accent);
-  color:white; border:none; border-radius:6px; font-weight:500;
-  cursor:pointer; transition:background 0.15s ease; font-size:14px;
+  width:100%; padding:12px 16px; background:var(--accent);
+  color:white; border:none; border-radius:8px; font-weight:600;
+  cursor:pointer; transition:all 0.2s ease; font-size:15px;
+  box-shadow:var(--shadow);
 }
-.search-btn:hover { background:#1a6bb8; }
+.search-btn:hover { 
+  background:#2563eb; 
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-lg);
+}
 
-/* Power Queries - Enhanced Notion Button Style */
+/* Power Queries - Toggle Style */
 .power-query {
   display:flex; align-items:center; width:100%;
-  padding:8px 12px; margin-bottom:3px; border-radius:6px;
-  cursor:pointer; transition:all 0.15s ease; font-size:14px;
-  background:transparent; border:1px solid transparent; text-align:left;
+  padding:12px 16px; margin-bottom:6px; border-radius:8px;
+  cursor:pointer; transition:all 0.2s ease; font-size:14px;
+  background:var(--subtle); border:1px solid var(--border); text-align:left;
   position:relative;
 }
 .power-query:hover { 
   background:var(--hover); 
-  border-color:var(--border);
+  border-color:#d1d5db;
+  transform:translateY(-1px);
   box-shadow:var(--shadow);
 }
 .power-query.active { 
   background:var(--accent); 
   color:white; 
   border-color:var(--accent);
-  box-shadow:var(--shadow);
+  box-shadow:var(--shadow-lg);
+  transform:translateY(-1px);
 }
 
-.query-title { font-weight:500; margin-bottom:2px; }
-.query-desc { font-size:12px; color:var(--muted); }
+.query-content { flex:1; }
+.query-title { font-weight:600; margin-bottom:2px; font-size:14px; }
+.query-desc { font-size:12px; color:var(--muted); line-height:1.4; }
 .power-query.active .query-desc { color:rgba(255,255,255,0.8); }
-
-/* Clear Selection Button */
-.clear-selection {
-  width:100%; padding:6px 12px; background:transparent;
-  color:var(--muted); border:1px solid var(--border); border-radius:6px; 
-  font-weight:500; cursor:pointer; transition:all 0.15s ease; 
-  font-size:13px; margin-bottom:6px; display:none;
-}
-.clear-selection:hover { 
-  background:var(--hover); 
-  color:var(--ink);
-  border-color:var(--muted);
-}
 
 /* Filters */
 .filter-select {
-  width:100%; padding:6px 12px; border:1px solid var(--border);
-  border-radius:6px; background:white; margin-bottom:6px; font-size:14px;
+  width:100%; padding:10px 16px; border:1px solid var(--border);
+  border-radius:8px; background:white; margin-bottom:8px; font-size:14px;
+  font-weight:500; cursor:pointer; transition:all 0.2s ease;
+}
+.filter-select:focus {
+  outline:none; border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 /* Main Content */
-.main-content { flex:1; padding:32px 40px; overflow-y:auto; }
+.main-content { flex:1; padding:32px 40px; overflow-y:auto; background:var(--bg); }
 
-/* Header - Notion Style */
+/* Header */
 .content-header {
   margin-bottom:32px;
 }
 .page-title { 
-  font-size:32px; font-weight:700; margin:0 0 8px 0; 
-  color:var(--ink);
+  font-size:28px; font-weight:800; margin:0 0 8px 0; 
+  color:var(--ink); letter-spacing:-0.5px;
 }
 .page-subtitle { 
-  font-size:16px; color:var(--muted); margin:0;
+  font-size:16px; color:var(--muted); margin:0; font-weight:500;
 }
 
-/* AI Summary - Minimal Version */
+/* AI Summary - Minimal */
 .ai-summary {
-  background:var(--subtle); border:1px solid var(--border);
-  border-radius:6px; padding:12px; margin-bottom:16px; display:none;
-  font-size:13px; color:var(--muted);
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color:white; border-radius:12px; padding:16px 20px; margin-bottom:24px; 
+  display:none; box-shadow:var(--shadow-lg);
 }
 .summary-header {
   display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;
 }
 .summary-title { 
-  font-weight:500; margin:0; font-size:12px; 
-  text-transform:uppercase; letter-spacing:0.5px;
+  font-weight:600; margin:0; font-size:12px; 
+  text-transform:uppercase; letter-spacing:1px; opacity:0.9;
 }
 .opportunity-score {
-  font-size:12px; font-weight:600; padding:2px 6px; border-radius:4px;
+  font-size:14px; font-weight:700; padding:4px 8px; border-radius:6px;
+  background:rgba(255,255,255,0.2); backdrop-filter:blur(10px);
 }
-.score-high { background:#dcfce7; color:var(--success); }
-.score-medium { background:#fef3c7; color:var(--warning); }
-.score-low { background:#fecaca; color:var(--danger); }
 
 /* Results Section */
 .results-section { }
 .section-header {
   display:flex; justify-content:space-between; align-items:center; 
-  margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border);
+  margin-bottom:24px;
 }
-.section-title { font-size:20px; font-weight:600; margin:0; }
-.results-count { color:var(--muted); font-size:14px; }
+.section-title { font-size:20px; font-weight:700; margin:0; color:var(--ink); }
+.results-count { 
+  color:var(--muted); font-size:14px; font-weight:500;
+  padding:6px 12px; background:var(--subtle); border-radius:20px;
+}
 
 .results-grid {
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(400px, 1fr));
-  gap:16px;
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr));
+  gap:20px;
 }
 
-/* Card Design - Notion Style */
+/* Card Design - Modern App Style */
 .result-card {
-  background:white; border:1px solid var(--border); border-radius:8px;
-  padding:20px; transition:all 0.15s ease; position:relative;
+  background:white; border:1px solid var(--border); border-radius:12px;
+  padding:24px; transition:all 0.3s ease; position:relative;
+  box-shadow:var(--shadow);
 }
 .result-card:hover {
-  box-shadow:var(--shadow-lg);
+  box-shadow:var(--shadow-xl);
+  transform:translateY(-2px);
+  border-color:#d1d5db;
 }
 
 .card-header {
-  margin-bottom:12px;
+  margin-bottom:16px;
 }
 
 .result-title {
-  font-weight:600; font-size:16px; line-height:1.3; margin:0 0 8px 0;
+  font-weight:700; font-size:16px; line-height:1.4; margin:0 0 12px 0;
   color:var(--ink);
 }
 .result-title a { color:inherit; text-decoration:none; }
 .result-title a:hover { color:var(--accent); }
 
 .source-badge {
-  display:inline-block; padding:2px 8px; border-radius:4px; 
-  font-size:11px; font-weight:500; color:white; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:6px; 
+  font-size:11px; font-weight:600; color:white; text-transform:uppercase;
+  letter-spacing:0.5px;
 }
 .source-reddit { background:var(--reddit); }
 .source-twitter { background:var(--twitter); }
@@ -185,57 +192,69 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 .source-stackoverflow { background:var(--stackoverflow); }
 .source-medium { background:var(--medium); }
 .source-quora { background:var(--quora); }
+.source-youtube { background:var(--youtube); }
+.source-producthunt { background:var(--producthunt); }
+.source-discord { background:var(--discord); }
+.source-glassdoor { background:var(--glassdoor); }
+.source-trustpilot { background:var(--trustpilot); }
+.source-appstore { background:var(--appstore); }
 .source-default { background:var(--muted); }
 
 .result-snippet {
-  color:var(--muted); font-size:14px; line-height:1.4; 
-  margin-bottom:16px; display:-webkit-box; -webkit-line-clamp:3; 
+  color:var(--muted); font-size:14px; line-height:1.6; 
+  margin-bottom:20px; display:-webkit-box; -webkit-line-clamp:3; 
   -webkit-box-orient:vertical; overflow:hidden;
 }
 
-/* AI Insight - The Key Feature */
+/* AI Insight */
 .ai-insight {
-  background:var(--subtle); border:1px solid var(--border);
-  border-radius:6px; padding:12px; margin-bottom:12px;
+  background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border:1px solid #e2e8f0; border-radius:8px; padding:16px; margin-bottom:16px;
 }
 .ai-insight-label {
-  font-size:11px; font-weight:500; color:var(--muted);
-  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;
+  font-size:11px; font-weight:600; color:var(--muted);
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;
   display:flex; justify-content:space-between; align-items:center;
 }
 .urgency-badge {
-  padding:2px 6px; border-radius:10px; font-size:10px; font-weight:600;
+  padding:3px 8px; border-radius:12px; font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.5px;
 }
 .urgency-high { background:var(--danger); color:white; }
 .urgency-medium { background:var(--warning); color:white; }
 .urgency-low { background:var(--muted); color:white; }
 
 .ai-insight-text {
-  font-size:14px; color:var(--ink); line-height:1.4;
+  font-size:14px; color:var(--ink); line-height:1.5;
   font-weight:500;
 }
 
 .card-footer {
   display:flex; justify-content:space-between; align-items:center;
-  font-size:12px; color:var(--muted); margin-top:16px;
-  padding-top:12px; border-top:1px solid var(--border);
+  font-size:12px; color:var(--muted); margin-top:20px;
+  padding-top:16px; border-top:1px solid var(--border);
 }
 
 .copy-link {
-  color:var(--accent); cursor:pointer; font-weight:500;
-  padding:4px 8px; border-radius:4px; transition:background 0.15s ease;
+  color:var(--accent); cursor:pointer; font-weight:600;
+  padding:6px 12px; border-radius:6px; transition:all 0.2s ease;
+  font-size:12px; text-transform:uppercase; letter-spacing:0.5px;
 }
-.copy-link:hover { background:var(--hover); }
+.copy-link:hover { 
+  background:var(--accent); 
+  color:white;
+  transform:translateY(-1px);
+}
 
 /* Status Badge */
 .status-badge {
-  display:inline-flex; align-items:center; gap:6px;
-  padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500;
-  margin-bottom:16px;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 16px; border-radius:8px; font-size:13px; font-weight:600;
+  margin-bottom:20px; box-shadow:var(--shadow);
 }
-.status-success { background:#e6f2ed; color:var(--success); }
-.status-warning { background:#fdf2e9; color:var(--warning); }
-.status-info { background:#e9f3ff; color:var(--accent); }
+.status-success { background:#ecfdf5; color:var(--success); border:1px solid #a7f3d0; }
+.status-warning { background:#fffbeb; color:var(--warning); border:1px solid #fde68a; }
+.status-info { background:#eff6ff; color:var(--accent); border:1px solid #bfdbfe; }
 
 /* Loading & Empty States */
 .loading { 
@@ -243,8 +262,8 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   grid-column:1 / -1;
 }
 .spinner {
-  display:inline-block; width:16px; height:16px; margin-right:8px;
-  border:2px solid var(--border); border-top:2px solid var(--accent);
+  display:inline-block; width:20px; height:20px; margin-right:12px;
+  border:3px solid var(--border); border-top:3px solid var(--accent);
   border-radius:50%; animation:spin 1s linear infinite;
 }
 @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
@@ -253,13 +272,16 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
   text-align:center; padding:80px 20px; color:var(--muted);
   grid-column:1 / -1;
 }
+.empty-state h3 { color:var(--ink); font-weight:700; margin-bottom:8px; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .results-grid { grid-template-columns:1fr; }
+}
 @media (max-width: 1024px) {
   .app { flex-direction:column; }
-  .sidebar { width:100%; padding:16px; }
-  .main-content { padding:20px; }
-  .results-grid { grid-template-columns:1fr; }
+  .sidebar { width:100%; padding:20px; }
+  .main-content { padding:24px 20px; }
 }
 </style>
 </head>
@@ -268,7 +290,10 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo">😠 GrumpyLinks</div>
+    <div class="logo">
+      <span>😠</span>
+      <span>GrumpyLinks</span>
+    </div>
 
     <div class="nav-section">
       <div class="nav-title">Search</div>
@@ -279,7 +304,6 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
 
     <div class="nav-section">
       <div class="nav-title">Power Queries</div>
-      <button id="clearSelection" class="clear-selection">✕ Clear Selection</button>
       <div id="powerQueries"></div>
     </div>
 
@@ -291,6 +315,13 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
         <option value="twitter">Twitter</option>
         <option value="linkedin">LinkedIn</option>
         <option value="hackernews">Hacker News</option>
+        <option value="youtube">YouTube</option>
+        <option value="medium">Medium</option>
+        <option value="producthunt">Product Hunt</option>
+        <option value="discord">Discord</option>
+        <option value="glassdoor">Glassdoor</option>
+        <option value="trustpilot">Trustpilot</option>
+        <option value="appstore">App Stores</option>
         <option value="forums">Forums</option>
       </select>
       
@@ -298,6 +329,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
         <option value="d7">Last 7 days</option>
         <option value="d1">Last 24 hours</option>
         <option value="d30">Last 30 days</option>
+        <option value="d365">Last year</option>
       </select>
     </div>
   </aside>
@@ -314,7 +346,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
     <!-- AI Summary -->
     <div id="aiSummary" class="ai-summary">
       <div class="summary-header">
-        <h3 class="summary-title">AI Analysis Summary</h3>
+        <h3 class="summary-title">AI Analysis</h3>
         <span id="overallScore" class="opportunity-score">-</span>
       </div>
       <div id="summaryContent"></div>
@@ -329,7 +361,7 @@ body { background:var(--bg); color:var(--ink); line-height:1.5; }
       <div id="resultsGrid" class="results-grid">
         <div class="empty-state">
           <h3>Ready to Discover Pain Points</h3>
-          <p>Select a power query to find customer frustrations and business opportunities.</p>
+          <p>Enter a search term and click Search, or select a power query to find customer frustrations and business opportunities.</p>
         </div>
       </div>
     </section>
@@ -389,9 +421,16 @@ const POWER_QUERIES = [
 const PLATFORMS = {
   all: { sites: [] },
   reddit: { sites: ['site:reddit.com'] },
-  twitter: { sites: ['site:twitter.com'] },
+  twitter: { sites: ['site:twitter.com', 'site:x.com'] },
   linkedin: { sites: ['site:linkedin.com'] },
   hackernews: { sites: ['site:news.ycombinator.com'] },
+  youtube: { sites: ['site:youtube.com'] },
+  medium: { sites: ['site:medium.com'] },
+  producthunt: { sites: ['site:producthunt.com'] },
+  discord: { sites: ['site:discord.com'] },
+  glassdoor: { sites: ['site:glassdoor.com'] },
+  trustpilot: { sites: ['site:trustpilot.com'] },
+  appstore: { sites: ['site:apps.apple.com', 'site:play.google.com'] },
   forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
 };
 
@@ -413,28 +452,31 @@ function initPowerQueries() {
     const btn = document.createElement('button');
     btn.className = 'power-query';
     btn.innerHTML = `
-      <div>
+      <div class="query-content">
         <div class="query-title">${query.title}</div>
         <div class="query-desc">${query.desc}</div>
       </div>
     `;
     btn.onclick = () => {
-      document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
-      btn.classList.add('active');
-      currentQuery = query;
-      document.getElementById('clearSelection').style.display = 'block';
-      runPowerQuery(query);
+      // Toggle behavior - click again to deselect
+      if (currentQuery && currentQuery.id === query.id) {
+        // Deselect current query
+        btn.classList.remove('active');
+        currentQuery = null;
+        resetToInitialState();
+      } else {
+        // Select new query
+        document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
+        btn.classList.add('active');
+        currentQuery = query;
+        runPowerQuery(query);
+      }
     };
     container.appendChild(btn);
   });
 }
 
-function clearPowerQuerySelection() {
-  document.querySelectorAll('.power-query').forEach(q => q.classList.remove('active'));
-  currentQuery = null;
-  document.getElementById('clearSelection').style.display = 'none';
-  
-  // Reset to initial state
+function resetToInitialState() {
   document.getElementById('aiSummary').style.display = 'none';
   document.getElementById('resultsGrid').innerHTML = `
     <div class="empty-state">
@@ -469,8 +511,6 @@ function setupEventListeners() {
   document.getElementById('searchInput').oninput = (e) => {
     localStorage.setItem('grumpy_search', e.target.value);
   };
-  
-  document.getElementById('clearSelection').onclick = clearPowerQuerySelection;
 }
 
 function loadLastSearch() {
@@ -511,6 +551,12 @@ function getPlatformClass(domain) {
   if (domain.includes('stackoverflow')) return 'source-stackoverflow';
   if (domain.includes('medium')) return 'source-medium';
   if (domain.includes('quora')) return 'source-quora';
+  if (domain.includes('youtube')) return 'source-youtube';
+  if (domain.includes('producthunt')) return 'source-producthunt';
+  if (domain.includes('discord')) return 'source-discord';
+  if (domain.includes('glassdoor')) return 'source-glassdoor';
+  if (domain.includes('trustpilot')) return 'source-trustpilot';
+  if (domain.includes('apps.apple.com') || domain.includes('play.google.com')) return 'source-appstore';
   return 'source-default';
 }
 
@@ -523,10 +569,16 @@ function getPlatformName(domain) {
   if (domain.includes('stackoverflow')) return 'Stack Overflow';
   if (domain.includes('medium')) return 'Medium';
   if (domain.includes('quora')) return 'Quora';
+  if (domain.includes('youtube')) return 'YouTube';
+  if (domain.includes('producthunt')) return 'Product Hunt';
+  if (domain.includes('discord')) return 'Discord';
+  if (domain.includes('glassdoor')) return 'Glassdoor';
+  if (domain.includes('trustpilot')) return 'Trustpilot';
+  if (domain.includes('apps.apple.com')) return 'App Store';
+  if (domain.includes('play.google.com')) return 'Play Store';
   return domain.split('.')[0];
 }
 
-// Match AI insight to result by title
 function findInsightForResult(result, analysis) {
   if (!analysis || !analysis.resultInsights) {
     return {
@@ -535,7 +587,6 @@ function findInsightForResult(result, analysis) {
     };
   }
   
-  // Try to match by title (first few words)
   const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
   
   const matchingInsight = analysis.resultInsights.find(insight => {
@@ -548,7 +599,6 @@ function findInsightForResult(result, analysis) {
     return matchingInsight;
   }
   
-  // Fallback: use the first available insight or a generic one
   return analysis.resultInsights[0] || {
     businessOpportunity: "Monitor this result for business opportunities",
     urgency: "medium"
@@ -627,7 +677,6 @@ async function runNormalSearch() {
     const query = buildNormalSearchQuery(keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
     
-    // For normal search, don't use AI analysis - just show results
     displayResults(results, null, keyword, null);
     
     document.getElementById('statusBadge').textContent = `Found ${results.length} results`;
@@ -650,7 +699,7 @@ async function runPowerQuery(powerQuery) {
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
   
-  document.getElementById('statusBadge').textContent = 'Searching...';
+  document.getElementById('statusBadge').textContent = 'Analyzing pain points...';
   document.getElementById('statusBadge').className = 'status-badge status-warning';
   
   showLoading();
@@ -659,7 +708,6 @@ async function runPowerQuery(powerQuery) {
     const query = buildSearchQuery(powerQuery.template, keyword, platform);
     const results = await performGoogleSearch(query, timeRange);
     
-    // Get AI analysis
     let analysis = null;
     if (results.length > 0) {
       analysis = await analyzeWithAI(results, query, platform);
@@ -677,93 +725,89 @@ async function runPowerQuery(powerQuery) {
     
   } catch (error) {
     document.getElementById('statusBadge').textContent = 'Search failed';
-    document.getElementById('statusBadge').className = 'status-badge status-warning';
-    showError(error.message);
-  }
+   document.getElementById('statusBadge').className = 'status-badge status-warning';
+   showError(error.message);
+ }
 }
 
 function showLoading() {
-  document.getElementById('aiSummary').style.display = 'none';
-  document.getElementById('resultsGrid').innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      <p>Analyzing pain points...</p>
-    </div>
-  `;
-  document.getElementById('resultsCount').textContent = 'Searching...';
+ document.getElementById('aiSummary').style.display = 'none';
+ document.getElementById('resultsGrid').innerHTML = `
+   <div class="loading">
+     <div class="spinner"></div>
+     <p>Analyzing pain points...</p>
+   </div>
+ `;
+ document.getElementById('resultsCount').textContent = 'Searching...';
 }
 
 function showError(message) {
-  document.getElementById('resultsGrid').innerHTML = `
-    <div class="empty-state">
-      <h3>Search Error</h3>
-      <p>${message}</p>
-    </div>
-  `;
+ document.getElementById('resultsGrid').innerHTML = `
+   <div class="empty-state">
+     <h3>Search Error</h3>
+     <p>${message}</p>
+   </div>
+ `;
 }
 
 function displayAISummary(analysis) {
-  const summary = document.getElementById('aiSummary');
-  const score = analysis.overallOpportunityScore || 5;
-  
-  document.getElementById('overallScore').textContent = `${score}/10`;
-  document.getElementById('overallScore').className = `opportunity-score ${score >= 8 ? 'score-high' : score >= 6 ? 'score-medium' : 'score-low'}`;
-  
-  // Just show the main pain point - keep it minimal
-  const summaryContent = `${analysis.mainPainPoint || 'Analyzing customer pain points...'}`;
-  
-  document.getElementById('summaryContent').innerHTML = summaryContent;
-  summary.style.display = 'block';
+ const summary = document.getElementById('aiSummary');
+ const score = analysis.overallOpportunityScore || 5;
+ 
+ document.getElementById('overallScore').textContent = `${score}/10`;
+ 
+ const summaryContent = `${analysis.mainPainPoint || 'Analyzing customer pain points...'}`;
+ 
+ document.getElementById('summaryContent').innerHTML = summaryContent;
+ summary.style.display = 'block';
 }
 
 function displayResults(results, powerQuery, keyword, analysis) {
-  const grid = document.getElementById('resultsGrid');
-  
-  if (!results.length) {
-    grid.innerHTML = `
-      <div class="empty-state">
-        <h3>No Results Found</h3>
-        <p>Try a different search term or platform.</p>
-      </div>
-    `;
-    return;
-  }
-  
-  const resultType = powerQuery ? 'pain points' : 'results';
-  document.getElementById('resultsCount').textContent = `${results.length} ${resultType}`;
-  
-  let html = '';
-  results.forEach(result => {
-    const platformClass = getPlatformClass(result.displayLink);
-    const platformName = getPlatformName(result.displayLink);
-    
-    // Highlight pain words only for power queries
-    let snippet = result.snippet || '';
-    if (powerQuery) {
-      const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-      painWords.forEach(word => {
-        const regex = new RegExp(`\\b${word}\\b`, 'gi');
-        snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:1px 3px; border-radius:2px; font-weight:500;">$&</mark>`);
-      });
-    }
-    
-    html += `
-      <div class="result-card">
-        <div class="card-header">
-          <h3 class="result-title">
-            <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
-          </h3>
-          <span class="source-badge ${platformClass}">${platformName}</span>
-        </div>
-        
-        <div class="result-snippet">${snippet}</div>
-    `;
-    
-    // Only show AI insight for power queries
-    if (powerQuery && analysis) {
-      const insight = findInsightForResult(result, analysis);
-      html += `
-        <div class="ai-insight">
+ const grid = document.getElementById('resultsGrid');
+ 
+ if (!results.length) {
+   grid.innerHTML = `
+     <div class="empty-state">
+       <h3>No Results Found</h3>
+       <p>Try a different search term or platform.</p>
+     </div>
+   `;
+   return;
+ }
+ 
+ const resultType = powerQuery ? 'pain points' : 'results';
+ document.getElementById('resultsCount').textContent = `${results.length} ${resultType}`;
+ 
+ let html = '';
+ results.forEach(result => {
+   const platformClass = getPlatformClass(result.displayLink);
+   const platformName = getPlatformName(result.displayLink);
+   
+   let snippet = result.snippet || '';
+   if (powerQuery) {
+     const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+     painWords.forEach(word => {
+       const regex = new RegExp(`\\b${word}\\b`, 'gi');
+       snippet = snippet.replace(regex, `<mark style="background:#fef3c7; padding:2px 4px; border-radius:3px; font-weight:600;">$&</mark>`);
+     });
+   }
+   
+   html += `
+     <div class="result-card">
+       <div class="card-header">
+         <h3 class="result-title">
+           <a href="${result.link}" target="_blank" rel="noopener">${result.title}</a>
+         </h3>
+         <span class="source-badge ${platformClass}">${platformName}</span>
+       </div>
+       
+       <div class="result-snippet">${snippet}</div>
+   `;
+   
+   if (powerQuery && analysis) {
+     const insight = findInsightForResult(result, analysis);
+     html += `
+       <div class="ai-insight">
          <div class="ai-insight-label">
            Business Opportunity
            <span class="urgency-badge urgency-${insight.urgency || 'medium'}">
@@ -778,7 +822,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
    html += `
        <div class="card-footer">
          <span>${result.displayLink}</span>
-         <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy link</span>
+         <span class="copy-link" onclick="copyToClipboard('${result.link}')">Copy Link</span>
        </div>
      </div>
    `;
@@ -789,7 +833,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
 
 function copyToClipboard(text) {
  navigator.clipboard.writeText(text).then(() => {
-   // Success feedback could go here
+   // Could add success toast here
  });
 }
 
