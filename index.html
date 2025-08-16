@@ -1085,6 +1085,124 @@ html, body {
     transform: translateY(0);
   }
 }
+/* Integrated Source Section */
+.prd-source-section {
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
+  border-left: 4px solid var(--text-accent);
+}
+
+.prd-source-section h2 {
+  margin-top: 0 !important;
+  margin-bottom: 20px;
+  color: var(--text-accent);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.source-complaint {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-primary);
+}
+
+.business-opportunity {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border-primary);
+}
+
+.source-label {
+  font-weight: 600;
+  color: var(--text-accent);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.source-text {
+  color: var(--text-primary);
+  font-style: italic;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.opportunity-text {
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.source-link {
+  margin-top: 12px;
+}
+
+.source-link a {
+  color: var(--text-accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 6px 12px;
+  background: var(--bg-primary);
+  border-radius: 4px;
+  border: 1px solid var(--border-accent);
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.source-link a:hover {
+  background: var(--text-accent);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* PRD Footer */
+.prd-footer {
+  margin-top: 40px;
+  padding: 20px;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  border-top: 2px solid var(--border-primary);
+}
+
+.prd-footer p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.prd-footer a {
+  color: var(--text-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.prd-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .prd-source-section {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .source-complaint,
+  .business-opportunity {
+    padding: 12px;
+  }
+  
+  .source-link a {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1829,15 +1947,18 @@ function downloadOpportunities() {
     btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
   }, 2000);
 }
-// Updated generatePrdPrompt function
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
   if (!API_CONFIG.LAMBDA_ENDPOINT) {
     alert('PRD generation not configured. Please set up your Lambda endpoint.');
     return;
   }
 
-  // Show loading state for this specific button
+  // Get the source link from the button's parent card
   var button = event.target;
+  var card = button.closest('.result-card');
+  var sourceLink = card ? card.querySelector('.result-title a').href : '#';
+
+  // Show loading state for this specific button
   var originalText = button.textContent;
   button.textContent = 'Generating...';
   button.disabled = true;
@@ -1866,7 +1987,7 @@ function generatePrdPrompt(originalTitle, snippet, opportunity) {
   .then(function(data) {
     clearInterval(progressInterval);
     if (data.prd) {
-      showPrdResults(data.prd, originalTitle, snippet, opportunity);
+      showPrdResults(data.prd, originalTitle, snippet, opportunity, sourceLink);
     } else {
       throw new Error('No PRD content received');
     }
@@ -1882,7 +2003,6 @@ function generatePrdPrompt(originalTitle, snippet, opportunity) {
     button.disabled = false;
   });
 }
-
 function showPrdLoading(title) {
   var container = getPrdContainer();
   container.innerHTML = `
@@ -1918,26 +2038,22 @@ function startProgressAnimation() {
     }
   }, 500);
 }
-function showPrdResults(prdContent, originalTitle, snippet, opportunity) {
+function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceLink) {
   var container = getPrdContainer();
   
-  // Extract the product name from the PRD content itself
-  var productTitle = "Product";
-  var h1Match = prdContent.match(/^#\s+(.+?)(?:\s*-\s*(.+?))?$/m);
+  // Extract just the product name (before the dash)
+  var productName = "Product";
+  var h1Match = prdContent.match(/^#\s+([^-]+)/m);
   if (h1Match) {
-    // Use the full H1 title from the PRD
-    productTitle = h1Match[1].trim();
-    if (h1Match[2]) {
-      productTitle += " - " + h1Match[2].trim();
-    }
+    productName = h1Match[1].trim();
   }
   
-  // Format the PRD content
+  // Format the PRD content (remove H1)
   var formattedContent = formatPrdContent(prdContent);
   
   container.innerHTML = `
     <div class="prd-header">
-      <h2 class="prd-title">${productTitle} - Mini PRD</h2>
+      <h2 class="prd-title">${productName} - Product Requirements Document</h2>
       <div class="prd-actions">
         <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy PRD</button>
         <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
@@ -1945,26 +2061,54 @@ function showPrdResults(prdContent, originalTitle, snippet, opportunity) {
       </div>
     </div>
     
-    <div class="prd-source-info">
-      <div class="prd-source-title">Generated from customer complaint:</div>
-      "${escapeHtml(originalTitle)}"
-    </div>
-    
     <div class="prd-content" id="prd-content">
+      <div class="prd-source-section">
+        <h2>Source & Context</h2>
+        <div class="source-complaint">
+          <div class="source-label">Customer Pain Point:</div>
+          <div class="source-text">"${escapeHtml(originalTitle)}"</div>
+          <div class="source-link">
+            <a href="${escapeHtml(sourceLink)}" target="_blank" rel="noopener">
+              📄 View Original Source
+            </a>
+          </div>
+        </div>
+        <div class="business-opportunity">
+          <div class="source-label">Business Opportunity Identified:</div>
+          <div class="opportunity-text">${escapeHtml(opportunity)}</div>
+        </div>
+      </div>
+      
       ${formattedContent}
+      
+      <div class="prd-footer">
+        <p><strong>Note:</strong> This PRD was auto-generated based on the customer pain point above. 
+        <a href="${escapeHtml(sourceLink)}" target="_blank" rel="noopener">Review the original source</a> 
+        for additional context and validation.</p>
+      </div>
     </div>
   `;
   
-  // Store PRD content globally for copy/download
-  window.currentPrdContent = prdContent;
+  // Store PRD content globally for copy/download (include source info)
+  window.currentPrdContent = `# ${productName} - Product Requirements Document
+
+## Source & Context
+
+**Customer Pain Point:** "${originalTitle}"
+**Source:** ${sourceLink}
+**Business Opportunity:** ${opportunity}
+
+${prdContent.replace(/^#\s+.+$/m, '').trim()}
+
+---
+*This PRD was auto-generated based on customer feedback. Review the original source for additional context.*`;
   
-  // Complete the progress bar
+  // Complete the progress bar and scroll
   var progressFill = document.getElementById('prd-progress-fill');
   if (progressFill) {
     progressFill.style.width = '100%';
   }
   
-  // Scroll to PRD container
   setTimeout(function() {
     container.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
