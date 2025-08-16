@@ -9,7 +9,7 @@
 <style>
 :root {
   --bg-primary: #0f0f10; --bg-secondary: #1a1a1c; --bg-tertiary: #232326; --bg-card: #1e1e20; --bg-card-hover: #252527;
-  --bg-input: #1a1a1c; --bg-button: #2563eb; --bg-button-hover: #1d4ed8; --bg-success: #22c55e; --bg-danger: #ef4444;
+  --bg-input: #1a1a1c; --bg-button: #2563eb; --bg-button-hover: #1d4ed8; --bg-success: #22c55e; --bg-warning: #f59e0b; --bg-danger: #ef4444;
   --text-primary: #ffffff; --text-secondary: #94a3b8; --text-muted: #64748b; --text-accent: #3b82f6;
   --border-primary: #2a2a2e; --border-secondary: #3a3a3e; --border-accent: #3b82f6;
   --reddit: #ff4500; --twitter: #1da1f2; --linkedin: #0077b5; --hackernews: #ff6600; --github: #ffffff;
@@ -353,8 +353,10 @@ body {
 </div>
 
 <script>
+// Configuration
 const API_CONFIG = { GOOGLE_API_KEY: '', SEARCH_ENGINE_ID: '', LAMBDA_ENDPOINT: '' };
 
+// Power Queries
 const POWER_QUERIES = {
   competitor_hate: { template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}' },
   switching_signals: { template: '("switching from" OR "alternative to" OR "quitting" OR "leaving") {{keyword}}' },
@@ -363,6 +365,7 @@ const POWER_QUERIES = {
   urgent_help: { template: '("need help with" OR "urgent" OR "stuck with") {{keyword}}' }
 };
 
+// Platform configurations
 const PLATFORMS = {
   all: { sites: [] }, reddit: { sites: ['site:reddit.com'] }, twitter: { sites: ['site:twitter.com', 'site:x.com'] },
   linkedin: { sites: ['site:linkedin.com'] }, hackernews: { sites: ['site:news.ycombinator.com'] },
@@ -373,6 +376,11 @@ const PLATFORMS = {
   forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
 };
 
+// Global variables
+let currentAnalysis = null;
+let currentSearchResults = [];
+
+// Demo data
 const DEMO_RESULTS = {
   query: "",
   results: [
@@ -392,7 +400,7 @@ const DEMO_RESULTS = {
     },
     {
       title: "iOS - NextDNS Help Center",
-      snippet: "Public WiFis / Airplane WiFi / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
+      snippet: "Public WiFis / Airplane WiFI / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
       link: "https://help.nextdns.io/tag/ios",
       displayLink: "help.nextdns.io",
       insight: { businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", urgency: "high" }
@@ -421,13 +429,11 @@ const DEMO_RESULTS = {
   ]
 };
 
-let currentSearchResults = [];
-
 function loadConfig() {
   if (window.ENV) {
     API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
     API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
-    API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
+   API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
  }
 }
 
@@ -451,6 +457,27 @@ function setupEventListeners() {
  document.getElementById('searchInput').onkeydown = e => {
    if (e.key === 'Enter') performSearch();
  };
+ document.getElementById('searchInput').oninput = e => {
+   localStorage.setItem('grumpy_search', e.target.value);
+ };
+}
+
+function buildSearchQuery(template, keyword, platform) {
+ let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
+ const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+ if (platformConfig.sites.length > 0) {
+   query += ` (${platformConfig.sites.join(' OR ')})`;
+ }
+ return query;
+}
+
+function buildNormalSearchQuery(keyword, platform) {
+ let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
+ const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+ if (platformConfig.sites.length > 0) {
+   query += ` (${platformConfig.sites.join(' OR ')})`;
+ }
+ return query;
 }
 
 function getPlatformClass(domain) {
@@ -463,8 +490,8 @@ function getPlatformClass(domain) {
    'apps.apple.com': 'source-appstore', 'play.google.com': 'source-appstore'
  };
  
- return Object.keys(platforms).find(key => domain.includes(key)) ? 
-   platforms[Object.keys(platforms).find(key => domain.includes(key))] : 'source-default';
+ const match = Object.keys(platforms).find(key => domain.includes(key));
+ return match ? platforms[match] : 'source-default';
 }
 
 function getPlatformName(domain) {
@@ -480,97 +507,187 @@ function getPlatformName(domain) {
  return match ? platforms[match] : domain.split('.')[0];
 }
 
-function escapeHtml(text) {
- if (typeof text !== 'string') return text;
- const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
- return text.replace(/[&<>"']/g, m => map[m]);
+function findInsightForResult(result, analysis) {
+ if (!analysis || !analysis.resultInsights) {
+   return {
+     businessOpportunity: "AI analysis not available for this result",
+     urgency: "low"
+   };
+ }
+
+ if (analysis.resultInsights.length > 0 && !analysis.resultInsights[0].title) {
+   const resultIndex = analysis.resultInsights.findIndex((insight, index) => {
+     return index < analysis.resultInsights.length;
+   });
+   
+   if (resultIndex >= 0 && analysis.resultInsights[resultIndex]) {
+     return analysis.resultInsights[resultIndex];
+   }
+ }
+
+ const directMatch = analysis.resultInsights.find(insight => {
+   return insight.title && insight.title === result.title;
+ });
+ if (directMatch) {
+   return directMatch;
+ }
+
+ if (result.title) {
+   const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+   const matchingInsight = analysis.resultInsights.find(insight => {
+     if (!insight.title) return false;
+     const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+     return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
+            insightTitleWords.includes(resultTitleWords.slice(0, 20));
+   });
+
+   if (matchingInsight) {
+     return matchingInsight;
+   }
+ }
+
+ return analysis.resultInsights[0] || {
+   businessOpportunity: "Monitor this result for business opportunities",
+   urgency: "medium"
+ };
+}
+
+function performGoogleSearch(query, timeRange) {
+ if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
+   throw new Error('Google API not configured');
+ }
+
+ const params = new URLSearchParams({
+   key: API_CONFIG.GOOGLE_API_KEY,
+   cx: API_CONFIG.SEARCH_ENGINE_ID,
+   q: query,
+   num: '9', 
+   dateRestrict: timeRange
+ });
+
+ return fetch(`https://www.googleapis.com/customsearch/v1?${params.toString()}`)
+   .then(response => {
+     if (!response.ok) {
+       return response.json().then(error => {
+         throw new Error(error.error?.message || 'Search failed');
+       });
+     }
+     return response.json();
+   })
+   .then(data => {
+     return data.items || [];
+   });
+}
+
+function analyzeWithAI(results, query, platform) {
+ if (!API_CONFIG.LAMBDA_ENDPOINT) {
+   return Promise.resolve({
+     mainPainPoint: "AI analysis not configured",
+     resultInsights: [],
+     overallOpportunityScore: 3,
+     topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
+   });
+ }
+
+ return fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
+ })
+ .then(response => {
+   if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
+   return response.json();
+ })
+ .catch(error => {
+   console.error('AI analysis error:', error);
+   return {
+     mainPainPoint: "AI analysis temporarily unavailable",
+     resultInsights: [],
+     overallOpportunityScore: 3,
+     topActionableIdeas: ["AI analysis error - please try again"]
+   };
+ });
 }
 
 function performSearch() {
-  const keyword = document.getElementById('searchInput').value.trim();
-  if (!keyword) {
-    const searchInput = document.getElementById('searchInput');
-    searchInput.style.borderColor = 'var(--bg-danger)';
-    searchInput.placeholder = 'Please enter a search term...';
-    searchInput.focus();
-    
-    setTimeout(() => {
-      searchInput.style.borderColor = '';
-      searchInput.placeholder = 'Brand, product, or topic...';
-    }, 3000);
-    return;
-  }
+ const keyword = document.getElementById('searchInput').value.trim();
+ if (!keyword) {
+   const searchInput = document.getElementById('searchInput');
+   searchInput.style.borderColor = 'var(--bg-danger)';
+   searchInput.placeholder = 'Please enter a search term...';
+   searchInput.focus();
+   
+   setTimeout(() => {
+     searchInput.style.borderColor = '';
+     searchInput.placeholder = 'Brand, product, or topic...';
+   }, 3000);
+   return;
+ }
 
-  const queryType = document.getElementById('queryDropdown').value;
-  const platform = document.getElementById('platformSelect').value;
-  const timeRange = document.getElementById('timeSelect').value;
+ const queryType = document.getElementById('queryDropdown').value;
+ const platform = document.getElementById('platformSelect').value;
+ const timeRange = document.getElementById('timeSelect').value;
 
-  showLoading();
+ showLoading();
 
-  let query;
-  if (queryType && POWER_QUERIES[queryType]) {
-    query = POWER_QUERIES[queryType].template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
-  } else {
-    query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
-  }
-
-  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
-  if (platformConfig.sites.length > 0) {
-    query += ` (${platformConfig.sites.join(' OR ')})`;
-  }
-
-  // Real search functionality
-  if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
-    displayResults(DEMO_RESULTS.results, null, keyword, null);
-    return;
-  }
-
-  const params = new URLSearchParams({
-    key: API_CONFIG.GOOGLE_API_KEY,
-    cx: API_CONFIG.SEARCH_ENGINE_ID,
-    q: query,
-    num: '9', 
-    dateRestrict: timeRange
-  });
-
-  fetch(`https://www.googleapis.com/customsearch/v1?${params.toString()}`)
-    .then(response => {
-      if (!response.ok) throw new Error('Search failed');
-      return response.json();
-    })
-    .then(data => {
-      const results = data.items || [];
-      if (results.length > 0 && API_CONFIG.LAMBDA_ENDPOINT) {
-        return fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
-        })
-        .then(response => response.json())
-        .then(analysis => {
-          displayResults(results, null, keyword, analysis);
-        });
-      } else {
-        displayResults(results, null, keyword, null);
-      }
-    })
-    .catch(error => {
-      console.error('Search error:', error);
-      displayResults(DEMO_RESULTS.results, null, keyword, null);
-    });
+ let query;
+ let powerQuery = null;
+ 
+ if (queryType && POWER_QUERIES[queryType]) {
+   powerQuery = POWER_QUERIES[queryType];
+   query = buildSearchQuery(powerQuery.template, keyword, platform);
+ } else {
+   query = buildNormalSearchQuery(keyword, platform);
+ }
+ 
+ performGoogleSearch(query, timeRange)
+   .then(results => {
+     if (results.length > 0) {
+       return analyzeWithAI(results, query, platform)
+         .then(analysis => {
+           currentAnalysis = analysis;
+           displayResults(results, powerQuery, keyword, analysis);
+         });
+     } else {
+       displayResults(results, powerQuery, keyword, null);
+     }
+   })
+   .catch(error => {
+     showError(error.message);
+   });
 }
 
 function showLoading() {
  const grid = document.getElementById('resultsGrid');
  const resultsHeader = document.getElementById('resultsHeader');
+ const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
 
  resultsHeader.style.display = 'block';
+ if (downloadBtn) downloadBtn.style.display = 'none';
  grid.innerHTML = `
    <div class="loading-container">
      <div class="loading-spinner"></div>
      <p class="loading-text">Analyzing pain points across platforms...</p>
    </div>
  `;
+}
+
+function showError(message) {
+ const grid = document.getElementById('resultsGrid');
+ const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
+ if (downloadBtn) downloadBtn.style.display = 'none';
+ grid.innerHTML = `
+   <div class="empty-state">
+     <h3>Search Error</h3>
+     <p>${message}</p>
+   </div>
+ `;
+}
+
+function escapeHtml(text) {
+ if (typeof text !== 'string') return text;
+ const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+ return text.replace(/[&<>"']/g, m => map[m]);
 }
 
 function displayResults(results, powerQuery, keyword, analysis) {
@@ -604,10 +721,17 @@ function displayResults(results, powerQuery, keyword, analysis) {
      snippet = snippet.replace(regex, '$1<mark>$2</mark>$3');
    });
    
-   const insight = result.insight || {
-     businessOpportunity: "AI analysis not available for this result",
-     urgency: "low"
-   };
+   let insight;
+   if (result.insight) {
+     insight = result.insight;
+   } else if (analysis) {
+     insight = findInsightForResult(result, analysis);
+   } else {
+     insight = {
+       businessOpportunity: "AI analysis not available for this result",
+       urgency: "low"
+     };
+   }
 
    currentSearchResults.push({
      title: result.title,
@@ -680,7 +804,18 @@ function displayResults(results, powerQuery, keyword, analysis) {
 }
 
 function downloadOpportunities() {
- if (currentSearchResults.length === 0) return;
+ if (currentSearchResults.length === 0) {
+   const btn = event.target;
+   const originalText = btn.textContent;
+   btn.textContent = '❌ No Data';
+   btn.style.background = 'var(--bg-danger)';
+   
+   setTimeout(() => {
+     btn.textContent = originalText;
+     btn.style.background = '';
+   }, 2000);
+   return;
+ }
 
  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Urgency"];
  const fieldMapping = {
@@ -704,6 +839,16 @@ function downloadOpportunities() {
  a.click();
  document.body.removeChild(a);
  URL.revokeObjectURL(url);
+ 
+ const btn = event.target;
+ const originalText = btn.textContent;
+ btn.textContent = '✅ Downloaded!';
+ btn.style.background = 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)';
+ 
+ setTimeout(() => {
+   btn.textContent = originalText;
+   btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
+ }, 2000);
 }
 
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
@@ -835,6 +980,11 @@ ${prdContent.replace(/^#\s+.+$/m, '').trim()}
 ---
 *This PRD was created by GrumpyLinks.com based on customer feedback.*`;
  
+ const progressFill = document.getElementById('prd-progress-fill');
+ if (progressFill) {
+   progressFill.style.width = '100%';
+ }
+ 
  setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
 
@@ -870,25 +1020,70 @@ function getPrdContainer() {
 }
 
 function formatPrdContent(content) {
- return content
+ const cleaned = content
    .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
-   .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-   .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-   .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+   .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '');
+
+ const sections = cleaned.split(/(?=^## )/gm);
+ 
+ const processedSections = sections.map(section => {
+   let processed = section
+     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+     .replace(/^### (.*$)/gm, '<h3>$1</h3>');
+   
+   const lines = processed.split('\n');
+   let inNumberedList = false;
+   let listItems = [];
+   
+   for (let i = 0; i < lines.length; i++) {
+     const line = lines[i];
+     
+     if (/^\d+\.\s+/.test(line)) {
+       const content = line.replace(/^\d+\.\s+/, '');
+       listItems.push(`<li>${content}</li>`);
+       inNumberedList = true;
+     } else {
+       if (inNumberedList && listItems.length > 0) {
+         lines[i - listItems.length] = `<ol>${listItems.join('')}</ol>`;
+         for (let j = 1; j < listItems.length; j++) {
+           lines[i - listItems.length + j] = '';
+         }
+         listItems = [];
+         inNumberedList = false;
+       }
+     }
+   }
+   
+   if (inNumberedList && listItems.length > 0) {
+     lines[lines.length - listItems.length] = `<ol>${listItems.join('')}</ol>`;
+     for (let k = 1; k < listItems.length; k++) {
+       lines[lines.length - listItems.length + k] = '';
+     }
+   }
+   
+   return lines.join('\n');
+ });
+ 
+ const result = processedSections.join('');
+ 
+ return result
    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
    .replace(/\*(.*?)\*/g, '<em>$1</em>')
    .replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>')
-   .replace(/(<li>.*<\/li>(?:\s*<li>.*<\/li>)*)/gs, '<ul>$1</ul>')
+   .replace(/(<li>(?!.*<\/ol>).*<\/li>(?:\s*<li>(?!.*<\/ol>).*<\/li>)*)/gs, '<ul>$1</ul>')
    .replace(/\n\n+/g, '</p><p>')
    .replace(/^(?!<[huo])(.+)$/gm, '<p>$1</p>')
    .replace(/<p><\/p>/g, '')
+   .replace(/<p>\s*<\/p>/g, '')
+   .replace(/\n\s*\n/g, '\n')
    .trim();
 }
 
 function copyPrdToClipboard() {
  if (!window.currentPrdContent) return;
  
- if (navigator.clipboard) {
+ if (navigator.clipboard && window.isSecureContext) {
    navigator.clipboard.writeText(window.currentPrdContent).then(() => {
      const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
      if (btn) {
@@ -900,7 +1095,44 @@ function copyPrdToClipboard() {
          btn.style.background = 'var(--bg-button)';
        }, 2000);
      }
+   }).catch(() => {
+     fallbackCopyPrd();
    });
+ } else {
+   fallbackCopyPrd();
+ }
+}
+
+function fallbackCopyPrd() {
+ const textArea = document.createElement('textarea');
+ textArea.value = window.currentPrdContent;
+ textArea.style.position = 'fixed';
+ textArea.style.left = '-999999px';
+ textArea.style.top = '-999999px';
+ document.body.appendChild(textArea);
+ textArea.focus();
+ textArea.select();
+ 
+ try {
+   const successful = document.execCommand('copy');
+   if (successful) {
+     const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
+     if (btn) {
+       const originalText = btn.textContent;
+       btn.textContent = '✅ Copied!';
+       btn.style.background = 'var(--bg-success)';
+       setTimeout(() => {
+         btn.textContent = originalText;
+         btn.style.background = 'var(--bg-button)';
+       }, 2000);
+     }
+   } else {
+     alert('Could not copy to clipboard. Please select and copy manually.');
+   }
+ } catch (err) {
+   alert('Could not copy to clipboard. Please select and copy manually.');
+ } finally {
+   document.body.removeChild(textArea);
  }
 }
 
@@ -921,6 +1153,16 @@ function downloadPrd() {
  a.click();
  document.body.removeChild(a);
  URL.revokeObjectURL(url);
+ 
+ const btn = event.target;
+ const originalText = btn.textContent;
+ btn.textContent = '✅ Downloaded!';
+ btn.style.background = 'var(--bg-success)';
+ 
+ setTimeout(() => {
+   btn.textContent = originalText;
+   btn.style.background = 'var(--bg-tertiary)';
+ }, 2000);
 }
 
 function closePrd() {
@@ -928,12 +1170,16 @@ function closePrd() {
  if (container) container.style.display = 'none';
 }
 
+function loadDemoSearch() {
+ document.getElementById('searchInput').value = DEMO_RESULTS.query;
+ displayResults(DEMO_RESULTS.results, null, DEMO_RESULTS.query, null);
+}
+
 // Initialize
 function init() {
  loadConfig();
  setupEventListeners();
- document.getElementById('searchInput').value = DEMO_RESULTS.query;
- displayResults(DEMO_RESULTS.results, null, DEMO_RESULTS.query, null);
+ loadDemoSearch();
 }
 
 // Make functions global for onclick handlers
