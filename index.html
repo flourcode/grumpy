@@ -527,6 +527,103 @@ mark {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+/* Opportunity Score Badge Styles */
+.opportunity-score {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  cursor: help;
+}
+
+.opportunity-score.high {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  border: 2px solid #15803d;
+}
+
+.opportunity-score.medium {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  border: 2px solid #d97706;
+}
+
+.opportunity-score.low {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  border: 2px solid #dc2626;
+}
+
+/* Update result-card to support relative positioning */
+.result-card { 
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.12s ease, background 0.2s ease;
+  display: flex; 
+  flex-direction: column; 
+  height: 100%;
+  box-shadow: none;
+  position: relative; /* Added for absolute positioning of score badge */
+}
+
+/* Tooltip styles for score explanation */
+.opportunity-score::after {
+  content: attr(data-reasoning);
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  max-width: 200px;
+  white-space: normal;
+  width: max-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 1000;
+  pointer-events: none;
+  transform: translateX(50%);
+}
+
+.opportunity-score:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .opportunity-score {
+    width: 24px;
+    height: 24px;
+    font-size: 9px;
+    top: 12px;
+    right: 12px;
+  }
+  
+  .opportunity-score::after {
+    font-size: 10px;
+    max-width: 150px;
+    right: -10px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1044,203 +1141,231 @@ function getResultDate(result) {
   return null; // No valid date found
 }
 function displayResults(results, powerQuery, keyword, analysis) {
- const grid = document.getElementById('resultsGrid');
- const resultsHeader = document.getElementById('resultsHeader');
+  const grid = document.getElementById('resultsGrid');
+  const resultsHeader = document.getElementById('resultsHeader');
 
- resultsHeader.style.display = 'block';
+  resultsHeader.style.display = 'block';
 
- if (!results.length) {
-   grid.innerHTML = `
-     <div class="empty-state">
-       <h3>No Pain Points Found</h3>
-       <p>Try a different search term, platform, or time range to discover customer complaints.</p>
-     </div>
-   `;
-   currentSearchResults = [];
-   return;
- }
-
- currentSearchResults = [];
- 
-const html = results.map((result, i) => {
-  const platformClass = getPlatformClass(result.displayLink);
-  const platformName = getPlatformName(result.displayLink);
-  const resultDate = getResultDate(result); // Call once and store
-  
-  let snippet = result.snippet || '';
-
-// Clean up HTML entities and formatting artifacts first
-snippet = snippet
-  .replace(/&quot;/g, '"')
-  .replace(/&amp;/g, '&')
-  .replace(/&lt;/g, '<')
-  .replace(/&gt;/g, '>')
-  .replace(/&#39;/g, "'")
-  .replace(/\s*·\s*/g, ' ')  // Remove · separators
-  .replace(/\s*\.\.\.\s*/g, ' ') // Clean up ellipsis
-  .replace(/\s+/g, ' '); // Normalize spaces
-
-// Remove dates from the snippet for cleaner reading
-const datePatterns = [
-  /\w{3}\s+\d{1,2},?\s+\d{4}/g,    // "Dec 17, 2024" or "Dec 17 2024"
-  /\d{1,2}\/\d{1,2}\/\d{4}/g,      // "12/17/2024"
-  /\d{4}-\d{2}-\d{2}/g,            // "2024-12-17"
-  /\d{1,2}-\d{1,2}-\d{4}/g         // "12-17-2024"
-];
-
-datePatterns.forEach(pattern => {
-  snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
-});
-
-// Clean up any leftover artifacts and normalize
-snippet = snippet
-  .replace(/^[.,\s-·]*/, '') // Remove leading punctuation
-  .replace(/[.,\s-·]*$/, '') // Remove trailing punctuation
-  .replace(/\s+/g, ' ')      // Normalize spaces again
-  .trim();
-
-// Truncate first, THEN escape HTML, THEN add highlighting
-const truncatedSnippet = snippet.substring(0, 120);
-const escapedSnippet = escapeHtml(truncatedSnippet);
-
-// Apply highlighting AFTER HTML escaping
-const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-let highlightedSnippet = escapedSnippet;
-
-painWords.forEach(word => {
-  const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
-  highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
-});
-  
-  let insight;
-  if (result.insight) {
-    insight = result.insight;
-  } else if (analysis) {
-    insight = findInsightForResult(result, analysis);
-  } else {
-    insight = {
-      businessOpportunity: "AI analysis not available for this result",
-      urgency: "low"
-    };
+  if (!results.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>No Pain Points Found</h3>
+        <p>Try a different search term, platform, or time range to discover customer complaints.</p>
+      </div>
+    `;
+    currentSearchResults = [];
+    return;
   }
 
-  currentSearchResults.push({
-    title: result.title,
-    link: result.link,
-    snippet: result.snippet,
-    platform: platformName,
-    businessOpportunity: insight.businessOpportunity || 'N/A',
-    urgency: insight.urgency || 'medium'
-  });
+  currentSearchResults = [];
+  
+  const html = results.map((result, i) => {
+    const platformClass = getPlatformClass(result.displayLink);
+    const platformName = getPlatformName(result.displayLink);
+    const resultDate = getResultDate(result);
+    
+    let snippet = result.snippet || '';
 
-  return `
-    <div class="result-card">
-      <div class="card-header">
-        <div class="source-info">
-          <span class="source-badge ${platformClass}">${platformName}</span>
-          ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
+    // Clean up HTML entities and formatting artifacts first
+    snippet = snippet
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&#39;/g, "'")
+      .replace(/\s*Â·\s*/g, ' ')
+      .replace(/\s*\.\.\.\s*/g, ' ')
+      .replace(/\s+/g, ' ');
+
+    // Remove dates from the snippet for cleaner reading
+    const datePatterns = [
+      /\w{3}\s+\d{1,2},?\s+\d{4}/g,
+      /\d{1,2}\/\d{1,2}\/\d{4}/g,
+      /\d{4}-\d{2}-\d{2}/g,
+      /\d{1,2}-\d{1,2}-\d{4}/g
+    ];
+
+    datePatterns.forEach(pattern => {
+      snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
+    });
+
+    // Clean up any leftover artifacts and normalize
+    snippet = snippet
+      .replace(/^[.,\s-Â·]*/, '')
+      .replace(/[.,\s-Â·]*$/, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Truncate first, THEN escape HTML, THEN add highlighting
+    const truncatedSnippet = snippet.substring(0, 120);
+    const escapedSnippet = escapeHtml(truncatedSnippet);
+
+    // Apply highlighting AFTER HTML escaping
+    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+    let highlightedSnippet = escapedSnippet;
+
+    painWords.forEach(word => {
+      const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
+      highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
+    });
+    
+    let insight;
+    if (result.insight) {
+      insight = result.insight;
+    } else if (analysis) {
+      insight = findInsightForResult(result, analysis);
+    } else {
+      insight = {
+        businessOpportunity: "AI analysis not available for this result",
+        opportunityScore: "medium",
+        scoreReasoning: "Analysis not available"
+      };
+    }
+
+    // Map old urgency field to opportunityScore for backward compatibility
+    if (insight.urgency && !insight.opportunityScore) {
+      insight.opportunityScore = insight.urgency;
+      insight.scoreReasoning = insight.scoreReasoning || "Legacy urgency mapping";
+    }
+
+    // Ensure we have a valid score
+    const validScores = ['high', 'medium', 'low'];
+    if (!validScores.includes(insight.opportunityScore)) {
+      insight.opportunityScore = 'medium';
+    }
+
+    currentSearchResults.push({
+      title: result.title,
+      link: result.link,
+      snippet: result.snippet,
+      platform: platformName,
+      businessOpportunity: insight.businessOpportunity || 'N/A',
+      opportunityScore: insight.opportunityScore || 'medium',
+      scoreReasoning: insight.scoreReasoning || 'Score reasoning not available'
+    });
+
+    // Get score display text
+    const scoreText = insight.opportunityScore === 'high' ? 'H' : 
+                     insight.opportunityScore === 'medium' ? 'M' : 'L';
+
+    return `
+      <div class="result-card">
+        <div class="opportunity-score ${insight.opportunityScore}" 
+             data-reasoning="${escapeHtml(insight.scoreReasoning || 'Score reasoning not available')}"
+             title="Opportunity Score: ${insight.opportunityScore.toUpperCase()}">
+          ${scoreText}
         </div>
-        <div class="problem-statement">
-  <h3 class="problem-title">Customer Problem:</h3>
-  <p class="problem-text">"${highlightedSnippet}..."</p>
-</div>
+        <div class="card-header">
+          <div class="source-info">
+            <span class="source-badge ${platformClass}">${platformName}</span>
+            ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
+          </div>
+          <div class="problem-statement">
+            <h3 class="problem-title">Customer Problem:</h3>
+            <p class="problem-text">"${highlightedSnippet}..."</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <h4 class="solution-title">Product Opportunity:</h4>
+          <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
+        </div>
+        <div class="card-action">
+          <button class="generate-prd-btn" 
+                  data-title="${escapeHtml(result.title)}" 
+                  data-snippet="${escapeHtml(result.snippet || '')}" 
+                  data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
+            Generate Product Requirements →
+          </button>
+          <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
+        </div>
       </div>
-      <div class="card-body">
-        <h4 class="solution-title">Product Opportunity:</h4>
-        <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
-      </div>
-      <div class="card-action">
-        <button class="generate-prd-btn" 
-                data-title="${escapeHtml(result.title)}" 
-                data-snippet="${escapeHtml(result.snippet || '')}" 
-                data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
-          Generate Product Requirements →
-        </button>
-        <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
-      </div>
-    </div>
-  `;
-}).join('');
+    `;
+  }).join('');
 
- grid.innerHTML = html;
+  grid.innerHTML = html;
 
- // Add event listeners to PRD buttons
- document.querySelectorAll('.generate-prd-btn').forEach(btn => {
-   btn.addEventListener('click', e => {
-     const { title, snippet, opportunity } = e.target.dataset;
-     generatePrdPrompt(title, snippet, opportunity);
-   });
- });
- 
- // Add download section
- let downloadContainer = document.getElementById('download-container');
- if (!downloadContainer) {
-   downloadContainer = document.createElement('div');
-   downloadContainer.id = 'download-container';
-   downloadContainer.className = 'download-container';
-   grid.parentNode.insertBefore(downloadContainer, grid.nextSibling);
- }
- 
- if (currentSearchResults.length > 0) {
-   downloadContainer.innerHTML = `
-     <div class="download-section">
-       <h3 class="download-title">Export Your Opportunities</h3>
-       <p class="download-subtitle">Download all ${currentSearchResults.length} opportunities as a CSV file for analysis</p>
-       <button class="download-btn" onclick="downloadOpportunities()">Download CSV Report</button>
-     </div>
-   `;
-   downloadContainer.style.display = 'block';
- } else {
-   downloadContainer.style.display = 'none';
- }
+  // Add event listeners to PRD buttons
+  document.querySelectorAll('.generate-prd-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const { title, snippet, opportunity } = e.target.dataset;
+      generatePrdPrompt(title, snippet, opportunity);
+    });
+  });
+  
+  // Add download section (existing code)
+  let downloadContainer = document.getElementById('download-container');
+  if (!downloadContainer) {
+    downloadContainer = document.createElement('div');
+    downloadContainer.id = 'download-container';
+    downloadContainer.className = 'download-container';
+    grid.parentNode.insertBefore(downloadContainer, grid.nextSibling);
+  }
+  
+  if (currentSearchResults.length > 0) {
+    downloadContainer.innerHTML = `
+      <div class="download-section">
+        <h3 class="download-title">Export Your Opportunities</h3>
+        <p class="download-subtitle">Download all ${currentSearchResults.length} opportunities as a CSV file for analysis</p>
+        <button class="download-btn" onclick="downloadOpportunities()">Download CSV Report</button>
+      </div>
+    `;
+    downloadContainer.style.display = 'block';
+  } else {
+    downloadContainer.style.display = 'none';
+  }
 }
 
 function downloadOpportunities() {
- if (currentSearchResults.length === 0) {
-   const btn = event.target;
-   const originalText = btn.textContent;
-   btn.textContent = '❌ No Data';
-   btn.style.background = 'var(--bg-danger)';
-   
-   setTimeout(() => {
-     btn.textContent = originalText;
-     btn.style.background = '';
-   }, 2000);
-   return;
- }
+  if (currentSearchResults.length === 0) {
+    const btn = event.target;
+    const originalText = btn.textContent;
+    btn.textContent = '⚠ No Data';
+    btn.style.background = 'var(--bg-danger)';
+    
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+    }, 2000);
+    return;
+  }
 
- const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Urgency"];
- const fieldMapping = {
-   "Title": "title", "Link": "link", "Snippet": "snippet", "Platform": "platform",
-   "Business Opportunity": "businessOpportunity", "Urgency": "urgency"
- };
- 
- const rows = currentSearchResults.map(row => 
-   headers.map(header => `"${(row[fieldMapping[header]] || '').replace(/"/g, '""')}"`).join(',')
- );
- 
- const dataStr = headers.join(',') + '\n' + rows.join('\n');
- const filename = `grumpylinks_opportunities_${new Date().toISOString().slice(0,10)}.csv`;
+  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Opportunity Score", "Score Reasoning"];
+  const fieldMapping = {
+    "Title": "title", 
+    "Link": "link", 
+    "Snippet": "snippet", 
+    "Platform": "platform",
+    "Business Opportunity": "businessOpportunity", 
+    "Opportunity Score": "opportunityScore",
+    "Score Reasoning": "scoreReasoning"
+  };
+  
+  const rows = currentSearchResults.map(row => 
+    headers.map(header => `"${(row[fieldMapping[header]] || '').replace(/"/g, '""')}"`).join(',')
+  );
+  
+  const dataStr = headers.join(',') + '\n' + rows.join('\n');
+  const filename = `grumpylinks_opportunities_${new Date().toISOString().slice(0,10)}.csv`;
 
- const blob = new Blob([dataStr], { type: 'text/csv' });
- const url = URL.createObjectURL(blob);
- const a = document.createElement('a');
- a.href = url;
- a.download = filename;
- document.body.appendChild(a);
- a.click();
- document.body.removeChild(a);
- URL.revokeObjectURL(url);
- 
- const btn = event.target;
- const originalText = btn.textContent;
- btn.textContent = '✅ Downloaded!';
- btn.style.background = 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)';
- 
- setTimeout(() => {
-   btn.textContent = originalText;
-   btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
- }, 2000);
+  const blob = new Blob([dataStr], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  const btn = event.target;
+  const originalText = btn.textContent;
+  btn.textContent = '✅ Downloaded!';
+  btn.style.background = 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)';
+  
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
+  }, 2000);
 }
 
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
