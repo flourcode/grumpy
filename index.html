@@ -1085,122 +1085,61 @@ html, body {
     transform: translateY(0);
   }
 }
-/* Integrated Source Section */
+/* Clean Source Section at Bottom */
 .prd-source-section {
   background: var(--bg-tertiary);
   border-radius: 8px;
-  padding: 24px;
-  margin-bottom: 32px;
-  border-left: 4px solid var(--text-accent);
+  padding: 20px;
+  margin-top: 24px;
+  border: 1px solid var(--border-primary);
 }
 
-.prd-source-section h2 {
-  margin-top: 0 !important;
-  margin-bottom: 20px;
-  color: var(--text-accent);
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.source-complaint {
-  background: var(--bg-card);
-  padding: 16px;
-  border-radius: 6px;
+.source-item {
   margin-bottom: 16px;
-  border: 1px solid var(--border-primary);
 }
 
-.business-opportunity {
-  background: var(--bg-card);
-  padding: 16px;
-  border-radius: 6px;
-  border: 1px solid var(--border-primary);
+.source-item:last-child {
+  margin-bottom: 0;
 }
 
 .source-label {
   font-weight: 600;
-  color: var(--text-accent);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 
 .source-text {
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-style: italic;
-  margin-bottom: 12px;
   line-height: 1.5;
-}
-
-.opportunity-text {
-  color: var(--text-primary);
-  line-height: 1.5;
-}
-
-.source-link {
-  margin-top: 12px;
+  font-size: 14px;
 }
 
 .source-link a {
   color: var(--text-accent);
   text-decoration: none;
   font-weight: 500;
-  font-size: 13px;
-  padding: 6px 12px;
-  background: var(--bg-primary);
-  border-radius: 4px;
-  border: 1px solid var(--border-accent);
-  display: inline-block;
+  font-size: 14px;
   transition: all 0.2s ease;
 }
 
 .source-link a:hover {
-  background: var(--text-accent);
-  color: white;
-  transform: translateY(-1px);
-}
-
-/* PRD Footer */
-.prd-footer {
-  margin-top: 40px;
-  padding: 20px;
-  background: var(--bg-tertiary);
-  border-radius: 6px;
-  border-top: 2px solid var(--border-primary);
-}
-
-.prd-footer p {
-  margin: 0;
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-.prd-footer a {
-  color: var(--text-accent);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.prd-footer a:hover {
   text-decoration: underline;
+  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {
   .prd-source-section {
     padding: 16px;
-    margin-bottom: 24px;
   }
   
-  .source-complaint,
-  .business-opportunity {
-    padding: 12px;
+  .source-label {
+    font-size: 13px;
   }
   
-  .source-link a {
-    font-size: 12px;
-    padding: 8px 12px;
+  .source-text {
+    font-size: 13px;
   }
 }
 </style>
@@ -2041,19 +1980,12 @@ function startProgressAnimation() {
 function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceLink) {
   var container = getPrdContainer();
   
-  // Extract just the product name (before the dash)
-  var productName = "Product";
-  var h1Match = prdContent.match(/^#\s+([^-]+)/m);
-  if (h1Match) {
-    productName = h1Match[1].trim();
-  }
-  
   // Format the PRD content (remove H1)
   var formattedContent = formatPrdContent(prdContent);
   
   container.innerHTML = `
     <div class="prd-header">
-      <h2 class="prd-title">${productName} - Product Requirements Document</h2>
+      <h2 class="prd-title">Product Requirements Document</h2>
       <div class="prd-actions">
         <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy PRD</button>
         <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
@@ -2062,46 +1994,49 @@ function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceL
     </div>
     
     <div class="prd-content" id="prd-content">
+      ${formattedContent}
+      
+      <h2>Source</h2>
       <div class="prd-source-section">
-        <h2>Source & Context</h2>
-        <div class="source-complaint">
+        <div class="source-item">
           <div class="source-label">Customer Pain Point:</div>
           <div class="source-text">"${escapeHtml(originalTitle)}"</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Business Opportunity:</div>
+          <div class="source-text">${escapeHtml(opportunity)}</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Original Source:</div>
           <div class="source-link">
             <a href="${escapeHtml(sourceLink)}" target="_blank" rel="noopener">
-              📄 View Original Source
+              View Original Complaint →
             </a>
           </div>
         </div>
-        <div class="business-opportunity">
-          <div class="source-label">Business Opportunity Identified:</div>
-          <div class="opportunity-text">${escapeHtml(opportunity)}</div>
-        </div>
-      </div>
-      
-      ${formattedContent}
-      
-      <div class="prd-footer">
-        <p><strong>Note:</strong> This PRD was auto-generated based on the customer pain point above. 
-        <a href="${escapeHtml(sourceLink)}" target="_blank" rel="noopener">Review the original source</a> 
-        for additional context and validation.</p>
       </div>
     </div>
   `;
   
-  // Store PRD content globally for copy/download (include source info)
+  // Store PRD content globally for copy/download
+  var productName = "Product";
+  var h1Match = prdContent.match(/^#\s+([^-]+)/m);
+  if (h1Match) {
+    productName = h1Match[1].trim();
+  }
+  
   window.currentPrdContent = `# ${productName} - Product Requirements Document
-
-## Source & Context
-
-**Customer Pain Point:** "${originalTitle}"
-**Source:** ${sourceLink}
-**Business Opportunity:** ${opportunity}
 
 ${prdContent.replace(/^#\s+.+$/m, '').trim()}
 
+## Source
+
+**Customer Pain Point:** "${originalTitle}"
+**Business Opportunity:** ${opportunity}
+**Original Source:** ${sourceLink}
+
 ---
-*This PRD was auto-generated based on customer feedback. Review the original source for additional context.*`;
+*This PRD was auto-generated based on customer feedback.*`;
   
   // Complete the progress bar and scroll
   var progressFill = document.getElementById('prd-progress-fill');
@@ -2224,21 +2159,60 @@ function formatPrdContent(content) {
 }
 function copyPrdToClipboard() {
   if (window.currentPrdContent) {
-    navigator.clipboard.writeText(window.currentPrdContent).then(function() {
-      // Visual feedback
-      var btn = event.target;
-      var originalText = btn.textContent;
-      btn.textContent = '✅ Copied!';
-      btn.style.background = 'var(--bg-success)';
-      
-      setTimeout(function() {
-        btn.textContent = originalText;
-        btn.style.background = 'var(--bg-button)';
-      }, 2000);
-    }).catch(function() {
-      alert('Could not copy to clipboard. Please select and copy manually.');
-    });
+    // Try modern clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(window.currentPrdContent).then(function() {
+        showCopySuccess();
+      }).catch(function() {
+        fallbackCopy();
+      });
+    } else {
+      fallbackCopy();
+    }
   }
+}
+
+function fallbackCopy() {
+  // Fallback method for older browsers or insecure contexts
+  var textArea = document.createElement('textarea');
+  textArea.value = window.currentPrdContent;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  
+  try {
+    var successful = document.execCommand('copy');
+    if (successful) {
+      showCopySuccess();
+    } else {
+      showCopyError();
+    }
+  } catch (err) {
+    showCopyError();
+  } finally {
+    document.body.removeChild(textArea);
+  }
+}
+
+function showCopySuccess() {
+  var btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
+  if (btn) {
+    var originalText = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    btn.style.background = 'var(--bg-success)';
+    
+    setTimeout(function() {
+      btn.textContent = originalText;
+      btn.style.background = 'var(--bg-button)';
+    }, 2000);
+  }
+}
+
+function showCopyError() {
+  alert('Could not copy automatically. Please select all text and copy manually (Ctrl+A, then Ctrl+C).');
 }
 
 function downloadPrd() {
