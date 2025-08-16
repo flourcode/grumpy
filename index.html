@@ -8,7 +8,6 @@
 <script src="env-config.js"></script>
 <style>
 :root {
-  /* Updated Notion-like palette */
   --bg-primary: #0f1115;
   --bg-secondary: #131720;
   --bg-tertiary: #171b26;
@@ -20,24 +19,19 @@
   --bg-success: #22c55e;
   --bg-warning: #f59e0b;
   --bg-danger: #ef4444;
-  --bg-pro: #8b5cf6;
-  --bg-pro-hover: #7c3aed;
   
   --text-primary: #e6e9ef;
   --text-secondary: #9aa3b2;
   --text-muted: #7a8494;
   --text-accent: #2f80ed;
-  --text-pro: #8b5cf6;
   
   --border-primary: #1e2433;
   --border-secondary: #263146;
   --border-accent: #2f80ed;
-  --border-pro: #8b5cf6;
   
-  /* Platform colors */
-  --reddit: #ff4500; --twitter: #1da1f2; --linkedin: #0077b5; --hackernews: #ff6600; --github: #ffffff;
-  --stackoverflow: #f48024; --medium: #ffffff; --quora: #b92b27; --youtube: #ff0000; --producthunt: #da552f;
-  --discord: #5865f2; --glassdoor: #0caa41; --trustpilot: #00b67a; --appstore: #007aff; --tiktok: #ffffff;
+  --reddit: #ff4500; --twitter: #1da1f2; --linkedin: #0077b5; --hackernews: #ff6600;
+  --stackoverflow: #f48024; --youtube: #ff0000; --producthunt: #da552f;
+  --discord: #5865f2; --glassdoor: #0caa41; --trustpilot: #00b67a; --tiktok: #ffffff;
 }
 
 * { 
@@ -52,11 +46,6 @@
 *::-webkit-scrollbar-thumb { background: #2b3548; border-radius: 8px; }
 *::-webkit-scrollbar-track { background: transparent; }
 
-::selection {
-  background: rgba(47, 128, 237, 0.28);
-  color: var(--text-primary);
-}
-
 body { 
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-primary);
@@ -65,8 +54,6 @@ body {
   font-size: 14px;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  letter-spacing: 0.01em;
 }
 
 .app { display: flex; min-height: 100vh; }
@@ -95,47 +82,60 @@ body {
 
 .logo-emoji { font-size: 32px; margin-bottom: 4px; }
 
-/* Freemium Banner */
-.freemium-banner {
-  background: linear-gradient(135deg, var(--bg-pro) 0%, #6366f1 100%);
-  border: 1px solid var(--border-pro);
+/* Market Intelligence Widget */
+.market-intel-widget {
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, #1a1f2e 100%);
+  border: 1px solid var(--border-secondary);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
+}
+
+.intel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.intel-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.intel-stat {
   text-align: center;
 }
 
-.freemium-title {
-  font-size: 14px;
+.stat-number {
+  font-size: 18px;
   font-weight: 700;
-  color: white;
-  margin-bottom: 8px;
+  color: var(--bg-success);
+  display: block;
 }
 
-.freemium-subtitle {
-  font-size: 12px;
-  color: rgba(255,255,255,0.9);
-  margin-bottom: 12px;
-  line-height: 1.4;
-}
-
-.upgrade-btn {
-  background: white;
-  color: var(--bg-pro);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+.stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.upgrade-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+.intel-insight {
+  background: var(--bg-card);
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  border-left: 3px solid var(--bg-success);
 }
 
 .hero-content-sidebar { 
@@ -149,58 +149,6 @@ body {
 
 .hero-title-sidebar { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary); }
 .hero-subtitle-sidebar { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
-
-/* Credits Display */
-.credits-section {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
-}
-
-.credits-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.credits-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.credits-count {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-accent);
-}
-
-.credits-bar {
-  width: 100%;
-  height: 4px;
-  background: var(--bg-input);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.credits-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--bg-success) 0%, var(--bg-warning) 70%, var(--bg-danger) 100%);
-  transition: width 0.3s ease;
-  width: 65%; /* Will be dynamic */
-}
-
-.credits-text {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-align: center;
-}
 
 .search-section { margin-bottom: 16px; }
 
@@ -234,8 +182,6 @@ body {
   box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.25);
 }
 
-.search-input::placeholder { color: var(--text-muted); }
-
 .search-button { 
   width: 100%; 
   background: var(--bg-button); 
@@ -246,158 +192,139 @@ body {
   font-size: 14px; 
   font-weight: 600; 
   cursor: pointer; 
-  transition: background-color 0.2s, box-shadow 0.2s;
+  transition: background-color 0.2s;
   font-family: inherit; 
   text-transform: uppercase; 
   letter-spacing: 0.5px; 
 }
 
 .search-button:hover { background: var(--bg-button-hover); }
-.search-button:disabled {
-  background: var(--bg-tertiary);
-  color: var(--text-muted);
-  cursor: not-allowed;
-}
 
 .main-content { flex: 1; padding: 32px; overflow-y: auto; }
 
-/* Revenue Metrics Dashboard */
-.revenue-dashboard {
+/* Enhanced Results Header */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  gap: 24px;
+}
+
+.results-info { flex: 1; }
+
+.results-title { 
+  font-size: 32px; 
+  font-weight: 800; 
+  margin-bottom: 8px; 
+  color: var(--text-primary); 
+}
+
+.results-subtitle { 
+  color: var(--text-secondary); 
+  font-size: 16px; 
+  margin-bottom: 12px;
+}
+
+.results-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.live-metrics {
   background: var(--bg-card);
   border: 1px solid var(--border-primary);
   border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 32px;
-  display: none; /* Show for pro users */
+  padding: 20px;
+  min-width: 280px;
 }
 
-.dashboard-title {
-  font-size: 20px;
-  font-weight: 700;
+.metrics-title {
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-.dashboard-metrics {
+.metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-.metric-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-secondary);
-  border-radius: 8px;
-  padding: 16px;
+.metric-item {
   text-align: center;
 }
 
 .metric-value {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--bg-success);
-  margin-bottom: 4px;
+  display: block;
+  margin-bottom: 2px;
 }
 
 .metric-label {
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 10px;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.metric-trend {
-  font-size: 10px;
-  color: var(--bg-success);
-  margin-top: 4px;
-}
-
-.results-header { margin-bottom: 32px; }
-.results-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; color: var(--text-primary); }
-.results-subtitle { color: var(--text-secondary); font-size: 16px; }
-
 .results-grid { 
   display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
   gap: 20px; 
   max-width: 1400px; 
 }
 
-/* Enhanced Result Cards with Market Size */
+/* Enhanced Result Cards */
 .result-card { 
   background: var(--bg-card);
   border: 1px solid var(--border-primary);
   border-radius: 12px;
-  transition: border-color 0.2s ease, transform 0.12s ease, background 0.2s ease;
+  transition: all 0.2s ease;
   display: flex; 
   flex-direction: column; 
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
-
-.market-size-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.market-size-high { background: var(--bg-success); color: white; }
-.market-size-medium { background: var(--bg-warning); color: white; }
-.market-size-low { background: var(--bg-danger); color: white; }
-
-.revenue-potential {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-secondary);
-  border-radius: 6px;
-  padding: 12px;
-  margin-top: 12px;
-}
-
-.revenue-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-pro);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-
-.revenue-estimate {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--bg-success);
-  margin-bottom: 4px;
-}
-
-.revenue-timeframe {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* Platform badge colors */
-.source-reddit { background: var(--reddit); } .source-twitter { background: var(--twitter); }
-.source-linkedin { background: var(--linkedin); } .source-hackernews { background: var(--hackernews); }
-.source-github, .source-medium, .source-tiktok { background: var(--github); color: var(--bg-primary); }
-.source-stackoverflow { background: var(--stackoverflow); } .source-quora { background: var(--quora); }
-.source-youtube { background: var(--youtube); } .source-producthunt { background: var(--producthunt); }
-.source-discord { background: var(--discord); } .source-glassdoor { background: var(--glassdoor); }
-.source-trustpilot { background: var(--trustpilot); } .source-appstore { background: var(--appstore); }
-.source-default { background: var(--text-muted); }
 
 .result-card:hover { 
   border-color: var(--border-secondary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   background: var(--bg-card-hover);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
+
+.opportunity-score {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--bg-success);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.score-high { background: var(--bg-success); }
+.score-medium { background: var(--bg-warning); }
+.score-low { background: var(--bg-danger); }
 
 .card-header { 
   padding: 20px 20px 16px; 
@@ -409,7 +336,6 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  width: 100%;
 }
 
 .source-badge { 
@@ -428,9 +354,6 @@ body {
   background: var(--bg-tertiary);
   padding: 4px 8px;
   border-radius: 4px;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .problem-title { 
@@ -457,7 +380,10 @@ mark {
   font-weight: 500;
 }
 
-.card-body { padding: 20px; flex-grow: 1; }
+.card-body { 
+  padding: 20px; 
+  flex-grow: 1; 
+}
 
 .solution-title { 
   font-size: 12px; 
@@ -468,9 +394,74 @@ mark {
   margin-bottom: 12px; 
 }
 
-.solution-text { font-size: 14px; line-height: 1.5; color: var(--text-primary); }
+.solution-text { 
+  font-size: 14px; 
+  line-height: 1.5; 
+  color: var(--text-primary); 
+  margin-bottom: 16px;
+}
 
-.card-action { padding: 16px 20px 28px; display: flex; flex-direction: column; gap: 8px; }
+/* Business Metrics Section */
+.business-metrics {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.metrics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.metrics-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.confidence-score {
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bg-success);
+  display: block;
+}
+
+.metric-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-action { 
+  padding: 16px 20px 24px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+}
 
 .generate-prd-btn { 
   background: linear-gradient(135deg, var(--bg-button) 0%, #1d4ed8 100%);
@@ -487,31 +478,33 @@ mark {
   box-shadow: 0 4px 12px rgba(37,99,235,0.3); 
 }
 
-.generate-prd-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
-.generate-prd-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-.pro-only-btn {
-  background: linear-gradient(135deg, var(--bg-pro) 0%, #7c3aed 100%);
-  position: relative;
-  overflow: hidden;
+.generate-prd-btn:hover { 
+  transform: translateY(-1px); 
+  box-shadow: 0 6px 16px rgba(37,99,235,0.4); 
 }
 
-.pro-only-btn:hover {
-  background: linear-gradient(135deg, var(--bg-pro-hover) 0%, #6d28d9 100%);
+.action-row {
+  display: flex;
+  gap: 8px;
 }
 
-.pro-badge {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  background: var(--bg-warning);
-  color: white;
-  font-size: 8px;
-  padding: 2px 6px;
-  border-radius: 8px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.quick-action-btn {
+  flex: 1;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.quick-action-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
 }
 
 .source-link { 
@@ -525,183 +518,26 @@ mark {
 
 .source-link:hover { color: var(--text-accent); }
 
-/* Competitor Tracking Section */
-.competitor-section {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 12px;
-  padding: 24px;
-  margin-top: 32px;
-  display: none; /* Show for pro users */
+/* Platform badge colors */
+.source-reddit { background: var(--reddit); } 
+.source-twitter { background: var(--twitter); }
+.source-linkedin { background: var(--linkedin); } 
+.source-hackernews { background: var(--hackernews); }
+.source-stackoverflow { background: var(--stackoverflow); } 
+.source-youtube { background: var(--youtube); } 
+.source-producthunt { background: var(--producthunt); }
+.source-discord { background: var(--discord); } 
+.source-glassdoor { background: var(--glassdoor); } 
+.source-trustpilot { background: var(--trustpilot); } 
+.source-tiktok { background: var(--tiktok); color: var(--bg-primary); }
+.source-default { background: var(--text-muted); }
+
+.loading-container, .empty-state { 
+  grid-column: 1 / -1; 
+  text-align: center; 
+  padding: 60px 20px; 
 }
 
-.competitor-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-}
-
-.competitor-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-}
-
-.competitor-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-secondary);
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.competitor-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.competitor-threat {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  display: inline-block;
-  margin-bottom: 8px;
-}
-
-.threat-high { background: var(--bg-danger); color: white; }
-.threat-medium { background: var(--bg-warning); color: white; }
-.threat-low { background: var(--bg-success); color: white; }
-
-.competitor-insights {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
-/* Paywall Modal */
-.paywall-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.paywall-content {
-  background: var(--bg-card);
-  border: 1px solid var(--border-pro);
-  border-radius: 16px;
-  padding: 40px;
-  max-width: 500px;
-  text-align: center;
-  position: relative;
-}
-
-.paywall-close {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.paywall-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-}
-
-.paywall-subtitle {
-  font-size: 16px;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
-  line-height: 1.5;
-}
-
-.pricing-plans {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.pricing-plan {
-  flex: 1;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-secondary);
-  border-radius: 8px;
-  padding: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.pricing-plan:hover,
-.pricing-plan.selected {
-  border-color: var(--border-pro);
-  background: var(--bg-card-hover);
-}
-
-.plan-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.plan-price {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-pro);
-  margin-bottom: 8px;
-}
-
-.plan-features {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
-.upgrade-now-btn {
-  width: 100%;
-  background: linear-gradient(135deg, var(--bg-pro) 0%, #7c3aed 100%);
-  color: white;
-  border: none;
-  padding: 16px 32px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.upgrade-now-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
-}
-
-/* Rest of existing styles remain the same... */
-.footer { 
-  border-top: 1px solid var(--border-primary); 
-  padding: 60px 32px 32px; 
-  margin-top: 60px; 
-}
-
-.footer-content { max-width: 800px; margin: 0 auto; }
-.footer-hero { text-align: center; margin-bottom: 40px; }
-.footer-hero h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; color: var(--text-primary); }
-.footer-hero p { font-size: 16px; color: var(--text-secondary); max-width: 500px; margin: 0 auto; line-height: 1.6; }
-
-.loading-container, .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; }
 .loading-spinner { 
   display: inline-block; 
   width: 32px; 
@@ -716,26 +552,34 @@ mark {
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 .loading-text { color: var(--text-secondary); font-size: 14px; }
-.empty-state h3 { color: var(--text-primary); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-.empty-state p { color: var(--text-secondary); font-size: 14px; }
 
-/* Responsive Design */
-@media (max-width: 1200px) { 
-  .results-grid { grid-template-columns: repeat(2, 1fr); } 
+/* Footer */
+.footer { 
+  border-top: 1px solid var(--border-primary); 
+  padding: 40px 32px 24px; 
+  margin-top: 60px; 
+  text-align: center;
 }
 
+.footer p { 
+  color: var(--text-muted); 
+  font-size: 12px; 
+  margin: 0; 
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) { 
   .app { flex-direction: column; }
   .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-primary); }
   .results-grid { grid-template-columns: 1fr; }
-  .pricing-plans { flex-direction: column; }
+  .results-header { flex-direction: column; gap: 16px; }
+  .live-metrics { min-width: auto; }
 }
 
 @media (max-width: 768px) {
   .sidebar, .main-content { padding: 16px; }
-  .search-input, .select-input { font-size: 16px; }
-  .dashboard-metrics { grid-template-columns: 1fr; }
-  .competitor-grid { grid-template-columns: 1fr; }
+  .metrics-row { grid-template-columns: 1fr; gap: 8px; }
+  .action-row { flex-direction: column; }
 }
 </style>
 </head>
@@ -748,28 +592,29 @@ mark {
       <span class="logo-text">GrumpyLinks Pro</span>
     </a>
 
-    <!-- Freemium Banner -->
-    <div class="freemium-banner">
-      <div class="freemium-title">Free Trial Active</div>
-      <div class="freemium-subtitle">Unlock revenue insights, competitor tracking, and unlimited PRDs</div>
-      <button class="upgrade-btn" onclick="showPaywall()">Upgrade to Pro</button>
-    </div>
-
-    <!-- Credits Display -->
-    <div class="credits-section">
-      <div class="credits-header">
-        <span class="credits-title">Search Credits</span>
-        <span class="credits-count" id="creditsCount">13/20</span>
+    <!-- Market Intelligence Widget -->
+    <div class="market-intel-widget">
+      <div class="intel-title">
+        📊 Market Intelligence
       </div>
-      <div class="credits-bar">
-        <div class="credits-fill" id="creditsFill"></div>
+      <div class="intel-stats">
+        <div class="intel-stat">
+          <span class="stat-number" id="totalOpportunities">847</span>
+          <span class="stat-label">Opportunities Found</span>
+        </div>
+        <div class="intel-stat">
+          <span class="stat-number" id="avgRevenue">$1.2M</span>
+          <span class="stat-label">Avg Revenue</span>
+        </div>
       </div>
-      <div class="credits-text">Resets monthly • Pro: Unlimited</div>
+      <div class="intel-insight">
+        💡 <strong>Today's Hot Sector:</strong> AI productivity tools showing 340% growth in complaints about current solutions.
+      </div>
     </div>
 
     <div class="hero-content-sidebar">
       <h1 class="hero-title-sidebar">Turn Customer Pain Into Profit</h1>
-      <p class="hero-subtitle-sidebar">Find pain points, estimate revenue, track competitors, build what customers pay for</p>
+      <p class="hero-subtitle-sidebar">Find validated business opportunities with real revenue potential from customer complaints</p>
     </div>
 
     <div class="search-section">
@@ -806,522 +651,457 @@ mark {
   </aside>
 
   <main class="main-content">
-    <!-- Revenue Dashboard -->
-    <div class="revenue-dashboard" id="revenueDashboard">
-      <h2 class="dashboard-title">
-        💰 Revenue Intelligence Dashboard
-      </h2>
-      <div class="dashboard-metrics">
-        <div class="metric-card">
-          <div class="metric-value">$847K</div>
-          <div class="metric-label">Total Market Size</div>
-          <div class="metric-trend">↗ +23% vs last month</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">$127K</div>
-          <div class="metric-label">Addressable Revenue</div>
-          <div class="metric-trend">↗ +15% opportunity</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">87</div>
-          <div class="metric-label">High-Value Complaints</div>
-          <div class="metric-trend">↗ +34 new this week</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">4.2x</div>
-          <div class="metric-label">ROI Multiplier</div>
-          <div class="metric-trend">Above industry avg</div>
+    <div class="results-header" id="resultsHeader" style="display: none;">
+      <div class="results-info">
+        <h2 class="results-title">Business Opportunities</h2>
+        <p class="results-subtitle">Customer pain points ranked by business potential and market validation</p>
+        <div class="results-meta">
+          <div class="meta-item">
+            <span>🔍</span>
+            <span id="resultsCount">6 opportunities found</span>
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            <span id="searchTime">Analyzed in 2.3s</span>
+          </div>
+          <div class="meta-item">
+            <span>🎯</span>
+            <span id="avgScore">Average opportunity score: 8.2/10</span>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="results-header" id="resultsHeader" style="display: none;">
-      <h2 class="results-title">Profitable Product Opportunities</h2>
-      <p class="results-subtitle">Customer pain points ranked by revenue potential and market size</p>
+      
+      <div class="live-metrics">
+        <div class="metrics-title">
+          📈 Live Analysis
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <span class="metric-value" id="totalMarketSize">$2.4M</span>
+            <span class="metric-label">Market Size</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value" id="highValueOps">4</span>
+            <span class="metric-label">High Value</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value" id="avgTimeToMarket">8mo</span>
+            <span class="metric-label">Time to Market</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value" id="competitiveGap">76%</span>
+            <span class="metric-label">Market Gap</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="resultsGrid" class="results-grid">
       <div class="loading-container">
         <div class="loading-spinner"></div>
-        <p class="loading-text">Loading monetized demo results...</p>
-      </div>
-    </div>
-
-    <!-- Competitor Tracking Section -->
-    <div class="competitor-section" id="competitorSection">
-      <h3 class="competitor-title">🎯 Competitor Threat Analysis</h3>
-      <div class="competitor-grid">
-        <div class="competitor-card">
-          <div class="competitor-name">ChatGPT Business Tools</div>
-          <span class="competitor-threat threat-high">High Threat</span>
-          <div class="competitor-insights">
-            Building enterprise research tools. 847 companies switching. Estimated $12M ARR.
-          </div>
-        </div>
-        <div class="competitor-card">
-          <div class="competitor-name">Notion AI Workspace</div>
-          <span class="competitor-threat threat-medium">Medium Threat</span>
-          <div class="competitor-insights">
-            Adding market research features. 234 complaints about complexity. Opportunity window: 6 months.
-          </div>
-        </div>
-        <div class="competitor-card">
-          <div class="competitor-name">Product Hunt Analytics</div>
-          <span class="competitor-threat threat-low">Low Threat</span>
-          <div class="competitor-insights">
-            Limited AI capabilities. Users requesting better insights. Clear differentiation opportunity.
-          </div>
-        </div>
+        <p class="loading-text">Loading working demo with enhanced business analysis...</p>
       </div>
     </div>
 
     <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-hero">
-          <h2>Stop Building Products Nobody Wants</h2>
-          <p>Join 2,847 entrepreneurs using GrumpyLinks Pro to find validated business opportunities worth $127M+ in total addressable market.</p>
-        </div>
-        
-        <div class="footer-bottom">
-          <p>© 2025 GrumpyLinks Pro - Turn Pain Into Profit</p>
-        </div>
-      </div>
+      <p>© 2025 GrumpyLinks Pro - Built to demonstrate real value with current tech stack</p>
     </footer>
   </main>
 </div>
 
-<!-- Paywall Modal -->
-<div class="paywall-modal" id="paywallModal">
-  <div class="paywall-content">
-    <button class="paywall-close" onclick="hidePaywall()">×</button>
-    <h2 class="paywall-title">Unlock Revenue Intelligence</h2>
-    <p class="paywall-subtitle">See exactly how much money each customer pain point is worth and track competitors stealing your market.</p>
-    
-    <div class="pricing-plans">
-      <div class="pricing-plan" onclick="selectPlan('starter')">
-        <div class="plan-name">Starter</div>
-        <div class="plan-price">$97/mo</div>
-        <div class="plan-features">
-          • 500 searches/month<br>
-          • Revenue estimates<br>
-          • Basic competitor tracking
-        </div>
-      </div>
-      <div class="pricing-plan selected" onclick="selectPlan('pro')">
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">$297/mo</div>
-        <div class="plan-features">
-          • Unlimited searches<br>
-          • Market size analysis<br>
-          • Advanced competitor intel<br>
-          • Revenue forecasting
-        </div>
-      </div>
-    </div>
-    
-    <button class="upgrade-now-btn" onclick="startTrial()">Start 7-Day Free Trial</button>
-    <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
-      Cancel anytime • No setup fees • Results in 24 hours
-    </p>
-  </div>
-</div>
-
 <script>
-// Enhanced Configuration with monetization
+// Configuration
 const API_CONFIG = { 
   GOOGLE_API_KEY: '', 
   SEARCH_ENGINE_ID: '', 
-  LAMBDA_ENDPOINT: '',
-  STRIPE_KEY: '' // For payments
+  LAMBDA_ENDPOINT: ''
 };
 
-// User state management
-let userState = {
-  isPro: false,
-  creditsRemaining: 13,
-  maxCredits: 20,
-  plan: 'free',
-  trialEndsAt: null
-};
-
-// Enhanced demo data with revenue insights
-const MONETIZED_DEMO_RESULTS = {
-  query: "",
+// Enhanced demo data
+const ENHANCED_DEMO_RESULTS = {
+  query: "airplane wifi problems",
   results: [
     {
-      title: "Zach (Probably) on X: \"This is actually painful, #ChatGPT works well ...\"",
-      snippet: "This is actually painful, #ChatGPT works well on airplane wifi more or less... #Grok... Sucks. Like holy fuck does it SUCK on whatever insane networking is ...",
+      title: "Zach on X: This is actually painful, #ChatGPT works well on airplane wifi... #Grok SUCKS",
+      snippet: "This is actually painful, #ChatGPT works well on airplane wifi more or less... #Grok... Sucks. Like holy fuck does it SUCK on whatever insane networking is happening here.",
       link: "https://x.com/ThatOtherZach/status/1956024889560760322",
       displayLink: "x.com",
+      date: "2 days ago",
       insight: { 
-        businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", 
+        businessOpportunity: "Build an AI assistant specifically optimized for low-bandwidth connections. Target business travelers and frequent flyers with offline-capable AI that syncs when connection improves.",
         urgency: "high",
-        marketSize: "high",
-        revenueEstimate: "$2.3M ARR",
-        timeframe: "12-18 months",
-        confidence: 87
+        revenueEstimate: "$480K ARR",
+        timeToMarket: "6-9 months",
+        confidence: 87,
+        competitiveGap: 85
       }
     },
     {
-      title: "Why Wont Snapchat Work on Breeze Airplane Wifi | TikTok",
-      snippet: "... broken • original sound - The office quote.s • Why Wont My Snap Chat Let Me ... Snapchat Is So Annoying • Why Is Snapchat Not Sending My Snaps. 364Likes. 203 ...",
-      link: "https://www.tiktok.com/discover/why-wont-snapchat-work-on-breeze-airplane-wifi",
-      displayLink: "www.tiktok.com",
-      insight: { 
-        businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", 
-        urgency: "medium",
-        marketSize: "medium",
-        revenueEstimate: "$840K ARR",
-        timeframe: "6-9 months",
-        confidence: 73
-      }
-    },
-    {
-      title: "iOS - NextDNS Help Center",
-      snippet: "Public WiFis / Airplane WiFI / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
+      title: "NextDNS Help: Public WiFis / Airplane WiFI / Hotel WiFis / Captive Portal WiFis blocked",
+      snippet: "Public WiFis / Airplane WiFI / Hotel WiFis / Captive Portal WiFis. Couldn't connect properly, wrongly blocked from NextDNS and need help here..",
       link: "https://help.nextdns.io/tag/ios",
       displayLink: "help.nextdns.io",
+      date: "1 day ago", 
       insight: { 
-        businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", 
+        businessOpportunity: "Create a smart VPN service that automatically detects and optimizes for captive portals on planes, hotels, and public wifi. Market to digital nomads and business travelers.",
         urgency: "high",
-        marketSize: "high",
-        revenueEstimate: "$4.7M ARR",
-        timeframe: "8-12 months",
-        confidence: 91
+        revenueEstimate: "$720K ARR",
+        timeToMarket: "4-6 months",
+        confidence: 91,
+        competitiveGap: 78
       }
     },
     {
-      title: "How to Connect Laptop to Airplane Wifi | TikTok",
-      snippet: "... Airplane Wifi Spirit, How to Fix Unable to Connect to Wifi Hp Laptop ... How to Connect Phone to Pc with Broken Screen • Cara Guna Usb Wifi Adapter.",
-      link: "https://www.tiktok.com/discover/how-to-connect-laptop-to-airplane-wifi",
-      displayLink: "www.tiktok.com",
+      title: "Why Won't Snapchat Work on Breeze Airplane Wifi | TikTok complaints",
+      snippet: "Why Wont Snapchat Work on Breeze Airplane Wifi... Snapchat Is So Annoying, Why Is Snapchat Not Sending My Snaps on flights. 364 Likes, 203 comments.",
+      link: "https://www.tiktok.com/discover/why-wont-snapchat-work-on-breeze-airplane-wifi",
+      displayLink: "www.tiktok.com", 
+      date: "3 days ago",
       insight: { 
-        businessOpportunity: "Develop a simplified step-by-step video tutorial series on connecting different laptop brands to airplane wifi, monetized through ads or premium content.", 
-        urgency: "low",
-        marketSize: "low",
-        revenueEstimate: "$180K ARR",
-        timeframe: "3-6 months",
-        confidence: 45
+        businessOpportunity: "Build a mobile app connectivity troubleshooter specifically for airline wifi. Partner with airlines to white-label the solution and reduce customer service complaints.",
+        urgency: "medium",
+        revenueEstimate: "$240K ARR",
+        timeToMarket: "3-5 months",
+        confidence: 73,
+        competitiveGap: 92
       }
     },
     {
-      title: "Reclining your seat on a flight. I didn't know it was so taboo ...",
-      snippet: "airplane wifi is ass so I used my Nintendo Switch) But for longer flights ... What do you need help on? Cancel X. Post New Message. You're browsing the ...",
+      title: "GameFAQs: airplane wifi is ass so I used my Nintendo Switch offline",
+      snippet: "airplane wifi is ass so I used my Nintendo Switch for longer flights. What entertainment options work without decent internet? Need help with offline gaming setup.",
       link: "https://gamefaqs.gamespot.com/boards/264562-playstation-5/81025624",
       displayLink: "gamefaqs.gamespot.com",
+      date: "4 days ago",
       insight: { 
-        businessOpportunity: "Develop a curated entertainment package (movies, games, ebooks) that can be downloaded before the flight and enjoyed without relying on airplane wifi.", 
+        businessOpportunity: "Create a curated offline entertainment platform for travelers. Pre-download movies, games, podcasts optimized for flights. Subscription model targeting frequent travelers.",
         urgency: "medium",
-        marketSize: "medium",
-        revenueEstimate: "$1.2M ARR",
-        timeframe: "4-8 months",
-        confidence: 68
+        revenueEstimate: "$320K ARR",
+        timeToMarket: "8-12 months",
+        confidence: 68,
+        competitiveGap: 65
       }
     },
     {
-      title: "Starlink MCI to IAH : r/unitedairlines",
-      snippet: "... airplane WiFI. Upvote 2. Downvote Reply reply. Award ... I hate this about United • r/unitedairlines - I hate this about United. 2. 25 ...",
+      title: "r/unitedairlines: Starlink wifi still terrible, I hate this about United",
+      snippet: "Starlink MCI to IAH still has issues. airplane WiFI speeds are inconsistent. I hate this about United compared to other airlines. Need better options.",
       link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
       displayLink: "www.reddit.com",
+      date: "1 week ago",
       insight: { 
-        businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.", 
-        urgency: "high",
-        marketSize: "high",
-        revenueEstimate: "$3.8M ARR",
-        timeframe: "6-12 months",
-        confidence: 84
+        businessOpportunity: "Build a real-time airline wifi quality tracking platform. Crowdsource speed tests and reviews. Sell premium analytics to airlines and travel booking sites.",
+        urgency: "high", 
+        revenueEstimate: "$680K ARR",
+        timeToMarket: "5-7 months",
+        confidence: 84,
+        competitiveGap: 88
+      }
+    },
+    {
+      title: "TikTok: How to Connect Laptop to Airplane Wifi tutorials get millions of views",
+      snippet: "How to Connect Laptop to Airplane Wifi, How to Fix Unable to Connect issues. These tutorial videos get massive engagement showing clear demand for help.",
+      link: "https://www.tiktok.com/discover/how-to-connect-laptop-to-airplane-wifi",
+      displayLink: "www.tiktok.com",
+      date: "5 days ago",
+      insight: { 
+        businessOpportunity: "Create step-by-step video tutorials and troubleshooting guides for airplane wifi connection issues. Monetize through sponsorships with travel gear companies.",
+        urgency: "low",
+        revenueEstimate: "$90K ARR",
+        timeToMarket: "2-3 months", 
+        confidence: 45,
+        competitiveGap: 30
       }
     }
   ]
 };
 
 function loadConfig() {
-  if (window.ENV) {
-    API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
-    API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
-    API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
-    API_CONFIG.STRIPE_KEY = window.ENV.STRIPE_KEY || '';
-  }
+ if (window.ENV) {
+   API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
+   API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
+   API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
+ }
 }
 
-function updateCreditsDisplay() {
-  const creditsCount = document.getElementById('creditsCount');
-  const creditsFill = document.getElementById('creditsFill');
-  
-  creditsCount.textContent = `${userState.creditsRemaining}/${userState.maxCredits}`;
-  const percentage = (userState.creditsRemaining / userState.maxCredits) * 100;
-  creditsFill.style.width = `${percentage}%`;
-}
-
-function consumeCredit() {
-  if (userState.isPro) return true;
-  
-  if (userState.creditsRemaining <= 0) {
-    showPaywall();
-    return false;
-  }
-  
-  userState.creditsRemaining--;
-  updateCreditsDisplay();
-  
-  // Show paywall at 5 credits remaining
-  if (userState.creditsRemaining === 5) {
-    setTimeout(() => {
-      showPaywall();
-    }, 3000);
-  }
-  
-  return true;
-}
-
-function showPaywall() {
-  document.getElementById('paywallModal').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function hidePaywall() {
-  document.getElementById('paywallModal').style.display = 'none';
-  document.body.style.overflow = 'auto';
-}
-
-function selectPlan(planType) {
-  document.querySelectorAll('.pricing-plan').forEach(plan => {
-    plan.classList.remove('selected');
-  });
-  event.target.closest('.pricing-plan').classList.add('selected');
-}
-
-function startTrial() {
-  // In real implementation, integrate with Stripe
-  alert('🎉 Trial started! Redirecting to payment setup...\n\nIn production: Stripe integration would handle this.');
-  
-  // Demo: upgrade user
-  userState.isPro = true;
-  userState.creditsRemaining = 999;
-  userState.plan = 'pro';
-  updateCreditsDisplay();
-  hidePaywall();
-  
-  // Show pro features
-  document.getElementById('revenueDashboard').style.display = 'block';
-  document.getElementById('competitorSection').style.display = 'block';
+function updateMarketIntel() {
+ document.getElementById('totalOpportunities').textContent = Math.floor(Math.random() * 200) + 800;
+ document.getElementById('avgRevenue').textContent = '$' + (Math.random() * 2 + 0.8).toFixed(1) + 'M';
 }
 
 function setupEventListeners() {
-  document.getElementById('searchBtn').onclick = performSearch;
-  document.getElementById('searchInput').onkeydown = e => {
-    if (e.key === 'Enter') performSearch();
-  };
+ document.getElementById('searchBtn').onclick = performSearch;
+ document.getElementById('searchInput').onkeydown = e => {
+   if (e.key === 'Enter') performSearch();
+ };
 }
 
 function performSearch() {
-  const keyword = document.getElementById('searchInput').value.trim();
-  if (!keyword) {
-    const searchInput = document.getElementById('searchInput');
-    searchInput.style.borderColor = 'var(--bg-danger)';
-    searchInput.placeholder = 'Please enter a search term...';
-    searchInput.focus();
-    
-    setTimeout(() => {
-      searchInput.style.borderColor = '';
-      searchInput.placeholder = 'Brand, product, or market...';
-    }, 3000);
-    return;
-  }
+ const keyword = document.getElementById('searchInput').value.trim();
+ if (!keyword) {
+   const searchInput = document.getElementById('searchInput');
+   searchInput.style.borderColor = 'var(--bg-danger)';
+   searchInput.placeholder = 'Please enter a search term...';
+   searchInput.focus();
+   
+   setTimeout(() => {
+     searchInput.style.borderColor = '';
+     searchInput.placeholder = 'Brand, product, or market...';
+   }, 3000);
+   return;
+ }
 
-  // Check credits/pro status
-  if (!consumeCredit()) {
-    return;
-  }
-
-  showLoading();
-  
-  // For demo purposes, show enhanced results
-  setTimeout(() => {
-    displayMonetizedResults(MONETIZED_DEMO_RESULTS.results, keyword);
-    if (userState.isPro) {
-      document.getElementById('revenueDashboard').style.display = 'block';
-      document.getElementById('competitorSection').style.display = 'block';
-    }
-  }, 2000);
+ showLoading();
+ 
+ setTimeout(() => {
+   const queryType = document.getElementById('queryDropdown').value;
+   let demoResults = [...ENHANCED_DEMO_RESULTS.results];
+   
+   if (queryType === 'competitor_hate') {
+     demoResults = demoResults.filter(r => r.snippet.includes('hate') || r.snippet.includes('terrible') || r.snippet.includes('suck'));
+   } else if (queryType === 'switching_signals') {
+     demoResults = demoResults.slice(0, 3).map(r => ({
+       ...r,
+       insight: { ...r.insight, urgency: 'high', businessOpportunity: r.insight.businessOpportunity.replace('Build', 'Build a competitor to existing solutions - ') }
+     }));
+   }
+   
+   displayEnhancedResults(demoResults, keyword);
+   updateLiveMetrics(demoResults);
+ }, 2500);
 }
 
 function showLoading() {
-  const grid = document.getElementById('resultsGrid');
-  const resultsHeader = document.getElementById('resultsHeader');
+ const grid = document.getElementById('resultsGrid');
+ const resultsHeader = document.getElementById('resultsHeader');
 
-  resultsHeader.style.display = 'block';
-  grid.innerHTML = `
-    <div class="loading-container">
-      <div class="loading-spinner"></div>
-      <p class="loading-text">Analyzing revenue potential across platforms...</p>
-    </div>
-  `;
+ resultsHeader.style.display = 'flex';
+ grid.innerHTML = `
+   <div class="loading-container">
+     <div class="loading-spinner"></div>
+     <p class="loading-text">Analyzing business opportunities with enhanced AI...</p>
+   </div>
+ `;
 }
 
-function getMarketSizeClass(size) {
-  const classes = {
-    'high': 'market-size-high',
-    'medium': 'market-size-medium',
-    'low': 'market-size-low'
-  };
-  return classes[size] || 'market-size-low';
+function updateLiveMetrics(results) {
+ const totalRevenue = results.reduce((sum, r) => {
+   const revenue = parseFloat(r.insight.revenueEstimate.replace(/[^0-9.]/g, ''));
+   return sum + revenue;
+ }, 0);
+ 
+ const highValueCount = results.filter(r => r.insight.urgency === 'high').length;
+ const avgTimeToMarket = results.reduce((sum, r) => {
+   const months = parseFloat(r.insight.timeToMarket.split('-')[0]);
+   return sum + months;
+ }, 0) / results.length;
+ 
+ const avgGap = results.reduce((sum, r) => sum + r.insight.competitiveGap, 0) / results.length;
+
+ document.getElementById('totalMarketSize').textContent = '$' + (totalRevenue / 1000).toFixed(1) + 'M';
+ document.getElementById('highValueOps').textContent = highValueCount;
+ document.getElementById('avgTimeToMarket').textContent = Math.round(avgTimeToMarket) + 'mo';
+ document.getElementById('competitiveGap').textContent = Math.round(avgGap) + '%';
+ 
+ document.getElementById('resultsCount').textContent = results.length + ' opportunities found';
+ document.getElementById('searchTime').textContent = 'Analyzed in ' + (Math.random() * 2 + 1.5).toFixed(1) + 's';
+ document.getElementById('avgScore').textContent = 'Average score: ' + (avgGap / 10).toFixed(1) + '/10';
 }
 
 function getPlatformClass(domain) {
-  const platforms = {
-    reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
-    linkedin: 'source-linkedin', 'news.ycombinator': 'source-hackernews', github: 'source-github',
-    stackoverflow: 'source-stackoverflow', medium: 'source-medium', quora: 'source-quora',
-    youtube: 'source-youtube', producthunt: 'source-producthunt', discord: 'source-discord',
-    glassdoor: 'source-glassdoor', trustpilot: 'source-trustpilot', tiktok: 'source-tiktok',
-    'apps.apple.com': 'source-appstore', 'play.google.com': 'source-appstore'
-  };
-  
-  const match = Object.keys(platforms).find(key => domain.includes(key));
-  return match ? platforms[match] : 'source-default';
+ const platforms = {
+   reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
+   linkedin: 'source-linkedin', 'news.ycombinator': 'source-hackernews', 
+   stackoverflow: 'source-stackoverflow', youtube: 'source-youtube', 
+   producthunt: 'source-producthunt', discord: 'source-discord',
+   glassdoor: 'source-glassdoor', trustpilot: 'source-trustpilot', 
+   tiktok: 'source-tiktok', 'gamefaqs.gamespot.com': 'source-default'
+ };
+ 
+ const match = Object.keys(platforms).find(key => domain.includes(key));
+ return match ? platforms[match] : 'source-default';
 }
 
 function getPlatformName(domain) {
-  const platforms = {
-    reddit: 'Reddit', twitter: 'Twitter', 'x.com': 'Twitter', linkedin: 'LinkedIn',
-    'news.ycombinator': 'Hacker News', github: 'GitHub', stackoverflow: 'Stack Overflow',
-    medium: 'Medium', quora: 'Quora', youtube: 'YouTube', producthunt: 'Product Hunt',
-    discord: 'Discord', glassdoor: 'Glassdoor', trustpilot: 'Trustpilot', tiktok: 'TikTok',
-    'apps.apple.com': 'App Store', 'play.google.com': 'Play Store'
-  };
-  
-  const match = Object.keys(platforms).find(key => domain.includes(key));
-  return match ? platforms[match] : domain.split('.')[0];
+ const platforms = {
+   reddit: 'Reddit', twitter: 'Twitter', 'x.com': 'Twitter', linkedin: 'LinkedIn',
+   'news.ycombinator': 'Hacker News', stackoverflow: 'Stack Overflow',
+   youtube: 'YouTube', producthunt: 'Product Hunt', discord: 'Discord', 
+   glassdoor: 'Glassdoor', trustpilot: 'Trustpilot', tiktok: 'TikTok',
+   'gamefaqs.gamespot.com': 'GameFAQs'
+ };
+ 
+ const match = Object.keys(platforms).find(key => domain.includes(key));
+ return match ? platforms[match] : domain.split('.')[0];
+}
+
+function getOpportunityScore(insight) {
+ let score = (insight.confidence + insight.competitiveGap) / 2;
+ if (insight.urgency === 'high') score += 10;
+ else if (insight.urgency === 'medium') score += 5;
+ 
+ if (score >= 85) return { class: 'score-high', text: 'HIGH' };
+ if (score >= 70) return { class: 'score-medium', text: 'MED' };
+ return { class: 'score-low', text: 'LOW' };
 }
 
 function escapeHtml(text) {
-  if (typeof text !== 'string') return text;
-  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-  return text.replace(/[&<>"']/g, m => map[m]);
+ if (typeof text !== 'string') return text;
+ const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+ return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-function displayMonetizedResults(results, keyword) {
-  const grid = document.getElementById('resultsGrid');
-  const resultsHeader = document.getElementById('resultsHeader');
+function displayEnhancedResults(results, keyword) {
+ const grid = document.getElementById('resultsGrid');
+ const resultsHeader = document.getElementById('resultsHeader');
 
-  resultsHeader.style.display = 'block';
+ resultsHeader.style.display = 'flex';
 
-  if (!results.length) {
-    grid.innerHTML = `
-      <div class="empty-state">
-        <h3>No Revenue Opportunities Found</h3>
-        <p>Try a different search term, platform, or time range to discover profitable customer pain points.</p>
-      </div>
-    `;
-    return;
-  }
+ if (!results.length) {
+   grid.innerHTML = `
+     <div class="empty-state">
+       <h3>No Business Opportunities Found</h3>
+       <p>Try a different search term, platform, or time range to discover profitable customer pain points.</p>
+     </div>
+   `;
+   return;
+ }
 
-  const html = results.map((result, i) => {
-    const platformClass = getPlatformClass(result.displayLink);
-    const platformName = getPlatformName(result.displayLink);
-    const insight = result.insight;
-    const marketSizeClass = getMarketSizeClass(insight.marketSize);
-    
-    let snippet = result.snippet || '';
-    snippet = snippet
-      .replace(/&quot;/g, '"')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&#39;/g, "'")
-      .replace(/\s*Â·\s*/g, ' ')
-      .replace(/\s*\.\.\.\s*/g, ' ')
-      .replace(/\s+/g, ' ');
+ const html = results.map((result, i) => {
+   const platformClass = getPlatformClass(result.displayLink);
+   const platformName = getPlatformName(result.displayLink);
+   const insight = result.insight;
+   const score = getOpportunityScore(insight);
+   
+   let snippet = result.snippet || '';
+   snippet = snippet
+     .replace(/&quot;/g, '"')
+     .replace(/&amp;/g, '&')
+     .replace(/\s+/g, ' ')
+     .substring(0, 120);
 
-    const truncatedSnippet = snippet.substring(0, 120);
-    const escapedSnippet = escapeHtml(truncatedSnippet);
+   const escapedSnippet = escapeHtml(snippet);
+   const painWords = ['hate', 'terrible', 'suck', 'broken', 'annoying', 'frustrated', 'need', 'help', 'wish'];
+   let highlightedSnippet = escapedSnippet;
 
-    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-    let highlightedSnippet = escapedSnippet;
+   painWords.forEach(word => {
+     const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
+     highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
+   });
 
-    painWords.forEach(word => {
-      const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
-      highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
-    });
+   return `
+     <div class="result-card">
+       <div class="opportunity-score ${score.class}">${score.text}</div>
+       
+       <div class="card-header">
+         <div class="source-info">
+           <span class="source-badge ${platformClass}">${platformName}</span>
+           <span class="source-date">${result.date}</span>
+         </div>
+         <div class="problem-statement">
+           <h3 class="problem-title">Customer Problem:</h3>
+           <p class="problem-text">"${highlightedSnippet}..."</p>
+         </div>
+       </div>
+       
+       <div class="card-body">
+         <h4 class="solution-title">Business Opportunity:</h4>
+         <p class="solution-text">${insight.businessOpportunity}</p>
+         
+         <div class="business-metrics">
+           <div class="metrics-header">
+             <span class="metrics-title">Business Metrics</span>
+             <span class="confidence-score">${insight.confidence}% confidence</span>
+           </div>
+           <div class="metrics-row">
+             <div class="metric">
+               <span class="metric-value">${insight.revenueEstimate.replace('$', '$').replace(' ARR', '')}</span>
+               <span class="metric-label">Est. Revenue</span>
+             </div>
+             <div class="metric">
+               <span class="metric-value">${insight.timeToMarket}</span>
+               <span class="metric-label">Time to Market</span>
+             </div>
+           </div>
+         </div>
+       </div>
+       
+       <div class="card-action">
+         <button class="generate-prd-btn" onclick="generateBusinessPlan('${escapeHtml(result.title)}', '${escapeHtml(insight.businessOpportunity)}', '${insight.revenueEstimate}')">
+           Generate Business Plan →
+         </button>
+         
+         <div class="action-row">
+           <button class="quick-action-btn" onclick="analyzeCompetitors('${escapeHtml(keyword)}')">
+             🎯 Competitors
+           </button>
+           <button class="quick-action-btn" onclick="estimatePricing('${escapeHtml(insight.businessOpportunity)}')">
+             💰 Pricing
+           </button>
+           <button class="quick-action-btn" onclick="findCustomers('${escapeHtml(keyword)}')">
+             👥 Customers
+           </button>
+         </div>
+         
+         <a href="${result.link}" target="_blank" class="source-link">View Original Complaint →</a>
+       </div>
+     </div>
+   `;
+ }).join('');
 
-    const isPro = userState.isPro;
-    const buttonClass = isPro ? 'generate-prd-btn' : 'generate-prd-btn pro-only-btn';
-    const buttonText = isPro ? 'Generate Revenue PRD →' : 'Generate PRD (Pro Only)';
-    const buttonClick = isPro ? `generatePrdPrompt('${escapeHtml(result.title)}', '${escapeHtml(result.snippet || '')}', '${escapeHtml(insight.businessOpportunity || '')}')` : 'showPaywall()';
-
-    return `
-      <div class="result-card">
-        <span class="market-size-badge ${marketSizeClass}">${insight.marketSize} value</span>
-        <div class="card-header">
-          <div class="source-info">
-            <span class="source-badge ${platformClass}">${platformName}</span>
-            <span class="source-date">2 days ago</span>
-          </div>
-          <div class="problem-statement">
-            <h3 class="problem-title">Customer Problem:</h3>
-            <p class="problem-text">"${highlightedSnippet}..."</p>
-          </div>
-        </div>
-        <div class="card-body">
-          <h4 class="solution-title">Product Opportunity:</h4>
-          <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
-          
-          ${isPro ? `
-          <div class="revenue-potential">
-            <div class="revenue-title">Revenue Potential</div>
-            <div class="revenue-estimate">${insight.revenueEstimate}</div>
-            <div class="revenue-timeframe">Expected: ${insight.timeframe} • Confidence: ${insight.confidence}%</div>
-          </div>
-          ` : `
-          <div class="revenue-potential" style="background: linear-gradient(135deg, var(--bg-pro) 0%, #7c3aed 100%); color: white;">
-            <div class="revenue-title" style="color: rgba(255,255,255,0.9);">Revenue Analysis</div>
-            <div class="revenue-estimate" style="color: white;">Upgrade to see revenue potential</div>
-            <div class="revenue-timeframe" style="color: rgba(255,255,255,0.8);">Market size, timing, confidence scores</div>
-          </div>
-          `}
-        </div>
-        <div class="card-action">
-          <button class="${buttonClass}" onclick="${buttonClick}">
-            ${buttonText}
-            ${!isPro ? '<span class="pro-badge">PRO</span>' : ''}
-          </button>
-          <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  grid.innerHTML = html;
+ grid.innerHTML = html;
 }
 
-function generatePrdPrompt(originalTitle, snippet, opportunity) {
-  // This would call the enhanced Lambda function to generate revenue-focused PRDs
-  alert('🚀 Generating revenue-focused PRD...\n\nThis would create a detailed PRD with:\n• Market size analysis\n• Revenue projections\n• Go-to-market strategy\n• Competitive landscape\n• Risk assessment');
+function generateBusinessPlan(title, opportunity, revenue) {
+ alert(`🚀 Business Plan Generated!\n\n` +
+       `Title: ${title}\n` +
+       `Opportunity: ${opportunity}\n` +
+       `Revenue Target: ${revenue}\n\n` +
+       `Full business plan with financial projections, go-to-market strategy, and implementation roadmap would be generated here with your Lambda function!`);
+}
+
+function analyzeCompetitors(keyword) {
+ alert(`🎯 Competitor Analysis for "${keyword}":\n\n` +
+       `• Direct competitors: 3 identified\n` +
+       `• Market gaps: 2 major opportunities\n` +
+       `• Competitive advantage: 67% better solution possible\n\n` +
+       `Full competitor intelligence available with API integration!`);
+}
+
+function estimatePricing(opportunity) {
+ const estimates = ['$19/mo', '$47/mo', '$97/mo', '$197/mo'];
+ const estimate = estimates[Math.floor(Math.random() * estimates.length)];
+ alert(`💰 Pricing Analysis:\n\n` +
+       `• Recommended price point: ${estimate}\n` +
+       `• Market willingness to pay: High\n` +
+       `• Competitive pricing range: $15-$250/mo\n` +
+       `• Optimal positioning: Premium value\n\n` +
+       `Detailed pricing strategy available with full analysis!`);
+}
+
+function findCustomers(keyword) {
+ alert(`👥 Customer Acquisition Strategy for "${keyword}":\n\n` +
+       `• Primary audience: Business professionals (age 28-45)\n` +
+       `• Acquisition channels: LinkedIn, Travel forums, Content marketing\n` +
+       `• Estimated CAC: $25-$65\n` +
+       `• Best messaging: "Productivity during travel"\n\n` +
+       `Complete customer research available with Pro features!`);
 }
 
 function loadDemoSearch() {
-  document.getElementById('searchInput').value = 'airplane wifi problems';
-  setTimeout(() => {
-    displayMonetizedResults(MONETIZED_DEMO_RESULTS.results, 'airplane wifi problems');
-  }, 1000);
+ document.getElementById('searchInput').value = 'airplane wifi problems';
+ setTimeout(() => {
+   displayEnhancedResults(ENHANCED_DEMO_RESULTS.results, 'airplane wifi problems');
+   updateLiveMetrics(ENHANCED_DEMO_RESULTS.results);
+   updateMarketIntel();
+ }, 1000);
 }
 
-// Make functions global for onclick handlers
-Object.assign(window, { 
-  showPaywall, 
-  hidePaywall, 
-  selectPlan, 
-  startTrial,
-  generatePrdPrompt
-});
-
-// Initialize
 function init() {
-  loadConfig();
-  setupEventListeners();
-  updateCreditsDisplay();
-  loadDemoSearch();
+ loadConfig();
+ setupEventListeners();
+ updateMarketIntel();
+ loadDemoSearch();
+ 
+ setInterval(updateMarketIntel, 30000);
 }
 
 init();
