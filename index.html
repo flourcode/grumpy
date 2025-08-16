@@ -83,7 +83,13 @@ body {
 
 .card-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--border-primary); }
 
-.source-info { display: flex; justify-content: flex-start; margin-bottom: 16px; }
+.source-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
+}
 
 .source-badge { font-size: 10px; font-weight: 600; padding: 4px 8px; border-radius: 4px; 
   text-transform: uppercase; letter-spacing: 0.5px; }
@@ -114,6 +120,17 @@ body {
   padding: 4px; transition: color 0.2s; }
 
 .source-link:hover { color: var(--text-accent); }
+
+.source-date {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
 
 .footer { border-top: 1px solid var(--border-primary); padding: 60px 32px 32px; margin-top: 60px; }
 .footer-content { max-width: 800px; margin: 0 auto; }
@@ -689,7 +706,30 @@ function escapeHtml(text) {
  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
  return text.replace(/[&<>"']/g, m => map[m]);
 }
-
+function getResultDate(result) {
+  // Only extract real dates from search results
+  if (result.pagemap && result.pagemap.metatags && result.pagemap.metatags[0]) {
+    const meta = result.pagemap.metatags[0];
+    if (meta.date || meta['article:published_time'] || meta.pubdate) {
+      const dateStr = meta.date || meta['article:published_time'] || meta.pubdate;
+      try {
+        const date = new Date(dateStr);
+        if (!isNaN(date.getTime())) {
+          return date.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+          });
+        }
+      } catch (e) {
+        // Invalid date, return null
+      }
+    }
+  }
+  
+  // No valid date found
+  return null;
+}
 function displayResults(results, powerQuery, keyword, analysis) {
  const grid = document.getElementById('resultsGrid');
  const resultsHeader = document.getElementById('resultsHeader');
@@ -746,8 +786,9 @@ function displayResults(results, powerQuery, keyword, analysis) {
      <div class="result-card">
        <div class="card-header">
          <div class="source-info">
-           <span class="source-badge ${platformClass}">${platformName}</span>
-         </div>
+  <span class="source-badge ${platformClass}">${platformName}</span>
+  ${getResultDate(result) ? `<span class="source-date">${getResultDate(result)}</span>` : ''}
+</div>
          <div class="problem-statement">
            <h3 class="problem-title">Customer Problem:</h3>
            <p class="problem-text">"${escapeHtml(result.snippet.substring(0, 120))}..."</p>
