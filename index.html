@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>GrumpyLinks — AI-Powered Pain Point Discovery</title>
+<title>GrumpyLinks Pro — Turn Customer Pain Into Profit</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="env-config.js"></script>
 <style>
 :root {
-  /* Updated Notion-like palette (your priority) */
+  /* Updated Notion-like palette */
   --bg-primary: #0f1115;
   --bg-secondary: #131720;
   --bg-tertiary: #171b26;
@@ -20,15 +20,19 @@
   --bg-success: #22c55e;
   --bg-warning: #f59e0b;
   --bg-danger: #ef4444;
+  --bg-pro: #8b5cf6;
+  --bg-pro-hover: #7c3aed;
   
   --text-primary: #e6e9ef;
   --text-secondary: #9aa3b2;
   --text-muted: #7a8494;
   --text-accent: #2f80ed;
+  --text-pro: #8b5cf6;
   
   --border-primary: #1e2433;
   --border-secondary: #263146;
   --border-accent: #2f80ed;
+  --border-pro: #8b5cf6;
   
   /* Platform colors */
   --reddit: #ff4500; --twitter: #1da1f2; --linkedin: #0077b5; --hackernews: #ff6600; --github: #ffffff;
@@ -91,6 +95,49 @@ body {
 
 .logo-emoji { font-size: 32px; margin-bottom: 4px; }
 
+/* Freemium Banner */
+.freemium-banner {
+  background: linear-gradient(135deg, var(--bg-pro) 0%, #6366f1 100%);
+  border: 1px solid var(--border-pro);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.freemium-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.freemium-subtitle {
+  font-size: 12px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.upgrade-btn {
+  background: white;
+  color: var(--bg-pro);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.upgrade-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
 .hero-content-sidebar { 
   margin-bottom: 16px; 
   padding: 12px; 
@@ -102,6 +149,58 @@ body {
 
 .hero-title-sidebar { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary); }
 .hero-subtitle-sidebar { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+/* Credits Display */
+.credits-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.credits-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.credits-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.credits-count {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-accent);
+}
+
+.credits-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-input);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.credits-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--bg-success) 0%, var(--bg-warning) 70%, var(--bg-danger) 100%);
+  transition: width 0.3s ease;
+  width: 65%; /* Will be dynamic */
+}
+
+.credits-text {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+}
 
 .search-section { margin-bottom: 16px; }
 
@@ -154,12 +253,67 @@ body {
 }
 
 .search-button:hover { background: var(--bg-button-hover); }
-.search-button:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.35);
+.search-button:disabled {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  cursor: not-allowed;
 }
 
 .main-content { flex: 1; padding: 32px; overflow-y: auto; }
+
+/* Revenue Metrics Dashboard */
+.revenue-dashboard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  display: none; /* Show for pro users */
+}
+
+.dashboard-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.metric-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--bg-success);
+  margin-bottom: 4px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-trend {
+  font-size: 10px;
+  color: var(--bg-success);
+  margin-top: 4px;
+}
 
 .results-header { margin-bottom: 32px; }
 .results-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; color: var(--text-primary); }
@@ -172,6 +326,63 @@ body {
   max-width: 1400px; 
 }
 
+/* Enhanced Result Cards with Market Size */
+.result-card { 
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.12s ease, background 0.2s ease;
+  display: flex; 
+  flex-direction: column; 
+  height: 100%;
+  position: relative;
+}
+
+.market-size-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.market-size-high { background: var(--bg-success); color: white; }
+.market-size-medium { background: var(--bg-warning); color: white; }
+.market-size-low { background: var(--bg-danger); color: white; }
+
+.revenue-potential {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.revenue-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-pro);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.revenue-estimate {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bg-success);
+  margin-bottom: 4px;
+}
+
+.revenue-timeframe {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
 /* Platform badge colors */
 .source-reddit { background: var(--reddit); } .source-twitter { background: var(--twitter); }
 .source-linkedin { background: var(--linkedin); } .source-hackernews { background: var(--hackernews); }
@@ -181,17 +392,6 @@ body {
 .source-discord { background: var(--discord); } .source-glassdoor { background: var(--glassdoor); }
 .source-trustpilot { background: var(--trustpilot); } .source-appstore { background: var(--appstore); }
 .source-default { background: var(--text-muted); }
-
-.result-card { 
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 12px;
-  transition: border-color 0.2s ease, transform 0.12s ease, background 0.2s ease;
-  display: flex; 
-  flex-direction: column; 
-  height: 100%;
-  box-shadow: none;
-}
 
 .result-card:hover { 
   border-color: var(--border-secondary);
@@ -290,6 +490,30 @@ mark {
 .generate-prd-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
 .generate-prd-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
+.pro-only-btn {
+  background: linear-gradient(135deg, var(--bg-pro) 0%, #7c3aed 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.pro-only-btn:hover {
+  background: linear-gradient(135deg, var(--bg-pro-hover) 0%, #6d28d9 100%);
+}
+
+.pro-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--bg-warning);
+  color: white;
+  font-size: 8px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .source-link { 
   color: var(--text-muted); 
   text-decoration: none; 
@@ -301,6 +525,171 @@ mark {
 
 .source-link:hover { color: var(--text-accent); }
 
+/* Competitor Tracking Section */
+.competitor-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  display: none; /* Show for pro users */
+}
+
+.competitor-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.competitor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.competitor-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.competitor-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.competitor-threat {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.threat-high { background: var(--bg-danger); color: white; }
+.threat-medium { background: var(--bg-warning); color: white; }
+.threat-low { background: var(--bg-success); color: white; }
+
+.competitor-insights {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Paywall Modal */
+.paywall-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.paywall-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-pro);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.paywall-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.paywall-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.paywall-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.pricing-plans {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.pricing-plan {
+  flex: 1;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pricing-plan:hover,
+.pricing-plan.selected {
+  border-color: var(--border-pro);
+  background: var(--bg-card-hover);
+}
+
+.plan-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.plan-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-pro);
+  margin-bottom: 8px;
+}
+
+.plan-features {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.upgrade-now-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--bg-pro) 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.upgrade-now-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+}
+
+/* Rest of existing styles remain the same... */
 .footer { 
   border-top: 1px solid var(--border-primary); 
   padding: 60px 32px 32px; 
@@ -312,57 +701,7 @@ mark {
 .footer-hero h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; color: var(--text-primary); }
 .footer-hero p { font-size: 16px; color: var(--text-secondary); max-width: 500px; margin: 0 auto; line-height: 1.6; }
 
-.faqs-section { margin-bottom: 40px; }
-.faqs-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 24px; color: var(--text-primary); }
-
-.faq-item { 
-  background: var(--bg-card); 
-  border: 1px solid var(--border-primary); 
-  border-radius: 8px;
-  margin-bottom: 12px; 
-  overflow: hidden; 
-  transition: all 0.2s; 
-}
-
-.faq-item:hover { border-color: var(--border-secondary); }
-
-.faq-question { 
-  width: 100%; 
-  background: none; 
-  border: none; 
-  padding: 16px 20px; 
-  text-align: left;
-  color: var(--text-primary); 
-  font-size: 14px; 
-  font-weight: 500; 
-  cursor: pointer; 
-  display: flex;
-  justify-content: space-between; 
-  align-items: center; 
-  transition: all 0.2s; 
-  font-family: inherit; 
-}
-
-.faq-question:hover { background: var(--bg-card-hover); }
-
-.faq-arrow { transition: transform 0.3s; color: var(--text-muted); font-size: 12px; }
-.faq-question.active .faq-arrow { transform: rotate(180deg); color: var(--text-accent); }
-
-.faq-answer { 
-  max-height: 0; 
-  overflow: hidden; 
-  transition: all 0.3s; 
-  background: var(--bg-tertiary); 
-}
-
-.faq-answer.active { max-height: 150px; padding: 16px 20px; }
-.faq-answer p { color: var(--text-secondary); font-size: 13px; line-height: 1.5; margin: 0; }
-
-.footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid var(--border-primary); }
-.footer-bottom p { color: var(--text-muted); font-size: 12px; margin: 0; }
-
 .loading-container, .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; }
-
 .loading-spinner { 
   display: inline-block; 
   width: 32px; 
@@ -380,118 +719,6 @@ mark {
 .empty-state h3 { color: var(--text-primary); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
 .empty-state p { color: var(--text-secondary); font-size: 14px; }
 
-.download-container { margin-top: 40px; display: none; }
-.download-section { 
-  background: var(--bg-card); 
-  border: 1px solid var(--border-primary); 
-  border-radius: 12px;
-  padding: 32px; 
-  text-align: center; 
-}
-
-.download-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
-.download-subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; }
-
-.download-btn { 
-  background: linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%); 
-  color: white;
-  border: none; 
-  padding: 16px 32px; 
-  border-radius: 8px; 
-  font-size: 14px; 
-  font-weight: 600; 
-  cursor: pointer;
-  transition: all 0.2s; 
-  box-shadow: 0 4px 16px rgba(34,197,94,0.2); 
-}
-
-.download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(34,197,94,0.3); }
-
-.prd-container { 
-  margin-top: 40px; 
-  background: var(--bg-card); 
-  border: 1px solid var(--border-primary);
-  border-radius: 12px; 
-  display: none; 
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12); 
-  overflow: hidden;
-  animation: fadeInUp 0.4s ease-out; 
-}
-
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-.prd-header { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 32px 40px;
-  border-bottom: 1px solid var(--border-primary); 
-  background: var(--bg-secondary); 
-}
-
-.prd-title { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 0; }
-.prd-actions { display: flex; gap: 12px; }
-
-.prd-action-btn { 
-  padding: 10px 18px; 
-  background: var(--bg-button); 
-  color: white; 
-  border: none;
-  border-radius: 6px; 
-  font-size: 13px; 
-  font-weight: 500; 
-  cursor: pointer; 
-  transition: all 0.2s; 
-}
-
-.prd-action-btn:hover { background: var(--bg-button-hover); transform: translateY(-1px); }
-.prd-action-btn.secondary { background: var(--bg-tertiary); border: 1px solid var(--border-secondary); color: var(--text-primary); }
-.prd-action-btn.secondary:hover { background: var(--bg-card-hover); border-color: var(--border-accent); }
-
-.prd-content { color: var(--text-primary); line-height: 1.6; padding: 40px; font-size: 15px; }
-.prd-content h1 { 
-  font-size: 32px; 
-  font-weight: 700; 
-  margin: 40px 0 24px 0; 
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--border-primary); 
-}
-.prd-content h1:first-child { margin-top: 0; }
-.prd-content h2 { font-size: 24px; font-weight: 600; margin: 32px 0 16px 0; }
-.prd-content h3 { font-size: 18px; font-weight: 600; margin: 24px 0 12px 0; }
-.prd-content ul, .prd-content ol { margin: 20px 0; padding-left: 24px; }
-.prd-content li { margin-bottom: 12px; line-height: 1.6; }
-.prd-content p { margin: 16px 0; line-height: 1.6; }
-.prd-content strong { font-weight: 600; }
-
-.prd-loading { text-align: center; padding: 60px 40px; }
-.prd-loading-spinner { 
-  display: inline-block; 
-  width: 24px; 
-  height: 24px; 
-  border: 2px solid var(--border-primary);
-  border-top: 2px solid var(--text-accent); 
-  border-radius: 50%; 
-  animation: spin 1s linear infinite; 
-  margin-bottom: 20px; 
-}
-.prd-loading-text { color: var(--text-primary); font-size: 16px; font-weight: 500; margin-bottom: 8px; }
-.prd-progress { margin-top: 20px; max-width: 300px; margin-left: auto; margin-right: auto; }
-.prd-progress-bar { width: 100%; height: 3px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
-.prd-progress-fill { height: 100%; background: var(--text-accent); border-radius: 2px; transition: width 0.3s; width: 0%; }
-
-.prd-source-section { 
-  background: var(--bg-tertiary); 
-  border-radius: 8px; 
-  padding: 20px; 
-  margin-top: 24px;
-  border: 1px solid var(--border-primary); 
-}
-.source-item { margin-bottom: 16px; }
-.source-item:last-child { margin-bottom: 0; }
-.source-label { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-bottom: 6px; }
-.source-text { color: var(--text-secondary); font-style: italic; line-height: 1.5; font-size: 14px; }
-
 /* Responsive Design */
 @media (max-width: 1200px) { 
   .results-grid { grid-template-columns: repeat(2, 1fr); } 
@@ -501,31 +728,14 @@ mark {
   .app { flex-direction: column; }
   .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-primary); }
   .results-grid { grid-template-columns: 1fr; }
+  .pricing-plans { flex-direction: column; }
 }
 
 @media (max-width: 768px) {
   .sidebar, .main-content { padding: 16px; }
   .search-input, .select-input { font-size: 16px; }
-  .prd-header { flex-direction: column; gap: 16px; padding: 24px 20px; }
-  .prd-content { padding: 24px 20px; font-size: 14px; }
-  
-  .source-date {
-    font-size: 10px;
-    padding: 3px 6px;
-    min-width: auto;
-    display: block; /* Force display on mobile */
-  }
-  
-  .source-info {
-    flex-wrap: nowrap;
-    gap: 8px;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  .dashboard-metrics { grid-template-columns: 1fr; }
+  .competitor-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -534,18 +744,37 @@ mark {
 <div class="app">
   <aside class="sidebar">
     <a href="#" class="logo">
-      <span class="logo-emoji">😠</span>
-      <span class="logo-text">GrumpyLinks</span>
+      <span class="logo-emoji">😤</span>
+      <span class="logo-text">GrumpyLinks Pro</span>
     </a>
 
+    <!-- Freemium Banner -->
+    <div class="freemium-banner">
+      <div class="freemium-title">Free Trial Active</div>
+      <div class="freemium-subtitle">Unlock revenue insights, competitor tracking, and unlimited PRDs</div>
+      <button class="upgrade-btn" onclick="showPaywall()">Upgrade to Pro</button>
+    </div>
+
+    <!-- Credits Display -->
+    <div class="credits-section">
+      <div class="credits-header">
+        <span class="credits-title">Search Credits</span>
+        <span class="credits-count" id="creditsCount">13/20</span>
+      </div>
+      <div class="credits-bar">
+        <div class="credits-fill" id="creditsFill"></div>
+      </div>
+      <div class="credits-text">Resets monthly • Pro: Unlimited</div>
+    </div>
+
     <div class="hero-content-sidebar">
-      <h1 class="hero-title-sidebar">Turn Customer Complaints Into Products</h1>
-      <p class="hero-subtitle-sidebar">Find pain points, generate PRDs, build solutions that customers actually want</p>
+      <h1 class="hero-title-sidebar">Turn Customer Pain Into Profit</h1>
+      <p class="hero-subtitle-sidebar">Find pain points, estimate revenue, track competitors, build what customers pay for</p>
     </div>
 
     <div class="search-section">
-      <div class="section-title">FIND GRUMPY CUSTOMERS</div>
-      <input id="searchInput" class="search-input" type="text" placeholder="Brand, product, or topic..." />
+      <div class="section-title">FIND PROFITABLE PAIN</div>
+      <input id="searchInput" class="search-input" type="text" placeholder="Brand, product, or market..." />
       <select id="queryDropdown" class="select-input">
         <option value="">General Pain Points</option>
         <option value="competitor_hate">Competitor Complaints</option>
@@ -561,13 +790,10 @@ mark {
         <option value="linkedin">LinkedIn</option>
         <option value="hackernews">Hacker News</option>
         <option value="youtube">YouTube</option>
-        <option value="medium">Medium</option>
         <option value="producthunt">Product Hunt</option>
         <option value="discord">Discord</option>
         <option value="glassdoor">Glassdoor</option>
         <option value="trustpilot">Trustpilot</option>
-        <option value="appstore">App Stores</option>
-        <option value="forums">Forums</option>
       </select>
       <select id="timeSelect" class="select-input">
         <option value="d7">Last 7 days</option>
@@ -575,114 +801,151 @@ mark {
         <option value="d30">Last 30 days</option>
         <option value="d365">Last year</option>
       </select>
-      <button id="searchBtn" class="search-button">Search</button>
+      <button id="searchBtn" class="search-button">Analyze Market</button>
     </div>
   </aside>
 
   <main class="main-content">
+    <!-- Revenue Dashboard -->
+    <div class="revenue-dashboard" id="revenueDashboard">
+      <h2 class="dashboard-title">
+        💰 Revenue Intelligence Dashboard
+      </h2>
+      <div class="dashboard-metrics">
+        <div class="metric-card">
+          <div class="metric-value">$847K</div>
+          <div class="metric-label">Total Market Size</div>
+          <div class="metric-trend">↗ +23% vs last month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">$127K</div>
+          <div class="metric-label">Addressable Revenue</div>
+          <div class="metric-trend">↗ +15% opportunity</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">87</div>
+          <div class="metric-label">High-Value Complaints</div>
+          <div class="metric-trend">↗ +34 new this week</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">4.2x</div>
+          <div class="metric-label">ROI Multiplier</div>
+          <div class="metric-trend">Above industry avg</div>
+        </div>
+      </div>
+    </div>
+
     <div class="results-header" id="resultsHeader" style="display: none;">
-      <h2 class="results-title">Product Opportunities</h2>
-      <p class="results-subtitle">Real customer pain points with AI-generated PRDs ready to build</p>
+      <h2 class="results-title">Profitable Product Opportunities</h2>
+      <p class="results-subtitle">Customer pain points ranked by revenue potential and market size</p>
     </div>
 
     <div id="resultsGrid" class="results-grid">
       <div class="loading-container">
         <div class="loading-spinner"></div>
-        <p class="loading-text">Loading demo search results...</p>
+        <p class="loading-text">Loading monetized demo results...</p>
+      </div>
+    </div>
+
+    <!-- Competitor Tracking Section -->
+    <div class="competitor-section" id="competitorSection">
+      <h3 class="competitor-title">🎯 Competitor Threat Analysis</h3>
+      <div class="competitor-grid">
+        <div class="competitor-card">
+          <div class="competitor-name">ChatGPT Business Tools</div>
+          <span class="competitor-threat threat-high">High Threat</span>
+          <div class="competitor-insights">
+            Building enterprise research tools. 847 companies switching. Estimated $12M ARR.
+          </div>
+        </div>
+        <div class="competitor-card">
+          <div class="competitor-name">Notion AI Workspace</div>
+          <span class="competitor-threat threat-medium">Medium Threat</span>
+          <div class="competitor-insights">
+            Adding market research features. 234 complaints about complexity. Opportunity window: 6 months.
+          </div>
+        </div>
+        <div class="competitor-card">
+          <div class="competitor-name">Product Hunt Analytics</div>
+          <span class="competitor-threat threat-low">Low Threat</span>
+          <div class="competitor-insights">
+            Limited AI capabilities. Users requesting better insights. Clear differentiation opportunity.
+          </div>
+        </div>
       </div>
     </div>
 
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-hero">
-          <h2>Discover Hidden Opportunities</h2>
-          <p>Join thousands of entrepreneurs who use GrumpyLinks to find their next business idea in customer complaints and pain points.</p>
-        </div>
-
-        <div class="faqs-section">
-          <h3 class="faqs-title">How It Works</h3>
-          
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              How does GrumpyLinks help me build products customers want?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>We find real customer complaints across 12+ platforms, then use AI to generate complete Product Requirements Documents (PRDs) you can immediately use to build solutions.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              What's included in the AI-generated PRDs?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>Each PRD includes problem definition, target users, core features, success metrics, go-to-market strategy, and risk assessment - everything your team needs to start building.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              How is this different from market research?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>Instead of surveys or interviews, we find customers already complaining about real problems. Then we instantly turn those complaints into actionable product specifications.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ(this)">
-              Can I use these PRDs with my development team?
-              <span class="faq-arrow">▼</span>
-            </button>
-            <div class="faq-answer">
-              <p>Absolutely! Our PRDs are professional-grade documents formatted for GitHub, Notion, or any project management tool. Download as markdown files for easy integration.</p>
-            </div>
-          </div>
+          <h2>Stop Building Products Nobody Wants</h2>
+          <p>Join 2,847 entrepreneurs using GrumpyLinks Pro to find validated business opportunities worth $127M+ in total addressable market.</p>
         </div>
         
         <div class="footer-bottom">
-          <h2>From Customer Complaints to Product Success</h2>
-          <p>Stop guessing what to build. Find real customer problems and get AI-generated PRDs that turn pain points into profitable products.</p>
-          <p>© 2025 GrumpyLinks</p>
+          <p>© 2025 GrumpyLinks Pro - Turn Pain Into Profit</p>
         </div>
       </div>
     </footer>
   </main>
 </div>
 
+<!-- Paywall Modal -->
+<div class="paywall-modal" id="paywallModal">
+  <div class="paywall-content">
+    <button class="paywall-close" onclick="hidePaywall()">×</button>
+    <h2 class="paywall-title">Unlock Revenue Intelligence</h2>
+    <p class="paywall-subtitle">See exactly how much money each customer pain point is worth and track competitors stealing your market.</p>
+    
+    <div class="pricing-plans">
+      <div class="pricing-plan" onclick="selectPlan('starter')">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$97/mo</div>
+        <div class="plan-features">
+          • 500 searches/month<br>
+          • Revenue estimates<br>
+          • Basic competitor tracking
+        </div>
+      </div>
+      <div class="pricing-plan selected" onclick="selectPlan('pro')">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$297/mo</div>
+        <div class="plan-features">
+          • Unlimited searches<br>
+          • Market size analysis<br>
+          • Advanced competitor intel<br>
+          • Revenue forecasting
+        </div>
+      </div>
+    </div>
+    
+    <button class="upgrade-now-btn" onclick="startTrial()">Start 7-Day Free Trial</button>
+    <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
+      Cancel anytime • No setup fees • Results in 24 hours
+    </p>
+  </div>
+</div>
+
 <script>
-// Configuration
-const API_CONFIG = { GOOGLE_API_KEY: '', SEARCH_ENGINE_ID: '', LAMBDA_ENDPOINT: '' };
-
-// Power Queries
-const POWER_QUERIES = {
-  competitor_hate: { template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}' },
-  switching_signals: { template: '("switching from" OR "alternative to" OR "quitting" OR "leaving") {{keyword}}' },
-  wish_list: { template: '"I wish there was" OR "someone should" {{keyword}}' },
-  feature_requests: { template: '("should add" OR "missing feature" OR "needs to support") {{keyword}}' },
-  urgent_help: { template: '("need help with" OR "urgent" OR "stuck with") {{keyword}}' }
+// Enhanced Configuration with monetization
+const API_CONFIG = { 
+  GOOGLE_API_KEY: '', 
+  SEARCH_ENGINE_ID: '', 
+  LAMBDA_ENDPOINT: '',
+  STRIPE_KEY: '' // For payments
 };
 
-// Platform configurations
-const PLATFORMS = {
-  all: { sites: [] }, reddit: { sites: ['site:reddit.com'] }, twitter: { sites: ['site:twitter.com', 'site:x.com'] },
-  linkedin: { sites: ['site:linkedin.com'] }, hackernews: { sites: ['site:news.ycombinator.com'] },
-  youtube: { sites: ['site:youtube.com'] }, medium: { sites: ['site:medium.com'] },
-  producthunt: { sites: ['site:producthunt.com'] }, discord: { sites: ['site:discord.com'] },
-  glassdoor: { sites: ['site:glassdoor.com'] }, trustpilot: { sites: ['site:trustpilot.com'] },
-  appstore: { sites: ['site:apps.apple.com', 'site:play.google.com'] },
-  forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
+// User state management
+let userState = {
+  isPro: false,
+  creditsRemaining: 13,
+  maxCredits: 20,
+  plan: 'free',
+  trialEndsAt: null
 };
 
-// Global variables
-let currentAnalysis = null;
-let currentSearchResults = [];
-
-// Demo data
-const DEMO_RESULTS = {
+// Enhanced demo data with revenue insights
+const MONETIZED_DEMO_RESULTS = {
   query: "",
   results: [
     {
@@ -690,42 +953,84 @@ const DEMO_RESULTS = {
       snippet: "This is actually painful, #ChatGPT works well on airplane wifi more or less... #Grok... Sucks. Like holy fuck does it SUCK on whatever insane networking is ...",
       link: "https://x.com/ThatOtherZach/status/1956024889560760322",
       displayLink: "x.com",
-      insight: { businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", urgency: "medium" }
+      insight: { 
+        businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", 
+        urgency: "high",
+        marketSize: "high",
+        revenueEstimate: "$2.3M ARR",
+        timeframe: "12-18 months",
+        confidence: 87
+      }
     },
     {
       title: "Why Wont Snapchat Work on Breeze Airplane Wifi | TikTok",
-      snippet: "... broken · original sound - The office quote.s · Why Wont My Snap Chat Let Me ... Snapchat Is So Annoying · Why Is Snapchat Not Sending My Snaps. 364Likes. 203 ...",
+      snippet: "... broken • original sound - The office quote.s • Why Wont My Snap Chat Let Me ... Snapchat Is So Annoying • Why Is Snapchat Not Sending My Snaps. 364Likes. 203 ...",
       link: "https://www.tiktok.com/discover/why-wont-snapchat-work-on-breeze-airplane-wifi",
       displayLink: "www.tiktok.com",
-      insight: { businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", urgency: "medium" }
+      insight: { 
+        businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", 
+        urgency: "medium",
+        marketSize: "medium",
+        revenueEstimate: "$840K ARR",
+        timeframe: "6-9 months",
+        confidence: 73
+      }
     },
     {
       title: "iOS - NextDNS Help Center",
       snippet: "Public WiFis / Airplane WiFI / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
       link: "https://help.nextdns.io/tag/ios",
       displayLink: "help.nextdns.io",
-      insight: { businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", urgency: "high" }
+      insight: { 
+        businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", 
+        urgency: "high",
+        marketSize: "high",
+        revenueEstimate: "$4.7M ARR",
+        timeframe: "8-12 months",
+        confidence: 91
+      }
     },
     {
       title: "How to Connect Laptop to Airplane Wifi | TikTok",
-      snippet: "... Airplane Wifi Spirit, How to Fix Unable to Connect to Wifi Hp Laptop ... How to Connect Phone to Pc with Broken Screen · Cara Guna Usb Wifi Adapter.",
+      snippet: "... Airplane Wifi Spirit, How to Fix Unable to Connect to Wifi Hp Laptop ... How to Connect Phone to Pc with Broken Screen • Cara Guna Usb Wifi Adapter.",
       link: "https://www.tiktok.com/discover/how-to-connect-laptop-to-airplane-wifi",
       displayLink: "www.tiktok.com",
-      insight: { businessOpportunity: "Develop a simplified step-by-step video tutorial series on connecting different laptop brands to airplane wifi, monetized through ads or premium content.", urgency: "low" }
+      insight: { 
+        businessOpportunity: "Develop a simplified step-by-step video tutorial series on connecting different laptop brands to airplane wifi, monetized through ads or premium content.", 
+        urgency: "low",
+        marketSize: "low",
+        revenueEstimate: "$180K ARR",
+        timeframe: "3-6 months",
+        confidence: 45
+      }
     },
     {
       title: "Reclining your seat on a flight. I didn't know it was so taboo ...",
       snippet: "airplane wifi is ass so I used my Nintendo Switch) But for longer flights ... What do you need help on? Cancel X. Post New Message. You're browsing the ...",
       link: "https://gamefaqs.gamespot.com/boards/264562-playstation-5/81025624",
       displayLink: "gamefaqs.gamespot.com",
-      insight: { businessOpportunity: "Develop a curated entertainment package (movies, games, ebooks) that can be downloaded before the flight and enjoyed without relying on airplane wifi.", urgency: "low" }
+      insight: { 
+        businessOpportunity: "Develop a curated entertainment package (movies, games, ebooks) that can be downloaded before the flight and enjoyed without relying on airplane wifi.", 
+        urgency: "medium",
+        marketSize: "medium",
+        revenueEstimate: "$1.2M ARR",
+        timeframe: "4-8 months",
+        confidence: 68
+      }
     },
     {
       title: "Starlink MCI to IAH : r/unitedairlines",
-      snippet: "... airplane WiFI. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
+      snippet: "... airplane WiFI. Upvote 2. Downvote Reply reply. Award ... I hate this about United • r/unitedairlines - I hate this about United. 2. 25 ...",
       link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
       displayLink: "www.reddit.com",
-      insight: { businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.", urgency: "medium" }
+      insight: { 
+        businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.", 
+        urgency: "high",
+        marketSize: "high",
+        revenueEstimate: "$3.8M ARR",
+        timeframe: "6-12 months",
+        confidence: 84
+      }
     }
   ]
 };
@@ -734,180 +1039,79 @@ function loadConfig() {
   if (window.ENV) {
     API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
     API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
-   API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
- }
+    API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
+    API_CONFIG.STRIPE_KEY = window.ENV.STRIPE_KEY || '';
+  }
 }
 
-function toggleFAQ(element) {
- const answer = element.nextElementSibling;
- const isActive = element.classList.contains('active');
- 
- document.querySelectorAll('.faq-question').forEach(q => {
-   q.classList.remove('active');
-   q.nextElementSibling.classList.remove('active');
- });
- 
- if (!isActive) {
-   element.classList.add('active');
-   answer.classList.add('active');
- }
+function updateCreditsDisplay() {
+  const creditsCount = document.getElementById('creditsCount');
+  const creditsFill = document.getElementById('creditsFill');
+  
+  creditsCount.textContent = `${userState.creditsRemaining}/${userState.maxCredits}`;
+  const percentage = (userState.creditsRemaining / userState.maxCredits) * 100;
+  creditsFill.style.width = `${percentage}%`;
+}
+
+function consumeCredit() {
+  if (userState.isPro) return true;
+  
+  if (userState.creditsRemaining <= 0) {
+    showPaywall();
+    return false;
+  }
+  
+  userState.creditsRemaining--;
+  updateCreditsDisplay();
+  
+  // Show paywall at 5 credits remaining
+  if (userState.creditsRemaining === 5) {
+    setTimeout(() => {
+      showPaywall();
+    }, 3000);
+  }
+  
+  return true;
+}
+
+function showPaywall() {
+  document.getElementById('paywallModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function hidePaywall() {
+  document.getElementById('paywallModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+function selectPlan(planType) {
+  document.querySelectorAll('.pricing-plan').forEach(plan => {
+    plan.classList.remove('selected');
+  });
+  event.target.closest('.pricing-plan').classList.add('selected');
+}
+
+function startTrial() {
+  // In real implementation, integrate with Stripe
+  alert('🎉 Trial started! Redirecting to payment setup...\n\nIn production: Stripe integration would handle this.');
+  
+  // Demo: upgrade user
+  userState.isPro = true;
+  userState.creditsRemaining = 999;
+  userState.plan = 'pro';
+  updateCreditsDisplay();
+  hidePaywall();
+  
+  // Show pro features
+  document.getElementById('revenueDashboard').style.display = 'block';
+  document.getElementById('competitorSection').style.display = 'block';
 }
 
 function setupEventListeners() {
- document.getElementById('searchBtn').onclick = performSearch;
- document.getElementById('searchInput').onkeydown = e => {
-   if (e.key === 'Enter') performSearch();
- };
- document.getElementById('searchInput').oninput = e => {
-   localStorage.setItem('grumpy_search', e.target.value);
- };
-}
-
-function buildSearchQuery(template, keyword, platform) {
- let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
- const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
- if (platformConfig.sites.length > 0) {
-   query += ` (${platformConfig.sites.join(' OR ')})`;
- }
- return query;
-}
-
-function buildNormalSearchQuery(keyword, platform) {
- let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
- const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
- if (platformConfig.sites.length > 0) {
-   query += ` (${platformConfig.sites.join(' OR ')})`;
- }
- return query;
-}
-
-function getPlatformClass(domain) {
- const platforms = {
-   reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
-   linkedin: 'source-linkedin', 'news.ycombinator': 'source-hackernews', github: 'source-github',
-   stackoverflow: 'source-stackoverflow', medium: 'source-medium', quora: 'source-quora',
-   youtube: 'source-youtube', producthunt: 'source-producthunt', discord: 'source-discord',
-   glassdoor: 'source-glassdoor', trustpilot: 'source-trustpilot', tiktok: 'source-tiktok',
-   'apps.apple.com': 'source-appstore', 'play.google.com': 'source-appstore'
- };
- 
- const match = Object.keys(platforms).find(key => domain.includes(key));
- return match ? platforms[match] : 'source-default';
-}
-
-function getPlatformName(domain) {
- const platforms = {
-   reddit: 'Reddit', twitter: 'Twitter', 'x.com': 'Twitter', linkedin: 'LinkedIn',
-   'news.ycombinator': 'Hacker News', github: 'GitHub', stackoverflow: 'Stack Overflow',
-   medium: 'Medium', quora: 'Quora', youtube: 'YouTube', producthunt: 'Product Hunt',
-   discord: 'Discord', glassdoor: 'Glassdoor', trustpilot: 'Trustpilot', tiktok: 'TikTok',
-   'apps.apple.com': 'App Store', 'play.google.com': 'Play Store'
- };
- 
- const match = Object.keys(platforms).find(key => domain.includes(key));
- return match ? platforms[match] : domain.split('.')[0];
-}
-
-function findInsightForResult(result, analysis) {
- if (!analysis || !analysis.resultInsights) {
-   return {
-     businessOpportunity: "AI analysis not available for this result",
-     urgency: "low"
-   };
- }
-
- if (analysis.resultInsights.length > 0 && !analysis.resultInsights[0].title) {
-   const resultIndex = analysis.resultInsights.findIndex((insight, index) => {
-     return index < analysis.resultInsights.length;
-   });
-   
-   if (resultIndex >= 0 && analysis.resultInsights[resultIndex]) {
-     return analysis.resultInsights[resultIndex];
-   }
- }
-
- const directMatch = analysis.resultInsights.find(insight => {
-   return insight.title && insight.title === result.title;
- });
- if (directMatch) {
-   return directMatch;
- }
-
- if (result.title) {
-   const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-   const matchingInsight = analysis.resultInsights.find(insight => {
-     if (!insight.title) return false;
-     const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-     return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
-            insightTitleWords.includes(resultTitleWords.slice(0, 20));
-   });
-
-   if (matchingInsight) {
-     return matchingInsight;
-   }
- }
-
- return analysis.resultInsights[0] || {
-   businessOpportunity: "Monitor this result for business opportunities",
-   urgency: "medium"
- };
-}
-
-function performGoogleSearch(query, timeRange) {
- if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
-   throw new Error('Google API not configured');
- }
-
- const params = new URLSearchParams({
-   key: API_CONFIG.GOOGLE_API_KEY,
-   cx: API_CONFIG.SEARCH_ENGINE_ID,
-   q: query,
-   num: '9', 
-   dateRestrict: timeRange
- });
-
- return fetch(`https://www.googleapis.com/customsearch/v1?${params.toString()}`)
-   .then(response => {
-     if (!response.ok) {
-       return response.json().then(error => {
-         throw new Error(error.error?.message || 'Search failed');
-       });
-     }
-     return response.json();
-   })
-   .then(data => {
-     return data.items || [];
-   });
-}
-
-function analyzeWithAI(results, query, platform) {
- if (!API_CONFIG.LAMBDA_ENDPOINT) {
-   return Promise.resolve({
-     mainPainPoint: "AI analysis not configured",
-     resultInsights: [],
-     overallOpportunityScore: 3,
-     topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
-   });
- }
-
- return fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-   method: 'POST',
-   headers: { 'Content-Type': 'application/json' },
-   body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
- })
- .then(response => {
-   if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
-   return response.json();
- })
- .catch(error => {
-   console.error('AI analysis error:', error);
-   return {
-     mainPainPoint: "AI analysis temporarily unavailable",
-     resultInsights: [],
-     overallOpportunityScore: 3,
-     topActionableIdeas: ["AI analysis error - please try again"]
-   };
- });
+  document.getElementById('searchBtn').onclick = performSearch;
+  document.getElementById('searchInput').onkeydown = e => {
+    if (e.key === 'Enter') performSearch();
+  };
 }
 
 function performSearch() {
@@ -920,664 +1124,205 @@ function performSearch() {
     
     setTimeout(() => {
       searchInput.style.borderColor = '';
-      searchInput.placeholder = 'Brand, product, or topic...';
+      searchInput.placeholder = 'Brand, product, or market...';
     }, 3000);
     return;
   }
 
-  const queryType = document.getElementById('queryDropdown').value;
-  const platform = document.getElementById('platformSelect').value;
-  const timeRange = document.getElementById('timeSelect').value;
+  // Check credits/pro status
+  if (!consumeCredit()) {
+    return;
+  }
 
   showLoading();
   
-  // Close any open PRD when starting a new search
-  closePrd();
-
-  let query;
-  let powerQuery = null;
- 
- if (queryType && POWER_QUERIES[queryType]) {
-   powerQuery = POWER_QUERIES[queryType];
-   query = buildSearchQuery(powerQuery.template, keyword, platform);
- } else {
-   query = buildNormalSearchQuery(keyword, platform);
- }
- 
- performGoogleSearch(query, timeRange)
-   .then(results => {
-     if (results.length > 0) {
-       return analyzeWithAI(results, query, platform)
-         .then(analysis => {
-           currentAnalysis = analysis;
-           displayResults(results, powerQuery, keyword, analysis);
-         });
-     } else {
-       displayResults(results, powerQuery, keyword, null);
-     }
-   })
-   .catch(error => {
-     showError(error.message);
-   });
+  // For demo purposes, show enhanced results
+  setTimeout(() => {
+    displayMonetizedResults(MONETIZED_DEMO_RESULTS.results, keyword);
+    if (userState.isPro) {
+      document.getElementById('revenueDashboard').style.display = 'block';
+      document.getElementById('competitorSection').style.display = 'block';
+    }
+  }, 2000);
 }
 
 function showLoading() {
- const grid = document.getElementById('resultsGrid');
- const resultsHeader = document.getElementById('resultsHeader');
- const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
+  const grid = document.getElementById('resultsGrid');
+  const resultsHeader = document.getElementById('resultsHeader');
 
- resultsHeader.style.display = 'block';
- if (downloadBtn) downloadBtn.style.display = 'none';
- grid.innerHTML = `
-   <div class="loading-container">
-     <div class="loading-spinner"></div>
-     <p class="loading-text">Analyzing pain points across platforms...</p>
-   </div>
- `;
+  resultsHeader.style.display = 'block';
+  grid.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Analyzing revenue potential across platforms...</p>
+    </div>
+  `;
 }
 
-function showError(message) {
- const grid = document.getElementById('resultsGrid');
- const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
- if (downloadBtn) downloadBtn.style.display = 'none';
- grid.innerHTML = `
-   <div class="empty-state">
-     <h3>Search Error</h3>
-     <p>${message}</p>
-   </div>
- `;
+function getMarketSizeClass(size) {
+  const classes = {
+    'high': 'market-size-high',
+    'medium': 'market-size-medium',
+    'low': 'market-size-low'
+  };
+  return classes[size] || 'market-size-low';
+}
+
+function getPlatformClass(domain) {
+  const platforms = {
+    reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
+    linkedin: 'source-linkedin', 'news.ycombinator': 'source-hackernews', github: 'source-github',
+    stackoverflow: 'source-stackoverflow', medium: 'source-medium', quora: 'source-quora',
+    youtube: 'source-youtube', producthunt: 'source-producthunt', discord: 'source-discord',
+    glassdoor: 'source-glassdoor', trustpilot: 'source-trustpilot', tiktok: 'source-tiktok',
+    'apps.apple.com': 'source-appstore', 'play.google.com': 'source-appstore'
+  };
+  
+  const match = Object.keys(platforms).find(key => domain.includes(key));
+  return match ? platforms[match] : 'source-default';
+}
+
+function getPlatformName(domain) {
+  const platforms = {
+    reddit: 'Reddit', twitter: 'Twitter', 'x.com': 'Twitter', linkedin: 'LinkedIn',
+    'news.ycombinator': 'Hacker News', github: 'GitHub', stackoverflow: 'Stack Overflow',
+    medium: 'Medium', quora: 'Quora', youtube: 'YouTube', producthunt: 'Product Hunt',
+    discord: 'Discord', glassdoor: 'Glassdoor', trustpilot: 'Trustpilot', tiktok: 'TikTok',
+    'apps.apple.com': 'App Store', 'play.google.com': 'Play Store'
+  };
+  
+  const match = Object.keys(platforms).find(key => domain.includes(key));
+  return match ? platforms[match] : domain.split('.')[0];
 }
 
 function escapeHtml(text) {
- if (typeof text !== 'string') return text;
- const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
- return text.replace(/[&<>"']/g, m => map[m]);
+  if (typeof text !== 'string') return text;
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return text.replace(/[&<>"']/g, m => map[m]);
 }
-function getResultDate(result) {
-  // Try multiple date sources from Google Search results
-  const dateStr = result.htmlFormattedUrl || result.formattedUrl || result.displayLink;
-  
-  // Look for dates in the title or snippet first
-  const textToSearch = `${result.title} ${result.snippet}`;
-  const datePatterns = [
-    /(\w{3}\s+\d{1,2},?\s+\d{4})/g, // "Dec 17, 2024" or "Dec 17 2024"
-    /(\d{1,2}\/\d{1,2}\/\d{4})/g,   // "12/17/2024"
-    /(\d{4}-\d{2}-\d{2})/g          // "2024-12-17"
-  ];
-  
-  for (const pattern of datePatterns) {
-    const match = textToSearch.match(pattern);
-    if (match) {
-      try {
-        const date = new Date(match[0]);
-        if (!isNaN(date.getTime()) && date.getFullYear() >= 2020) {
-          return date.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
-          });
-        }
-      } catch (e) {
-        continue;
-      }
-    }
-  }
-  
-  // Try pagemap metadata as fallback
-  if (result.pagemap && result.pagemap.metatags && result.pagemap.metatags[0]) {
-    const meta = result.pagemap.metatags[0];
-    const metaDate = meta.date || meta['article:published_time'] || meta.pubdate;
-    if (metaDate) {
-      try {
-        const date = new Date(metaDate);
-        if (!isNaN(date.getTime())) {
-          return date.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
-          });
-        }
-      } catch (e) {
-        // Invalid date
-      }
-    }
-  }
-  
-  return null; // No valid date found
-}
-function displayResults(results, powerQuery, keyword, analysis) {
- const grid = document.getElementById('resultsGrid');
- const resultsHeader = document.getElementById('resultsHeader');
 
- resultsHeader.style.display = 'block';
+function displayMonetizedResults(results, keyword) {
+  const grid = document.getElementById('resultsGrid');
+  const resultsHeader = document.getElementById('resultsHeader');
 
- if (!results.length) {
-   grid.innerHTML = `
-     <div class="empty-state">
-       <h3>No Pain Points Found</h3>
-       <p>Try a different search term, platform, or time range to discover customer complaints.</p>
-     </div>
-   `;
-   currentSearchResults = [];
-   return;
- }
+  resultsHeader.style.display = 'block';
 
- currentSearchResults = [];
- 
-const html = results.map((result, i) => {
-  const platformClass = getPlatformClass(result.displayLink);
-  const platformName = getPlatformName(result.displayLink);
-  const resultDate = getResultDate(result); // Call once and store
-  
-  let snippet = result.snippet || '';
-
-// Clean up HTML entities and formatting artifacts first
-snippet = snippet
-  .replace(/&quot;/g, '"')
-  .replace(/&amp;/g, '&')
-  .replace(/&lt;/g, '<')
-  .replace(/&gt;/g, '>')
-  .replace(/&#39;/g, "'")
-  .replace(/\s*·\s*/g, ' ')  // Remove · separators
-  .replace(/\s*\.\.\.\s*/g, ' ') // Clean up ellipsis
-  .replace(/\s+/g, ' '); // Normalize spaces
-
-// Remove dates from the snippet for cleaner reading
-const datePatterns = [
-  /\w{3}\s+\d{1,2},?\s+\d{4}/g,    // "Dec 17, 2024" or "Dec 17 2024"
-  /\d{1,2}\/\d{1,2}\/\d{4}/g,      // "12/17/2024"
-  /\d{4}-\d{2}-\d{2}/g,            // "2024-12-17"
-  /\d{1,2}-\d{1,2}-\d{4}/g         // "12-17-2024"
-];
-
-datePatterns.forEach(pattern => {
-  snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
-});
-
-// Clean up any leftover artifacts and normalize
-snippet = snippet
-  .replace(/^[.,\s-·]*/, '') // Remove leading punctuation
-  .replace(/[.,\s-·]*$/, '') // Remove trailing punctuation
-  .replace(/\s+/g, ' ')      // Normalize spaces again
-  .trim();
-
-// Truncate first, THEN escape HTML, THEN add highlighting
-const truncatedSnippet = snippet.substring(0, 120);
-const escapedSnippet = escapeHtml(truncatedSnippet);
-
-// Apply highlighting AFTER HTML escaping
-const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-let highlightedSnippet = escapedSnippet;
-
-painWords.forEach(word => {
-  const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
-  highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
-});
-  
-  let insight;
-  if (result.insight) {
-    insight = result.insight;
-  } else if (analysis) {
-    insight = findInsightForResult(result, analysis);
-  } else {
-    insight = {
-      businessOpportunity: "AI analysis not available for this result",
-      urgency: "low"
-    };
+  if (!results.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>No Revenue Opportunities Found</h3>
+        <p>Try a different search term, platform, or time range to discover profitable customer pain points.</p>
+      </div>
+    `;
+    return;
   }
 
-  currentSearchResults.push({
-    title: result.title,
-    link: result.link,
-    snippet: result.snippet,
-    platform: platformName,
-    businessOpportunity: insight.businessOpportunity || 'N/A',
-    urgency: insight.urgency || 'medium'
-  });
+  const html = results.map((result, i) => {
+    const platformClass = getPlatformClass(result.displayLink);
+    const platformName = getPlatformName(result.displayLink);
+    const insight = result.insight;
+    const marketSizeClass = getMarketSizeClass(insight.marketSize);
+    
+    let snippet = result.snippet || '';
+    snippet = snippet
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&#39;/g, "'")
+      .replace(/\s*Â·\s*/g, ' ')
+      .replace(/\s*\.\.\.\s*/g, ' ')
+      .replace(/\s+/g, ' ');
 
-  return `
-    <div class="result-card">
-      <div class="card-header">
-        <div class="source-info">
-          <span class="source-badge ${platformClass}">${platformName}</span>
-          ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
+    const truncatedSnippet = snippet.substring(0, 120);
+    const escapedSnippet = escapeHtml(truncatedSnippet);
+
+    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+    let highlightedSnippet = escapedSnippet;
+
+    painWords.forEach(word => {
+      const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
+      highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
+    });
+
+    const isPro = userState.isPro;
+    const buttonClass = isPro ? 'generate-prd-btn' : 'generate-prd-btn pro-only-btn';
+    const buttonText = isPro ? 'Generate Revenue PRD →' : 'Generate PRD (Pro Only)';
+    const buttonClick = isPro ? `generatePrdPrompt('${escapeHtml(result.title)}', '${escapeHtml(result.snippet || '')}', '${escapeHtml(insight.businessOpportunity || '')}')` : 'showPaywall()';
+
+    return `
+      <div class="result-card">
+        <span class="market-size-badge ${marketSizeClass}">${insight.marketSize} value</span>
+        <div class="card-header">
+          <div class="source-info">
+            <span class="source-badge ${platformClass}">${platformName}</span>
+            <span class="source-date">2 days ago</span>
+          </div>
+          <div class="problem-statement">
+            <h3 class="problem-title">Customer Problem:</h3>
+            <p class="problem-text">"${highlightedSnippet}..."</p>
+          </div>
         </div>
-        <div class="problem-statement">
-  <h3 class="problem-title">Customer Problem:</h3>
-  <p class="problem-text">"${highlightedSnippet}..."</p>
-</div>
+        <div class="card-body">
+          <h4 class="solution-title">Product Opportunity:</h4>
+          <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
+          
+          ${isPro ? `
+          <div class="revenue-potential">
+            <div class="revenue-title">Revenue Potential</div>
+            <div class="revenue-estimate">${insight.revenueEstimate}</div>
+            <div class="revenue-timeframe">Expected: ${insight.timeframe} • Confidence: ${insight.confidence}%</div>
+          </div>
+          ` : `
+          <div class="revenue-potential" style="background: linear-gradient(135deg, var(--bg-pro) 0%, #7c3aed 100%); color: white;">
+            <div class="revenue-title" style="color: rgba(255,255,255,0.9);">Revenue Analysis</div>
+            <div class="revenue-estimate" style="color: white;">Upgrade to see revenue potential</div>
+            <div class="revenue-timeframe" style="color: rgba(255,255,255,0.8);">Market size, timing, confidence scores</div>
+          </div>
+          `}
+        </div>
+        <div class="card-action">
+          <button class="${buttonClass}" onclick="${buttonClick}">
+            ${buttonText}
+            ${!isPro ? '<span class="pro-badge">PRO</span>' : ''}
+          </button>
+          <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
+        </div>
       </div>
-      <div class="card-body">
-        <h4 class="solution-title">Product Opportunity:</h4>
-        <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
-      </div>
-      <div class="card-action">
-        <button class="generate-prd-btn" 
-                data-title="${escapeHtml(result.title)}" 
-                data-snippet="${escapeHtml(result.snippet || '')}" 
-                data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
-          Generate Product Requirements →
-        </button>
-        <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
-      </div>
-    </div>
-  `;
-}).join('');
+    `;
+  }).join('');
 
- grid.innerHTML = html;
-
- // Add event listeners to PRD buttons
- document.querySelectorAll('.generate-prd-btn').forEach(btn => {
-   btn.addEventListener('click', e => {
-     const { title, snippet, opportunity } = e.target.dataset;
-     generatePrdPrompt(title, snippet, opportunity);
-   });
- });
- 
- // Add download section
- let downloadContainer = document.getElementById('download-container');
- if (!downloadContainer) {
-   downloadContainer = document.createElement('div');
-   downloadContainer.id = 'download-container';
-   downloadContainer.className = 'download-container';
-   grid.parentNode.insertBefore(downloadContainer, grid.nextSibling);
- }
- 
- if (currentSearchResults.length > 0) {
-   downloadContainer.innerHTML = `
-     <div class="download-section">
-       <h3 class="download-title">Export Your Opportunities</h3>
-       <p class="download-subtitle">Download all ${currentSearchResults.length} opportunities as a CSV file for analysis</p>
-       <button class="download-btn" onclick="downloadOpportunities()">Download CSV Report</button>
-     </div>
-   `;
-   downloadContainer.style.display = 'block';
- } else {
-   downloadContainer.style.display = 'none';
- }
-}
-
-function downloadOpportunities() {
- if (currentSearchResults.length === 0) {
-   const btn = event.target;
-   const originalText = btn.textContent;
-   btn.textContent = '❌ No Data';
-   btn.style.background = 'var(--bg-danger)';
-   
-   setTimeout(() => {
-     btn.textContent = originalText;
-     btn.style.background = '';
-   }, 2000);
-   return;
- }
-
- const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Urgency"];
- const fieldMapping = {
-   "Title": "title", "Link": "link", "Snippet": "snippet", "Platform": "platform",
-   "Business Opportunity": "businessOpportunity", "Urgency": "urgency"
- };
- 
- const rows = currentSearchResults.map(row => 
-   headers.map(header => `"${(row[fieldMapping[header]] || '').replace(/"/g, '""')}"`).join(',')
- );
- 
- const dataStr = headers.join(',') + '\n' + rows.join('\n');
- const filename = `grumpylinks_opportunities_${new Date().toISOString().slice(0,10)}.csv`;
-
- const blob = new Blob([dataStr], { type: 'text/csv' });
- const url = URL.createObjectURL(blob);
- const a = document.createElement('a');
- a.href = url;
- a.download = filename;
- document.body.appendChild(a);
- a.click();
- document.body.removeChild(a);
- URL.revokeObjectURL(url);
- 
- const btn = event.target;
- const originalText = btn.textContent;
- btn.textContent = '✅ Downloaded!';
- btn.style.background = 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)';
- 
- setTimeout(() => {
-   btn.textContent = originalText;
-   btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
- }, 2000);
+  grid.innerHTML = html;
 }
 
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
- if (!API_CONFIG.LAMBDA_ENDPOINT) {
-   showPrdError('PRD generation not configured. Please check your settings.');
-   return;
- }
-
- const button = event.target;
- const card = button.closest('.result-card');
- const sourceLink = card?.querySelector('.source-link').href || '#';
-
- const originalText = button.textContent;
- button.textContent = 'Generating...';
- button.disabled = true;
-
- showPrdLoading(originalTitle);
- const progressInterval = startProgressAnimation();
-
- fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-   method: 'POST',
-   headers: { 'Content-Type': 'application/json' },
-   body: JSON.stringify({ 
-     action: 'generate_prd',
-     originalTitle, snippet, opportunity
-   })
- })
- .then(response => {
-   if (!response.ok) throw new Error(`PRD generation failed: ${response.status}`);
-   return response.json();
- })
- .then(data => {
-   clearInterval(progressInterval);
-   if (data.prd) {
-     showPrdResults(data.prd, originalTitle, snippet, opportunity, sourceLink);
-   } else {
-     throw new Error('No PRD content received');
-   }
- })
- .catch(error => {
-   clearInterval(progressInterval);
-   console.error('PRD generation error:', error);
-   showPrdError(error.message);
- })
- .finally(() => {
-   button.textContent = originalText;
-   button.disabled = false;
- });
-}
-
-function showPrdLoading(title) {
- const container = getPrdContainer();
- container.innerHTML = `
-   <div class="prd-header">
-     <h2 class="prd-title">😊 Generating PRD...</h2>
-   </div>
-   <div class="prd-loading">
-     <div class="prd-loading-spinner"></div>
-     <div class="prd-loading-text">Creating your product requirements document for:<br><strong>"${escapeHtml(title)}"</strong></div>
-     <div class="prd-progress">
-       <div class="prd-progress-bar">
-         <div class="prd-progress-fill" id="prd-progress-fill"></div>
-       </div>
-     </div>
-   </div>
- `;
- container.style.display = 'block';
- container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function startProgressAnimation() {
- let progress = 0;
- const progressFill = document.getElementById('prd-progress-fill');
- 
- return setInterval(() => {
-   progress += 20;
-   if (progress > 90) progress = 90;
-   if (progressFill) progressFill.style.width = `${progress}%`;
- }, 800);
-}
-
-function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceLink) {
- const container = getPrdContainer();
- const formattedContent = formatPrdContent(prdContent);
- 
- container.innerHTML = `
-   <div class="prd-header">
-     <h2 class="prd-title">Product Requirements Document</h2>
-     <div class="prd-actions">
-       <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy PRD</button>
-       <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
-       <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
-     </div>
-   </div>
-   
-   <div class="prd-content">
-     ${formattedContent}
-     
-     <h2>Source</h2>
-     <div class="prd-source-section">
-       <div class="source-item">
-         <div class="source-label">Customer Pain Point:</div>
-         <div class="source-text">"${escapeHtml(originalTitle)}"</div>
-       </div>
-       <div class="source-item">
-         <div class="source-label">Business Opportunity:</div>
-         <div class="source-text">${escapeHtml(opportunity)}</div>
-       </div>
-       <div class="source-item">
-         <div class="source-label">Original Source:</div>
-         <div class="source-text">${escapeHtml(sourceLink)}</div>
-       </div>
-     </div>
-   </div>
- `;
- 
- const productName = prdContent.match(/^#\s+([^-]+)/m)?.[1]?.trim() || "Product";
- 
- window.currentPrdContent = `# ${productName} - Product Requirements Document
-
-${prdContent.replace(/^#\s+.+$/m, '').trim()}
-
-## Source
-
-**Customer Pain Point:** "${originalTitle}"
-**Business Opportunity:** ${opportunity}
-**Original Source:** ${sourceLink}
-
----
-*This PRD was created by GrumpyLinks.com based on customer feedback.*`;
- 
- const progressFill = document.getElementById('prd-progress-fill');
- if (progressFill) {
-   progressFill.style.width = '100%';
- }
- 
- setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-}
-
-function showPrdError(errorMessage) {
- const container = getPrdContainer();
- container.innerHTML = `
-   <div class="prd-header">
-     <h2 class="prd-title">❌ PRD Generation Failed</h2>
-     <div class="prd-actions">
-       <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
-     </div>
-   </div>
-   <div class="prd-content">
-     <p style="color: var(--bg-danger); text-align: center; padding: 20px;">
-       Failed to generate PRD: ${escapeHtml(errorMessage)}<br>
-       <small>Please try again or check your connection.</small>
-     </p>
-   </div>
- `;
-}
-
-function getPrdContainer() {
- let container = document.getElementById('prd-container');
- if (!container) {
-   container = document.createElement('div');
-   container.id = 'prd-container';
-   container.className = 'prd-container';
-   
-   const resultsGrid = document.getElementById('resultsGrid');
-   resultsGrid.parentNode.insertBefore(container, resultsGrid.nextSibling);
- }
- return container;
-}
-
-function formatPrdContent(content) {
- const cleaned = content
-   .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
-   .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '');
-
- const sections = cleaned.split(/(?=^## )/gm);
- 
- const processedSections = sections.map(section => {
-   let processed = section
-     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-     .replace(/^### (.*$)/gm, '<h3>$1</h3>');
-   
-   const lines = processed.split('\n');
-   let inNumberedList = false;
-   let listItems = [];
-   
-   for (let i = 0; i < lines.length; i++) {
-     const line = lines[i];
-     
-     if (/^\d+\.\s+/.test(line)) {
-       const content = line.replace(/^\d+\.\s+/, '');
-       listItems.push(`<li>${content}</li>`);
-       inNumberedList = true;
-     } else {
-       if (inNumberedList && listItems.length > 0) {
-         lines[i - listItems.length] = `<ol>${listItems.join('')}</ol>`;
-         for (let j = 1; j < listItems.length; j++) {
-           lines[i - listItems.length + j] = '';
-         }
-         listItems = [];
-         inNumberedList = false;
-       }
-     }
-   }
-   
-   if (inNumberedList && listItems.length > 0) {
-     lines[lines.length - listItems.length] = `<ol>${listItems.join('')}</ol>`;
-     for (let k = 1; k < listItems.length; k++) {
-       lines[lines.length - listItems.length + k] = '';
-     }
-   }
-   
-   return lines.join('\n');
- });
- 
- const result = processedSections.join('');
- 
- return result
-   .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-   .replace(/\*(.*?)\*/g, '<em>$1</em>')
-   .replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>')
-   .replace(/(<li>(?!.*<\/ol>).*<\/li>(?:\s*<li>(?!.*<\/ol>).*<\/li>)*)/gs, '<ul>$1</ul>')
-   .replace(/\n\n+/g, '</p><p>')
-   .replace(/^(?!<[huo])(.+)$/gm, '<p>$1</p>')
-   .replace(/<p><\/p>/g, '')
-   .replace(/<p>\s*<\/p>/g, '')
-   .replace(/\n\s*\n/g, '\n')
-   .trim();
-}
-
-function copyPrdToClipboard() {
- if (!window.currentPrdContent) return;
- 
- if (navigator.clipboard && window.isSecureContext) {
-   navigator.clipboard.writeText(window.currentPrdContent).then(() => {
-     const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
-     if (btn) {
-       const originalText = btn.textContent;
-       btn.textContent = '✅ Copied!';
-       btn.style.background = 'var(--bg-success)';
-       setTimeout(() => {
-         btn.textContent = originalText;
-         btn.style.background = 'var(--bg-button)';
-       }, 2000);
-     }
-   }).catch(() => {
-     fallbackCopyPrd();
-   });
- } else {
-   fallbackCopyPrd();
- }
-}
-
-function fallbackCopyPrd() {
- const textArea = document.createElement('textarea');
- textArea.value = window.currentPrdContent;
- textArea.style.position = 'fixed';
- textArea.style.left = '-999999px';
- textArea.style.top = '-999999px';
- document.body.appendChild(textArea);
- textArea.focus();
- textArea.select();
- 
- try {
-   const successful = document.execCommand('copy');
-   if (successful) {
-     const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
-     if (btn) {
-       const originalText = btn.textContent;
-       btn.textContent = '✅ Copied!';
-       btn.style.background = 'var(--bg-success)';
-       setTimeout(() => {
-         btn.textContent = originalText;
-         btn.style.background = 'var(--bg-button)';
-       }, 2000);
-     }
-   } else {
-     alert('Could not copy to clipboard. Please select and copy manually.');
-   }
- } catch (err) {
-   alert('Could not copy to clipboard. Please select and copy manually.');
- } finally {
-   document.body.removeChild(textArea);
- }
-}
-
-function downloadPrd() {
- if (!window.currentPrdContent) return;
- 
- const productName = window.currentPrdContent.match(/^#\s+([^-\n]+)/m)?.[1]?.trim()
-   ?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'product';
- 
- const filename = `${productName}-prd-${new Date().toISOString().slice(0,10)}.md`;
- 
- const blob = new Blob([window.currentPrdContent], { type: 'text/markdown' });
- const url = URL.createObjectURL(blob);
- const a = document.createElement('a');
- a.href = url;
- a.download = filename;
- document.body.appendChild(a);
- a.click();
- document.body.removeChild(a);
- URL.revokeObjectURL(url);
- 
- const btn = event.target;
- const originalText = btn.textContent;
- btn.textContent = '✅ Downloaded!';
- btn.style.background = 'var(--bg-success)';
- 
- setTimeout(() => {
-   btn.textContent = originalText;
-   btn.style.background = 'var(--bg-tertiary)';
- }, 2000);
-}
-
-function closePrd() {
- const container = document.getElementById('prd-container');
- if (container) container.style.display = 'none';
+  // This would call the enhanced Lambda function to generate revenue-focused PRDs
+  alert('🚀 Generating revenue-focused PRD...\n\nThis would create a detailed PRD with:\n• Market size analysis\n• Revenue projections\n• Go-to-market strategy\n• Competitive landscape\n• Risk assessment');
 }
 
 function loadDemoSearch() {
- document.getElementById('searchInput').value = DEMO_RESULTS.query;
- displayResults(DEMO_RESULTS.results, null, DEMO_RESULTS.query, null);
-}
-
-// Initialize
-function init() {
- loadConfig();
- setupEventListeners();
- loadDemoSearch();
+  document.getElementById('searchInput').value = 'airplane wifi problems';
+  setTimeout(() => {
+    displayMonetizedResults(MONETIZED_DEMO_RESULTS.results, 'airplane wifi problems');
+  }, 1000);
 }
 
 // Make functions global for onclick handlers
-Object.assign(window, { toggleFAQ, downloadOpportunities, copyPrdToClipboard, downloadPrd, closePrd });
+Object.assign(window, { 
+  showPaywall, 
+  hidePaywall, 
+  selectPlan, 
+  startTrial,
+  generatePrdPrompt
+});
+
+// Initialize
+function init() {
+  loadConfig();
+  setupEventListeners();
+  updateCreditsDisplay();
+  loadDemoSearch();
+}
 
 init();
 </script>
