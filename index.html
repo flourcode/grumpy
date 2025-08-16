@@ -661,371 +661,7 @@ html, body {
     padding: 40px 16px 24px;
   }
 }
-/* Beautiful PRD Styles - Notion-inspired */
-.prd-container {
-  margin-top: 40px;
-  padding: 0;
-  background: var(--bg-primary);
-  border: none;
-  border-radius: 16px;
-  display: none;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-}
 
-.prd-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0;
-  padding: 32px 40px 24px;
-  border-bottom: 1px solid var(--border-primary);
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-}
-
-.prd-title {
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  letter-spacing: -0.025em;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.prd-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.prd-action-btn {
-  padding: 12px 20px;
-  background: var(--bg-button);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-  transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
-}
-
-.prd-action-btn:hover {
-  background: var(--bg-button-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
-}
-
-.prd-action-btn.secondary {
-  background: var(--bg-card);
-  border: 1px solid var(--border-secondary);
-  color: var(--text-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.prd-action-btn.secondary:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-accent);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
-
-.prd-content {
-  color: var(--text-primary);
-  line-height: 1.7;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  padding: 40px;
-  font-size: 16px;
-  max-width: none;
-}
-
-/* Beautiful Typography */
-.prd-content h1 {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin: 48px 0 24px 0;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
-  border-bottom: 3px solid var(--text-accent);
-  padding-bottom: 12px;
-}
-
-.prd-content h1:first-child {
-  margin-top: 0;
-}
-
-.prd-content h2 {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 40px 0 20px 0;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.prd-content h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 32px 0 16px 0;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
-}
-
-/* Beautiful Lists */
-.prd-content ul, .prd-content ol {
-  margin: 24px 0;
-  padding-left: 0;
-  list-style: none;
-}
-
-.prd-content li {
-  margin-bottom: 16px;
-  padding: 16px 20px;
-  background: var(--bg-card);
-  border-radius: 12px;
-  border-left: 4px solid var(--text-accent);
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.prd-content li:hover {
-  background: var(--bg-card-hover);
-  transform: translateX(4px);
-}
-
-.prd-content li::before {
-  content: "→";
-  color: var(--text-accent);
-  font-weight: 600;
-  margin-right: 12px;
-  font-size: 16px;
-}
-
-/* Emphasis and Strong Text */
-.prd-content strong {
-  color: var(--text-accent);
-  font-weight: 700;
-  background: rgba(59, 130, 246, 0.1);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.prd-content em {
-  color: var(--text-secondary);
-  font-style: italic;
-  font-weight: 500;
-}
-
-/* Paragraphs */
-.prd-content p {
-  margin: 20px 0;
-  line-height: 1.7;
-  color: var(--text-primary);
-}
-
-/* Special Sections */
-.prd-content h2[id*="problem"],
-.prd-content h2:contains("Problem") {
-  color: #ef4444;
-}
-
-.prd-content h2[id*="solution"],
-.prd-content h2:contains("Solution") {
-  color: #22c55e;
-}
-
-.prd-content h2[id*="users"],
-.prd-content h2:contains("Users") {
-  color: #8b5cf6;
-}
-
-.prd-content h2[id*="features"],
-.prd-content h2:contains("Features") {
-  color: #f59e0b;
-}
-
-/* Loading States */
-.prd-loading {
-  text-align: center;
-  padding: 60px 40px;
-  background: var(--bg-card);
-}
-
-.prd-loading-spinner {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--border-primary);
-  border-top: 3px solid var(--text-accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 24px;
-}
-
-.prd-loading-text {
-  color: var(--text-primary);
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  font-family: 'Inter', sans-serif;
-}
-
-.prd-loading-text strong {
-  color: var(--text-accent);
-  font-weight: 600;
-}
-
-.prd-progress {
-  margin-top: 24px;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.prd-progress-bar {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-tertiary);
-  border-radius: 3px;
-  overflow: hidden;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.prd-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--text-accent) 0%, #60a5fa 100%);
-  border-radius: 3px;
-  transition: width 0.3s ease;
-  width: 0%;
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
-}
-
-.prd-source-info {
-  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-card) 100%);
-  padding: 20px 24px;
-  border-radius: 12px;
-  margin-bottom: 32px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-primary);
-  position: relative;
-  overflow: hidden;
-}
-
-.prd-source-info::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--text-accent) 0%, #60a5fa 100%);
-}
-
-.prd-source-title {
-  font-weight: 700;
-  color: var(--text-primary);
-  font-size: 16px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.prd-source-title::before {
-  content: "💡";
-  font-size: 18px;
-}
-
-/* Emoji Enhancement */
-.prd-content h1::before,
-.prd-content h2::before {
-  margin-right: 12px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .prd-container {
-    margin: 20px 0;
-    border-radius: 12px;
-  }
-  
-  .prd-header {
-    flex-direction: column;
-    gap: 20px;
-    align-items: stretch;
-    padding: 24px 20px;
-  }
-  
-  .prd-title {
-    font-size: 24px;
-    text-align: center;
-  }
-  
-  .prd-actions {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .prd-content {
-    padding: 24px 20px;
-    font-size: 15px;
-  }
-  
-  .prd-content h1 {
-    font-size: 28px;
-  }
-  
-  .prd-content h2 {
-    font-size: 22px;
-  }
-  
-  .prd-content li {
-    padding: 12px 16px;
-  }
-}
-
-/* Smooth Animations */
-.prd-container {
-  animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Copy Success Animation */
-.prd-action-btn.copied {
-  background: var(--bg-success) !important;
-  transform: scale(1.05);
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-.prd-action-btn.copied {
-  animation: pulse 0.6s ease-in-out;
-}
 /* Download Section Styles */
 .download-container {
   margin-top: 40px;
@@ -1101,6 +737,352 @@ html, body {
   .download-btn {
     padding: 14px 28px;
     font-size: 13px;
+  }
+}
+/* Professional PRD Styles - GitHub/Reference Doc Style */
+.prd-container {
+  margin-top: 40px;
+  padding: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  display: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.prd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  padding: 32px 40px;
+  border-bottom: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+}
+
+.prd-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.prd-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.prd-action-btn {
+  padding: 10px 18px;
+  background: var(--bg-button);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.prd-action-btn:hover {
+  background: var(--bg-button-hover);
+  transform: translateY(-1px);
+}
+
+.prd-action-btn.secondary {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-secondary);
+  color: var(--text-primary);
+}
+
+.prd-action-btn.secondary:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+}
+
+.prd-content {
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 40px;
+  font-size: 15px;
+  max-width: none;
+}
+
+/* Professional Typography */
+.prd-content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 40px 0 24px 0;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border-primary);
+}
+
+.prd-content h1:first-child {
+  margin-top: 0;
+}
+
+.prd-content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 32px 0 16px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.prd-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 24px 0 12px 0;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+/* Clean Professional Lists */
+.prd-content ul, .prd-content ol {
+  margin: 20px 0;
+  padding-left: 24px;
+}
+
+.prd-content li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.prd-content ul li {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.prd-content ol li {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+
+/* Nested lists */
+.prd-content li ul,
+.prd-content li ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.prd-content li ul li {
+  list-style-type: circle;
+  margin-bottom: 6px;
+}
+
+/* Professional Emphasis */
+.prd-content strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.prd-content em {
+  color: var(--text-secondary);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Clean Paragraphs */
+.prd-content p {
+  margin: 16px 0;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* Code and Technical Elements */
+.prd-content code {
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 13px;
+  color: var(--text-accent);
+}
+
+.prd-content pre {
+  background: var(--bg-tertiary);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 20px 0;
+}
+
+/* Tables (if any) */
+.prd-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+.prd-content th,
+.prd-content td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.prd-content th {
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+
+/* Blockquotes */
+.prd-content blockquote {
+  margin: 20px 0;
+  padding: 16px 20px;
+  background: var(--bg-tertiary);
+  border-left: 4px solid var(--text-accent);
+  border-radius: 0 6px 6px 0;
+}
+
+.prd-content blockquote p {
+  margin: 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* Loading States */
+.prd-loading {
+  text-align: center;
+  padding: 60px 40px;
+  background: var(--bg-card);
+}
+
+.prd-loading-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-primary);
+  border-top: 2px solid var(--text-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+.prd-loading-text {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+}
+
+.prd-loading-text strong {
+  color: var(--text-accent);
+  font-weight: 600;
+}
+
+.prd-progress {
+  margin-top: 20px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prd-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.prd-progress-fill {
+  height: 100%;
+  background: var(--text-accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.prd-source-info {
+  background: var(--bg-tertiary);
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin-bottom: 32px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+}
+
+.prd-source-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .prd-container {
+    margin: 20px 0;
+    border-radius: 8px;
+  }
+  
+  .prd-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    padding: 24px 20px;
+  }
+  
+  .prd-title {
+    font-size: 22px;
+    text-align: center;
+  }
+  
+  .prd-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .prd-content {
+    padding: 24px 20px;
+    font-size: 14px;
+  }
+  
+  .prd-content h1 {
+    font-size: 26px;
+  }
+  
+  .prd-content h2 {
+    font-size: 20px;
+  }
+  
+  .prd-content h3 {
+    font-size: 16px;
+  }
+}
+
+/* Smooth Animations */
+.prd-container {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
@@ -1745,10 +1727,10 @@ function displayResults(results, powerQuery, keyword, analysis) {
   if (currentSearchResults.length > 0) {
     downloadContainer.innerHTML = `
       <div class="download-section">
-        <h3 class="download-title">📊 Export Your Opportunities</h3>
+        <h3 class="download-title">Export Your Opportunities</h3>
         <p class="download-subtitle">Download all ${currentSearchResults.length} opportunities as a CSV file for analysis</p>
         <button id="downloadOpportunitiesBtn" class="download-btn" onclick="downloadOpportunities()">
-          💾 Download CSV Report
+          Download CSV Report
         </button>
       </div>
     `;
@@ -2011,20 +1993,35 @@ function getPrdContainer() {
 }
 
 function formatPrdContent(content) {
-  // Convert markdown-style formatting to HTML
+  // Remove emojis and clean up markdown formatting
   return content
-    .replace(/# (.*$)/gm, '<h1>$1</h1>')
-    .replace(/## (.*$)/gm, '<h2>$1</h2>')
-    .replace(/### (.*$)/gm, '<h3>$1</h3>')
+    // Remove all emojis first
+    .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
+    // Clean up any emoji spans
+    .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '')
+    // Convert markdown headers
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    // Convert bold and italic
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/^\d+\.\s(.*)$/gm, '<li>$1</li>')
-    .replace(/^-\s(.*)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(?!<[h|u|o])(.+)$/gm, '<p>$1</p>')
+    // Convert lists - handle numbered and bulleted
+    .replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>')
+    .replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>')
+    // Wrap consecutive list items in ul/ol tags
+    .replace(/(<li>.*<\/li>(?:\s*<li>.*<\/li>)*)/gs, function(match) {
+      // Check if it's a numbered list (contains numbers) or bullet list
+      return match.includes('1.') || /\d+\./.test(match) ? '<ol>' + match + '</ol>' : '<ul>' + match + '</ul>';
+    })
+    // Convert line breaks to paragraphs
+    .replace(/\n\n+/g, '</p><p>')
+    .replace(/^(?!<[huo])(.+)$/gm, '<p>$1</p>')
+    // Clean up empty paragraphs
     .replace(/<p><\/p>/g, '')
-    .replace(/📋|🎯|👥|⚡|📊|🚀|⚠️|💡/g, '<span style="margin-right: 8px;">$&</span>');
+    .replace(/<p>\s*<\/p>/g, '')
+    // Clean up any remaining loose text
+    .trim();
 }
 
 function copyPrdToClipboard() {
