@@ -707,13 +707,42 @@ function escapeHtml(text) {
  return text.replace(/[&<>"']/g, m => map[m]);
 }
 function getResultDate(result) {
-  // Only extract real dates from search results
+  // Try multiple date sources from Google Search results
+  const dateStr = result.htmlFormattedUrl || result.formattedUrl || result.displayLink;
+  
+  // Look for dates in the title or snippet first
+  const textToSearch = `${result.title} ${result.snippet}`;
+  const datePatterns = [
+    /(\w{3}\s+\d{1,2},?\s+\d{4})/g, // "Dec 17, 2024" or "Dec 17 2024"
+    /(\d{1,2}\/\d{1,2}\/\d{4})/g,   // "12/17/2024"
+    /(\d{4}-\d{2}-\d{2})/g          // "2024-12-17"
+  ];
+  
+  for (const pattern of datePatterns) {
+    const match = textToSearch.match(pattern);
+    if (match) {
+      try {
+        const date = new Date(match[0]);
+        if (!isNaN(date.getTime()) && date.getFullYear() >= 2020) {
+          return date.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+          });
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+  }
+  
+  // Try pagemap metadata as fallback
   if (result.pagemap && result.pagemap.metatags && result.pagemap.metatags[0]) {
     const meta = result.pagemap.metatags[0];
-    if (meta.date || meta['article:published_time'] || meta.pubdate) {
-      const dateStr = meta.date || meta['article:published_time'] || meta.pubdate;
+    const metaDate = meta.date || meta['article:published_time'] || meta.pubdate;
+    if (metaDate) {
       try {
-        const date = new Date(dateStr);
+        const date = new Date(metaDate);
         if (!isNaN(date.getTime())) {
           return date.toLocaleDateString('en-US', { 
             month: 'short', 
@@ -722,13 +751,12 @@ function getResultDate(result) {
           });
         }
       } catch (e) {
-        // Invalid date, return null
+        // Invalid date
       }
     }
   }
   
-  // No valid date found
-  return null;
+  return null; // No valid date found
 }
 function displayResults(results, powerQuery, keyword, analysis) {
  const grid = document.getElementById('resultsGrid');
@@ -749,67 +777,84 @@ function displayResults(results, powerQuery, keyword, analysis) {
 
  currentSearchResults = [];
  
- const html = results.map((result, i) => {
-   const platformClass = getPlatformClass(result.displayLink);
-   const platformName = getPlatformName(result.displayLink);
-   
-   let snippet = result.snippet || '';
-   const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-   
-   painWords.forEach(word => {
-     const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
-     snippet = snippet.replace(regex, '$1<mark>$2</mark>$3');
-   });
-   
-   let insight;
-   if (result.insight) {
-     insight = result.insight;
-   } else if (analysis) {
-     insight = findInsightForResult(result, analysis);
-   } else {
-     insight = {
-       businessOpportunity: "AI analysis not available for this result",
-       urgency: "low"
-     };
-   }
+const html = results.map((result, i) => {
+  const platformClass = getPlatformClass(result.displayLink);
+  const platformName = getPlatformName(result.displayLink);
+  const resultDate = getResultDate(result); // Call once and store
+  
+  let snippet = result.snippet || '';
+  
+  // Remove dates from the snippet for cleaner reading
+  const datePatterns = [
+    /\w{3}\s+\d{1,2},?\s+\d{4}/g,    // "Dec 17, 2024" or "Dec 17 2024"
+    /\d{1,2}\/\d{1,2}\/\d{4}/g,      // "12/17/2024"
+    /\d{4}-\d{2}-\d{2}/g,            // "2024-12-17"
+    /\d{1,2}-\d{1,2}-\d{4}/g         // "12-17-2024"
+  ];
+  
+  datePatterns.forEach(pattern => {
+    snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
+  });
+  
+  // Clean up any leftover artifacts like "..." or extra spaces
+  snippet = snippet.replace(/^[.,\s]*/, '').replace(/[.,\s]*$/, '');
+  
+  const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+  
+  painWords.forEach(word => {
+    const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
+    snippet = snippet.replace(regex, '$1<mark>$2</mark>$3');
+  });
+  
+  let insight;
+  if (result.insight) {
+    insight = result.insight;
+  } else if (analysis) {
+    insight = findInsightForResult(result, analysis);
+  } else {
+    insight = {
+      businessOpportunity: "AI analysis not available for this result",
+      urgency: "low"
+    };
+  }
 
-   currentSearchResults.push({
-     title: result.title,
-     link: result.link,
-     snippet: result.snippet,
-     platform: platformName,
-     businessOpportunity: insight.businessOpportunity || 'N/A',
-     urgency: insight.urgency || 'medium'
-   });
+  currentSearchResults.push({
+    title: result.title,
+    link: result.link,
+    snippet: result.snippet,
+    platform: platformName,
+    businessOpportunity: insight.businessOpportunity || 'N/A',
+    urgency: insight.urgency || 'medium'
+  });
 
-   return `
-     <div class="result-card">
-       <div class="card-header">
-         <div class="source-info">
-  <span class="source-badge ${platformClass}">${platformName}</span>
-  ${getResultDate(result) ? `<span class="source-date">${getResultDate(result)}</span>` : ''}
-</div>
-         <div class="problem-statement">
-           <h3 class="problem-title">Customer Problem:</h3>
-           <p class="problem-text">"${escapeHtml(result.snippet.substring(0, 120))}..."</p>
-         </div>
-       </div>
-       <div class="card-body">
-         <h4 class="solution-title">Product Opportunity:</h4>
-         <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
-       </div>
-       <div class="card-action">
-         <button class="generate-prd-btn" 
-                 data-title="${escapeHtml(result.title)}" 
-                 data-snippet="${escapeHtml(result.snippet || '')}" 
-                 data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
-           Generate Product Requirements →
-         </button>
-         <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
-       </div>
-     </div>
-   `;
- }).join('');
+  return `
+    <div class="result-card">
+      <div class="card-header">
+        <div class="source-info">
+          <span class="source-badge ${platformClass}">${platformName}</span>
+          ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
+        </div>
+        <div class="problem-statement">
+          <h3 class="problem-title">Customer Problem:</h3>
+          <p class="problem-text">"${escapeHtml(snippet.substring(0, 120))}..."</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <h4 class="solution-title">Product Opportunity:</h4>
+        <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
+      </div>
+      <div class="card-action">
+        <button class="generate-prd-btn" 
+                data-title="${escapeHtml(result.title)}" 
+                data-snippet="${escapeHtml(result.snippet || '')}" 
+                data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
+          Generate Product Requirements →
+        </button>
+        <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
+      </div>
+    </div>
+  `;
+}).join('');
 
  grid.innerHTML = html;
 
