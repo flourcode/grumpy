@@ -1153,10 +1153,10 @@ html, body {
       <span class="logo-text">GrumpyLinks</span>
     </a>
 
-    <div class="hero-content-sidebar">
-      <h1 class="hero-title-sidebar">Turn Complaints Into Ideas</h1>
-      <p class="hero-subtitle-sidebar">AI-powered pain point discovery across 12+ platforms</p>
-    </div>
+<div class="hero-content-sidebar">
+  <h1 class="hero-title-sidebar">Turn Customer Complaints Into Products</h1>
+  <p class="hero-subtitle-sidebar">Find pain points, generate PRDs, build solutions that customers actually want</p>
+</div>
 
     <div class="search-section">
       <div class="section-title">FIND GRUMPY CUSTOMERS</div>
@@ -1196,10 +1196,10 @@ html, body {
   </aside>
 
   <main class="main-content">
-    <div class="results-header" id="resultsHeader" style="display: none;">
-      <h2 class="results-title">Pain Points Found</h2>
-      <p class="results-subtitle">AI-analyzed customer complaints with business opportunities</p>
-    </div>
+<div class="results-header" id="resultsHeader" style="display: none;">
+  <h2 class="results-title">Product Opportunities Found</h2>
+  <p class="results-subtitle">Real customer pain points with AI-generated PRDs ready to build</p>
+</div>
 
     <div id="resultsGrid" class="results-grid">
       <div class="loading-container">
@@ -1215,62 +1215,53 @@ html, body {
         <p>Join thousands of entrepreneurs who use GrumpyLinks to find their next business idea in customer complaints and pain points.</p>
       </div>
 
-      <div class="faqs-section">
-        <h3 class="faqs-title">Frequently Asked Questions</h3>
-        
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)">
-            How does GrumpyLinks find business opportunities?
-            <span class="faq-arrow">▼</span>
-          </button>
-          <div class="faq-answer">
-            <p>We search across Reddit, Twitter, YouTube, and 9+ other platforms for customer complaints, then use AI to analyze each pain point and suggest specific business opportunities you could build or create.</p>
-          </div>
-        </div>
+<div class="faqs-section">
+  <h3 class="faqs-title">How It Works</h3>
+  
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFAQ(this)">
+      How does GrumpyLinks help me build products customers want?
+      <span class="faq-arrow">▼</span>
+    </button>
+    <div class="faq-answer">
+      <p>We find real customer complaints across 12+ platforms, then use AI to generate complete Product Requirements Documents (PRDs) you can immediately use to build solutions.</p>
+    </div>
+  </div>
 
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)">
-            What platforms do you search?
-            <span class="faq-arrow">▼</span>
-          </button>
-          <div class="faq-answer">
-            <p>We search Reddit, Twitter, LinkedIn, Hacker News, YouTube, Medium, Product Hunt, Discord, Glassdoor, Trustpilot, App Stores, and major forums like Stack Overflow and Quora.</p>
-          </div>
-        </div>
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFAQ(this)">
+      What's included in the AI-generated PRDs?
+      <span class="faq-arrow">▼</span>
+    </button>
+    <div class="faq-answer">
+      <p>Each PRD includes problem definition, target users, core features, success metrics, go-to-market strategy, and risk assessment - everything your team needs to start building.</p>
+    </div>
+  </div>
 
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)">
-            Is this different from regular Google search?
-            <span class="faq-arrow">▼</span>
-          </button>
-          <div class="faq-answer">
-            <p>Yes! We specifically search for complaints and frustrations, then analyze each one with AI to suggest business opportunities. Regular search won't give you actionable business insights from customer pain points.</p>
-          </div>
-        </div>
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFAQ(this)">
+      How is this different from market research?
+      <span class="faq-arrow">▼</span>
+    </button>
+    <div class="faq-answer">
+      <p>Instead of surveys or interviews, we find customers already complaining about real problems. Then we instantly turn those complaints into actionable product specifications.</p>
+    </div>
+  </div>
 
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)">
-            How accurate are the AI business suggestions?
-            <span class="faq-arrow">▼</span>
-          </button>
-          <div class="faq-answer">
-            <p>Our AI analyzes each complaint and suggests specific, actionable business opportunities. While not every suggestion will be viable, they provide concrete starting points for market research and idea validation.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)">
-            Can I export or save the results?
-            <span class="faq-arrow">▼</span>
-          </button>
-          <div class="faq-answer">
-            <p>You can copy individual links from each result card. For bulk export and advanced features, subscribe to our Daily Grumpy newsletter to get curated pain points delivered to your inbox.</p>
-          </div>
-        </div>
-      </div>
-
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFAQ(this)">
+      Can I use these PRDs with my development team?
+      <span class="faq-arrow">▼</span>
+    </button>
+    <div class="faq-answer">
+      <p>Absolutely! Our PRDs are professional-grade documents formatted for GitHub, Notion, or any project management tool. Download as markdown files for easy integration.</p>
+    </div>
+  </div>
+</div>
       <div class="footer-bottom">
-        <p>© 2025 GrumpyLinks. Find your next business opportunity in customer complaints.</p>
+	  <h2>From Customer Complaints to Product Success</h2>
+  <p>Stop guessing what to build. Find real customer problems and get AI-generated PRDs that turn pain points into profitable products.</p>
+        <p>© 2025 GrumpyLinks</p>
       </div>
     </div>
   </footer>
@@ -1967,13 +1958,13 @@ function startProgressAnimation() {
   var progressFill = document.getElementById('prd-progress-fill');
   
   return setInterval(function() {
-    progress += Math.random() * 15; // Random progress increments
-    if (progress > 90) progress = 90; // Don't complete until actual completion
+    progress += 20; // Bigger jumps, less frequent updates
+    if (progress > 90) progress = 90;
     
     if (progressFill) {
       progressFill.style.width = progress + '%';
     }
-  }, 500);
+  }, 800); // Less frequent updates (was 500ms)
 }
 function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceLink) {
   var container = getPrdContainer();
