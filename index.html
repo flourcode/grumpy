@@ -1921,18 +1921,15 @@ function startProgressAnimation() {
 function showPrdResults(prdContent, originalTitle, snippet, opportunity) {
   var container = getPrdContainer();
   
-  // Create a clean title from the original source
-  var cleanTitle = originalTitle
-    .replace(/^.*?:\s*"?/, '') // Remove "Username on Platform:" prefix
-    .replace(/["'].*$/, '')     // Remove quotes and everything after
-    .replace(/\.\.\.$/, '')     // Remove trailing ellipsis
-    .replace(/[^\w\s-]/g, '')   // Remove special characters except spaces and hyphens
-    .trim()
-    .substring(0, 50);          // Limit length
-  
-  // If title is too short or generic, use the business opportunity
-  if (cleanTitle.length < 10) {
-    cleanTitle = opportunity.substring(0, 50) + '...';
+  // Extract the product name from the PRD content itself
+  var productTitle = "Product";
+  var h1Match = prdContent.match(/^#\s+(.+?)(?:\s*-\s*(.+?))?$/m);
+  if (h1Match) {
+    // Use the full H1 title from the PRD
+    productTitle = h1Match[1].trim();
+    if (h1Match[2]) {
+      productTitle += " - " + h1Match[2].trim();
+    }
   }
   
   // Format the PRD content
@@ -1940,12 +1937,17 @@ function showPrdResults(prdContent, originalTitle, snippet, opportunity) {
   
   container.innerHTML = `
     <div class="prd-header">
-      <h2 class="prd-title">Mini Product Requirements Document for ${cleanTitle}</h2>
+      <h2 class="prd-title">${productTitle} - Mini PRD</h2>
       <div class="prd-actions">
         <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy PRD</button>
         <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
         <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
       </div>
+    </div>
+    
+    <div class="prd-source-info">
+      <div class="prd-source-title">Generated from customer complaint:</div>
+      "${escapeHtml(originalTitle)}"
     </div>
     
     <div class="prd-content" id="prd-content">
