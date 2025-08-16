@@ -100,7 +100,7 @@ body {
 .problem-text { font-size: 15px; line-height: 1.4; color: var(--text-primary); font-style: italic; }
 
 mark {
-  background: rgba(255, 242, 133, 0.55);
+ background: rgba(255, 246, 200, 0.35);
   color: var(--text-primary);
   padding: 2px 4px;
   border-radius: 3px;
@@ -803,28 +803,31 @@ function analyzeWithAI(results, query, platform) {
 }
 
 function performSearch() {
- const keyword = document.getElementById('searchInput').value.trim();
- if (!keyword) {
-   const searchInput = document.getElementById('searchInput');
-   searchInput.style.borderColor = 'var(--bg-danger)';
-   searchInput.placeholder = 'Please enter a search term...';
-   searchInput.focus();
-   
-   setTimeout(() => {
-     searchInput.style.borderColor = '';
-     searchInput.placeholder = 'Brand, product, or topic...';
-   }, 3000);
-   return;
- }
+  const keyword = document.getElementById('searchInput').value.trim();
+  if (!keyword) {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.style.borderColor = 'var(--bg-danger)';
+    searchInput.placeholder = 'Please enter a search term...';
+    searchInput.focus();
+    
+    setTimeout(() => {
+      searchInput.style.borderColor = '';
+      searchInput.placeholder = 'Brand, product, or topic...';
+    }, 3000);
+    return;
+  }
 
- const queryType = document.getElementById('queryDropdown').value;
- const platform = document.getElementById('platformSelect').value;
- const timeRange = document.getElementById('timeSelect').value;
+  const queryType = document.getElementById('queryDropdown').value;
+  const platform = document.getElementById('platformSelect').value;
+  const timeRange = document.getElementById('timeSelect').value;
 
- showLoading();
+  showLoading();
+  
+  // Close any open PRD when starting a new search
+  closePrd();
 
- let query;
- let powerQuery = null;
+  let query;
+  let powerQuery = null;
  
  if (queryType && POWER_QUERIES[queryType]) {
    powerQuery = POWER_QUERIES[queryType];
