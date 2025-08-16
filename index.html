@@ -8,1901 +8,608 @@
 <script src="env-config.js"></script>
 <style>
 :root {
-  /* Monochromatic Theme */
-  --bg-primary: #0f0f10;
-  --bg-secondary: #1a1a1c;
-  --bg-tertiary: #232326;
-  --bg-card: #1e1e20;
-  --bg-card-hover: #252527;
-  --bg-input: #1a1a1c;
-  --bg-button: #2563eb;
-  --bg-button-hover: #1d4ed8;
-  --bg-success: #22c55e;
-  --bg-warning: #f59e0b;
-  --bg-danger: #ef4444;
-  
-  /* Text Colors */
-  --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-accent: #3b82f6;
-  
-  /* Border Colors */
-  --border-primary: #2a2a2e;
-  --border-secondary: #3a3a3e;
-  --border-accent: #3b82f6;
-  
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
-  
-  /* Platform Colors */
-  --reddit: #ff4500;
-  --twitter: #1da1f2;
-  --linkedin: #0077b5;
-  --hackernews: #ff6600;
-  --github: #ffffff;
-  --stackoverflow: #f48024;
-  --medium: #ffffff;
-  --quora: #b92b27;
-  --youtube: #ff0000;
-  --producthunt: #da552f;
-  --discord: #5865f2;
-  --glassdoor: #0caa41;
-  --trustpilot: #00b67a;
-  --appstore: #007aff;
-  --tiktok: #ffffff;
+  --bg-primary: #0f0f10; --bg-secondary: #1a1a1c; --bg-tertiary: #232326; --bg-card: #1e1e20; --bg-card-hover: #252527;
+  --bg-input: #1a1a1c; --bg-button: #2563eb; --bg-button-hover: #1d4ed8; --bg-success: #22c55e; --bg-danger: #ef4444;
+  --text-primary: #ffffff; --text-secondary: #94a3b8; --text-muted: #64748b; --text-accent: #3b82f6;
+  --border-primary: #2a2a2e; --border-secondary: #3a3a3e; --border-accent: #3b82f6;
+  --reddit: #ff4500; --twitter: #1da1f2; --linkedin: #0077b5; --hackernews: #ff6600; --github: #ffffff;
+  --stackoverflow: #f48024; --medium: #ffffff; --quora: #b92b27; --youtube: #ff0000; --producthunt: #da552f;
+  --discord: #5865f2; --glassdoor: #0caa41; --trustpilot: #00b67a; --appstore: #007aff; --tiktok: #ffffff;
 }
 
-* { 
-  box-sizing: border-box; 
-  margin: 0;
-  padding: 0;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { 
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary);
+  line-height: 1.5; font-size: 14px; overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 
-html, body { 
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.5;
-  font-size: 14px;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+.app { display: flex; min-height: 100vh; }
 
-/* Layout */
-.app { 
-  display: flex;
-  min-height: 100vh;
-  background: var(--bg-primary);
-}
+.sidebar { width: 320px; background: var(--bg-secondary); border-right: 1px solid var(--border-primary); padding: 24px; overflow-y: auto; flex-shrink: 0; }
 
-/* Sidebar */
-.sidebar {
-  width: 320px;
-  background: var(--bg-secondary);
-  border-right: 1px solid var(--border-primary);
-  padding: 24px;
-  overflow-y: auto;
-  flex-shrink: 0;
-}
+.logo { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-primary);
+  font-weight: 800; font-size: 20px; margin-bottom: 24px; padding: 16px 0; border-bottom: 1px solid var(--border-primary); }
 
-.logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: var(--text-primary);
-  font-weight: 800;
-  font-size: 20px;
-  letter-spacing: -0.025em;
-  margin-bottom: 24px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border-primary);
-  text-align: center;
-}
+.logo-emoji { font-size: 40px; margin-bottom: 8px; }
 
-.logo-emoji {
-  font-size: 40px;
-  line-height: 1;
-  margin-bottom: 8px;
-}
+.hero-content-sidebar { margin-bottom: 24px; padding: 16px; background: var(--bg-tertiary); border-radius: 8px; border: 1px solid var(--border-primary); }
 
-.logo-text {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text-primary);
-}
+.hero-title-sidebar { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
 
-.hero-content-sidebar {
-  margin-bottom: 24px;
-  padding: 16px;
-  background: var(--bg-tertiary);
-  border-radius: 8px;
-  border: 1px solid var(--border-primary);
-}
+.hero-subtitle-sidebar { font-size: 13px; color: var(--text-secondary); }
 
-.hero-title-sidebar {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: -0.025em;
-  line-height: 1.3;
-  color: var(--text-primary);
-}
+.search-section { margin-bottom: 24px; }
 
-.hero-subtitle-sidebar {
-  font-size: 13px;
-  color: var(--text-secondary);
-  font-weight: 400;
-  line-height: 1.4;
-  margin: 0;
-}
+.section-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; 
+  letter-spacing: 0.5px; margin-bottom: 12px; }
 
-.search-section {
-  margin-bottom: 24px;
-}
+.search-input, .select-input { width: 100%; background: var(--bg-input); border: 1px solid var(--border-primary);
+  border-radius: 6px; color: var(--text-primary); font-weight: 500; transition: border-color 0.2s; font-family: inherit; margin-bottom: 12px; }
 
-.section-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
-}
+.search-input { padding: 12px 16px; font-size: 14px; }
+.select-input { padding: 10px 16px; font-size: 13px; cursor: pointer; margin-bottom: 8px; }
 
-.search-input {
-  width: 100%;
-  padding: 12px 16px;
-  background: var(--bg-input);
-  border: 1px solid var(--border-primary);
-  border-radius: 6px;
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 500;
-  transition: border-color 0.2s ease;
-  font-family: inherit;
-  margin-bottom: 12px;
-}
+.search-input:focus, .select-input:focus { outline: none; border-color: var(--border-accent); }
+.search-input::placeholder { color: var(--text-muted); }
 
-.search-input:focus {
-  outline: none;
-  border-color: var(--border-accent);
-}
+.search-button { width: 100%; background: var(--bg-button); color: white; border: none; padding: 12px 24px;
+  border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background-color 0.2s;
+  font-family: inherit; text-transform: uppercase; letter-spacing: 0.5px; }
 
-.search-input::placeholder {
-  color: var(--text-muted);
-}
+.search-button:hover { background: var(--bg-button-hover); }
 
-.select-input {
-  width: 100%;
-  padding: 10px 16px;
-  background: var(--bg-input);
-  border: 1px solid var(--border-primary);
-  border-radius: 6px;
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-  font-family: inherit;
-  margin-bottom: 8px;
-}
+.main-content { flex: 1; padding: 32px; overflow-y: auto; }
 
-.select-input:focus {
-  outline: none;
-  border-color: var(--border-accent);
-}
+.results-header { margin-bottom: 32px; }
+.results-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; color: var(--text-primary); }
+.results-subtitle { color: var(--text-secondary); font-size: 16px; }
 
-.search-button {
-  width: 100%;
-  background: var(--bg-button);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-family: inherit;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; max-width: 1400px; }
 
-.search-button:hover {
-  background: var(--bg-button-hover);
-}
-
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 32px;
-  overflow-y: auto;
-  background: var(--bg-primary);
-}
-
-.results-header {
-  margin-bottom: 32px;
-  text-align: left;
-}
-
-.results-title {
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  letter-spacing: -0.025em;
-  color: var(--text-primary);
-}
-
-.results-subtitle {
-  color: var(--text-secondary);
-  font-size: 16px;
-  font-weight: 400;
-}
-
-.results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 20px;
-  max-width: 1400px;
-}
-
-.source-reddit { background: var(--reddit); }
-.source-twitter { background: var(--twitter); }
-.source-linkedin { background: var(--linkedin); }
-.source-hackernews { background: var(--hackernews); }
-.source-github { background: var(--github); color: var(--bg-primary); }
-.source-stackoverflow { background: var(--stackoverflow); }
-.source-medium { background: var(--medium); color: var(--bg-primary); }
-.source-quora { background: var(--quora); }
-.source-youtube { background: var(--youtube); }
-.source-producthunt { background: var(--producthunt); }
-.source-discord { background: var(--discord); }
-.source-glassdoor { background: var(--glassdoor); }
-.source-trustpilot { background: var(--trustpilot); }
-.source-appstore { background: var(--appstore); }
-.source-tiktok { background: var(--tiktok); color: var(--bg-primary); }
+.source-reddit { background: var(--reddit); } .source-twitter { background: var(--twitter); }
+.source-linkedin { background: var(--linkedin); } .source-hackernews { background: var(--hackernews); }
+.source-github, .source-medium, .source-tiktok { background: var(--github); color: var(--bg-primary); }
+.source-stackoverflow { background: var(--stackoverflow); } .source-quora { background: var(--quora); }
+.source-youtube { background: var(--youtube); } .source-producthunt { background: var(--producthunt); }
+.source-discord { background: var(--discord); } .source-glassdoor { background: var(--glassdoor); }
+.source-trustpilot { background: var(--trustpilot); } .source-appstore { background: var(--appstore); }
 .source-default { background: var(--text-muted); }
 
-.result-snippet {
-  color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
+.result-card { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 12px;
+  transition: all 0.2s; display: flex; flex-direction: column; height: 100%; }
 
-.result-snippet mark {
-  background: rgba(59, 130, 246, 0.2);
-  color: var(--text-accent);
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-weight: 500;
-}
+.result-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); border-color: var(--border-accent); }
 
-/* AI Insight */
-.ai-insight {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-primary);
-  border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
+.card-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--border-primary); }
 
-.ai-insight-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+.source-info { display: flex; justify-content: flex-start; margin-bottom: 16px; }
 
-.ai-insight-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-accent);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+.source-badge { font-size: 10px; font-weight: 600; padding: 4px 8px; border-radius: 4px; 
+  text-transform: uppercase; letter-spacing: 0.5px; }
 
-.urgency-badge {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+.problem-title { font-size: 12px; font-weight: 600; color: var(--text-accent);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
 
-.urgency-high { 
-  background: var(--bg-danger);
-  color: white;
-}
+.problem-text { font-size: 15px; line-height: 1.4; color: var(--text-primary); font-style: italic; }
 
-.urgency-medium { 
-  background: var(--bg-warning);
-  color: white;
-}
+.card-body { padding: 20px; flex-grow: 1; }
 
-.urgency-low { 
-  background: var(--bg-success);
-  color: white;
-}
+.solution-title { font-size: 12px; font-weight: 600; color: var(--text-accent);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
 
-.ai-insight-text {
-  color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.5;
-  font-weight: 400;
-}
+.solution-text { font-size: 14px; line-height: 1.5; color: var(--text-primary); }
 
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-primary);
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.card-action { padding: 16px 20px 28px; display: flex; flex-direction: column; gap: 8px; }
 
-.copy-link, .generate-prd-prompt-btn {
-  color: var(--text-accent);
-  cursor: pointer;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid var(--border-primary);
-  background: none;
-  font-family: inherit;
-  margin-left: 8px;
-}
+.generate-prd-btn { background: linear-gradient(135deg, var(--bg-button) 0%, #1d4ed8 100%);
+  color: white; border: none; padding: 14px 20px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: inherit; text-align: center;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
-.copy-link:hover, .generate-prd-prompt-btn:hover {
-  background: var(--text-accent);
-  color: white;
-  border-color: var(--text-accent);
-}
+.generate-prd-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
+.generate-prd-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-/* Footer */
-.footer {
-  border-top: 1px solid var(--border-primary);
-  padding: 60px 32px 32px;
-  margin-top: 60px;
-}
+.source-link { color: var(--text-muted); text-decoration: none; font-size: 11px; text-align: center;
+  padding: 4px; transition: color 0.2s; }
 
-.footer-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
+.source-link:hover { color: var(--text-accent); }
 
-.footer-hero {
-  text-align: center;
-  margin-bottom: 40px;
-}
+.footer { border-top: 1px solid var(--border-primary); padding: 60px 32px 32px; margin-top: 60px; }
+.footer-content { max-width: 800px; margin: 0 auto; }
+.footer-hero { text-align: center; margin-bottom: 40px; }
+.footer-hero h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; color: var(--text-primary); }
+.footer-hero p { font-size: 16px; color: var(--text-secondary); max-width: 500px; margin: 0 auto; line-height: 1.6; }
 
-.footer-hero h2 {
-  font-size: 28px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  letter-spacing: -0.025em;
-  color: var(--text-primary);
-}
+.faqs-section { margin-bottom: 40px; }
+.faqs-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 24px; color: var(--text-primary); }
 
-.footer-hero p {
-  font-size: 16px;
-  color: var(--text-secondary);
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
+.faq-item { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 8px;
+  margin-bottom: 12px; overflow: hidden; transition: all 0.2s; }
 
-.faqs-section {
-  margin-bottom: 40px;
-}
+.faq-item:hover { border-color: var(--border-secondary); }
 
-.faqs-title {
-  font-size: 20px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 24px;
-  color: var(--text-primary);
-}
+.faq-question { width: 100%; background: none; border: none; padding: 16px 20px; text-align: left;
+  color: var(--text-primary); font-size: 14px; font-weight: 500; cursor: pointer; display: flex;
+  justify-content: space-between; align-items: center; transition: all 0.2s; font-family: inherit; }
 
-.faq-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 8px;
-  margin-bottom: 12px;
-  overflow: hidden;
-  transition: all 0.2s ease;
-}
+.faq-question:hover { background: var(--bg-card-hover); }
 
-.faq-item:hover {
-  border-color: var(--border-secondary);
-}
+.faq-arrow { transition: transform 0.3s; color: var(--text-muted); font-size: 12px; }
+.faq-question.active .faq-arrow { transform: rotate(180deg); color: var(--text-accent); }
 
-.faq-question {
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 16px 20px;
-  text-align: left;
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
+.faq-answer { max-height: 0; overflow: hidden; transition: all 0.3s; background: var(--bg-tertiary); }
+.faq-answer.active { max-height: 150px; padding: 16px 20px; }
+.faq-answer p { color: var(--text-secondary); font-size: 13px; line-height: 1.5; margin: 0; }
 
-.faq-question:hover {
-  background: var(--bg-card-hover);
-}
+.footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid var(--border-primary); }
+.footer-bottom p { color: var(--text-muted); font-size: 12px; margin: 0; }
 
-.faq-arrow {
-  transition: transform 0.3s ease;
-  color: var(--text-muted);
-  font-size: 12px;
-}
+.loading-container, .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; }
 
-.faq-question.active .faq-arrow {
-  transform: rotate(180deg);
-  color: var(--text-accent);
-}
+.loading-spinner { display: inline-block; width: 32px; height: 32px; border: 2px solid var(--border-primary);
+  border-top: 2px solid var(--text-accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
 
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  background: var(--bg-tertiary);
-}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-.faq-answer.active {
-  max-height: 150px;
-  padding: 16px 20px;
-}
+.loading-text { color: var(--text-secondary); font-size: 14px; }
+.empty-state h3 { color: var(--text-primary); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.empty-state p { color: var(--text-secondary); font-size: 14px; }
 
-.faq-answer p {
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.5;
-  margin: 0;
-}
+.download-container { margin-top: 40px; display: none; }
+.download-section { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 12px;
+  padding: 32px; text-align: center; }
 
-.footer-bottom {
-  text-align: center;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-primary);
-}
+.download-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+.download-subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; }
 
-.footer-bottom p {
-  color: var(--text-muted);
-  font-size: 12px;
-  margin: 0;
-}
+.download-btn { background: linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%); color: white;
+  border: none; padding: 16px 32px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; box-shadow: 0 4px 16px rgba(34,197,94,0.2); }
 
-/* Loading States */
-.loading-container {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 60px 20px;
-}
+.download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(34,197,94,0.3); }
 
-.loading-spinner {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--border-primary);
-  border-top: 2px solid var(--text-accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
-}
+.prd-container { margin-top: 40px; background: var(--bg-card); border: 1px solid var(--border-primary);
+  border-radius: 12px; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.12); overflow: hidden;
+  animation: fadeInUp 0.4s ease-out; }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-.loading-text {
-  color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 400;
-}
+.prd-header { display: flex; justify-content: space-between; align-items: center; padding: 32px 40px;
+  border-bottom: 1px solid var(--border-primary); background: var(--bg-secondary); }
 
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 60px 20px;
-}
+.prd-title { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 0; }
+.prd-actions { display: flex; gap: 12px; }
 
-.empty-state h3 {
-  color: var(--text-primary);
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
+.prd-action-btn { padding: 10px 18px; background: var(--bg-button); color: white; border: none;
+  border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
 
-.empty-state p {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
+.prd-action-btn:hover { background: var(--bg-button-hover); transform: translateY(-1px); }
+.prd-action-btn.secondary { background: var(--bg-tertiary); border: 1px solid var(--border-secondary); color: var(--text-primary); }
+.prd-action-btn.secondary:hover { background: var(--bg-card-hover); border-color: var(--border-accent); }
 
-@media (max-width: 1600px) {
-  .results-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (max-width: 1200px) {
-  .results-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 1024px) {
-  .app {
-    flex-direction: column;
-  }
-  
-  .sidebar {
-    width: 100%;
-    padding: 20px;
-    border-right: none;
-    border-bottom: 1px solid var(--border-primary);
-  }
-  
-  .main-content {
-    padding: 20px;
-  }
-  
-  .results-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .results-title {
-    font-size: 24px;
-  }
-  
-  .results-subtitle {
-    font-size: 14px;
-  }
-}
-@media (max-width: 800px) {
-  .results-grid {
-    grid-template-columns: 1fr;
-  }
+.prd-content { color: var(--text-primary); line-height: 1.6; padding: 40px; font-size: 15px; }
+.prd-content h1 { font-size: 32px; font-weight: 700; margin: 40px 0 24px 0; padding-bottom: 8px;
+  border-bottom: 2px solid var(--border-primary); }
+.prd-content h1:first-child { margin-top: 0; }
+.prd-content h2 { font-size: 24px; font-weight: 600; margin: 32px 0 16px 0; }
+.prd-content h3 { font-size: 18px; font-weight: 600; margin: 24px 0 12px 0; }
+.prd-content ul, .prd-content ol { margin: 20px 0; padding-left: 24px; }
+.prd-content li { margin-bottom: 12px; line-height: 1.6; }
+.prd-content p { margin: 16px 0; line-height: 1.6; }
+.prd-content strong { font-weight: 600; }
+
+.prd-loading { text-align: center; padding: 60px 40px; }
+.prd-loading-spinner { display: inline-block; width: 24px; height: 24px; border: 2px solid var(--border-primary);
+  border-top: 2px solid var(--text-accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+.prd-loading-text { color: var(--text-primary); font-size: 16px; font-weight: 500; margin-bottom: 8px; }
+.prd-progress { margin-top: 20px; max-width: 300px; margin-left: auto; margin-right: auto; }
+.prd-progress-bar { width: 100%; height: 3px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
+.prd-progress-fill { height: 100%; background: var(--text-accent); border-radius: 2px; transition: width 0.3s; width: 0%; }
+
+.prd-source-section { background: var(--bg-tertiary); border-radius: 8px; padding: 20px; margin-top: 24px;
+  border: 1px solid var(--border-primary); }
+.source-item { margin-bottom: 16px; }
+.source-item:last-child { margin-bottom: 0; }
+.source-label { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-bottom: 6px; }
+.source-text { color: var(--text-secondary); font-style: italic; line-height: 1.5; font-size: 14px; }
+
+@media (max-width: 1200px) { .results-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1024px) { 
+  .app { flex-direction: column; }
+  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-primary); }
+  .results-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
-  .sidebar {
-    padding: 16px;
-  }
-  
-  .main-content {
-    padding: 16px;
-  }
-   .results-grid {
-    grid-template-columns: 1fr; /* 1 column on mobile */
-  }
-  .result-card {
-    padding: 16px;
-  }
-  
-  .search-input,
-  .select-input {
-    font-size: 16px;
-  }
-  
-  .footer {
-    padding: 40px 16px 24px;
-  }
-}
-
-/* Download Section Styles */
-.download-container {
-  margin-top: 40px;
-  display: none;
-}
-
-.download-section {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 12px;
-  padding: 32px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.download-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-}
-
-.download-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  font-family: 'Inter', sans-serif;
-}
-
-.download-subtitle {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-bottom: 24px;
-  font-weight: 400;
-}
-
-.download-btn {
-  background: linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%);
-  color: white;
-  border: none;
-  padding: 16px 32px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2);
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.download-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
-  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-}
-
-.download-btn:active {
-  transform: translateY(0);
-}
-
-@media (max-width: 768px) {
-  .download-section {
-    padding: 24px 20px;
-  }
-  
-  .download-btn {
-    padding: 14px 28px;
-    font-size: 13px;
-  }
-}
-/* Professional PRD Styles - GitHub/Reference Doc Style */
-.prd-container {
-  margin-top: 40px;
-  padding: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 12px;
-  display: none;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-}
-
-.prd-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0;
-  padding: 32px 40px;
-  border-bottom: 1px solid var(--border-primary);
-  background: var(--bg-secondary);
-}
-
-.prd-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  letter-spacing: -0.02em;
-}
-
-.prd-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.prd-action-btn {
-  padding: 10px 18px;
-  background: var(--bg-button);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
-}
-
-.prd-action-btn:hover {
-  background: var(--bg-button-hover);
-  transform: translateY(-1px);
-}
-
-.prd-action-btn.secondary {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-secondary);
-  color: var(--text-primary);
-}
-
-.prd-action-btn.secondary:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-accent);
-}
-
-.prd-content {
-  color: var(--text-primary);
-  line-height: 1.6;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  padding: 40px;
-  font-size: 15px;
-  max-width: none;
-}
-
-/* Professional Typography */
-.prd-content h1 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 40px 0 24px 0;
-  letter-spacing: -0.025em;
-  line-height: 1.25;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--border-primary);
-}
-
-.prd-content h1:first-child {
-  margin-top: 0;
-}
-
-.prd-content h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 32px 0 16px 0;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-}
-
-.prd-content h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 24px 0 12px 0;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
-}
-
-/* Clean Professional Lists */
-.prd-content ul, .prd-content ol {
-  margin: 20px 0;
-  padding-left: 24px;
-}
-
-.prd-content li {
-  margin-bottom: 12px;
-  line-height: 1.6;
-  color: var(--text-primary);
-}
-
-.prd-content ul li {
-  list-style-type: disc;
-  list-style-position: outside;
-}
-
-.prd-content ol li {
-  list-style-type: decimal;
-  list-style-position: outside;
-}
-
-/* Nested lists */
-.prd-content li ul,
-.prd-content li ol {
-  margin: 8px 0;
-  padding-left: 20px;
-}
-
-.prd-content li ul li {
-  list-style-type: circle;
-  margin-bottom: 6px;
-}
-
-/* Professional Emphasis */
-.prd-content strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.prd-content em {
-  color: var(--text-secondary);
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* Clean Paragraphs */
-.prd-content p {
-  margin: 16px 0;
-  line-height: 1.6;
-  color: var(--text-primary);
-}
-
-/* Code and Technical Elements */
-.prd-content code {
-  background: var(--bg-tertiary);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-  font-size: 13px;
-  color: var(--text-accent);
-}
-
-.prd-content pre {
-  background: var(--bg-tertiary);
-  padding: 16px;
-  border-radius: 6px;
-  overflow-x: auto;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-  font-size: 13px;
-  line-height: 1.4;
-  margin: 20px 0;
-}
-
-/* Tables (if any) */
-.prd-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 24px 0;
-  font-size: 14px;
-}
-
-.prd-content th,
-.prd-content td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid var(--border-primary);
-}
-
-.prd-content th {
-  font-weight: 600;
-  color: var(--text-primary);
-  background: var(--bg-tertiary);
-}
-
-/* Blockquotes */
-.prd-content blockquote {
-  margin: 20px 0;
-  padding: 16px 20px;
-  background: var(--bg-tertiary);
-  border-left: 4px solid var(--text-accent);
-  border-radius: 0 6px 6px 0;
-}
-
-.prd-content blockquote p {
-  margin: 0;
-  font-style: italic;
-  color: var(--text-secondary);
-}
-
-/* Loading States */
-.prd-loading {
-  text-align: center;
-  padding: 60px 40px;
-  background: var(--bg-card);
-}
-
-.prd-loading-spinner {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  border: 2px solid var(--border-primary);
-  border-top: 2px solid var(--text-accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-
-.prd-loading-text {
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  font-family: 'Inter', sans-serif;
-}
-
-.prd-loading-text strong {
-  color: var(--text-accent);
-  font-weight: 600;
-}
-
-.prd-progress {
-  margin-top: 20px;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.prd-progress-bar {
-  width: 100%;
-  height: 3px;
-  background: var(--bg-tertiary);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.prd-progress-fill {
-  height: 100%;
-  background: var(--text-accent);
-  border-radius: 2px;
-  transition: width 0.3s ease;
-  width: 0%;
-}
-
-.prd-source-info {
-  background: var(--bg-tertiary);
-  padding: 16px 20px;
-  border-radius: 6px;
-  margin-bottom: 32px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-primary);
-}
-
-.prd-source-title {
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: 15px;
-  margin-bottom: 6px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .prd-container {
-    margin: 20px 0;
-    border-radius: 8px;
-  }
-  
-  .prd-header {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-    padding: 24px 20px;
-  }
-  
-  .prd-title {
-    font-size: 22px;
-    text-align: center;
-  }
-  
-  .prd-actions {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .prd-content {
-    padding: 24px 20px;
-    font-size: 14px;
-  }
-  
-  .prd-content h1 {
-    font-size: 26px;
-  }
-  
-  .prd-content h2 {
-    font-size: 20px;
-  }
-  
-  .prd-content h3 {
-    font-size: 16px;
-  }
-}
-
-/* Smooth Animations */
-.prd-container {
-  animation: fadeInUp 0.4s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* Clean Source Section at Bottom */
-.prd-source-section {
-  background: var(--bg-tertiary);
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 24px;
-  border: 1px solid var(--border-primary);
-}
-
-.source-item {
- margin-bottom: 16px;
-}
-
-.source-item:last-child {
- margin-bottom: 0;
-}
-
-.source-label {
- font-weight: 600;
- color: var(--text-primary);
- font-size: 14px;
- margin-bottom: 6px;
-}
-
-.source-text {
- color: var(--text-secondary);
- font-style: italic;
- line-height: 1.5;
- font-size: 14px;
-}
-
-.source-link a {
- color: var(--text-accent);
- text-decoration: none;
- font-weight: 500;
- font-size: 14px;
- transition: all 0.2s ease;
-}
-
-.source-link a:hover {
- text-decoration: underline;
- color: var(--text-primary);
-}
-
-@media (max-width: 768px) {
- .prd-source-section {
-   padding: 16px;
- }
- 
- .source-label {
-   font-size: 13px;
- }
- 
- .source-text {
-   font-size: 13px;
- }
-}
-
-.generate-prd-btn {
- background: linear-gradient(135deg, var(--bg-button) 0%, #1d4ed8 100%);
- color: white;
- border: none;
- padding: 12px 24px;
- border-radius: 8px;
- font-size: 13px;
- font-weight: 600;
- cursor: pointer;
- transition: all 0.2s ease;
- font-family: inherit;
- text-transform: none;
- letter-spacing: 0;
- box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
- min-width: 140px;
-}
-
-.generate-prd-btn:hover {
- transform: translateY(-2px);
- box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
- background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-}
-
-.generate-prd-btn:active {
- transform: translateY(0);
-}
-
-.generate-prd-btn:disabled {
- opacity: 0.6;
- cursor: not-allowed;
- transform: none;
- box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-}
-
-.view-source-link a {
- color: var(--text-accent);
- text-decoration: none;
- font-size: 11px;
- font-weight: 500;
- transition: color 0.2s ease;
-}
-
-.view-source-link a:hover {
- color: var(--text-primary);
- text-decoration: underline;
-}
-
-@media (max-width: 768px) {
- .generate-prd-btn {
-   padding: 10px 20px;
-   font-size: 12px;
-   min-width: 120px;
- }
-}
-
-/* Improved Card Design */
-.result-card {
- background: var(--bg-card);
- border: 1px solid var(--border-primary);
- border-radius: 12px;
- padding: 0;
- transition: all 0.2s ease;
- position: relative;
- overflow: hidden;
- display: flex;
- flex-direction: column;
- height: 100%;
-}
-
-.result-card:hover {
- transform: translateY(-2px);
- box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
- border-color: var(--border-accent);
-}
-
-/* Header: Problem Statement */
-.card-header {
- padding: 20px 20px 16px;
- border-bottom: 1px solid var(--border-primary);
-}
-
-.problem-statement {
- margin-bottom: 12px;
-}
-
-.problem-title {
- font-size: 12px;
- font-weight: 600;
- color: var(--text-accent);
- text-transform: uppercase;
- letter-spacing: 0.5px;
- margin-bottom: 8px;
-}
-
-.problem-text {
- font-size: 15px;
- line-height: 1.4;
- color: var(--text-primary);
- font-style: italic;
- margin: 0;
-}
-
-.source-info {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.source-badge {
- font-size: 10px;
- font-weight: 600;
- padding: 4px 8px;
- border-radius: 4px;
- text-transform: uppercase;
- letter-spacing: 0.5px;
-}
-
-.urgency-badge {
- font-size: 9px;
- font-weight: 600;
- padding: 3px 6px;
- border-radius: 3px;
- text-transform: uppercase;
- letter-spacing: 0.5px;
-}
-
-/* Body: Solution */
-.card-body {
- padding: 20px;
- flex-grow: 1;
-}
-
-.solution-title {
- font-size: 12px;
- font-weight: 600;
- color: var(--text-accent);
- text-transform: uppercase;
- letter-spacing: 0.5px;
- margin-bottom: 12px;
-}
-
-.solution-text {
- font-size: 14px;
- line-height: 1.5;
- color: var(--text-primary);
- margin: 0;
-}
-
-/* Action: CTA */
-.card-action {
- padding: 16px 20px 20px;
- display: flex;
- flex-direction: column;
- gap: 8px;
-}
-
-.generate-prd-btn.primary {
- background: linear-gradient(135deg, var(--bg-button) 0%, #1d4ed8 100%);
- color: white;
- border: none;
- padding: 14px 20px;
- border-radius: 8px;
- font-size: 13px;
- font-weight: 600;
- cursor: pointer;
- transition: all 0.2s ease;
- font-family: inherit;
- text-align: center;
- box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-}
-
-.generate-prd-btn.primary:hover {
- transform: translateY(-1px);
- box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
-}
-
-.source-link {
- color: var(--text-muted);
- text-decoration: none;
- font-size: 11px;
- text-align: center;
- padding: 4px;
- transition: color 0.2s ease;
-}
-
-.source-link:hover {
- color: var(--text-accent);
+  .sidebar, .main-content { padding: 16px; }
+  .search-input, .select-input { font-size: 16px; }
+  .prd-header { flex-direction: column; gap: 16px; padding: 24px 20px; }
+  .prd-content { padding: 24px 20px; font-size: 14px; }
 }
 </style>
 </head>
 <body>
 
 <div class="app">
- <aside class="sidebar">
-   <a href="#" class="logo">
-     <span class="logo-emoji">😠</span>
-     <span class="logo-text">GrumpyLinks</span>
-   </a>
+  <aside class="sidebar">
+    <a href="#" class="logo">
+      <span class="logo-emoji">😠</span>
+      <span class="logo-text">GrumpyLinks</span>
+    </a>
 
-<div class="hero-content-sidebar">
- <h1 class="hero-title-sidebar">Turn Customer Complaints Into Products</h1>
- <p class="hero-subtitle-sidebar">Find pain points, generate PRDs, build solutions that customers actually want</p>
-</div>
+    <div class="hero-content-sidebar">
+      <h1 class="hero-title-sidebar">Turn Customer Complaints Into Products</h1>
+      <p class="hero-subtitle-sidebar">Find pain points, generate PRDs, build solutions that customers actually want</p>
+    </div>
 
-   <div class="search-section">
-     <div class="section-title">FIND GRUMPY CUSTOMERS</div>
-     <input id="searchInput" class="search-input" type="text" 
-            placeholder="Brand, product, or topic..." />
-     <select id="queryDropdown" class="select-input">
-       <option value="">General Pain Points</option>
-       <option value="competitor_hate">Competitor Complaints</option>
-       <option value="switching_signals">Switching Signals</option>
-       <option value="wish_list">Unmet Needs</option>
-       <option value="feature_requests">Feature Requests</option>
-       <option value="urgent_help">Urgent Problems</option>
-     </select>
-     <select id="platformSelect" class="select-input">
-       <option value="all">All Platforms</option>
-       <option value="reddit">Reddit</option>
-       <option value="twitter">Twitter</option>
-       <option value="linkedin">LinkedIn</option>
-       <option value="hackernews">Hacker News</option>
-       <option value="youtube">YouTube</option>
-       <option value="medium">Medium</option>
-       <option value="producthunt">Product Hunt</option>
-       <option value="discord">Discord</option>
-       <option value="glassdoor">Glassdoor</option>
-       <option value="trustpilot">Trustpilot</option>
-       <option value="appstore">App Stores</option>
-       <option value="forums">Forums</option>
-     </select>
-     <select id="timeSelect" class="select-input">
-       <option value="d7">Last 7 days</option>
-       <option value="d1">Last 24 hours</option>
-       <option value="d30">Last 30 days</option>
-       <option value="d365">Last year</option>
-     </select>
-     <button id="searchBtn" class="search-button">Search</button>
-   </div>
- </aside>
+    <div class="search-section">
+      <div class="section-title">FIND GRUMPY CUSTOMERS</div>
+      <input id="searchInput" class="search-input" type="text" placeholder="Brand, product, or topic..." />
+      <select id="queryDropdown" class="select-input">
+        <option value="">General Pain Points</option>
+        <option value="competitor_hate">Competitor Complaints</option>
+        <option value="switching_signals">Switching Signals</option>
+        <option value="wish_list">Unmet Needs</option>
+        <option value="feature_requests">Feature Requests</option>
+        <option value="urgent_help">Urgent Problems</option>
+      </select>
+      <select id="platformSelect" class="select-input">
+        <option value="all">All Platforms</option>
+        <option value="reddit">Reddit</option>
+        <option value="twitter">Twitter</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="hackernews">Hacker News</option>
+        <option value="youtube">YouTube</option>
+        <option value="medium">Medium</option>
+        <option value="producthunt">Product Hunt</option>
+        <option value="discord">Discord</option>
+        <option value="glassdoor">Glassdoor</option>
+        <option value="trustpilot">Trustpilot</option>
+        <option value="appstore">App Stores</option>
+        <option value="forums">Forums</option>
+      </select>
+      <select id="timeSelect" class="select-input">
+        <option value="d7">Last 7 days</option>
+        <option value="d1">Last 24 hours</option>
+        <option value="d30">Last 30 days</option>
+        <option value="d365">Last year</option>
+      </select>
+      <button id="searchBtn" class="search-button">Search</button>
+    </div>
+  </aside>
 
- <main class="main-content">
-<div class="results-header" id="resultsHeader" style="display: none;">
- <h2 class="results-title">Product Opportunities Found</h2>
- <p class="results-subtitle">Real customer pain points with AI-generated PRDs ready to build</p>
-</div>
+  <main class="main-content">
+    <div class="results-header" id="resultsHeader" style="display: none;">
+      <h2 class="results-title">Product Opportunities Found</h2>
+      <p class="results-subtitle">Real customer pain points with AI-generated PRDs ready to build</p>
+    </div>
 
-   <div id="resultsGrid" class="results-grid">
-     <div class="loading-container">
-       <div class="loading-spinner"></div>
-       <p class="loading-text">Loading demo search results...</p>
-     </div>
-   </div>
+    <div id="resultsGrid" class="results-grid">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading demo search results...</p>
+      </div>
+    </div>
 
- <footer class="footer">
-   <div class="footer-content">
-     <div class="footer-hero">
-       <h2>Discover Hidden Opportunities</h2>
-       <p>Join thousands of entrepreneurs who use GrumpyLinks to find their next business idea in customer complaints and pain points.</p>
-     </div>
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-hero">
+          <h2>Discover Hidden Opportunities</h2>
+          <p>Join thousands of entrepreneurs who use GrumpyLinks to find their next business idea in customer complaints and pain points.</p>
+        </div>
 
-<div class="faqs-section">
- <h3 class="faqs-title">How It Works</h3>
- 
- <div class="faq-item">
-   <button class="faq-question" onclick="toggleFAQ(this)">
-     How does GrumpyLinks help me build products customers want?
-     <span class="faq-arrow">▼</span>
-   </button>
-   <div class="faq-answer">
-     <p>We find real customer complaints across 12+ platforms, then use AI to generate complete Product Requirements Documents (PRDs) you can immediately use to build solutions.</p>
-   </div>
- </div>
+        <div class="faqs-section">
+          <h3 class="faqs-title">How It Works</h3>
+          
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              How does GrumpyLinks help me build products customers want?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>We find real customer complaints across 12+ platforms, then use AI to generate complete Product Requirements Documents (PRDs) you can immediately use to build solutions.</p>
+            </div>
+          </div>
 
- <div class="faq-item">
-   <button class="faq-question" onclick="toggleFAQ(this)">
-     What's included in the AI-generated PRDs?
-     <span class="faq-arrow">▼</span>
-   </button>
-   <div class="faq-answer">
-     <p>Each PRD includes problem definition, target users, core features, success metrics, go-to-market strategy, and risk assessment - everything your team needs to start building.</p>
-   </div>
- </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              What's included in the AI-generated PRDs?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>Each PRD includes problem definition, target users, core features, success metrics, go-to-market strategy, and risk assessment - everything your team needs to start building.</p>
+            </div>
+          </div>
 
- <div class="faq-item">
-   <button class="faq-question" onclick="toggleFAQ(this)">
-     How is this different from market research?
-     <span class="faq-arrow">▼</span>
-   </button>
-   <div class="faq-answer">
-     <p>Instead of surveys or interviews, we find customers already complaining about real problems. Then we instantly turn those complaints into actionable product specifications.</p>
-   </div>
- </div>
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              How is this different from market research?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>Instead of surveys or interviews, we find customers already complaining about real problems. Then we instantly turn those complaints into actionable product specifications.</p>
+            </div>
+          </div>
 
- <div class="faq-item">
-   <button class="faq-question" onclick="toggleFAQ(this)">
-     Can I use these PRDs with my development team?
-     <span class="faq-arrow">▼</span>
-   </button>
-   <div class="faq-answer">
-     <p>Absolutely! Our PRDs are professional-grade documents formatted for GitHub, Notion, or any project management tool. Download as markdown files for easy integration.</p>
-   </div>
- </div>
-</div>
-     <div class="footer-bottom">
-     <h2>From Customer Complaints to Product Success</h2>
- <p>Stop guessing what to build. Find real customer problems and get AI-generated PRDs that turn pain points into profitable products.</p>
-       <p>© 2025 GrumpyLinks</p>
-     </div>
-   </div>
- </footer>
- </main>
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              Can I use these PRDs with my development team?
+              <span class="faq-arrow">▼</span>
+            </button>
+            <div class="faq-answer">
+              <p>Absolutely! Our PRDs are professional-grade documents formatted for GitHub, Notion, or any project management tool. Download as markdown files for easy integration.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <h2>From Customer Complaints to Product Success</h2>
+          <p>Stop guessing what to build. Find real customer problems and get AI-generated PRDs that turn pain points into profitable products.</p>
+          <p>© 2025 GrumpyLinks</p>
+        </div>
+      </div>
+    </footer>
+  </main>
 </div>
 
 <script>
-// Configuration
-var API_CONFIG = {
- GOOGLE_API_KEY: '',
- SEARCH_ENGINE_ID: '',
- LAMBDA_ENDPOINT: ''
+const API_CONFIG = { GOOGLE_API_KEY: '', SEARCH_ENGINE_ID: '', LAMBDA_ENDPOINT: '' };
+
+const POWER_QUERIES = {
+  competitor_hate: { template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}' },
+  switching_signals: { template: '("switching from" OR "alternative to" OR "quitting" OR "leaving") {{keyword}}' },
+  wish_list: { template: '"I wish there was" OR "someone should" {{keyword}}' },
+  feature_requests: { template: '("should add" OR "missing feature" OR "needs to support") {{keyword}}' },
+  urgent_help: { template: '("need help with" OR "urgent" OR "stuck with") {{keyword}}' }
 };
 
+const PLATFORMS = {
+  all: { sites: [] }, reddit: { sites: ['site:reddit.com'] }, twitter: { sites: ['site:twitter.com', 'site:x.com'] },
+  linkedin: { sites: ['site:linkedin.com'] }, hackernews: { sites: ['site:news.ycombinator.com'] },
+  youtube: { sites: ['site:youtube.com'] }, medium: { sites: ['site:medium.com'] },
+  producthunt: { sites: ['site:producthunt.com'] }, discord: { sites: ['site:discord.com'] },
+  glassdoor: { sites: ['site:glassdoor.com'] }, trustpilot: { sites: ['site:trustpilot.com'] },
+  appstore: { sites: ['site:apps.apple.com', 'site:play.google.com'] },
+  forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
+};
+
+const DEMO_RESULTS = {
+  query: "",
+  results: [
+    {
+      title: "Zach (Probably) on X: \"This is actually painful, #ChatGPT works well ...\"",
+      snippet: "This is actually painful, #ChatGPT works well on airplane wifi more or less... #Grok... Sucks. Like holy fuck does it SUCK on whatever insane networking is ...",
+      link: "https://x.com/ThatOtherZach/status/1956024889560760322",
+      displayLink: "x.com",
+      insight: { businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", urgency: "medium" }
+    },
+    {
+      title: "Why Wont Snapchat Work on Breeze Airplane Wifi | TikTok",
+      snippet: "... broken · original sound - The office quote.s · Why Wont My Snap Chat Let Me ... Snapchat Is So Annoying · Why Is Snapchat Not Sending My Snaps. 364Likes. 203 ...",
+      link: "https://www.tiktok.com/discover/why-wont-snapchat-work-on-breeze-airplane-wifi",
+      displayLink: "www.tiktok.com",
+      insight: { businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", urgency: "medium" }
+    },
+    {
+      title: "iOS - NextDNS Help Center",
+      snippet: "Public WiFis / Airplane WiFi / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
+      link: "https://help.nextdns.io/tag/ios",
+      displayLink: "help.nextdns.io",
+      insight: { businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", urgency: "high" }
+    },
+    {
+      title: "How to Connect Laptop to Airplane Wifi | TikTok",
+      snippet: "... Airplane Wifi Spirit, How to Fix Unable to Connect to Wifi Hp Laptop ... How to Connect Phone to Pc with Broken Screen · Cara Guna Usb Wifi Adapter.",
+      link: "https://www.tiktok.com/discover/how-to-connect-laptop-to-airplane-wifi",
+      displayLink: "www.tiktok.com",
+      insight: { businessOpportunity: "Develop a simplified step-by-step video tutorial series on connecting different laptop brands to airplane wifi, monetized through ads or premium content.", urgency: "low" }
+    },
+    {
+      title: "Reclining your seat on a flight. I didn't know it was so taboo ...",
+      snippet: "airplane wifi is ass so I used my Nintendo Switch) But for longer flights ... What do you need help on? Cancel X. Post New Message. You're browsing the ...",
+      link: "https://gamefaqs.gamespot.com/boards/264562-playstation-5/81025624",
+      displayLink: "gamefaqs.gamespot.com",
+      insight: { businessOpportunity: "Develop a curated entertainment package (movies, games, ebooks) that can be downloaded before the flight and enjoyed without relying on airplane wifi.", urgency: "low" }
+    },
+    {
+      title: "Starlink MCI to IAH : r/unitedairlines",
+      snippet: "... airplane WiFI. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
+      link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
+      displayLink: "www.reddit.com",
+      insight: { businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.", urgency: "medium" }
+    }
+  ]
+};
+
+let currentSearchResults = [];
+
 function loadConfig() {
- if (window.ENV) {
-   API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
-   API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
-   API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
+  if (window.ENV) {
+    API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
+    API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
+    API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
  }
 }
 
-// FAQ Toggle Function
 function toggleFAQ(element) {
- var answer = element.nextElementSibling;
- var isActive = element.classList.contains('active');
+ const answer = element.nextElementSibling;
+ const isActive = element.classList.contains('active');
  
- // Close all FAQs first
- var allQuestions = document.querySelectorAll('.faq-question');
- for (var i = 0; i < allQuestions.length; i++) {
-   allQuestions[i].classList.remove('active');
-   allQuestions[i].nextElementSibling.classList.remove('active');
- }
+ document.querySelectorAll('.faq-question').forEach(q => {
+   q.classList.remove('active');
+   q.nextElementSibling.classList.remove('active');
+ });
  
- // If this wasn't active, open it
  if (!isActive) {
    element.classList.add('active');
    answer.classList.add('active');
  }
 }
 
-// Power Queries
-var POWER_QUERIES = {
- 'competitor_hate': {
-   id: 'competitor_hate',
-   title: 'Competitor Complaints',
-   template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}'
- },
- 'switching_signals': {
-   id: 'switching_signals',
-   title: 'Switching Signals',
-   template: '("switching from" OR "alternative to" OR "quitting" OR "leaving") {{keyword}}'
- },
- 'wish_list': {
-   id: 'wish_list',
-   title: 'Unmet Needs',
-   template: '"I wish there was" OR "someone should" {{keyword}}'
- },
- 'feature_requests': {
-   id: 'feature_requests',
-   title: 'Feature Requests',
-   template: '("should add" OR "missing feature" OR "needs to support") {{keyword}}'
- },
- 'urgent_help': {
-   id: 'urgent_help',
-   title: 'Urgent Problems',
-   template: '("need help with" OR "urgent" OR "stuck with") {{keyword}}'
- }
-};
-
-var PLATFORMS = {
- all: { sites: [] },
- reddit: { sites: ['site:reddit.com'] },
- twitter: { sites: ['site:twitter.com', 'site:x.com'] },
- linkedin: { sites: ['site:linkedin.com'] },
- hackernews: { sites: ['site:news.ycombinator.com'] },
- youtube: { sites: ['site:youtube.com'] },
- medium: { sites: ['site:medium.com'] },
- producthunt: { sites: ['site:producthunt.com'] },
- discord: { sites: ['site:discord.com'] },
- glassdoor: { sites: ['site:glassdoor.com'] },
- trustpilot: { sites: ['site:trustpilot.com'] },
- appstore: { sites: ['site:apps.apple.com', 'site:play.google.com'] },
- forums: { sites: ['site:stackoverflow.com', 'site:quora.com'] }
-};
-
-var currentAnalysis = null;
-var currentSearchResults = [];
-
-// Demo Results Data
-var DEMO_RESULTS = {
- query: "",
- results: [
-   {
-     title: "Zach (Probably) on X: \"This is actually painful, #ChatGPT works well ...\"",
-     snippet: "This is actually painful, #ChatGPT works well on airplane wifi more or less... #Grok... Sucks. Like holy fuck does it SUCK on whatever insane networking is ...",
-     link: "https://x.com/ThatOtherZach/status/1956024889560760322",
-     displayLink: "x.com",
-     insight: {
-       businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.",
-       urgency: "medium"
-     }
-   },
-   {
-     title: "Why Wont Snapchat Work on Breeze Airplane Wifi | TikTok",
-     snippet: "... broken · original sound - The office quote.s · Why Wont My Snap Chat Let Me ... Snapchat Is So Annoying · Why Is Snapchat Not Sending My Snaps. 364Likes. 203 ...",
-     link: "https://www.tiktok.com/discover/why-wont-snapchat-work-on-breeze-airplane-wifi",
-     displayLink: "www.tiktok.com",
-     insight: {
-       businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.",
-       urgency: "medium"
-     }
-     },
-  {
-    title: "iOS - NextDNS Help Center",
-    snippet: "Public WiFis / Airplane WiFi / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
-    link: "https://help.nextdns.io/tag/ios",
-    displayLink: "help.nextdns.io",
-    insight: {
-      businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.",
-      urgency: "high"
-    }
-  },
-  {
-    title: "How to Connect Laptop to Airplane Wifi | TikTok",
-    snippet: "... Airplane Wifi Spirit, How to Fix Unable to Connect to Wifi Hp Laptop ... How to Connect Phone to Pc with Broken Screen · Cara Guna Usb Wifi Adapter.",
-    link: "https://www.tiktok.com/discover/how-to-connect-laptop-to-airplane-wifi",
-    displayLink: "www.tiktok.com",
-    insight: {
-      businessOpportunity: "Develop a simplified step-by-step video tutorial series on connecting different laptop brands to airplane wifi, monetized through ads or premium content.",
-      urgency: "low"
-    }
-  },
-  {
-    title: "Reclining your seat on a flight. I didn't know it was so taboo ...",
-    snippet: "airplane wifi is ass so I used my Nintendo Switch) But for longer flights ... What do you need help on? Cancel X. Post New Message. You're browsing the ...",
-    link: "https://gamefaqs.gamespot.com/boards/264562-playstation-5/81025624",
-    displayLink: "gamefaqs.gamespot.com",
-    insight: {
-      businessOpportunity: "Develop a curated entertainment package (movies, games, ebooks) that can be downloaded before the flight and enjoyed without relying on airplane wifi.",
-      urgency: "low"
-    }
-  },
-  {
-    title: "Starlink MCI to IAH : r/unitedairlines",
-    snippet: "... airplane WiFI. Upvote 2. Downvote Reply reply. Award ... I hate this about United · r/unitedairlines - I hate this about United. 2. 25 ...",
-    link: "https://www.reddit.com/r/unitedairlines/comments/1mqcce2/starlink_mci_to_iah/",
-    displayLink: "www.reddit.com",
-    insight: {
-      businessOpportunity: "Create a real-time airplane wifi speed test and review platform where users can rate and compare the performance of different airlines' wifi services. Offer premium data insights to airlines.",
-      urgency: "medium"
-    }
-  }
-]
-};
-
-// Initialize
-function init() {
-loadConfig();
-setupEventListeners();
-loadDemoSearch();
-}
-
 function setupEventListeners() {
-document.getElementById('searchBtn').onclick = performSearch;
-document.getElementById('searchInput').onkeydown = function(e) {
-  if (e.key === 'Enter') performSearch();
-};
-document.getElementById('searchInput').oninput = function(e) {
-  localStorage.setItem('grumpy_search', e.target.value);
-};
-}
-
-function loadDemoSearch() {
-document.getElementById('searchInput').value = DEMO_RESULTS.query;
-displayResults(DEMO_RESULTS.results, null, DEMO_RESULTS.query, null);
-}
-
-function buildSearchQuery(template, keyword, platform) {
-var query = template.replace(/\{\{keyword\}\}/g, '"' + keyword + '"');
-
-var platformConfig = PLATFORMS[platform] || PLATFORMS.all;
-if (platformConfig.sites.length > 0) {
-  query += ' (' + platformConfig.sites.join(' OR ') + ')';
-}
-
-return query;
-}
-
-function buildNormalSearchQuery(keyword, platform) {
-var query = '("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn' + "'" + 't work" OR "awful" OR "sucks") "' + keyword + '"';
-
-var platformConfig = PLATFORMS[platform] || PLATFORMS.all;
-if (platformConfig.sites.length > 0) {
-  query += ' (' + platformConfig.sites.join(' OR ') + ')';
-}
-
-return query;
+ document.getElementById('searchBtn').onclick = performSearch;
+ document.getElementById('searchInput').onkeydown = e => {
+   if (e.key === 'Enter') performSearch();
+ };
 }
 
 function getPlatformClass(domain) {
-if (domain.includes('reddit')) return 'source-reddit';
-if (domain.includes('twitter') || domain.includes('x.com')) return 'source-twitter';
-if (domain.includes('linkedin')) return 'source-linkedin';
-if (domain.includes('news.ycombinator')) return 'source-hackernews';
-if (domain.includes('github')) return 'source-github';
-if (domain.includes('stackoverflow')) return 'source-stackoverflow';
-if (domain.includes('medium')) return 'source-medium';
-if (domain.includes('quora')) return 'source-quora';
-if (domain.includes('youtube')) return 'source-youtube';
-if (domain.includes('producthunt')) return 'source-producthunt';
-if (domain.includes('discord')) return 'source-discord';
-if (domain.includes('glassdoor')) return 'source-glassdoor';
-if (domain.includes('trustpilot')) return 'source-trustpilot';
-if (domain.includes('tiktok')) return 'source-tiktok';
-if (domain.includes('apps.apple.com')) return 'source-appstore';
-if (domain.includes('play.google.com')) return 'source-playstore';
-return 'source-default';
+ const platforms = {
+   reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
+   linkedin: 'source-linkedin', 'news.ycombinator': 'source-hackernews', github: 'source-github',
+   stackoverflow: 'source-stackoverflow', medium: 'source-medium', quora: 'source-quora',
+   youtube: 'source-youtube', producthunt: 'source-producthunt', discord: 'source-discord',
+   glassdoor: 'source-glassdoor', trustpilot: 'source-trustpilot', tiktok: 'source-tiktok',
+   'apps.apple.com': 'source-appstore', 'play.google.com': 'source-appstore'
+ };
+ 
+ return Object.keys(platforms).find(key => domain.includes(key)) ? 
+   platforms[Object.keys(platforms).find(key => domain.includes(key))] : 'source-default';
 }
 
 function getPlatformName(domain) {
-if (domain.includes('reddit')) return 'Reddit';
-if (domain.includes('twitter') || domain.includes('x.com')) return 'Twitter';
-if (domain.includes('linkedin')) return 'LinkedIn';
-if (domain.includes('news.ycombinator')) return 'Hacker News';
-if (domain.includes('github')) return 'GitHub';
-if (domain.includes('stackoverflow')) return 'Stack Overflow';
-if (domain.includes('medium')) return 'Medium';
-if (domain.includes('quora')) return 'Quora';
-if (domain.includes('youtube')) return 'YouTube';
-if (domain.includes('producthunt')) return 'Product Hunt';
-if (domain.includes('discord')) return 'Discord';
-if (domain.includes('glassdoor')) return 'Glassdoor';
-if (domain.includes('trustpilot')) return 'Trustpilot';
-if (domain.includes('tiktok')) return 'TikTok';
-if (domain.includes('apps.apple.com')) return 'App Store';
-if (domain.includes('play.google.com')) return 'Play Store';
-return domain.split('.')[0];
+ const platforms = {
+   reddit: 'Reddit', twitter: 'Twitter', 'x.com': 'Twitter', linkedin: 'LinkedIn',
+   'news.ycombinator': 'Hacker News', github: 'GitHub', stackoverflow: 'Stack Overflow',
+   medium: 'Medium', quora: 'Quora', youtube: 'YouTube', producthunt: 'Product Hunt',
+   discord: 'Discord', glassdoor: 'Glassdoor', trustpilot: 'Trustpilot', tiktok: 'TikTok',
+   'apps.apple.com': 'App Store', 'play.google.com': 'Play Store'
+ };
+ 
+ const match = Object.keys(platforms).find(key => domain.includes(key));
+ return match ? platforms[match] : domain.split('.')[0];
 }
 
-function findInsightForResult(result, analysis) {
-if (!analysis || !analysis.resultInsights) {
-  return {
-    businessOpportunity: "AI analysis not available for this result",
-    urgency: "low"
-  };
-}
-
-if (analysis.resultInsights.length > 0 && !analysis.resultInsights[0].title) {
-  var resultIndex = analysis.resultInsights.findIndex(function(insight, index) {
-    return index < analysis.resultInsights.length;
-  });
-  
-  if (resultIndex >= 0 && analysis.resultInsights[resultIndex]) {
-    return analysis.resultInsights[resultIndex];
-  }
-}
-
-var directMatch = analysis.resultInsights.find(function(insight) {
-  return insight.title && insight.title === result.title;
-});
-if (directMatch) {
-  return directMatch;
-}
-
-if (result.title) {
-  var resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-  var matchingInsight = analysis.resultInsights.find(function(insight) {
-    if (!insight.title) return false;
-    var insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-    return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
-           insightTitleWords.includes(resultTitleWords.slice(0, 20));
-  });
-
-  if (matchingInsight) {
-    return matchingInsight;
-  }
-}
-
-return analysis.resultInsights[0] || {
-  businessOpportunity: "Monitor this result for business opportunities",
-  urgency: "medium"
-};
-}
-
-function performGoogleSearch(query, timeRange) {
-if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
-  throw new Error('Google API not configured');
-}
-
-var params = new URLSearchParams({
-  key: API_CONFIG.GOOGLE_API_KEY,
-  cx: API_CONFIG.SEARCH_ENGINE_ID,
-  q: query,
-  num: '9', 
-  dateRestrict: timeRange
-});
-
-return fetch('https://www.googleapis.com/customsearch/v1?' + params.toString())
-  .then(function(response) {
-    if (!response.ok) {
-      return response.json().then(function(error) {
-        throw new Error(error.error?.message || 'Search failed');
-      });
-    }
-    return response.json();
-  })
-  .then(function(data) {
-    return data.items || [];
-  });
-}
-
-function analyzeWithAI(results, query, platform) {
-if (!API_CONFIG.LAMBDA_ENDPOINT) {
-  return Promise.resolve({
-    mainPainPoint: "AI analysis not configured",
-    resultInsights: [],
-    overallOpportunityScore: 3,
-    topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
-  });
-}
-
-return fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ query: query, platform: platform, results: results.slice(0, 10) })
-})
-.then(function(response) {
-  if (!response.ok) throw new Error('AI analysis failed: ' + response.status);
-  return response.json();
-})
-.catch(function(error) {
-  console.error('AI analysis error:', error);
-  return {
-    mainPainPoint: "AI analysis temporarily unavailable",
-    resultInsights: [],
-    overallOpportunityScore: 3,
-    topActionableIdeas: ["AI analysis error - please try again"]
-  };
-});
+function escapeHtml(text) {
+ if (typeof text !== 'string') return text;
+ const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+ return text.replace(/[&<>"']/g, m => map[m]);
 }
 
 function performSearch() {
-var keyword = document.getElementById('searchInput').value.trim();
-if (!keyword) {
- var searchInput = document.getElementById('searchInput');
- searchInput.style.borderColor = 'var(--bg-danger)';
- searchInput.placeholder = 'Please enter a search term...';
- searchInput.focus();
+ const keyword = document.getElementById('searchInput').value.trim();
+ if (!keyword) {
+   const searchInput = document.getElementById('searchInput');
+   searchInput.style.borderColor = 'var(--bg-danger)';
+   searchInput.placeholder = 'Please enter a search term...';
+   searchInput.focus();
+   
+   setTimeout(() => {
+     searchInput.style.borderColor = '';
+     searchInput.placeholder = 'Brand, product, or topic...';
+   }, 3000);
+   return;
+ }
+
+ const queryType = document.getElementById('queryDropdown').value;
+ const platform = document.getElementById('platformSelect').value;
  
- setTimeout(function() {
-   searchInput.style.borderColor = '';
-   searchInput.placeholder = 'Brand, product, or topic...';
- }, 3000);
- return;
-}
-
-var queryType = document.getElementById('queryDropdown').value;
-var platform = document.getElementById('platformSelect').value;
-var timeRange = document.getElementById('timeSelect').value;
-
-showLoading();
-
-var query;
-var powerQuery = null;
-
-if (queryType && POWER_QUERIES[queryType]) {
-  powerQuery = POWER_QUERIES[queryType];
-  query = buildSearchQuery(powerQuery.template, keyword, platform);
-} else {
-  query = buildNormalSearchQuery(keyword, platform);
-}
-
-performGoogleSearch(query, timeRange)
-  .then(function(results) {
-    if (results.length > 0) {
-      return analyzeWithAI(results, query, platform)
-        .then(function(analysis) {
-          currentAnalysis = analysis;
-          displayResults(results, powerQuery, keyword, analysis);
-        });
-    } else {
-      displayResults(results, powerQuery, keyword, null);
-    }
-  })
-  .catch(function(error) {
-    showError(error.message);
-  });
+ showLoading();
+ 
+ // Simulate search for demo
+ setTimeout(() => {
+   displayResults(DEMO_RESULTS.results, null, keyword, null);
+ }, 1500);
 }
 
 function showLoading() {
-var grid = document.getElementById('resultsGrid');
-var resultsHeader = document.getElementById('resultsHeader');
-var downloadBtn = document.getElementById('downloadOpportunitiesBtn');
+ const grid = document.getElementById('resultsGrid');
+ const resultsHeader = document.getElementById('resultsHeader');
 
-resultsHeader.style.display = 'block';
-if (downloadBtn) downloadBtn.style.display = 'none';
-grid.innerHTML = '<div class="loading-container">' +
-  '<div class="loading-spinner"></div>' +
-  '<p class="loading-text">Analyzing pain points across platforms...</p>' +
-  '</div>';
-}
-
-function showError(message) {
-var grid = document.getElementById('resultsGrid');
-var downloadBtn = document.getElementById('downloadOpportunitiesBtn');
-if (downloadBtn) downloadBtn.style.display = 'none';
-grid.innerHTML = '<div class="empty-state">' +
-  '<h3>Search Error</h3>' +
-  '<p>' + message + '</p>' +
-  '</div>';
+ resultsHeader.style.display = 'block';
+ grid.innerHTML = `
+   <div class="loading-container">
+     <div class="loading-spinner"></div>
+     <p class="loading-text">Analyzing pain points across platforms...</p>
+   </div>
+ `;
 }
 
 function displayResults(results, powerQuery, keyword, analysis) {
- var grid = document.getElementById('resultsGrid');
- var resultsHeader = document.getElementById('resultsHeader');
+ const grid = document.getElementById('resultsGrid');
+ const resultsHeader = document.getElementById('resultsHeader');
 
  resultsHeader.style.display = 'block';
 
  if (!results.length) {
-   grid.innerHTML = '<div class="empty-state">' +
-     '<h3>No Pain Points Found</h3>' +
-     '<p>Try a different search term, platform, or time range to discover customer complaints.</p>' +
-     '</div>';
+   grid.innerHTML = `
+     <div class="empty-state">
+       <h3>No Pain Points Found</h3>
+       <p>Try a different search term, platform, or time range to discover customer complaints.</p>
+     </div>
+   `;
    currentSearchResults = [];
    return;
  }
-var html = '';
-currentSearchResults = [];
 
-for (var i = 0; i < results.length; i++) {
-  var result = results[i];
-  var platformClass = getPlatformClass(result.displayLink);
-  var platformName = getPlatformName(result.displayLink);
-  
-  var snippet = result.snippet || '';
-  var painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-  
-  for (var j = 0; j < painWords.length; j++) {
-    var word = painWords[j];
-    var regex = new RegExp('(^|\\s)(' + word + ')(\\s|$)', 'gi');
-    snippet = snippet.replace(regex, '$1<mark>$2</mark>$3');
-  }
-  
-  var insight;
-  if (result.insight) {
-    insight = result.insight;
-  } else if (analysis) {
-    insight = findInsightForResult(result, analysis);
-  } else {
-    insight = {
-      businessOpportunity: "AI analysis not available for this result",
-      urgency: "low"
-    };
-  }
-
-  currentSearchResults.push({
-    title: result.title,
-    link: result.link,
-    snippet: result.snippet,
-    platform: platformName,
-    businessOpportunity: insight.businessOpportunity || 'N/A',
-    urgency: insight.urgency || 'medium'
-  });
-
- html += '<div class="result-card">' +
-'<div class="card-header">' +
-  '<div class="source-info">' +
-    '<span class="source-badge ' + platformClass + '">' + platformName + '</span>' +
-  '</div>' +
-  '<div class="problem-statement">' +
-    '<h3 class="problem-title">Customer Problem:</h3>' +
-    '<p class="problem-text">"' + escapeHtml(result.snippet.substring(0, 120)) + '..."</p>' +
-  '</div>' +
-'</div>' +
- '<div class="card-body">' +
-   '<h4 class="solution-title">Product Opportunity:</h4>' +
-   '<p class="solution-text">' + (insight.businessOpportunity || 'Analyzing opportunity...') + '</p>' +
- '</div>' +
- '<div class="card-action">' +
-   '<button class="generate-prd-btn primary" ' +
-     'data-title="' + escapeHtml(result.title) + '" ' +
-     'data-snippet="' + escapeHtml(result.snippet || '') + '" ' +
-     'data-opportunity="' + escapeHtml(insight.businessOpportunity || '') + '">' +
-     'Generate Product Requirements →' +
-   '</button>' +
-   '<a href="' + result.link + '" target="_blank" class="source-link">View Original Complaint</a>' +
- '</div>' +
-'</div>';
-}
-
-grid.innerHTML = html;
-
-// Add event listeners to all PRD buttons
-var prdButtons = document.querySelectorAll('.generate-prd-btn');
-for (var k = 0; k < prdButtons.length; k++) {
-  prdButtons[k].addEventListener('click', function(e) {
-    var btn = e.target;
-    var title = btn.getAttribute('data-title');
-    var snippet = btn.getAttribute('data-snippet');
-    var opportunity = btn.getAttribute('data-opportunity');
-    generatePrdPrompt(title, snippet, opportunity);
-  });
-}
+ currentSearchResults = [];
  
- var downloadContainer = document.getElementById('download-container');
+ const html = results.map((result, i) => {
+   const platformClass = getPlatformClass(result.displayLink);
+   const platformName = getPlatformName(result.displayLink);
+   
+   let snippet = result.snippet || '';
+   const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+   
+   painWords.forEach(word => {
+     const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
+     snippet = snippet.replace(regex, '$1<mark>$2</mark>$3');
+   });
+   
+   const insight = result.insight || {
+     businessOpportunity: "AI analysis not available for this result",
+     urgency: "low"
+   };
+
+   currentSearchResults.push({
+     title: result.title,
+     link: result.link,
+     snippet: result.snippet,
+     platform: platformName,
+     businessOpportunity: insight.businessOpportunity || 'N/A',
+     urgency: insight.urgency || 'medium'
+   });
+
+   return `
+     <div class="result-card">
+       <div class="card-header">
+         <div class="source-info">
+           <span class="source-badge ${platformClass}">${platformName}</span>
+         </div>
+         <div class="problem-statement">
+           <h3 class="problem-title">Customer Problem:</h3>
+           <p class="problem-text">"${escapeHtml(result.snippet.substring(0, 120))}..."</p>
+         </div>
+       </div>
+       <div class="card-body">
+         <h4 class="solution-title">Product Opportunity:</h4>
+         <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
+       </div>
+       <div class="card-action">
+         <button class="generate-prd-btn" 
+                 data-title="${escapeHtml(result.title)}" 
+                 data-snippet="${escapeHtml(result.snippet || '')}" 
+                 data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
+           Generate Product Requirements →
+         </button>
+         <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
+       </div>
+     </div>
+   `;
+ }).join('');
+
+ grid.innerHTML = html;
+
+ // Add event listeners to PRD buttons
+ document.querySelectorAll('.generate-prd-btn').forEach(btn => {
+   btn.addEventListener('click', e => {
+     const { title, snippet, opportunity } = e.target.dataset;
+     generatePrdPrompt(title, snippet, opportunity);
+   });
+ });
+ 
+ // Add download section
+ let downloadContainer = document.getElementById('download-container');
  if (!downloadContainer) {
    downloadContainer = document.createElement('div');
    downloadContainer.id = 'download-container';
@@ -1915,9 +622,7 @@ for (var k = 0; k < prdButtons.length; k++) {
      <div class="download-section">
        <h3 class="download-title">Export Your Opportunities</h3>
        <p class="download-subtitle">Download all ${currentSearchResults.length} opportunities as a CSV file for analysis</p>
-       <button id="downloadOpportunitiesBtn" class="download-btn" onclick="downloadOpportunities()">
-         Download CSV Report
-       </button>
+       <button class="download-btn" onclick="downloadOpportunities()">Download CSV Report</button>
      </div>
    `;
    downloadContainer.style.display = 'block';
@@ -1926,155 +631,31 @@ for (var k = 0; k < prdButtons.length; k++) {
  }
 }
 
-function escapeHtml(text) {
-if (typeof text !== 'string') return text;
-var map = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#039;'
-};
-return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}
-
-function copyToClipboard(textToCopy, type) {
- type = type || 'text';
- 
- if (navigator.clipboard && window.isSecureContext) {
-   navigator.clipboard.writeText(textToCopy).then(function() {
-     showCopySuccess(type);
-   }).catch(function() {
-     fallbackCopy(textToCopy, type);
-   });
- } else {
-   fallbackCopy(textToCopy, type);
- }
-}
-
-function fallbackCopy(textToCopy, type) {
- var textArea = document.createElement('textarea');
- textArea.value = textToCopy;
- textArea.style.position = 'fixed';
- textArea.style.left = '-999999px';
- textArea.style.top = '-999999px';
- document.body.appendChild(textArea);
- textArea.focus();
- textArea.select();
- 
- try {
-   var successful = document.execCommand('copy');
-   if (successful) {
-     showCopySuccess(type);
-   } else {
-     showCopyError();
-   }
- } catch (err) {
-   showCopyError();
- } finally {
-   document.body.removeChild(textArea);
- }
-}
-
-function showCopySuccess(type) {
- var btn = event.target;
- if (btn) {
-   var originalText = btn.textContent;
-   var originalBackground = btn.style.background || '';
-   
-   if (type === 'link') {
-     btn.textContent = '✅ Copied!';
-   } else {
-     btn.textContent = '✅ Copied!';
-   }
-   
-   btn.style.background = 'var(--bg-success)';
-   btn.style.color = 'white';
-   
-   setTimeout(function() {
-     btn.textContent = originalText;
-     btn.style.background = originalBackground;
-     btn.style.color = '';
-   }, 2000);
- }
-}
-
-function showCopyError() {
- var btn = event.target;
- if (btn) {
-   var originalText = btn.textContent;
-   btn.textContent = '❌ Failed';
-   btn.style.background = 'var(--bg-danger)';
-   btn.style.color = 'white';
-   
-   setTimeout(function() {
-     btn.textContent = originalText;
-     btn.style.background = '';
-     btn.style.color = '';
-   }, 2000);
- }
-}
-
 function downloadOpportunities() {
- if (currentSearchResults.length === 0) {
-   var btn = event.target;
-   var originalText = btn.textContent;
-   btn.textContent = '❌ No Data';
-   btn.style.background = 'var(--bg-danger)';
-   
-   setTimeout(function() {
-     btn.textContent = originalText;
-     btn.style.background = '';
-   }, 2000);
-   return;
- }
+ if (currentSearchResults.length === 0) return;
 
- var format = 'csv'; 
- var filename = 'grumpylinks_opportunities_' + new Date().toISOString().slice(0,10);
- var dataStr;
-
- var headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Urgency"];
- var fieldMapping = {
-   "Title": "title",
-   "Link": "link", 
-   "Snippet": "snippet",
-   "Platform": "platform",
-   "Business Opportunity": "businessOpportunity",
-   "Urgency": "urgency"
+ const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Urgency"];
+ const fieldMapping = {
+   "Title": "title", "Link": "link", "Snippet": "snippet", "Platform": "platform",
+   "Business Opportunity": "businessOpportunity", "Urgency": "urgency"
  };
  
- var rows = currentSearchResults.map(function(row) {
-   return headers.map(function(header) {
-     var key = fieldMapping[header];
-     var value = row[key];
-     if (typeof value === 'string') {
-       return '"' + value.replace(/"/g, '""') + '"';
-     }
-     return '"' + (value || '') + '"';
-   }).join(',');
- });
- dataStr = headers.join(',') + '\n' + rows.join('\n');
- filename += '.csv';
+ const rows = currentSearchResults.map(row => 
+   headers.map(header => `"${(row[fieldMapping[header]] || '').replace(/"/g, '""')}"`).join(',')
+ );
+ 
+ const dataStr = headers.join(',') + '\n' + rows.join('\n');
+ const filename = `grumpylinks_opportunities_${new Date().toISOString().slice(0,10)}.csv`;
 
- var blob = new Blob([dataStr], { type: 'text/csv' });
- var url = URL.createObjectURL(blob);
- var a = document.createElement('a');
+ const blob = new Blob([dataStr], { type: 'text/csv' });
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement('a');
  a.href = url;
  a.download = filename;
  document.body.appendChild(a);
  a.click();
  document.body.removeChild(a);
  URL.revokeObjectURL(url);
- 
- var btn = event.target;
- var originalText = btn.textContent;
- btn.textContent = '✅ Downloaded!';
- btn.style.background = 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)';
- 
- setTimeout(function() {
-   btn.textContent = originalText;
-   btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
- }, 2000);
 }
 
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
@@ -2083,35 +664,30 @@ function generatePrdPrompt(originalTitle, snippet, opportunity) {
    return;
  }
 
- var button = event.target;
- var card = button.closest('.result-card');
- var sourceLink = card ? card.querySelector('.source-link').href : '#';
+ const button = event.target;
+ const card = button.closest('.result-card');
+ const sourceLink = card?.querySelector('.source-link').href || '#';
 
- var originalText = button.textContent;
+ const originalText = button.textContent;
  button.textContent = 'Generating...';
  button.disabled = true;
 
  showPrdLoading(originalTitle);
-
- var progressInterval = startProgressAnimation();
+ const progressInterval = startProgressAnimation();
 
  fetch(API_CONFIG.LAMBDA_ENDPOINT, {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },
    body: JSON.stringify({ 
      action: 'generate_prd',
-     originalTitle: originalTitle,
-     snippet: snippet,
-     opportunity: opportunity
+     originalTitle, snippet, opportunity
    })
  })
- .then(function(response) {
-   if (!response.ok) {
-     throw new Error('PRD generation failed: ' + response.status);
-   }
+ .then(response => {
+   if (!response.ok) throw new Error(`PRD generation failed: ${response.status}`);
    return response.json();
  })
- .then(function(data) {
+ .then(data => {
    clearInterval(progressInterval);
    if (data.prd) {
      showPrdResults(data.prd, originalTitle, snippet, opportunity, sourceLink);
@@ -2119,19 +695,19 @@ function generatePrdPrompt(originalTitle, snippet, opportunity) {
      throw new Error('No PRD content received');
    }
  })
- .catch(function(error) {
+ .catch(error => {
    clearInterval(progressInterval);
    console.error('PRD generation error:', error);
    showPrdError(error.message);
  })
- .finally(function() {
+ .finally(() => {
    button.textContent = originalText;
    button.disabled = false;
  });
 }
 
 function showPrdLoading(title) {
- var container = getPrdContainer();
+ const container = getPrdContainer();
  container.innerHTML = `
    <div class="prd-header">
      <h2 class="prd-title">😠 Generating PRD...</h2>
@@ -2147,28 +723,23 @@ function showPrdLoading(title) {
    </div>
  `;
  container.style.display = 'block';
- 
  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function startProgressAnimation() {
- var progress = 0;
- var progressFill = document.getElementById('prd-progress-fill');
+ let progress = 0;
+ const progressFill = document.getElementById('prd-progress-fill');
  
- return setInterval(function() {
+ return setInterval(() => {
    progress += 20;
    if (progress > 90) progress = 90;
-   
-   if (progressFill) {
-     progressFill.style.width = progress + '%';
-   }
+   if (progressFill) progressFill.style.width = `${progress}%`;
  }, 800);
 }
 
 function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceLink) {
- var container = getPrdContainer();
- 
- var formattedContent = formatPrdContent(prdContent);
+ const container = getPrdContainer();
+ const formattedContent = formatPrdContent(prdContent);
  
  container.innerHTML = `
    <div class="prd-header">
@@ -2180,7 +751,7 @@ function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceL
      </div>
    </div>
    
-   <div class="prd-content" id="prd-content">
+   <div class="prd-content">
      ${formattedContent}
      
      <h2>Source</h2>
@@ -2194,18 +765,14 @@ function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceL
          <div class="source-text">${escapeHtml(opportunity)}</div>
        </div>
        <div class="source-item">
-  <div class="source-label">Original Source:</div>
-  <div class="source-text">${escapeHtml(sourceLink)}</div>
-</div>
+         <div class="source-label">Original Source:</div>
+         <div class="source-text">${escapeHtml(sourceLink)}</div>
+       </div>
      </div>
    </div>
  `;
  
- var productName = "Product";
- var h1Match = prdContent.match(/^#\s+([^-]+)/m);
- if (h1Match) {
-   productName = h1Match[1].trim();
- }
+ const productName = prdContent.match(/^#\s+([^-]+)/m)?.[1]?.trim() || "Product";
  
  window.currentPrdContent = `# ${productName} - Product Requirements Document
 
@@ -2220,18 +787,11 @@ ${prdContent.replace(/^#\s+.+$/m, '').trim()}
 ---
 *This PRD was created by GrumpyLinks.com based on customer feedback.*`;
  
- var progressFill = document.getElementById('prd-progress-fill');
- if (progressFill) {
-   progressFill.style.width = '100%';
- }
- 
- setTimeout(function() {
-   container.scrollIntoView({ behavior: 'smooth', block: 'start' });
- }, 100);
+ setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
 
 function showPrdError(errorMessage) {
- var container = getPrdContainer();
+ const container = getPrdContainer();
  container.innerHTML = `
    <div class="prd-header">
      <h2 class="prd-title">❌ PRD Generation Failed</h2>
@@ -2249,186 +809,87 @@ function showPrdError(errorMessage) {
 }
 
 function getPrdContainer() {
- var container = document.getElementById('prd-container');
+ let container = document.getElementById('prd-container');
  if (!container) {
    container = document.createElement('div');
    container.id = 'prd-container';
    container.className = 'prd-container';
    
-   var resultsGrid = document.getElementById('resultsGrid');
+   const resultsGrid = document.getElementById('resultsGrid');
    resultsGrid.parentNode.insertBefore(container, resultsGrid.nextSibling);
  }
  return container;
 }
 
 function formatPrdContent(content) {
- var cleaned = content
+ return content
    .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
-   .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '');
-
- var sections = cleaned.split(/(?=^## )/gm);
- 
- var processedSections = sections.map(function(section) {
-   var processed = section
-     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-     .replace(/^### (.*$)/gm, '<h3>$1</h3>');
-   
-   var lines = processed.split('\n');
-   var inNumberedList = false;
-   var listItems = [];
-   
-   for (var i = 0; i < lines.length; i++) {
-     var line = lines[i];
-     
-     if (/^\d+\.\s+/.test(line)) {
-       var content = line.replace(/^\d+\.\s+/, '');
-       listItems.push('<li>' + content + '</li>');
-       inNumberedList = true;
-     } else {
-       if (inNumberedList && listItems.length > 0) {
-         lines[i - listItems.length] = '<ol>' + listItems.join('') + '</ol>';
-         for (var j = 1; j < listItems.length; j++) {
-           lines[i - listItems.length + j] = '';
-         }
-         listItems = [];
-         inNumberedList = false;
-       }
-     }
-   }
-   
-   if (inNumberedList && listItems.length > 0) {
-     lines[lines.length - listItems.length] = '<ol>' + listItems.join('') + '</ol>';
-     for (var k = 1; k < listItems.length; k++) {
-       lines[lines.length - listItems.length + k] = '';
-     }
-   }
-   
-   return lines.join('\n');
- });
- 
- var result = processedSections.join('');
- 
- return result
+   .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+   .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+   .replace(/^### (.*$)/gm, '<h3>$1</h3>')
    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
    .replace(/\*(.*?)\*/g, '<em>$1</em>')
    .replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>')
-   .replace(/(<li>(?!.*<\/ol>).*<\/li>(?:\s*<li>(?!.*<\/ol>).*<\/li>)*)/gs, '<ul>$1</ul>')
+   .replace(/(<li>.*<\/li>(?:\s*<li>.*<\/li>)*)/gs, '<ul>$1</ul>')
    .replace(/\n\n+/g, '</p><p>')
    .replace(/^(?!<[huo])(.+)$/gm, '<p>$1</p>')
    .replace(/<p><\/p>/g, '')
-   .replace(/<p>\s*<\/p>/g, '')
-   .replace(/\n\s*\n/g, '\n')
    .trim();
 }
 
 function copyPrdToClipboard() {
- if (window.currentPrdContent) {
-   if (navigator.clipboard && window.isSecureContext) {
-     navigator.clipboard.writeText(window.currentPrdContent).then(function() {
-       showCopySuccess();
-     }).catch(function() {
-       fallbackCopy();
-     });
-   } else {
-     fallbackCopy();
-   }
- }
-}
-
-function fallbackCopy() {
- var textArea = document.createElement('textarea');
- textArea.value = window.currentPrdContent;
- textArea.style.position = 'fixed';
- textArea.style.left = '-999999px';
- textArea.style.top = '-999999px';
- document.body.appendChild(textArea);
- textArea.focus();
- textArea.select();
+ if (!window.currentPrdContent) return;
  
- try {
-   var successful = document.execCommand('copy');
-   if (successful) {
-     showCopySuccess();
-   } else {
-     showCopyError();
-   }
- } catch (err) {
-   showCopyError();
- } finally {
-   document.body.removeChild(textArea);
+ if (navigator.clipboard) {
+   navigator.clipboard.writeText(window.currentPrdContent).then(() => {
+     const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
+     if (btn) {
+       const originalText = btn.textContent;
+       btn.textContent = '✅ Copied!';
+       btn.style.background = 'var(--bg-success)';
+       setTimeout(() => {
+         btn.textContent = originalText;
+         btn.style.background = 'var(--bg-button)';
+       }, 2000);
+     }
+   });
  }
-}
-
-function showCopySuccess() {
- var btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
- if (btn) {
-   var originalText = btn.textContent;
-   btn.textContent = '✅ Copied!';
-   btn.style.background = 'var(--bg-success)';
-   
-   setTimeout(function() {
-     btn.textContent = originalText;
-     btn.style.background = 'var(--bg-button)';
-   }, 2000);
- }
-}
-
-function showCopyError() {
- alert('Could not copy to clipboard. Please select and copy manually.');
 }
 
 function downloadPrd() {
- if (window.currentPrdContent) {
-   var productName = "product";
-   var h1Match = window.currentPrdContent.match(/^#\s+([^-\n]+)/m);
-   if (h1Match) {
-     productName = h1Match[1].trim()
-       .toLowerCase()
-       .replace(/[^a-z0-9\s-]/g, '')
-       .replace(/\s+/g, '-')
-       .replace(/-+/g, '-')
-       .replace(/^-|-$/g, '');
-   }
-   
-   var filename = productName + '-prd-' + new Date().toISOString().slice(0,10) + '.md';
-   
-   var blob = new Blob([window.currentPrdContent], { type: 'text/markdown' });
-   var url = URL.createObjectURL(blob);
-   var a = document.createElement('a');
-   a.href = url;
-   a.download = filename;
-   document.body.appendChild(a);
-   a.click();
-   document.body.removeChild(a);
-   URL.revokeObjectURL(url);
-   
-   var btn = event.target;
-   var originalText = btn.textContent;
-   btn.textContent = '✅ Downloaded!';
-   btn.style.background = 'var(--bg-success)';
-   
-   setTimeout(function() {
-     btn.textContent = originalText;
-     btn.style.background = 'var(--bg-tertiary)';
-   }, 2000);
- }
+ if (!window.currentPrdContent) return;
+ 
+ const productName = window.currentPrdContent.match(/^#\s+([^-\n]+)/m)?.[1]?.trim()
+   ?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'product';
+ 
+ const filename = `${productName}-prd-${new Date().toISOString().slice(0,10)}.md`;
+ 
+ const blob = new Blob([window.currentPrdContent], { type: 'text/markdown' });
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement('a');
+ a.href = url;
+ a.download = filename;
+ document.body.appendChild(a);
+ a.click();
+ document.body.removeChild(a);
+ URL.revokeObjectURL(url);
 }
 
 function closePrd() {
- var container = document.getElementById('prd-container');
- if (container) {
-   container.style.display = 'none';
- }
+ const container = document.getElementById('prd-container');
+ if (container) container.style.display = 'none';
 }
 
-window.copyPrdToClipboard = copyPrdToClipboard;
-window.downloadPrd = downloadPrd;
-window.closePrd = closePrd;
-window.copyToClipboard = copyToClipboard;
-window.toggleFAQ = toggleFAQ;
-window.downloadOpportunities = downloadOpportunities;
-window.generatePrdPrompt = generatePrdPrompt;
+// Initialize
+function init() {
+ loadConfig();
+ setupEventListeners();
+ document.getElementById('searchInput').value = DEMO_RESULTS.query;
+ displayResults(DEMO_RESULTS.results, null, DEMO_RESULTS.query, null);
+}
+
+// Make functions global for onclick handlers
+Object.assign(window, { toggleFAQ, downloadOpportunities, copyPrdToClipboard, downloadPrd, closePrd });
 
 init();
 </script>
