@@ -91,8 +91,9 @@ html, body {
 
 .logo {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
   text-decoration: none;
   color: var(--text-primary);
   font-weight: 800;
@@ -101,11 +102,13 @@ html, body {
   margin-bottom: 24px;
   padding: 16px 0;
   border-bottom: 1px solid var(--border-primary);
+  text-align: center;
 }
 
 .logo-emoji {
-  font-size: 28px;
+  font-size: 40px;
   line-height: 1;
+  margin-bottom: 8px;
 }
 
 .logo-text {
@@ -671,7 +674,7 @@ html, body {
     </div>
 
     <div class="search-section">
-      <div class="section-title">Search Pain Points</div>
+      <div class="section-title">FIND GRUMPY CUSTOMERS</div>
       <input id="searchInput" class="search-input" type="text" 
              placeholder="Brand, product, or topic..." />
       <select id="queryDropdown" class="select-input">
@@ -835,12 +838,12 @@ const POWER_QUERIES = {
   'switching_signals': {
     id: 'switching_signals',
     title: 'Switching Signals',
-    template: '("switching from" OR "alternative to" OR "leaving") {{keyword}}'
+    template: '("switching from" OR "alternative to" OR "quitting" OR "leaving") {{keyword}}'
   },
   'wish_list': {
     id: 'wish_list',
     title: 'Unmet Needs',
-    template: '"I wish there was" OR "someone should build" {{keyword}}'
+    template: '"I wish there was" OR "someone should" {{keyword}}'
   },
   'feature_requests': {
     id: 'feature_requests',
@@ -874,7 +877,7 @@ let currentAnalysis = null;
 
 // Demo Results Data
 const DEMO_RESULTS = {
-  query: "airplane wifi",
+  query: "",
   results: [
     {
       title: "Zach (Probably) on X: \"This is actually painful, #ChatGPT works well ...\"",
@@ -973,7 +976,7 @@ DEMO_RESULTS.results.forEach((result, index) => {
   const platformName = getPlatformName(result.displayLink);
   
   let snippet = result.snippet;
-  const painWords = ['painful', 'sucks', 'hate', 'broken', 'annoying', 'ass', 'taboo', 'blocked', 'help'];
+  const painWords = ['painful', 'sucks', 'hate', 'broken', 'annoying', 'ass', 'crap', 'blocked', 'help'];
   painWords.forEach(word => {
     const regex = new RegExp(`\\b${word}\\b`, 'gi');
     snippet = snippet.replace(regex, `<mark>$&</mark>`);
