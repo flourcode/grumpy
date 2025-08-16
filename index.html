@@ -33,7 +33,7 @@ body {
 
 .logo-emoji { font-size: 40px; margin-bottom: 8px; }
 
-.hero-content-sidebar { margin-bottom: 24px; padding: 16px; background: var(--bg-tertiary); border-radius: 8px; border: 1px solid var(--border-primary); }
+.hero-content-sidebar { margin-bottom: 24px; padding: 16px; background: var(--bg-tertiary); border-radius: 8px; border: 1px solid var(--border-primary); text-align: center; }
 
 .hero-title-sidebar { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
 
@@ -250,6 +250,175 @@ mark {
   .prd-header { flex-direction: column; gap: 16px; padding: 24px 20px; }
   .prd-content { padding: 24px 20px; font-size: 14px; }
 }
+/* 1) Palette tune - quieter surfaces, clearer text */
+:root {
+  --bg-primary: #0f1115;       /* a hair cooler than #0f0f10 */
+  --bg-secondary: #131720;
+  --bg-tertiary: #171b26;
+  --bg-card: #151a23;
+  --bg-card-hover: #181e2a;
+
+  --text-primary: #e6e9ef;     /* higher contrast */
+  --text-secondary: #9aa3b2;
+  --text-muted: #7a8494;
+  --text-accent: #2f80ed;      /* calm Notion-like blue */
+
+  --border-primary: #1e2433;   /* crisp hairline */
+  --border-secondary: #263146;
+  --border-accent: #2f80ed;
+
+  /* keep your brand badge colors as-is */
+}
+
+/* 2) Typographic smoothing and rhythm */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
+}
+
+/* 3) Selection and scrollbar that match the theme */
+::selection {
+  background: rgba(47, 128, 237, 0.28);
+  color: var(--text-primary);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2b3548 transparent;
+}
+*::-webkit-scrollbar { height: 10px; width: 10px; }
+*::-webkit-scrollbar-thumb { background: #2b3548; border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* 4) Cards - no heavy shadows, use borders and soft lift */
+.result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  transition: border-color .2s ease, transform .12s ease, background .2s ease;
+  box-shadow: none;
+}
+.result-card:hover {
+  border-color: var(--border-secondary);
+  transform: translateY(-1px);
+  background: var(--bg-card-hover);
+}
+
+/* 5) Inputs and buttons - consistent chroma and focus rings */
+.search-input, .select-input {
+  background: #111623;
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+}
+.search-input:focus, .select-input:focus {
+  outline: none;
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.25);
+}
+.search-button {
+  background: var(--text-accent);
+  border: 1px solid transparent;
+}
+.search-button:hover { background: #2563eb; }
+.search-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.35);
+}
+
+/* 6) Section dividers - hairline, not heavy rules */
+.card-header,
+.footer,
+.prd-header {
+  border-color: var(--border-primary);
+}
+
+:root {
+  --bg-primary: #0f1115;       /* a hair cooler than #0f0f10 */
+  --bg-secondary: #131720;
+  --bg-tertiary: #171b26;
+  --bg-card: #151a23;
+  --bg-card-hover: #181e2a;
+
+  --text-primary: #e6e9ef;     /* higher contrast */
+  --text-secondary: #9aa3b2;
+  --text-muted: #7a8494;
+  --text-accent: #2f80ed;      /* calm Notion-like blue */
+
+  --border-primary: #1e2433;   /* crisp hairline */
+  --border-secondary: #263146;
+  --border-accent: #2f80ed;
+
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: rgba(47, 128, 237, 0.28);
+  color: var(--text-primary);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2b3548 transparent;
+}
+*::-webkit-scrollbar { height: 10px; width: 10px; }
+*::-webkit-scrollbar-thumb { background: #2b3548; border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  transition: border-color .2s ease, transform .12s ease, background .2s ease;
+  box-shadow: none;
+}
+.result-card:hover {
+  border-color: var(--border-secondary);
+  transform: translateY(-1px);
+  background: var(--bg-card-hover);
+}
+
+.search-input, .select-input {
+  background: #111623;
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+}
+.search-input:focus, .select-input:focus {
+  outline: none;
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.25);
+}
+.search-button {
+  background: var(--text-accent);
+  border: 1px solid transparent;
+}
+.search-button:hover { background: #2563eb; }
+.search-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.35);
+}
+
+.card-header,
+.footer,
+.prd-header {
+  border-color: var(--border-primary);
+}
+
+.source-badge {
+  font-weight: 700;
+  letter-spacing: .02em;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
 </style>
 </head>
 <body>
@@ -1017,7 +1186,7 @@ function showPrdLoading(title) {
  const container = getPrdContainer();
  container.innerHTML = `
    <div class="prd-header">
-     <h2 class="prd-title">😠 Generating PRD...</h2>
+     <h2 class="prd-title">😠 Generating Grumpy PRD...</h2>
    </div>
    <div class="prd-loading">
      <div class="prd-loading-spinner"></div>
