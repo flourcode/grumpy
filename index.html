@@ -2214,10 +2214,23 @@ function showCopySuccess() {
 function showCopyError() {
   alert('Could not copy automatically. Please select all text and copy manually (Ctrl+A, then Ctrl+C).');
 }
-
 function downloadPrd() {
   if (window.currentPrdContent) {
-    var filename = 'mini-prd-' + new Date().toISOString().slice(0,10) + '.md';
+    // Extract product name from the PRD content for filename
+    var productName = "product";
+    var h1Match = window.currentPrdContent.match(/^#\s+([^-\n]+)/m);
+    if (h1Match) {
+      productName = h1Match[1].trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-')         // Replace spaces with hyphens
+        .replace(/-+/g, '-')          // Replace multiple hyphens with single
+        .replace(/^-|-$/g, '');       // Remove leading/trailing hyphens
+    }
+    
+    // Create filename with product name and date
+    var filename = productName + '-prd-' + new Date().toISOString().slice(0,10) + '.md';
+    
     var blob = new Blob([window.currentPrdContent], { type: 'text/markdown' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -2240,7 +2253,6 @@ function downloadPrd() {
     }, 2000);
   }
 }
-
 function closePrd() {
   var container = document.getElementById('prd-container');
   if (container) {
