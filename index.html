@@ -1192,7 +1192,7 @@ html, body {
 
 .source-info {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 16px;
 }
@@ -1866,9 +1866,6 @@ for (var i = 0; i < results.length; i++) {
 '<div class="card-header">' +
   '<div class="source-info">' +
     '<span class="source-badge ' + platformClass + '">' + platformName + '</span>' +
-    '<span class="urgency-badge urgency-' + (insight.urgency || 'medium') + '">' +
-      (insight.urgency || 'medium').toUpperCase() + ' OPPORTUNITY' +
-    '</span>' +
   '</div>' +
   '<div class="problem-statement">' +
     '<h3 class="problem-title">Customer Problem:</h3>' +
@@ -2197,13 +2194,9 @@ function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceL
          <div class="source-text">${escapeHtml(opportunity)}</div>
        </div>
        <div class="source-item">
-         <div class="source-label">Original Source:</div>
-         <div class="source-link">
-           <a href="${escapeHtml(sourceLink)}" target="_blank" rel="noopener">
-             View Original Complaint →
-           </a>
-         </div>
-       </div>
+  <div class="source-label">Original Source:</div>
+  <div class="source-text">${escapeHtml(sourceLink)}</div>
+</div>
      </div>
    </div>
  `;
@@ -2225,7 +2218,7 @@ ${prdContent.replace(/^#\s+.+$/m, '').trim()}
 **Original Source:** ${sourceLink}
 
 ---
-*This PRD was auto-generated based on customer feedback.*`;
+*This PRD was created by GrumpyLinks.com based on customer feedback.*`;
  
  var progressFill = document.getElementById('prd-progress-fill');
  if (progressFill) {
