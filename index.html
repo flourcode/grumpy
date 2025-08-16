@@ -685,7 +685,6 @@ html, body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--text-accent) 0%, #60a5fa 100%);
 }
 
 .download-title {
@@ -1615,9 +1614,17 @@ function analyzeWithAI(results, query, platform) {
 function performSearch() {
  var keyword = document.getElementById('searchInput').value.trim();
  if (!keyword) {
-   alert('Please enter a search term');
-   return;
- }
+  var searchInput = document.getElementById('searchInput');
+  searchInput.style.borderColor = 'var(--bg-danger)';
+  searchInput.placeholder = 'Please enter a search term...';
+  searchInput.focus();
+  
+  setTimeout(function() {
+    searchInput.style.borderColor = '';
+    searchInput.placeholder = 'Brand, product, or topic...';
+  }, 3000);
+  return;
+}
 
  var queryType = document.getElementById('queryDropdown').value;
  var platform = document.getElementById('platformSelect').value;
@@ -1804,21 +1811,95 @@ function escapeHtml(text) {
 
 function copyToClipboard(textToCopy, type) {
   type = type || 'text';
-  navigator.clipboard.writeText(textToCopy).then(function() {
-    var message = '';
-    if (type === 'link') message = 'Link copied!';
-    else message = 'Copied to clipboard!';
+  
+  // Try modern clipboard API first
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      showCopySuccess(type);
+    }).catch(function() {
+      fallbackCopy(textToCopy, type);
+    });
+  } else {
+    fallbackCopy(textToCopy, type);
+  }
+}
+
+function fallbackCopy(textToCopy, type) {
+  // Fallback method for older browsers or insecure contexts
+  var textArea = document.createElement('textarea');
+  textArea.value = textToCopy;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  
+  try {
+    var successful = document.execCommand('copy');
+    if (successful) {
+      showCopySuccess(type);
+    } else {
+      showCopyError();
+    }
+  } catch (err) {
+    showCopyError();
+  } finally {
+    document.body.removeChild(textArea);
+  }
+}
+
+function showCopySuccess(type) {
+  var btn = event.target;
+  if (btn) {
+    var originalText = btn.textContent;
+    var originalBackground = btn.style.background || '';
     
-    alert(message);
-  }).catch(function(err) {
-    console.error('Failed to copy text: ', err);
-    alert('Could not copy text to clipboard. Please try manually.');
-  });
+    // Update button text and style based on type
+    if (type === 'link') {
+      btn.textContent = '✅ Copied!';
+    } else {
+      btn.textContent = '✅ Copied!';
+    }
+    
+    btn.style.background = 'var(--bg-success)';
+    btn.style.color = 'white';
+    
+    setTimeout(function() {
+      btn.textContent = originalText;
+      btn.style.background = originalBackground;
+      btn.style.color = ''; // Reset to default
+    }, 2000);
+  }
+}
+
+function showCopyError() {
+  var btn = event.target;
+  if (btn) {
+    var originalText = btn.textContent;
+    btn.textContent = '❌ Failed';
+    btn.style.background = 'var(--bg-danger)';
+    btn.style.color = 'white';
+    
+    setTimeout(function() {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  }
 }
 
 function downloadOpportunities() {
   if (currentSearchResults.length === 0) {
-    alert('No opportunities to download.');
+    var btn = event.target;
+    var originalText = btn.textContent;
+    btn.textContent = '❌ No Data';
+    btn.style.background = 'var(--bg-danger)';
+    
+    setTimeout(function() {
+      btn.textContent = originalText;
+      btn.style.background = '';
+    }, 2000);
     return;
   }
 
@@ -1877,9 +1958,9 @@ function downloadOpportunities() {
 }
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
   if (!API_CONFIG.LAMBDA_ENDPOINT) {
-    alert('PRD generation not configured. Please set up your Lambda endpoint.');
-    return;
-  }
+  showPrdError('PRD generation not configured. Please check your settings.');
+  return;
+}
 
   // Get the source link from the button's parent card
   var button = event.target;
@@ -2201,7 +2282,7 @@ function showCopySuccess() {
 }
 
 function showCopyError() {
-  alert('Could not copy automatically. Please select all text and copy manually (Ctrl+A, then Ctrl+C).');
+  alert('Could not copy to clipboard. Please select and copy manually.');
 }
 function downloadPrd() {
   if (window.currentPrdContent) {
