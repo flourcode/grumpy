@@ -99,6 +99,13 @@ body {
 
 .problem-text { font-size: 15px; line-height: 1.4; color: var(--text-primary); font-style: italic; }
 
+mark {
+  background: rgba(255, 242, 133, 0.55);
+  color: var(--text-primary);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 500;
+}
 .card-body { padding: 20px; flex-grow: 1; }
 
 .solution-title { font-size: 12px; font-weight: 600; color: var(--text-accent);
@@ -783,28 +790,49 @@ const html = results.map((result, i) => {
   const resultDate = getResultDate(result); // Call once and store
   
   let snippet = result.snippet || '';
-  
-  // Remove dates from the snippet for cleaner reading
-  const datePatterns = [
-    /\w{3}\s+\d{1,2},?\s+\d{4}/g,    // "Dec 17, 2024" or "Dec 17 2024"
-    /\d{1,2}\/\d{1,2}\/\d{4}/g,      // "12/17/2024"
-    /\d{4}-\d{2}-\d{2}/g,            // "2024-12-17"
-    /\d{1,2}-\d{1,2}-\d{4}/g         // "12-17-2024"
-  ];
-  
-  datePatterns.forEach(pattern => {
-    snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
-  });
-  
-  // Clean up any leftover artifacts like "..." or extra spaces
-  snippet = snippet.replace(/^[.,\s]*/, '').replace(/[.,\s]*$/, '');
-  
-  const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
-  
-  painWords.forEach(word => {
-    const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
-    snippet = snippet.replace(regex, '$1<mark>$2</mark>$3');
-  });
+
+// Clean up HTML entities and formatting artifacts first
+snippet = snippet
+  .replace(/&quot;/g, '"')
+  .replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<')
+  .replace(/&gt;/g, '>')
+  .replace(/&#39;/g, "'")
+  .replace(/\s*·\s*/g, ' ')  // Remove · separators
+  .replace(/\s*\.\.\.\s*/g, ' ') // Clean up ellipsis
+  .replace(/\s+/g, ' '); // Normalize spaces
+
+// Remove dates from the snippet for cleaner reading
+const datePatterns = [
+  /\w{3}\s+\d{1,2},?\s+\d{4}/g,    // "Dec 17, 2024" or "Dec 17 2024"
+  /\d{1,2}\/\d{1,2}\/\d{4}/g,      // "12/17/2024"
+  /\d{4}-\d{2}-\d{2}/g,            // "2024-12-17"
+  /\d{1,2}-\d{1,2}-\d{4}/g         // "12-17-2024"
+];
+
+datePatterns.forEach(pattern => {
+  snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
+});
+
+// Clean up any leftover artifacts and normalize
+snippet = snippet
+  .replace(/^[.,\s-·]*/, '') // Remove leading punctuation
+  .replace(/[.,\s-·]*$/, '') // Remove trailing punctuation
+  .replace(/\s+/g, ' ')      // Normalize spaces again
+  .trim();
+
+// Truncate first, THEN escape HTML, THEN add highlighting
+const truncatedSnippet = snippet.substring(0, 120);
+const escapedSnippet = escapeHtml(truncatedSnippet);
+
+// Apply highlighting AFTER HTML escaping
+const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+let highlightedSnippet = escapedSnippet;
+
+painWords.forEach(word => {
+  const regex = new RegExp(`(^|\\s)(${word})(\\s|$)`, 'gi');
+  highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
+});
   
   let insight;
   if (result.insight) {
@@ -835,9 +863,9 @@ const html = results.map((result, i) => {
           ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
         </div>
         <div class="problem-statement">
-          <h3 class="problem-title">Customer Problem:</h3>
-          <p class="problem-text">"${escapeHtml(snippet.substring(0, 120))}..."</p>
-        </div>
+  <h3 class="problem-title">Customer Problem:</h3>
+  <p class="problem-text">"${highlightedSnippet}..."</p>
+</div>
       </div>
       <div class="card-body">
         <h4 class="solution-title">Product Opportunity:</h4>
