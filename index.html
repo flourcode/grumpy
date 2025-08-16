@@ -1918,26 +1918,34 @@ function startProgressAnimation() {
     }
   }, 500);
 }
-
 function showPrdResults(prdContent, originalTitle, snippet, opportunity) {
   var container = getPrdContainer();
   
-  // Format the PRD content (convert markdown-style to HTML)
+  // Create a clean title from the original source
+  var cleanTitle = originalTitle
+    .replace(/^.*?:\s*"?/, '') // Remove "Username on Platform:" prefix
+    .replace(/["'].*$/, '')     // Remove quotes and everything after
+    .replace(/\.\.\.$/, '')     // Remove trailing ellipsis
+    .replace(/[^\w\s-]/g, '')   // Remove special characters except spaces and hyphens
+    .trim()
+    .substring(0, 50);          // Limit length
+  
+  // If title is too short or generic, use the business opportunity
+  if (cleanTitle.length < 10) {
+    cleanTitle = opportunity.substring(0, 50) + '...';
+  }
+  
+  // Format the PRD content
   var formattedContent = formatPrdContent(prdContent);
   
   container.innerHTML = `
     <div class="prd-header">
-      <h2 class="prd-title">📋 Generated Mini-PRD</h2>
+      <h2 class="prd-title">Mini Product Requirements Document for ${cleanTitle}</h2>
       <div class="prd-actions">
-        <button class="prd-action-btn" onclick="copyPrdToClipboard()">📋 Copy PRD</button>
-        <button class="prd-action-btn secondary" onclick="downloadPrd()">💾 Download</button>
+        <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy PRD</button>
+        <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
         <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
       </div>
-    </div>
-    
-    <div class="prd-source-info">
-      <div class="prd-source-title">Source Pain Point:</div>
-      "${escapeHtml(originalTitle)}"
     </div>
     
     <div class="prd-content" id="prd-content">
@@ -1959,7 +1967,6 @@ function showPrdResults(prdContent, originalTitle, snippet, opportunity) {
     container.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
 }
-
 function showPrdError(errorMessage) {
   var container = getPrdContainer();
   container.innerHTML = `
@@ -1991,39 +1998,84 @@ function getPrdContainer() {
   }
   return container;
 }
-
 function formatPrdContent(content) {
   // Remove emojis and clean up markdown formatting
-  return content
+  var cleaned = content
     // Remove all emojis first
     .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
     // Clean up any emoji spans
-    .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '')
-    // Convert markdown headers
-    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '');
+
+  // Split into sections by h2 headers
+  var sections = cleaned.split(/(?=^## )/gm);
+  
+  var processedSections = sections.map(function(section) {
+    // Convert headers first
+    var processed = section
+      .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+      .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+      .replace(/^### (.*$)/gm, '<h3>$1</h3>');
+    
+    // Convert numbered lists (reset numbering for each section)
+    var lines = processed.split('\n');
+    var inNumberedList = false;
+    var listItems = [];
+    
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      
+      // Check if this line is a numbered list item
+      if (/^\d+\.\s+/.test(line)) {
+        // Extract the content after the number
+        var content = line.replace(/^\d+\.\s+/, '');
+        listItems.push('<li>' + content + '</li>');
+        inNumberedList = true;
+      } else {
+        // If we were in a numbered list and this line isn't, close the list
+        if (inNumberedList && listItems.length > 0) {
+          lines[i - listItems.length] = '<ol>' + listItems.join('') + '</ol>';
+          // Remove the processed list items
+          for (var j = 1; j < listItems.length; j++) {
+            lines[i - listItems.length + j] = '';
+          }
+          listItems = [];
+          inNumberedList = false;
+        }
+      }
+    }
+    
+    // Handle list at end of section
+    if (inNumberedList && listItems.length > 0) {
+      lines[lines.length - listItems.length] = '<ol>' + listItems.join('') + '</ol>';
+      for (var k = 1; k < listItems.length; k++) {
+        lines[lines.length - listItems.length + k] = '';
+      }
+    }
+    
+    return lines.join('\n');
+  });
+  
+  // Join sections back together
+  var result = processedSections.join('');
+  
+  // Continue with other formatting
+  return result
     // Convert bold and italic
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    // Convert lists - handle numbered and bulleted
-    .replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>')
+    // Convert bullet lists
     .replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>')
-    // Wrap consecutive list items in ul/ol tags
-    .replace(/(<li>.*<\/li>(?:\s*<li>.*<\/li>)*)/gs, function(match) {
-      // Check if it's a numbered list (contains numbers) or bullet list
-      return match.includes('1.') || /\d+\./.test(match) ? '<ol>' + match + '</ol>' : '<ul>' + match + '</ul>';
-    })
+    // Wrap bullet list items
+    .replace(/(<li>(?!.*<\/ol>).*<\/li>(?:\s*<li>(?!.*<\/ol>).*<\/li>)*)/gs, '<ul>$1</ul>')
     // Convert line breaks to paragraphs
     .replace(/\n\n+/g, '</p><p>')
     .replace(/^(?!<[huo])(.+)$/gm, '<p>$1</p>')
-    // Clean up empty paragraphs
+    // Clean up empty paragraphs and extra whitespace
     .replace(/<p><\/p>/g, '')
     .replace(/<p>\s*<\/p>/g, '')
-    // Clean up any remaining loose text
+    .replace(/\n\s*\n/g, '\n')
     .trim();
 }
-
 function copyPrdToClipboard() {
   if (window.currentPrdContent) {
     navigator.clipboard.writeText(window.currentPrdContent).then(function() {
