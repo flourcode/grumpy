@@ -403,7 +403,7 @@ html, body {
   color: var(--text-muted);
 }
 
-.copy-link, .copy-opportunity-btn, .generate-prd-prompt-btn {
+.copy-link, .generate-prd-prompt-btn {
   color: var(--text-accent);
   cursor: pointer;
   font-weight: 500;
@@ -414,12 +414,12 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border: 1px solid var(--border-primary);
-  background: none; /* Make buttons match link style */
+  background: none;
   font-family: inherit;
-  margin-left: 8px; /* Spacing between buttons */
+  margin-left: 8px;
 }
 
-.copy-link:hover, .copy-opportunity-btn:hover, .generate-prd-prompt-btn:hover {
+.copy-link:hover, .generate-prd-prompt-btn:hover {
   background: var(--text-accent);
   color: white;
   border-color: var(--text-accent);
@@ -1742,32 +1742,33 @@ function displayResults(results, powerQuery, keyword, analysis) {
      urgency: insight.urgency || 'medium'
    });
 
-   html += '<div class="result-card">' +
-     '<div class="card-header">' +
-       '<h3 class="result-title">' +
-         '<a href="' + result.link + '" target="_blank" rel="noopener">' + escapeHtml(result.title) + '</a>' +
-       '</h3>' +
-       '<span class="source-badge ' + platformClass + '">' + platformName + '</span>' +
-     '</div>' +
-     '<div class="result-snippet">' + snippet + '</div>' +
-     '<div class="ai-insight">' +
-       '<div class="ai-insight-header">' +
-         '<div class="ai-insight-label">AI Business Opportunity</div>' +
-         '<span class="urgency-badge urgency-' + (insight.urgency || 'medium') + '">' +
-           (insight.urgency || 'medium').toUpperCase() +
-         '</span>' +
-       '</div>' +
-       '<div class="ai-insight-text">' + (insight.businessOpportunity || 'Analyzing business opportunity...') + '</div>' +
-       '<div style="display: flex; justify-content: flex-end; margin-top: 10px;">' +
-         '<button class="copy-opportunity-btn" data-text="' + escapeHtml(insight.businessOpportunity || '') + '" onclick="copyToClipboard(this.dataset.text, \'opportunity\')">Copy Opportunity</button>' +
-         '<button class="generate-prd-prompt-btn" data-title="' + escapeHtml(result.title) + '" data-snippet="' + escapeHtml(result.snippet || '') + '" data-opportunity="' + escapeHtml(insight.businessOpportunity || '') + '" onclick="generatePrdPrompt(this.dataset.title, this.dataset.snippet, this.dataset.opportunity)">Generate PRD Prompt</button>' +
-       '</div>' +
-     '</div>' +
-     '<div class="card-footer">' +
-       '<span>' + result.displayLink + '</span>' +
-       '<span class="copy-link" data-link="' + escapeHtml(result.link) + '" onclick="copyToClipboard(this.dataset.link, \'link\')">Copy Link</span>' +
-     '</div>' +
-   '</div>';
+   // In the displayResults function, update this part:
+html += '<div class="result-card">' +
+  '<div class="card-header">' +
+    '<h3 class="result-title">' +
+      '<a href="' + result.link + '" target="_blank" rel="noopener">' + escapeHtml(result.title) + '</a>' +
+    '</h3>' +
+    '<span class="source-badge ' + platformClass + '">' + platformName + '</span>' +
+  '</div>' +
+  '<div class="result-snippet">' + snippet + '</div>' +
+  '<div class="ai-insight">' +
+    '<div class="ai-insight-header">' +
+      '<div class="ai-insight-label">AI Business Opportunity</div>' +
+      '<span class="urgency-badge urgency-' + (insight.urgency || 'medium') + '">' +
+        (insight.urgency || 'medium').toUpperCase() +
+      '</span>' +
+    '</div>' +
+    '<div class="ai-insight-text">' + (insight.businessOpportunity || 'Analyzing business opportunity...') + '</div>' +
+    '<div style="display: flex; justify-content: flex-end; margin-top: 10px;">' +
+      // REMOVED: Copy Opportunity button
+      '<button class="generate-prd-prompt-btn" data-title="' + escapeHtml(result.title) + '" data-snippet="' + escapeHtml(result.snippet || '') + '" data-opportunity="' + escapeHtml(insight.businessOpportunity || '') + '" onclick="generatePrdPrompt(this.dataset.title, this.dataset.snippet, this.dataset.opportunity)">Generate PRD</button>' +
+    '</div>' +
+  '</div>' +
+  '<div class="card-footer">' +
+    '<span>' + result.displayLink + '</span>' +
+    '<span class="copy-link" data-link="' + escapeHtml(result.link) + '" onclick="copyToClipboard(this.dataset.link, \'link\')">Copy Link</span>' +
+  '</div>' +
+'</div>';
  }
 
  grid.innerHTML = html;
@@ -1811,20 +1812,17 @@ function escapeHtml(text) {
 }
 
 function copyToClipboard(textToCopy, type) {
- type = type || 'text';
- navigator.clipboard.writeText(textToCopy).then(function() {
-   var message = '';
-   if (type === 'link') message = 'Link copied!';
-   else if (type === 'opportunity') message = 'Opportunity copied!';
-   else if (type === 'prd-prompt') message = 'PRD prompt copied!';
-   else message = 'Copied to clipboard!';
-   
-   // Simple alert for feedback, could be a toast notification
-   alert(message);
- }).catch(function(err) {
-   console.error('Failed to copy text: ', err);
-   alert('Could not copy text to clipboard. Please try manually.');
- });
+  type = type || 'text';
+  navigator.clipboard.writeText(textToCopy).then(function() {
+    var message = '';
+    if (type === 'link') message = 'Link copied!';
+    else message = 'Copied to clipboard!';
+    
+    alert(message);
+  }).catch(function(err) {
+    console.error('Failed to copy text: ', err);
+    alert('Could not copy text to clipboard. Please try manually.');
+  });
 }
 
 function downloadOpportunities() {
