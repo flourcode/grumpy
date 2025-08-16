@@ -487,29 +487,77 @@ function escapeHtml(text) {
 }
 
 function performSearch() {
- const keyword = document.getElementById('searchInput').value.trim();
- if (!keyword) {
-   const searchInput = document.getElementById('searchInput');
-   searchInput.style.borderColor = 'var(--bg-danger)';
-   searchInput.placeholder = 'Please enter a search term...';
-   searchInput.focus();
-   
-   setTimeout(() => {
-     searchInput.style.borderColor = '';
-     searchInput.placeholder = 'Brand, product, or topic...';
-   }, 3000);
-   return;
- }
+  const keyword = document.getElementById('searchInput').value.trim();
+  if (!keyword) {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.style.borderColor = 'var(--bg-danger)';
+    searchInput.placeholder = 'Please enter a search term...';
+    searchInput.focus();
+    
+    setTimeout(() => {
+      searchInput.style.borderColor = '';
+      searchInput.placeholder = 'Brand, product, or topic...';
+    }, 3000);
+    return;
+  }
 
- const queryType = document.getElementById('queryDropdown').value;
- const platform = document.getElementById('platformSelect').value;
- 
- showLoading();
- 
- // Simulate search for demo
- setTimeout(() => {
-   displayResults(DEMO_RESULTS.results, null, keyword, null);
- }, 1500);
+  const queryType = document.getElementById('queryDropdown').value;
+  const platform = document.getElementById('platformSelect').value;
+  const timeRange = document.getElementById('timeSelect').value;
+
+  showLoading();
+
+  let query;
+  if (queryType && POWER_QUERIES[queryType]) {
+    query = POWER_QUERIES[queryType].template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
+  } else {
+    query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
+  }
+
+  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+  if (platformConfig.sites.length > 0) {
+    query += ` (${platformConfig.sites.join(' OR ')})`;
+  }
+
+  // Real search functionality
+  if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
+    displayResults(DEMO_RESULTS.results, null, keyword, null);
+    return;
+  }
+
+  const params = new URLSearchParams({
+    key: API_CONFIG.GOOGLE_API_KEY,
+    cx: API_CONFIG.SEARCH_ENGINE_ID,
+    q: query,
+    num: '9', 
+    dateRestrict: timeRange
+  });
+
+  fetch(`https://www.googleapis.com/customsearch/v1?${params.toString()}`)
+    .then(response => {
+      if (!response.ok) throw new Error('Search failed');
+      return response.json();
+    })
+    .then(data => {
+      const results = data.items || [];
+      if (results.length > 0 && API_CONFIG.LAMBDA_ENDPOINT) {
+        return fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
+        })
+        .then(response => response.json())
+        .then(analysis => {
+          displayResults(results, null, keyword, analysis);
+        });
+      } else {
+        displayResults(results, null, keyword, null);
+      }
+    })
+    .catch(error => {
+      console.error('Search error:', error);
+      displayResults(DEMO_RESULTS.results, null, keyword, null);
+    });
 }
 
 function showLoading() {
