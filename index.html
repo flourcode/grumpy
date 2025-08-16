@@ -527,102 +527,73 @@ mark {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
-/* Opportunity Score Badge Styles */
-.opportunity-score {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Opportunity Score Section Styles */
+.opportunity-section {
+  padding: 16px 20px;
+   margin: 0 20px 16px 20px;
+  border-radius: 8px;
+}
+
+.opportunity-section.high {
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.opportunity-section.medium {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.opportunity-section.low {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.opportunity-title {
   font-size: 11px;
-  font-weight: 700;
-  color: white;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-  cursor: help;
-}
-
-.opportunity-score.high {
-  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-  border: 2px solid #15803d;
-}
-
-.opportunity-score.medium {
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-  border: 2px solid #d97706;
-}
-
-.opportunity-score.low {
-  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
-  border: 2px solid #dc2626;
-}
-
-/* Update result-card to support relative positioning */
-.result-card { 
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 12px;
-  transition: border-color 0.2s ease, transform 0.12s ease, background 0.2s ease;
-  display: flex; 
-  flex-direction: column; 
-  height: 100%;
-  box-shadow: none;
-  position: relative; /* Added for absolute positioning of score badge */
-}
-
-/* Tooltip styles for score explanation */
-.opportunity-score::after {
-  content: attr(data-reasoning);
-  position: absolute;
-  bottom: 100%;
-  right: 0;
   margin-bottom: 8px;
-  padding: 8px 12px;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-secondary);
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 400;
-  white-space: nowrap;
-  max-width: 200px;
-  white-space: normal;
-  width: max-content;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s, visibility 0.2s;
-  z-index: 1000;
-  pointer-events: none;
-  transform: translateX(50%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.opportunity-score:hover::after {
-  opacity: 1;
-  visibility: visible;
+.opportunity-title.high {
+  color: #16a34a;
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
-  .opportunity-score {
-    width: 24px;
-    height: 24px;
-    font-size: 9px;
-    top: 12px;
-    right: 12px;
-  }
-  
-  .opportunity-score::after {
-    font-size: 10px;
-    max-width: 150px;
-    right: -10px;
-  }
+.opportunity-title.medium {
+  color: #d97706;
+}
+
+.opportunity-title.low {
+  color: #dc2626;
+}
+
+.opportunity-score-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: white;
+}
+
+.opportunity-score-badge.high {
+  background: #16a34a;
+}
+
+.opportunity-score-badge.medium {
+  background: #d97706;
+}
+
+.opportunity-score-badge.low {
+  background: #dc2626;
+}
+
+.opportunity-reasoning {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-style: italic;
 }
 </style>
 </head>
@@ -902,52 +873,52 @@ function getPlatformName(domain) {
  const match = Object.keys(platforms).find(key => domain.includes(key));
  return match ? platforms[match] : domain.split('.')[0];
 }
-
 function findInsightForResult(result, analysis) {
- if (!analysis || !analysis.resultInsights) {
-   return {
-     businessOpportunity: "AI analysis not available for this result",
-     urgency: "low"
-   };
- }
+  if (!analysis || !analysis.resultInsights) {
+    return {
+      businessOpportunity: "AI analysis not available for this result",
+      opportunityScore: "medium",
+      scoreReasoning: "Analysis not available"
+    };
+  }
 
- if (analysis.resultInsights.length > 0 && !analysis.resultInsights[0].title) {
-   const resultIndex = analysis.resultInsights.findIndex((insight, index) => {
-     return index < analysis.resultInsights.length;
-   });
-   
-   if (resultIndex >= 0 && analysis.resultInsights[resultIndex]) {
-     return analysis.resultInsights[resultIndex];
-   }
- }
+  if (analysis.resultInsights.length > 0 && !analysis.resultInsights[0].title) {
+    const resultIndex = analysis.resultInsights.findIndex((insight, index) => {
+      return index < analysis.resultInsights.length;
+    });
+    
+    if (resultIndex >= 0 && analysis.resultInsights[resultIndex]) {
+      return analysis.resultInsights[resultIndex];
+    }
+  }
 
- const directMatch = analysis.resultInsights.find(insight => {
-   return insight.title && insight.title === result.title;
- });
- if (directMatch) {
-   return directMatch;
- }
+  const directMatch = analysis.resultInsights.find(insight => {
+    return insight.title && insight.title === result.title;
+  });
+  if (directMatch) {
+    return directMatch;
+  }
 
- if (result.title) {
-   const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-   const matchingInsight = analysis.resultInsights.find(insight => {
-     if (!insight.title) return false;
-     const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
-     return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
-            insightTitleWords.includes(resultTitleWords.slice(0, 20));
-   });
+  if (result.title) {
+    const resultTitleWords = result.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+    const matchingInsight = analysis.resultInsights.find(insight => {
+      if (!insight.title) return false;
+      const insightTitleWords = insight.title.toLowerCase().split(' ').slice(0, 5).join(' ');
+      return resultTitleWords.includes(insightTitleWords.slice(0, 20)) || 
+             insightTitleWords.includes(resultTitleWords.slice(0, 20));
+    });
 
-   if (matchingInsight) {
-     return matchingInsight;
-   }
- }
+    if (matchingInsight) {
+      return matchingInsight;
+    }
+  }
 
- return analysis.resultInsights[0] || {
-   businessOpportunity: "Monitor this result for business opportunities",
-   urgency: "medium"
- };
+  return analysis.resultInsights[0] || {
+    businessOpportunity: "Monitor this result for business opportunities",
+    opportunityScore: "medium",
+    scoreReasoning: "Requires further analysis"
+  };
 }
-
 function performGoogleSearch(query, timeRange) {
  if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
    throw new Error('Google API not configured');
@@ -1166,7 +1137,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
     
     let snippet = result.snippet || '';
 
-    // Clean up HTML entities and formatting artifacts first
+    // Enhanced cleaning - remove ALL date/time artifacts first
     snippet = snippet
       .replace(/&quot;/g, '"')
       .replace(/&amp;/g, '&')
@@ -1177,22 +1148,44 @@ function displayResults(results, powerQuery, keyword, analysis) {
       .replace(/\s*\.\.\.\s*/g, ' ')
       .replace(/\s+/g, ' ');
 
-    // Remove dates from the snippet for cleaner reading
-    const datePatterns = [
+    // Aggressive removal of ALL date/time patterns that clutter problem snippets
+    const timePatterns = [
+      /\d+\s*(days?|hours?|minutes?|weeks?|months?|years?)\s*ago/gi,
       /\w{3}\s+\d{1,2},?\s+\d{4}/g,
       /\d{1,2}\/\d{1,2}\/\d{4}/g,
       /\d{4}-\d{2}-\d{2}/g,
-      /\d{1,2}-\d{1,2}-\d{4}/g
+      /\d{1,2}-\d{1,2}-\d{4}/g,
+      /\d{1,2}:\d{2}(\s*[ap]m)?/gi,
+      /(yesterday|today|tomorrow)/gi,
+      /(monday|tuesday|wednesday|thursday|friday|saturday|sunday)/gi,
+      /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2}/gi,
+      /\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*/gi,
+      /\bat\s+\d{1,2}:\d{2}/gi,
+      /posted\s+\d+/gi,
+      /\d+\s*hrs?\s*ago/gi,
+      /\d+\s*mins?\s*ago/gi
     ];
 
-    datePatterns.forEach(pattern => {
+    timePatterns.forEach(pattern => {
       snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
+    });
+
+    // Remove common metadata prefixes that interfere with reading
+    const metaPrefixes = [
+      /^(posted by|by|from|via|source|update|edit|edited)\s+/gi,
+      /^(share|comment|reply|repost|retweet)\s+/gi,
+      /^(likes?|upvotes?|views?)\s+\d+\s*/gi,
+      /^\d+\s+(likes?|upvotes?|views?)\s*/gi
+    ];
+
+    metaPrefixes.forEach(pattern => {
+      snippet = snippet.replace(pattern, '').trim();
     });
 
     // Clean up any leftover artifacts and normalize
     snippet = snippet
-      .replace(/^[.,\s-Â·]*/, '')
-      .replace(/[.,\s-Â·]*$/, '')
+      .replace(/^[.,\s-Â·:;]*/, '')
+      .replace(/[.,\s-Â·:;]*$/, '')
       .replace(/\s+/g, ' ')
       .trim();
 
@@ -1244,17 +1237,15 @@ function displayResults(results, powerQuery, keyword, analysis) {
       scoreReasoning: insight.scoreReasoning || 'Score reasoning not available'
     });
 
-    // Get score display text
-    const scoreText = insight.opportunityScore === 'high' ? 'H' : 
-                     insight.opportunityScore === 'medium' ? 'M' : 'L';
+    // Get score display labels
+    const scoreLabels = {
+      'high': 'HIGH OPPORTUNITY',
+      'medium': 'MEDIUM OPPORTUNITY', 
+      'low': 'LOW OPPORTUNITY'
+    };
 
     return `
       <div class="result-card">
-        <div class="opportunity-score ${insight.opportunityScore}" 
-             data-reasoning="${escapeHtml(insight.scoreReasoning || 'Score reasoning not available')}"
-             title="Opportunity Score: ${insight.opportunityScore.toUpperCase()}">
-          ${scoreText}
-        </div>
         <div class="card-header">
           <div class="source-info">
             <span class="source-badge ${platformClass}">${platformName}</span>
@@ -1268,6 +1259,12 @@ function displayResults(results, powerQuery, keyword, analysis) {
         <div class="card-body">
           <h4 class="solution-title">Product Opportunity:</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
+        </div>
+        <div class="opportunity-section ${insight.opportunityScore}">
+          <div class="opportunity-title ${insight.opportunityScore}">
+  <span class="opportunity-score-badge ${insight.opportunityScore}">${scoreLabels[insight.opportunityScore]}</span>
+</div>
+          <div class="opportunity-reasoning">${insight.scoreReasoning || 'Assessment reasoning not available'}</div>
         </div>
         <div class="card-action">
           <button class="generate-prd-btn" 
