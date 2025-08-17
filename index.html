@@ -642,6 +642,83 @@ mark {
   margin: 0 0 14px 0;
   text-align: center;
 }
+.logo-rant {
+  font-size: 24px;
+  margin: 0 0 14px 0;
+  text-align: center;
+}
+/* Grumpy Meter Section Styles */
+.grumpy-meter-section {
+  padding: 16px 20px;
+  margin: 0 20px 16px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 69, 0, 0.1) 0%, rgba(255, 140, 0, 0.1) 100%);
+  border: 1px solid rgba(255, 69, 0, 0.2);
+}
+
+.grumpy-meter-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  color: #ff6b35;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grumpy-meter-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.grumpy-meter-emojis {
+  font-size: 20px;
+  display: flex;
+  gap: 2px;
+}
+
+.grumpy-meter-level {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.grumpy-level-1 {
+  background: #f59e0b;
+}
+
+.grumpy-level-2 {
+  background: #ef4444;
+}
+
+.grumpy-level-3 {
+  background: #dc2626;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  50% { 
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+}
+
+.grumpy-reasoning {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-style: italic;
+}
 </style>
 </head>
 <body>
@@ -652,12 +729,12 @@ mark {
     <span class="logo-emoji">😠</span>
     <span class="logo-text">GrumpyLinks</span>
   </a>
-
+<p class="logo-rant">Find stuff people are grumpy about and profit.</p>
   <!-- Slim tagline instead of the big hero -->
-  <p class="logo-subtitle">Stop Building Products No One Wants!</p>
+  <p class="logo-subtitle">We collect rants, complaints, and meltdowns from across the internet for your startup ideas.</p>
 
   <div class="search-section">
-    <input id="searchInput" class="search-input" type="text" placeholder="Brand, product, or topic..." />
+    <input id="searchInput" class="search-input" type="text" placeholder="Type a company, service, product…" />
     <select id="queryDropdown" class="select-input">
       <option value="">General Pain Points</option>
       <option value="competitor_hate">Competitor Complaints</option>
@@ -694,8 +771,8 @@ mark {
 
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
-      <h2 class="results-title">Product Opportunities</h2>
-      <p class="results-subtitle">Real customer pain points with AI-generated PRDs ready to build</p>
+      <h2 class="results-title">Rants, Complaints, and Meltdowns about XYZ.</h2>
+      <p class="results-subtitle">See what people are grumpy about and build a product to fix it.</p>
     </div>
 
     <div id="resultsGrid" class="results-grid">
@@ -924,8 +1001,8 @@ function findInsightForResult(result, analysis) {
   if (!analysis || !analysis.resultInsights) {
     return {
       businessOpportunity: "AI analysis not available for this result",
-      opportunityScore: "medium",
-      scoreReasoning: "Analysis not available"
+      grumpyMeter: 2,
+      grumpyReasoning: "Analysis not available"
     };
   }
 
@@ -962,9 +1039,21 @@ function findInsightForResult(result, analysis) {
 
   return analysis.resultInsights[0] || {
     businessOpportunity: "Monitor this result for business opportunities",
-    opportunityScore: "medium",
-    scoreReasoning: "Requires further analysis"
+    grumpyMeter: 2,
+    grumpyReasoning: "Requires further analysis"
   };
+}
+
+function getGrumpyMeterDisplay(level) {
+  const levelInt = parseInt(level) || 2;
+  
+  const displays = {
+    1: { emojis: '😠', label: 'MILD ANNOYANCE', class: 'grumpy-level-1' },
+    2: { emojis: '😠😠', label: 'GROWING RAGE', class: 'grumpy-level-2' },
+    3: { emojis: '😠😠😠', label: 'FULL MELTDOWN', class: 'grumpy-level-3' }
+  };
+  
+  return displays[levelInt] || displays[2];
 }
 function performGoogleSearch(query, timeRange) {
  if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
@@ -1158,6 +1247,7 @@ function getResultDate(result) {
   
   return null; // No valid date found
 }
+
 function displayResults(results, powerQuery, keyword, analysis) {
   const grid = document.getElementById('resultsGrid');
   const resultsHeader = document.getElementById('resultsHeader');
@@ -1257,22 +1347,18 @@ function displayResults(results, powerQuery, keyword, analysis) {
     } else {
       insight = {
         businessOpportunity: "AI analysis not available for this result",
-        opportunityScore: "medium",
-        scoreReasoning: "Analysis not available"
+        grumpyMeter: 2,
+        grumpyReasoning: "Analysis not available"
       };
     }
 
-    // Map old urgency field to opportunityScore for backward compatibility
-    if (insight.urgency && !insight.opportunityScore) {
-      insight.opportunityScore = insight.urgency;
-      insight.scoreReasoning = insight.scoreReasoning || "Legacy urgency mapping";
+    // Ensure we have a valid grumpy meter level
+    const validLevels = [1, 2, 3];
+    if (!validLevels.includes(parseInt(insight.grumpyMeter))) {
+      insight.grumpyMeter = 2;
     }
 
-    // Ensure we have a valid score
-    const validScores = ['high', 'medium', 'low'];
-    if (!validScores.includes(insight.opportunityScore)) {
-      insight.opportunityScore = 'medium';
-    }
+    const grumpyDisplay = getGrumpyMeterDisplay(insight.grumpyMeter);
 
     currentSearchResults.push({
       title: result.title,
@@ -1280,16 +1366,9 @@ function displayResults(results, powerQuery, keyword, analysis) {
       snippet: result.snippet,
       platform: platformName,
       businessOpportunity: insight.businessOpportunity || 'N/A',
-      opportunityScore: insight.opportunityScore || 'medium',
-      scoreReasoning: insight.scoreReasoning || 'Score reasoning not available'
+      grumpyMeter: insight.grumpyMeter || 2,
+      grumpyReasoning: insight.grumpyReasoning || 'Grumpy reasoning not available'
     });
-
-    // Get score display labels
-    const scoreLabels = {
-      'high': 'HIGH OPPORTUNITY',
-      'medium': 'MEDIUM OPPORTUNITY', 
-      'low': 'LOW OPPORTUNITY'
-    };
 
     return `
       <div class="result-card">
@@ -1299,26 +1378,30 @@ function displayResults(results, powerQuery, keyword, analysis) {
             ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
           </div>
           <div class="problem-statement">
-            <h3 class="problem-title">Customer Problem:</h3>
+            <h3 class="problem-title">The Rant:</h3>
             <p class="problem-text">"${highlightedSnippet}..."</p>
           </div>
         </div>
         <div class="card-body">
-          <h4 class="solution-title">Product Opportunity:</h4>
+          <h4 class="solution-title">The Fix:</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
         </div>
-        <div class="opportunity-section ${insight.opportunityScore}">
-          <div class="opportunity-title ${insight.opportunityScore}">
-  <span class="opportunity-score-badge ${insight.opportunityScore}">${scoreLabels[insight.opportunityScore]}</span>
-</div>
-          <div class="opportunity-reasoning">${insight.scoreReasoning || 'Assessment reasoning not available'}</div>
+        <div class="grumpy-meter-section">
+          <div class="grumpy-meter-title">
+            Grumpy Meter
+          </div>
+          <div class="grumpy-meter-display">
+            <div class="grumpy-meter-emojis">${grumpyDisplay.emojis}</div>
+            <span class="grumpy-meter-level ${grumpyDisplay.class}">${grumpyDisplay.label}</span>
+          </div>
+          <div class="grumpy-reasoning">${insight.grumpyReasoning || 'Grump assessment not available'}</div>
         </div>
         <div class="card-action">
           <button class="generate-prd-btn" 
                   data-title="${escapeHtml(result.title)}" 
                   data-snippet="${escapeHtml(result.snippet || '')}" 
                   data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
-            Generate Product Requirements →
+            Build MVP Prompt →
           </button>
           <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
         </div>
@@ -1358,7 +1441,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
     downloadContainer.style.display = 'none';
   }
 }
-
 function downloadOpportunities() {
   if (currentSearchResults.length === 0) {
     const btn = event.target;
@@ -1373,15 +1455,15 @@ function downloadOpportunities() {
     return;
   }
 
-  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Opportunity Score", "Score Reasoning"];
+  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Grumpy Meter", "Grumpy Reasoning"];
   const fieldMapping = {
     "Title": "title", 
     "Link": "link", 
     "Snippet": "snippet", 
     "Platform": "platform",
     "Business Opportunity": "businessOpportunity", 
-    "Opportunity Score": "opportunityScore",
-    "Score Reasoning": "scoreReasoning"
+    "Grumpy Meter": "grumpyMeter",
+    "Grumpy Reasoning": "grumpyReasoning"
   };
   
   const rows = currentSearchResults.map(row => 
@@ -1411,7 +1493,6 @@ function downloadOpportunities() {
     btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
   }, 2000);
 }
-
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
  if (!API_CONFIG.LAMBDA_ENDPOINT) {
    showPrdError('PRD generation not configured. Please check your settings.');
