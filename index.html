@@ -1043,7 +1043,7 @@ function updateResultsHeader(keyword) {
     if (!keyword || keyword.trim() === '') {
       resultsTitle.textContent = `Rants, Complaints, and Meltdowns about Anything.`;
     } else {
-      const capitalizedKeyword = keyword.charAt(0).toUpperCase() + keyword.slice(1);
+      const capitalizedKeyword = keyword.toUpperCase();
       resultsTitle.textContent = `Rants, Complaints, and Meltdowns about ${capitalizedKeyword}.`;
     }
   }
