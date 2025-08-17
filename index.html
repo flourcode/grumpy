@@ -86,22 +86,30 @@ body {
   font-size: 18px; 
   margin-bottom: 16px; 
   padding: 12px 0; 
-  border-bottom: 1px solid var(--border-primary); 
+  text-align: center;
 }
 
 .logo-emoji { font-size: 48px; margin-bottom: 4px; }
 
-.hero-content-sidebar { 
-  margin-bottom: 16px; 
-  padding: 12px; 
-  background: var(--bg-tertiary); 
-  border-radius: 8px; 
-  border: 1px solid var(--border-primary); 
-  text-align: center; 
+.logo-text {
+  margin-bottom: 0px;
 }
 
-.hero-title-sidebar { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary); }
-.hero-subtitle-sidebar { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+.logo-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 14px 0;
+  text-align: center;
+}
+
+.logo-rant {
+  font-size: 24px;
+  margin: 0 0 14px 0;
+  text-align: center;
+}
+
+/* Hide sidebar hero content */
+.hero-content-sidebar { display: none; }
 
 .search-section { margin-bottom: 16px; }
 
@@ -114,14 +122,18 @@ body {
   margin-bottom: 8px; 
 }
 
-.search-input, .select-input { 
+/* Unified input styles */
+.search-input, 
+.select-input,
+.query-dropdown,
+.filter-select { 
   width: 100%; 
-  background: var(--bg-input); 
+  background: #202635; 
   border: 1px solid var(--border-primary);
   border-radius: 6px; 
   color: var(--text-primary); 
   font-weight: 500; 
-  transition: border-color 0.2s, box-shadow 0.2s; 
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s; 
   font-family: inherit; 
   margin-bottom: 12px; 
 }
@@ -129,9 +141,20 @@ body {
 .search-input { padding: 12px 16px; font-size: 14px; }
 .select-input { padding: 10px 16px; font-size: 13px; cursor: pointer; margin-bottom: 8px; }
 
-.search-input:focus, .select-input:focus { 
+.search-input:hover,
+.select-input:hover,
+.query-dropdown:hover,
+.filter-select:hover {
+  background: #242b3a;
+}
+
+.search-input:focus, 
+.select-input:focus,
+.query-dropdown:focus,
+.filter-select:focus { 
   outline: none; 
   border-color: var(--border-accent);
+  background: #242b3a;
   box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.25);
 }
 
@@ -201,15 +224,23 @@ body {
 
 .card-header { 
   padding: 20px 20px 16px; 
-  border-bottom: 1px solid var(--border-primary); 
+  border-bottom: 1px solid var(--border-primary);
+  position: relative;
 }
 
 .source-info {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   margin-bottom: 16px;
   width: 100%;
+}
+
+.source-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
 }
 
 .source-badge { 
@@ -222,15 +253,28 @@ body {
 }
 
 .source-date {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   color: var(--text-muted);
   background: var(--bg-tertiary);
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 2px 6px;
+  border-radius: 3px;
   letter-spacing: 0.3px;
   white-space: nowrap;
-  flex-shrink: 0;
+  width: fit-content;
+}
+
+/* Grumpy Meter Corner Positioning */
+.grumpy-meter-corner {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.grumpy-emojis {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .problem-title { 
@@ -269,6 +313,66 @@ mark {
 }
 
 .solution-text { font-size: 14px; line-height: 1.5; color: var(--text-primary); }
+
+/* Business Viability Section Styles */
+.opportunity-section {
+  padding: 16px 20px;
+  margin: 0 20px 16px 20px;
+  border-radius: 8px;
+}
+
+.opportunity-section.viability-questionable {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.opportunity-section.viability-decent {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.opportunity-section.viability-brilliant {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.opportunity-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.opportunity-score-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: white;
+}
+
+.opportunity-score-badge.viability-questionable {
+  background: #ef4444;
+}
+
+.opportunity-score-badge.viability-decent {
+  background: #f59e0b;
+}
+
+.opportunity-score-badge.viability-brilliant {
+  background: #22c55e;
+}
+
+.opportunity-reasoning {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-style: italic;
+}
 
 .card-action { padding: 16px 20px 28px; display: flex; flex-direction: column; gap: 8px; }
 
@@ -510,10 +614,8 @@ mark {
   .prd-content { padding: 24px 20px; font-size: 14px; }
   
   .source-date {
-    font-size: 10px;
-    padding: 3px 6px;
-    min-width: auto;
-    display: block; /* Force display on mobile */
+    font-size: 9px;
+    padding: 2px 4px;
   }
   
   .source-info {
@@ -526,268 +628,6 @@ mark {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
-}
-/* Opportunity Score Section Styles */
-.opportunity-section {
-  padding: 16px 20px;
-   margin: 0 20px 16px 20px;
-  border-radius: 8px;
-}
-
-.opportunity-section.high {
-  background: rgba(34, 197, 94, 0.1);
-}
-
-.opportunity-section.medium {
-  background: rgba(245, 158, 11, 0.1);
-}
-
-.opportunity-section.low {
-  background: rgba(239, 68, 68, 0.1);
-}
-
-.opportunity-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.opportunity-title.high {
-  color: #16a34a;
-}
-
-.opportunity-title.medium {
-  color: #d97706;
-}
-
-.opportunity-title.low {
-  color: #dc2626;
-}
-
-.opportunity-score-badge {
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: white;
-}
-
-.opportunity-score-badge.high {
-  background: #16a34a;
-}
-
-.opportunity-score-badge.medium {
-  background: #d97706;
-}
-
-.opportunity-score-badge.low {
-  background: #dc2626;
-}
-
-.opportunity-reasoning {
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-/* Unified input style: search, dropdowns, filters */
-.search-input,
-.query-dropdown,
-.filter-select {
-  background: #202635;
-  border: 1px solid var(--border-primary);
-  color: var(--text-primary);
-  border-radius: 6px;
-  font-size: 14px;
-  padding: 10px 14px;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-/* Hover + focus lift */
-.search-input:hover,
-.query-dropdown:hover,
-.filter-select:hover {
-  background: #242b3a;
-}
-
-.search-input:focus,
-.query-dropdown:focus,
-.filter-select:focus {
-  outline: none;
-  border-color: var(--border-accent);
-  background: #242b3a;
-  box-shadow: 0 0 0 3px rgba(47,128,237,0.25);
-}
-/* Remove the large hero if still present in your CSS/HTML */
-.hero-content-sidebar { display: none; }
-
-.logo {
-  border-bottom: none;         /* no separator */
-  margin-bottom: 0;            /* remove extra gap */
-  text-align: center;
-}
-
-.logo-text {
-  margin-bottom: 0px;          /* tuck subtitle closer to title */
-}
-
-.logo-subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0 0 14px 0;
-  text-align: center;
-}
-.logo-rant {
-  font-size: 24px;
-  margin: 0 0 14px 0;
-  text-align: center;
-}
-/* Grumpy Meter Corner Positioning */
-.grumpy-meter-corner {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
-}
-
-.grumpy-emojis {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.card-header {
-  position: relative;
-}
-
-/* Difficulty-based Opportunity Section Styles */
-.opportunity-section {
-  padding: 16px 20px;
-  margin: 0 20px 16px 20px;
-  border-radius: 8px;
-}
-
-/* Easy = green (calm, approachable) */
-.opportunity-section.difficulty-easy {
-  background: rgba(34, 197, 94, 0.12);    /* softer mint green */
-  border: 1px solid rgba(34, 197, 94, 0.25);
-}
-
-.opportunity-score-badge.difficulty-easy {
-  background: #22c55e;  /* green-500 */
-}
-
-/* Medium = amber/gold (caution but not scary) */
-.opportunity-section.difficulty-medium {
-  background: rgba(245, 158, 11, 0.12);   /* subtle amber */
-  border: 1px solid rgba(245, 158, 11, 0.25);
-}
-
-.opportunity-score-badge.difficulty-medium {
-  background: #f59e0b;  /* amber-500 */
-}
-
-/* Hard = red (clear warning, high difficulty) */
-.opportunity-section.difficulty-hard {
-  background: rgba(239, 68, 68, 0.12);    /* red background tint */
-  border: 1px solid rgba(239, 68, 68, 0.25);
-}
-
-.opportunity-score-badge.difficulty-hard {
-  background: #ef4444;  /* red-500 */
-}
-
-.opportunity-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.opportunity-score-badge {
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: white;
-}
-
-.opportunity-reasoning {
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-font-style: italic;
-}
-.source-info {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-.source-left {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: flex-start;
-}
-
-.source-badge { 
-  font-size: 10px; 
-  font-weight: 700; 
-  padding: 4px 8px; 
-  border-radius: 6px; 
-  text-transform: uppercase; 
-  letter-spacing: 0.02em; 
-}
-
-.source-date {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--text-muted);
-  background: var(--bg-tertiary);
-  padding: 2px 6px;
-  border-radius: 3px;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  width: fit-content;
-}
-
-/* Grumpy Meter Corner Positioning (keep existing) */
-.grumpy-meter-corner {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
-}
-
-.grumpy-emojis {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.card-header {
-  position: relative;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .source-date {
-    font-size: 9px;
-    padding: 2px 4px;
-  }
 }
 </style>
 </head>
@@ -953,8 +793,8 @@ const DEMO_RESULTS = {
         businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", 
         grumpyMeter: 2,
         grumpyReasoning: "Users express strong frustration with poor AI performance",
-        difficulty: 3,
-        difficultyReasoning: "Requires complex AI optimization and network expertise"
+        viability: 1,
+        viabilityReasoning: "Requires massive resources and competes with tech giants"
       }
     },
     {
@@ -966,8 +806,8 @@ const DEMO_RESULTS = {
         businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", 
         grumpyMeter: 2,
         grumpyReasoning: "Common connectivity frustration many travelers experience",
-        difficulty: 1,
-        difficultyReasoning: "Simple troubleshooting guide with step-by-step instructions"
+        viability: 3,
+        viabilityReasoning: "Simple content creation with clear market demand"
       }
     },
     {
@@ -979,8 +819,8 @@ const DEMO_RESULTS = {
         businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", 
         grumpyMeter: 3,
         grumpyReasoning: "Users blocked from accessing services creates urgent need",
-        difficulty: 2,
-        difficultyReasoning: "VPN development requires networking knowledge but achievable solo"
+        viability: 2,
+        viabilityReasoning: "VPN market is competitive but traveler niche has potential"
       }
     }
   ]
@@ -1063,14 +903,15 @@ function getPlatformName(domain) {
  const match = Object.keys(platforms).find(key => domain.includes(key));
  return match ? platforms[match] : domain.split('.')[0];
 }
+
 function findInsightForResult(result, analysis) {
   if (!analysis || !analysis.resultInsights) {
     return {
       businessOpportunity: "AI analysis not available for this result",
       grumpyMeter: 2,
       grumpyReasoning: "Analysis not available",
-      difficulty: 2,
-      difficultyReasoning: "Assessment not available"
+      viability: 2,
+      viabilityReasoning: "Business assessment not available"
     };
   }
 
@@ -1109,22 +950,23 @@ function findInsightForResult(result, analysis) {
     businessOpportunity: "Monitor this result for business opportunities",
     grumpyMeter: 2,
     grumpyReasoning: "Requires further analysis",
-    difficulty: 2,
-    difficultyReasoning: "Assessment needed"
+    viability: 2,
+    viabilityReasoning: "Business assessment needed"
   };
 }
 
-function getDifficultyDisplay(level) {
+function getViabilityDisplay(level) {
   const levelInt = parseInt(level) || 2;
   
   const displays = {
-    1: { label: 'Easy Peasy', class: 'difficulty-easy' },
-    2: { label: 'Some effort', class: 'difficulty-medium' },
-    3: { label: 'Really hard', class: 'difficulty-hard' }
+    1: { label: 'QUESTIONABLE IDEA', class: 'viability-questionable' },
+    2: { label: 'VIABLE OPPORTUNITY', class: 'viability-decent' },
+    3: { label: 'BRILLIANT IDEA', class: 'viability-brilliant' }
   };
   
   return displays[levelInt] || displays[2];
 }
+
 function getGrumpyMeterDisplay(level) {
   const levelInt = parseInt(level) || 2;
   
@@ -1193,6 +1035,7 @@ function analyzeWithAI(results, query, platform) {
    };
  });
 }
+
 function updateResultsHeader(keyword) {
   const resultsTitle = document.querySelector('.results-title');
   
@@ -1380,7 +1223,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&#39;/g, "'")
-      .replace(/\s*Â·\s*/g, ' ')
+      .replace(/\s*Ã‚Â·\s*/g, ' ')
       .replace(/\s*\.\.\.\s*/g, ' ')
       .replace(/\s+/g, ' ');
 
@@ -1420,8 +1263,8 @@ function displayResults(results, powerQuery, keyword, analysis) {
 
     // Clean up any leftover artifacts and normalize
     snippet = snippet
-      .replace(/^[.,\s-Â·:;]*/, '')
-      .replace(/[.,\s-Â·:;]*$/, '')
+      .replace(/^[.,\s-Ã‚Â·:;]*/, '')
+      .replace(/[.,\s-Ã‚Â·:;]*$/, '')
       .replace(/\s+/g, ' ')
       .trim();
 
@@ -1439,71 +1282,71 @@ function displayResults(results, powerQuery, keyword, analysis) {
     });
     
     let insight;
-if (result.insight) {
-  insight = result.insight;
-} else if (analysis) {
-  insight = findInsightForResult(result, analysis);
-} else {
-  insight = {
-    businessOpportunity: "AI analysis not available for this result",
-    grumpyMeter: 2,
-    grumpyReasoning: "Analysis not available",
-    difficulty: 2,
-    difficultyReasoning: "Assessment not available"
-  };
-}
+    if (result.insight) {
+      insight = result.insight;
+    } else if (analysis) {
+      insight = findInsightForResult(result, analysis);
+    } else {
+      insight = {
+        businessOpportunity: "AI analysis not available for this result",
+        grumpyMeter: 2,
+        grumpyReasoning: "Analysis not available",
+        viability: 2,
+        viabilityReasoning: "Business assessment not available"
+      };
+    }
 
-// Ensure we have valid levels
-const validLevels = [1, 2, 3];
-if (!validLevels.includes(parseInt(insight.grumpyMeter))) {
-  insight.grumpyMeter = 2;
-}
-if (!validLevels.includes(parseInt(insight.difficulty))) {
-  insight.difficulty = 2;
-}
+    // Ensure we have valid levels
+    const validLevels = [1, 2, 3];
+    if (!validLevels.includes(parseInt(insight.grumpyMeter))) {
+      insight.grumpyMeter = 2;
+    }
+    if (!validLevels.includes(parseInt(insight.viability))) {
+      insight.viability = 2;
+    }
 
-const grumpyDisplay = getGrumpyMeterDisplay(insight.grumpyMeter);
-const difficultyDisplay = getDifficultyDisplay(insight.difficulty);
+    const grumpyDisplay = getGrumpyMeterDisplay(insight.grumpyMeter);
+    const viabilityDisplay = getViabilityDisplay(insight.viability);
 
     currentSearchResults.push({
-  title: result.title,
-  link: result.link,
-  snippet: result.snippet,
-  platform: platformName,
-  businessOpportunity: insight.businessOpportunity || 'N/A',
-  grumpyMeter: insight.grumpyMeter || 2,
-  grumpyReasoning: insight.grumpyReasoning || 'Grumpy reasoning not available',
-  difficulty: insight.difficulty || 2,
-  difficultyReasoning: insight.difficultyReasoning || 'Difficulty assessment not available'
-});
+      title: result.title,
+      link: result.link,
+      snippet: result.snippet,
+      platform: platformName,
+      businessOpportunity: insight.businessOpportunity || 'N/A',
+      grumpyMeter: insight.grumpyMeter || 2,
+      grumpyReasoning: insight.grumpyReasoning || 'Grumpy reasoning not available',
+      viability: insight.viability || 2,
+      viabilityReasoning: insight.viabilityReasoning || 'Business assessment not available'
+    });
 
     return `
-  <div class="result-card">
-    <div class="card-header">
-      <div class="source-info">
-        <div class="source-left">
-          <span class="source-badge ${platformClass}">${platformName}</span>
-          ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
+      <div class="result-card">
+        <div class="card-header">
+          <div class="source-info">
+            <div class="source-left">
+              <span class="source-badge ${platformClass}">${platformName}</span>
+              ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
+            </div>
+          </div>
+          <div class="grumpy-meter-corner">
+            <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
+          </div>
+          <div class="problem-statement">
+            <h3 class="problem-title">COMPLAINT:</h3>
+            <p class="problem-text">"${highlightedSnippet}..."</p>
+          </div>
         </div>
-      </div>
-      <div class="grumpy-meter-corner">
-        <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
-      </div>
-      <div class="problem-statement">
-        <h3 class="problem-title">CUSTOMER PROBLEM:</h3>
-        <p class="problem-text">"${highlightedSnippet}..."</p>
-      </div>
-    </div>
         <div class="card-body">
-          <h4 class="solution-title">PRODUCT OPPORTUNITY:</h4>
+          <h4 class="solution-title">OPPORTUNITY:</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
         </div>
-       <div class="opportunity-section ${difficultyDisplay.class}">
-  <div class="opportunity-title">
-    <span class="opportunity-score-badge ${difficultyDisplay.class}">${difficultyDisplay.label}</span>
-  </div>
-  <div class="opportunity-reasoning">${insight.difficultyReasoning || 'Difficulty assessment not available'}</div>
-</div>
+        <div class="opportunity-section ${viabilityDisplay.class}">
+          <div class="opportunity-title">
+            <span class="opportunity-score-badge ${viabilityDisplay.class}">${viabilityDisplay.label}</span>
+          </div>
+          <div class="opportunity-reasoning">${insight.viabilityReasoning || 'Business assessment not available'}</div>
+        </div>
         <div class="card-action">
           <button class="generate-prd-btn" 
                   data-title="${escapeHtml(result.title)}" 
@@ -1527,7 +1370,7 @@ const difficultyDisplay = getDifficultyDisplay(insight.difficulty);
     });
   });
   
-  // Add download section (existing code)
+  // Add download section
   let downloadContainer = document.getElementById('download-container');
   if (!downloadContainer) {
     downloadContainer = document.createElement('div');
@@ -1564,18 +1407,18 @@ function downloadOpportunities() {
     return;
   }
 
-  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Grumpy Meter", "Grumpy Reasoning", "Difficulty", "Difficulty Reasoning"];
-const fieldMapping = {
-  "Title": "title", 
-  "Link": "link", 
-  "Snippet": "snippet", 
-  "Platform": "platform",
-  "Business Opportunity": "businessOpportunity", 
-  "Grumpy Meter": "grumpyMeter",
-  "Grumpy Reasoning": "grumpyReasoning",
-  "Difficulty": "difficulty",
-  "Difficulty Reasoning": "difficultyReasoning"
-};
+  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Grumpy Meter", "Grumpy Reasoning", "Viability", "Viability Reasoning"];
+  const fieldMapping = {
+    "Title": "title", 
+    "Link": "link", 
+    "Snippet": "snippet", 
+    "Platform": "platform",
+    "Business Opportunity": "businessOpportunity", 
+    "Grumpy Meter": "grumpyMeter",
+    "Grumpy Reasoning": "grumpyReasoning",
+    "Viability": "viability",
+    "Viability Reasoning": "viabilityReasoning"
+  };
   
   const rows = currentSearchResults.map(row => 
     headers.map(header => `"${(row[fieldMapping[header]] || '').replace(/"/g, '""')}"`).join(',')
@@ -1683,6 +1526,7 @@ function startProgressAnimation() {
    if (progressFill) progressFill.style.width = `${progress}%`;
  }, 800);
 }
+
 function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceLink) {
 const container = getPrdContainer();
 const formattedContent = formatPrdContent(prdContent);
