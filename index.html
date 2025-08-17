@@ -1469,9 +1469,9 @@ function generatePrdPrompt(originalTitle, snippet, opportunity) {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },
    body: JSON.stringify({ 
-     action: 'generate_prd',
-     originalTitle, snippet, opportunity
-   })
+  action: 'generate_launch_plan',  // To this
+  originalTitle, snippet, opportunity
+})
  })
  .then(response => {
    if (!response.ok) throw new Error(`PRD generation failed: ${response.status}`);
