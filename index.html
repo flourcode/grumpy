@@ -1118,9 +1118,9 @@ function getDifficultyDisplay(level) {
   const levelInt = parseInt(level) || 2;
   
   const displays = {
-    1: { label: 'MY GRANDMA COULD BUILD THIS', class: 'difficulty-easy' },
-    2: { label: 'YOU COULD DO THIS', class: 'difficulty-medium' },
-    3: { label: 'THIS WOULD BE HARD', class: 'difficulty-hard' }
+    1: { label: 'Easy Peasy', class: 'difficulty-easy' },
+    2: { label: 'Some effort', class: 'difficulty-medium' },
+    3: { label: 'Really hard', class: 'difficulty-hard' }
   };
   
   return displays[levelInt] || displays[2];
@@ -1509,7 +1509,7 @@ const difficultyDisplay = getDifficultyDisplay(insight.difficulty);
                   data-title="${escapeHtml(result.title)}" 
                   data-snippet="${escapeHtml(result.snippet || '')}" 
                   data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
-            Generate MVP Map →
+            Product Launch Plan
           </button>
           <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
         </div>
@@ -1657,7 +1657,7 @@ function showPrdLoading(title) {
  const container = getPrdContainer();
  container.innerHTML = `
    <div class="prd-header">
-     <h2 class="prd-title">😊 Creating MVP Prompt...</h2>
+     <h2 class="prd-title">😊 Creating Launch Plan...</h2>
    </div>
    <div class="prd-loading">
      <div class="prd-loading-spinner"></div>
