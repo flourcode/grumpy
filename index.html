@@ -960,7 +960,7 @@ function getViabilityDisplay(level) {
   
   const displays = {
     1: { label: 'QUESTIONABLE IDEA', class: 'viability-questionable' },
-    2: { label: 'VIABLE OPPORTUNITY', class: 'viability-decent' },
+    2: { label: 'DECENT OPPORTUNITY', class: 'viability-decent' },
     3: { label: 'BRILLIANT IDEA', class: 'viability-brilliant' }
   };
   
@@ -1333,12 +1333,12 @@ function displayResults(results, powerQuery, keyword, analysis) {
             <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
           </div>
           <div class="problem-statement">
-            <h3 class="problem-title">COMPLAINT:</h3>
+            <h3 class="problem-title">CUSTOMER PROBLEM:</h3>
             <p class="problem-text">"${highlightedSnippet}..."</p>
           </div>
         </div>
         <div class="card-body">
-          <h4 class="solution-title">OPPORTUNITY:</h4>
+          <h4 class="solution-title">PRODUCT OPPORTUNITY:</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
         </div>
         <div class="opportunity-section ${viabilityDisplay.class}">
@@ -1450,7 +1450,7 @@ function downloadOpportunities() {
 
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
  if (!API_CONFIG.LAMBDA_ENDPOINT) {
-   showPrdError('PRD generation not configured. Please check your settings.');
+   showPrdError('Launch plan generation not configured. Please check your settings.');
    return;
  }
 
@@ -1469,25 +1469,25 @@ function generatePrdPrompt(originalTitle, snippet, opportunity) {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },
    body: JSON.stringify({ 
-  action: 'generate_launch_plan',  // To this
-  originalTitle, snippet, opportunity
-})
+     action: 'generate_launch_plan',
+     originalTitle, snippet, opportunity
+   })
  })
  .then(response => {
-   if (!response.ok) throw new Error(`PRD generation failed: ${response.status}`);
+   if (!response.ok) throw new Error(`Launch plan generation failed: ${response.status}`);
    return response.json();
  })
  .then(data => {
    clearInterval(progressInterval);
-   if (data.prd) {
-     showPrdResults(data.prd, originalTitle, snippet, opportunity, sourceLink);
+   if (data.launchPlan) {
+     showPrdResults(data.launchPlan, originalTitle, snippet, opportunity, sourceLink);
    } else {
-     throw new Error('No PRD content received');
+     throw new Error('No launch plan content received');
    }
  })
  .catch(error => {
    clearInterval(progressInterval);
-   console.error('PRD generation error:', error);
+   console.error('Launch plan generation error:', error);
    showPrdError(error.message);
  })
  .finally(() => {
@@ -1500,11 +1500,11 @@ function showPrdLoading(title) {
  const container = getPrdContainer();
  container.innerHTML = `
    <div class="prd-header">
-     <h2 class="prd-title">😊 Creating Launch Plan...</h2>
+     <h2 class="prd-title">🚀 Creating Launch Plan...</h2>
    </div>
    <div class="prd-loading">
      <div class="prd-loading-spinner"></div>
-     <div class="prd-loading-text">Creating your product requirements document for:<br><strong>"${escapeHtml(title)}"</strong></div>
+     <div class="prd-loading-text">Creating your launch plan for:<br><strong>"${escapeHtml(title)}"</strong></div>
      <div class="prd-progress">
        <div class="prd-progress-bar">
          <div class="prd-progress-fill" id="prd-progress-fill"></div>
@@ -1527,15 +1527,15 @@ function startProgressAnimation() {
  }, 800);
 }
 
-function showPrdResults(prdContent, originalTitle, snippet, opportunity, sourceLink) {
+function showPrdResults(launchPlanContent, originalTitle, snippet, opportunity, sourceLink) {
 const container = getPrdContainer();
-const formattedContent = formatPrdContent(prdContent);
+const formattedContent = formatPrdContent(launchPlanContent);
 
 container.innerHTML = `
   <div class="prd-header">
-    <h2 class="prd-title">Product Requirements Document</h2>
+    <h2 class="prd-title">Launch Plan</h2>
     <div class="prd-actions">
-      <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy PRD</button>
+      <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy Plan</button>
       <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
       <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
     </div>
@@ -1562,11 +1562,11 @@ container.innerHTML = `
   </div>
 `;
 
-const productName = prdContent.match(/^#\s+([^-]+)/m)?.[1]?.trim() || "Product";
+const productName = launchPlanContent.match(/^#\s+([^-]+)/m)?.[1]?.trim() || "Product";
 
-window.currentPrdContent = `# ${productName} - Product Requirements Document
+window.currentPrdContent = `# ${productName} - Launch Plan
 
-${prdContent.replace(/^#\s+.+$/m, '').trim()}
+${launchPlanContent.replace(/^#\s+.+$/m, '').trim()}
 
 ## Source
 
@@ -1575,7 +1575,7 @@ ${prdContent.replace(/^#\s+.+$/m, '').trim()}
 **Original Source:** ${sourceLink}
 
 ---
-*This PRD was created by GrumpyLinks.com based on customer feedback.*`;
+*This Launch Plan was created by GrumpyLinks.com based on customer feedback.*`;
 
 const progressFill = document.getElementById('prd-progress-fill');
 if (progressFill) {
@@ -1589,14 +1589,14 @@ function showPrdError(errorMessage) {
 const container = getPrdContainer();
 container.innerHTML = `
   <div class="prd-header">
-    <h2 class="prd-title">⌫ PRD Generation Failed</h2>
+    <h2 class="prd-title">⌫ Launch Plan Generation Failed</h2>
     <div class="prd-actions">
       <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
     </div>
   </div>
   <div class="prd-content">
     <p style="color: var(--bg-danger); text-align: center; padding: 20px;">
-      Failed to generate PRD: ${escapeHtml(errorMessage)}<br>
+      Failed to generate launch plan: ${escapeHtml(errorMessage)}<br>
       <small>Please try again or check your connection.</small>
     </p>
   </div>
@@ -1739,7 +1739,7 @@ if (!window.currentPrdContent) return;
 const productName = window.currentPrdContent.match(/^#\s+([^-\n]+)/m)?.[1]?.trim()
   ?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'product';
 
-const filename = `${productName}-prd-${new Date().toISOString().slice(0,10)}.md`;
+const filename = `${productName}-launch-plan-${new Date().toISOString().slice(0,10)}.md`;
 
 const blob = new Blob([window.currentPrdContent], { type: 'text/markdown' });
 const url = URL.createObjectURL(blob);
@@ -1789,5 +1789,6 @@ Object.assign(window, { toggleFAQ, downloadOpportunities, copyPrdToClipboard, do
 
 init();
 </script>
+
 </body>
 </html>
