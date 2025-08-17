@@ -629,6 +629,33 @@ mark {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+/* General tightening for all screen sizes */
+.logo-emoji {
+  font-size: 42px;   /* smaller but still bold */
+  line-height: 1;    /* kill the extra vertical padding */
+  display: inline-block; /* keeps it aligned without text spacing quirks */
+  margin: 0 4px 0 0; /* optional: space before logo text */
+}
+
+.logo {
+  display: flex;
+  align-items: center; /* vertically aligns emoji + text */
+  gap: 6px;            /* space between emoji and "GrumpyLinks" */
+  margin-bottom: 4px;  /* tighten space below logo block */
+}
+
+.logo-rant {
+  font-size: 18px;  /* keep bold, but not oversized */
+  margin: 2px 0 6px 0; /* much tighter spacing */
+  line-height: 1.3;
+}
+
+.logo-subtitle {
+  font-size: 13px;
+  margin: 0 0 10px 0; /* less gap under the rant line */
+  line-height: 1.4;
+}
+
 </style>
 </head>
 <body>
