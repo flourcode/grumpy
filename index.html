@@ -595,55 +595,102 @@ mark {
   color: var(--text-secondary);
   font-style: italic;
 }
+/* Unified input style: search, dropdowns, filters */
+.search-input,
+.query-dropdown,
+.filter-select {
+  background: #202635;
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 10px 14px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover + focus lift */
+.search-input:hover,
+.query-dropdown:hover,
+.filter-select:hover {
+  background: #242b3a;
+}
+
+.search-input:focus,
+.query-dropdown:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: var(--border-accent);
+  background: #242b3a;
+  box-shadow: 0 0 0 3px rgba(47,128,237,0.25);
+}
+/* Remove the large hero if still present in your CSS/HTML */
+.hero-content-sidebar { display: none; }
+
+.logo {
+  border-bottom: none;         /* no separator */
+  margin-bottom: 0;            /* remove extra gap */
+  text-align: center;
+}
+
+.logo-text {
+  margin-bottom: 0px;          /* tuck subtitle closer to title */
+}
+
+.logo-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 14px 0;
+  text-align: center;
+}
 </style>
 </head>
 <body>
 
 <div class="app">
   <aside class="sidebar">
-    <a href="#" class="logo">
-      <span class="logo-emoji">😠</span>
-      <span class="logo-text">GrumpyLinks</span>
-    </a>
+  <a href="#" class="logo">
+    <span class="logo-emoji">😠</span>
+    <span class="logo-text">GrumpyLinks</span>
+  </a>
 
-    <div class="hero-content-sidebar">
-      <h1 class="hero-title-sidebar">Stop Building Products Nobody Wants!</h1>
-      <p class="hero-subtitle-sidebar">Use GrumpyLinks to find customer-driven business opportunities.</p>
-    </div>
-    <div class="search-section">
-      <input id="searchInput" class="search-input" type="text" placeholder="Brand, product, or topic..." />
-      <select id="queryDropdown" class="select-input">
-        <option value="">General Pain Points</option>
-        <option value="competitor_hate">Competitor Complaints</option>
-        <option value="switching_signals">Switching Signals</option>
-        <option value="wish_list">Unmet Needs</option>
-        <option value="feature_requests">Feature Requests</option>
-        <option value="urgent_help">Urgent Problems</option>
-      </select>
-      <select id="platformSelect" class="select-input">
-        <option value="all">All Platforms</option>
-        <option value="reddit">Reddit</option>
-        <option value="twitter">Twitter</option>
-        <option value="linkedin">LinkedIn</option>
-        <option value="hackernews">Hacker News</option>
-        <option value="youtube">YouTube</option>
-        <option value="medium">Medium</option>
-        <option value="producthunt">Product Hunt</option>
-        <option value="discord">Discord</option>
-        <option value="glassdoor">Glassdoor</option>
-        <option value="trustpilot">Trustpilot</option>
-        <option value="appstore">App Stores</option>
-        <option value="forums">Forums</option>
-      </select>
-      <select id="timeSelect" class="select-input">
-        <option value="d7">Last 7 days</option>
-        <option value="d1">Last 24 hours</option>
-        <option value="d30">Last 30 days</option>
-        <option value="d365">Last year</option>
-      </select>
-      <button id="searchBtn" class="search-button">Search</button>
-    </div>
-  </aside>
+  <!-- Slim tagline instead of the big hero -->
+  <p class="logo-subtitle">Stop Building Products No One Wants!</p>
+
+  <div class="search-section">
+    <input id="searchInput" class="search-input" type="text" placeholder="Brand, product, or topic..." />
+    <select id="queryDropdown" class="select-input">
+      <option value="">General Pain Points</option>
+      <option value="competitor_hate">Competitor Complaints</option>
+      <option value="switching_signals">Switching Signals</option>
+      <option value="wish_list">Unmet Needs</option>
+      <option value="feature_requests">Feature Requests</option>
+      <option value="urgent_help">Urgent Problems</option>
+    </select>
+    <select id="platformSelect" class="select-input">
+      <option value="all">All Platforms</option>
+      <option value="reddit">Reddit</option>
+      <option value="twitter">Twitter</option>
+      <option value="linkedin">LinkedIn</option>
+      <option value="hackernews">Hacker News</option>
+      <option value="youtube">YouTube</option>
+      <option value="medium">Medium</option>
+      <option value="producthunt">Product Hunt</option>
+      <option value="discord">Discord</option>
+      <option value="glassdoor">Glassdoor</option>
+      <option value="trustpilot">Trustpilot</option>
+      <option value="appstore">App Stores</option>
+      <option value="forums">Forums</option>
+    </select>
+    <select id="timeSelect" class="select-input">
+      <option value="d7">Last 7 days</option>
+      <option value="d1">Last 24 hours</option>
+      <option value="d30">Last 30 days</option>
+      <option value="d365">Last year</option>
+    </select>
+    <button id="searchBtn" class="search-button">Search</button>
+  </div>
+</aside>
+
 
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
