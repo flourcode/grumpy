@@ -664,12 +664,26 @@ mark {
   position: relative;
 }
 
-/* Updated Opportunity Section Styles */
+/* Difficulty-based Opportunity Section Styles */
 .opportunity-section {
   padding: 16px 20px;
   margin: 0 20px 16px 20px;
   border-radius: 8px;
+}
+
+.opportunity-section.difficulty-easy {
   background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.opportunity-section.difficulty-medium {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.opportunity-section.difficulty-hard {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .opportunity-title {
@@ -689,7 +703,18 @@ mark {
   padding: 2px 6px;
   border-radius: 4px;
   color: white;
+}
+
+.opportunity-score-badge.difficulty-easy {
   background: #16a34a;
+}
+
+.opportunity-score-badge.difficulty-medium {
+  background: #d97706;
+}
+
+.opportunity-score-badge.difficulty-hard {
+  background: #dc2626;
 }
 
 .opportunity-reasoning {
@@ -954,13 +979,14 @@ function getPlatformName(domain) {
  const match = Object.keys(platforms).find(key => domain.includes(key));
  return match ? platforms[match] : domain.split('.')[0];
 }
-
 function findInsightForResult(result, analysis) {
   if (!analysis || !analysis.resultInsights) {
     return {
       businessOpportunity: "AI analysis not available for this result",
       grumpyMeter: 2,
-      grumpyReasoning: "Analysis not available"
+      grumpyReasoning: "Analysis not available",
+      difficulty: 2,
+      difficultyReasoning: "Assessment not available"
     };
   }
 
@@ -998,10 +1024,23 @@ function findInsightForResult(result, analysis) {
   return analysis.resultInsights[0] || {
     businessOpportunity: "Monitor this result for business opportunities",
     grumpyMeter: 2,
-    grumpyReasoning: "Requires further analysis"
+    grumpyReasoning: "Requires further analysis",
+    difficulty: 2,
+    difficultyReasoning: "Assessment needed"
   };
 }
 
+function getDifficultyDisplay(level) {
+  const levelInt = parseInt(level) || 2;
+  
+  const displays = {
+    1: { label: 'MY GRANDMA COULD BUILD THIS', class: 'difficulty-easy' },
+    2: { label: 'YOU COULD DO THIS', class: 'difficulty-medium' },
+    3: { label: 'THIS WOULD BE HARD', class: 'difficulty-hard' }
+  };
+  
+  return displays[levelInt] || displays[2];
+}
 function getGrumpyMeterDisplay(level) {
   const levelInt = parseInt(level) || 2;
   
@@ -1300,25 +1339,31 @@ function displayResults(results, powerQuery, keyword, analysis) {
     });
     
     let insight;
-    if (result.insight) {
-      insight = result.insight;
-    } else if (analysis) {
-      insight = findInsightForResult(result, analysis);
-    } else {
-      insight = {
-        businessOpportunity: "AI analysis not available for this result",
-        grumpyMeter: 2,
-        grumpyReasoning: "Analysis not available"
-      };
-    }
+if (result.insight) {
+  insight = result.insight;
+} else if (analysis) {
+  insight = findInsightForResult(result, analysis);
+} else {
+  insight = {
+    businessOpportunity: "AI analysis not available for this result",
+    grumpyMeter: 2,
+    grumpyReasoning: "Analysis not available",
+    difficulty: 2,
+    difficultyReasoning: "Assessment not available"
+  };
+}
 
-    // Ensure we have a valid grumpy meter level
-    const validLevels = [1, 2, 3];
-    if (!validLevels.includes(parseInt(insight.grumpyMeter))) {
-      insight.grumpyMeter = 2;
-    }
+// Ensure we have valid levels
+const validLevels = [1, 2, 3];
+if (!validLevels.includes(parseInt(insight.grumpyMeter))) {
+  insight.grumpyMeter = 2;
+}
+if (!validLevels.includes(parseInt(insight.difficulty))) {
+  insight.difficulty = 2;
+}
 
-    const grumpyDisplay = getGrumpyMeterDisplay(insight.grumpyMeter);
+const grumpyDisplay = getGrumpyMeterDisplay(insight.grumpyMeter);
+const difficultyDisplay = getDifficultyDisplay(insight.difficulty);
 
     currentSearchResults.push({
       title: result.title,
@@ -1349,12 +1394,12 @@ function displayResults(results, powerQuery, keyword, analysis) {
           <h4 class="solution-title">PRODUCT OPPORTUNITY:</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
         </div>
-        <div class="opportunity-section">
-          <div class="opportunity-title">
-            <span class="opportunity-score-badge">${grumpyDisplay.label}</span>
-          </div>
-          <div class="opportunity-reasoning">${insight.grumpyReasoning || 'Grump assessment not available'}</div>
-        </div>
+       <div class="opportunity-section ${difficultyDisplay.class}">
+  <div class="opportunity-title">
+    <span class="opportunity-score-badge ${difficultyDisplay.class}">${difficultyDisplay.label}</span>
+  </div>
+  <div class="opportunity-reasoning">${insight.difficultyReasoning || 'Difficulty assessment not available'}</div>
+</div>
         <div class="card-action">
           <button class="generate-prd-btn" 
                   data-title="${escapeHtml(result.title)}" 
