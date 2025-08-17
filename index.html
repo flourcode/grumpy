@@ -671,19 +671,32 @@ mark {
   border-radius: 8px;
 }
 
+/* Difficulty-based Opportunity Section Styles */
 .opportunity-section.difficulty-easy {
   background: rgba(34, 197, 94, 0.1);
   border: 1px solid rgba(34, 197, 94, 0.2);
 }
 
 .opportunity-section.difficulty-medium {
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  background: rgba(34, 197, 94, 0.07);
+  border: 1px solid rgba(34, 197, 94, 0.15);
 }
 
 .opportunity-section.difficulty-hard {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.opportunity-score-badge.difficulty-easy {
+  background: #16a34a;
+}
+
+.opportunity-score-badge.difficulty-medium {
+  background: #22c55e;
+}
+
+.opportunity-score-badge.difficulty-hard {
+  background: #dc2626;
 }
 
 .opportunity-title {
@@ -705,17 +718,6 @@ mark {
   color: white;
 }
 
-.opportunity-score-badge.difficulty-easy {
-  background: #16a34a;
-}
-
-.opportunity-score-badge.difficulty-medium {
-  background: #d97706;
-}
-
-.opportunity-score-badge.difficulty-hard {
-  background: #dc2626;
-}
 
 .opportunity-reasoning {
   font-size: 12px;
@@ -1187,6 +1189,18 @@ function analyzeWithAI(results, query, platform) {
    };
  });
 }
+function updateResultsHeader(keyword) {
+  const resultsTitle = document.querySelector('.results-title');
+  
+  if (resultsTitle) {
+    if (!keyword || keyword.trim() === '') {
+      resultsTitle.textContent = `Rants, Complaints, and Meltdowns about Anything.`;
+    } else {
+      const capitalizedKeyword = keyword.charAt(0).toUpperCase() + keyword.slice(1);
+      resultsTitle.textContent = `Rants, Complaints, and Meltdowns about ${capitalizedKeyword}.`;
+    }
+  }
+}
 
 function performSearch() {
   const keyword = document.getElementById('searchInput').value.trim();
@@ -1206,6 +1220,9 @@ function performSearch() {
   const queryType = document.getElementById('queryDropdown').value;
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
+
+  // Update the results header with the search term
+  updateResultsHeader(keyword);
 
   showLoading();
   
@@ -1330,6 +1347,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
   const resultsHeader = document.getElementById('resultsHeader');
 
   resultsHeader.style.display = 'block';
+  updateResultsHeader(keyword);
 
   if (!results.length) {
     grid.innerHTML = `
@@ -1902,8 +1920,13 @@ if (container) container.style.display = 'none';
 }
 
 function loadDemoSearch() {
-document.getElementById('searchInput').value = DEMO_RESULTS.query;
-displayResults(DEMO_RESULTS.results, null, DEMO_RESULTS.query, null);
+  document.getElementById('searchInput').value = DEMO_RESULTS.query;
+  
+  // Show the header with "Anything" on initial load
+  const resultsHeader = document.getElementById('resultsHeader');
+  resultsHeader.style.display = 'block';
+  
+  displayResults(DEMO_RESULTS.results, null, DEMO_RESULTS.query, null);
 }
 
 // Initialize
