@@ -723,6 +723,66 @@ mark {
   color: var(--text-secondary);
   font-style: italic;
 }
+.source-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.source-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.source-badge { 
+  font-size: 10px; 
+  font-weight: 700; 
+  padding: 4px 8px; 
+  border-radius: 6px; 
+  text-transform: uppercase; 
+  letter-spacing: 0.02em; 
+}
+
+.source-date {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+/* Grumpy Meter Corner Positioning (keep existing) */
+.grumpy-meter-corner {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.grumpy-emojis {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.card-header {
+  position: relative;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .source-date {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1396,20 +1456,22 @@ const difficultyDisplay = getDifficultyDisplay(insight.difficulty);
 });
 
     return `
-      <div class="result-card">
-        <div class="card-header">
-          <div class="source-info">
-            <span class="source-badge ${platformClass}">${platformName}</span>
-            ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
-          </div>
-          <div class="grumpy-meter-corner">
-            <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
-          </div>
-          <div class="problem-statement">
-            <h3 class="problem-title">CUSTOMER PROBLEM:</h3>
-            <p class="problem-text">"${highlightedSnippet}..."</p>
-          </div>
+  <div class="result-card">
+    <div class="card-header">
+      <div class="source-info">
+        <div class="source-left">
+          <span class="source-badge ${platformClass}">${platformName}</span>
+          ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
         </div>
+      </div>
+      <div class="grumpy-meter-corner">
+        <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
+      </div>
+      <div class="problem-statement">
+        <h3 class="problem-title">CUSTOMER PROBLEM:</h3>
+        <p class="problem-text">"${highlightedSnippet}..."</p>
+      </div>
+    </div>
         <div class="card-body">
           <h4 class="solution-title">PRODUCT OPPORTUNITY:</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
