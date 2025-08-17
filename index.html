@@ -883,21 +883,39 @@ const DEMO_RESULTS = {
       snippet: "This is actually painful, #ChatGPT works well on airplane wifi more or less... #Grok... Sucks. Like holy fuck does it SUCK on whatever insane networking is ...",
       link: "https://x.com/ThatOtherZach/status/1956024889560760322",
       displayLink: "x.com",
-      insight: { businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", grumpyMeter: 2 }
+      insight: { 
+        businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", 
+        grumpyMeter: 2,
+        grumpyReasoning: "Users express strong frustration with poor AI performance",
+        difficulty: 3,
+        difficultyReasoning: "Requires complex AI optimization and network expertise"
+      }
     },
     {
       title: "Why Wont Snapchat Work on Breeze Airplane Wifi | TikTok",
       snippet: "... broken · original sound - The office quote.s · Why Wont My Snap Chat Let Me ... Snapchat Is So Annoying · Why Is Snapchat Not Sending My Snaps. 364Likes. 203 ...",
       link: "https://www.tiktok.com/discover/why-wont-snapchat-work-on-breeze-airplane-wifi",
       displayLink: "www.tiktok.com",
-      insight: { businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", grumpyMeter: 2 }
+      insight: { 
+        businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", 
+        grumpyMeter: 2,
+        grumpyReasoning: "Common connectivity frustration many travelers experience",
+        difficulty: 1,
+        difficultyReasoning: "Simple troubleshooting guide with step-by-step instructions"
+      }
     },
     {
       title: "iOS - NextDNS Help Center",
       snippet: "Public WiFis / Airplane WiFI / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
       link: "https://help.nextdns.io/tag/ios",
       displayLink: "help.nextdns.io",
-      insight: { businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", grumpyMeter: 3 }
+      insight: { 
+        businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", 
+        grumpyMeter: 3,
+        grumpyReasoning: "Users blocked from accessing services creates urgent need",
+        difficulty: 2,
+        difficultyReasoning: "VPN development requires networking knowledge but achievable solo"
+      }
     }
   ]
 };
@@ -1366,14 +1384,16 @@ const grumpyDisplay = getGrumpyMeterDisplay(insight.grumpyMeter);
 const difficultyDisplay = getDifficultyDisplay(insight.difficulty);
 
     currentSearchResults.push({
-      title: result.title,
-      link: result.link,
-      snippet: result.snippet,
-      platform: platformName,
-      businessOpportunity: insight.businessOpportunity || 'N/A',
-      grumpyMeter: insight.grumpyMeter || 2,
-      grumpyReasoning: insight.grumpyReasoning || 'Grumpy reasoning not available'
-    });
+  title: result.title,
+  link: result.link,
+  snippet: result.snippet,
+  platform: platformName,
+  businessOpportunity: insight.businessOpportunity || 'N/A',
+  grumpyMeter: insight.grumpyMeter || 2,
+  grumpyReasoning: insight.grumpyReasoning || 'Grumpy reasoning not available',
+  difficulty: insight.difficulty || 2,
+  difficultyReasoning: insight.difficultyReasoning || 'Difficulty assessment not available'
+});
 
     return `
       <div class="result-card">
@@ -1460,16 +1480,18 @@ function downloadOpportunities() {
     return;
   }
 
-  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Grumpy Meter", "Grumpy Reasoning"];
-  const fieldMapping = {
-    "Title": "title", 
-    "Link": "link", 
-    "Snippet": "snippet", 
-    "Platform": "platform",
-    "Business Opportunity": "businessOpportunity", 
-    "Grumpy Meter": "grumpyMeter",
-    "Grumpy Reasoning": "grumpyReasoning"
-  };
+  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Grumpy Meter", "Grumpy Reasoning", "Difficulty", "Difficulty Reasoning"];
+const fieldMapping = {
+  "Title": "title", 
+  "Link": "link", 
+  "Snippet": "snippet", 
+  "Platform": "platform",
+  "Business Opportunity": "businessOpportunity", 
+  "Grumpy Meter": "grumpyMeter",
+  "Grumpy Reasoning": "grumpyReasoning",
+  "Difficulty": "difficulty",
+  "Difficulty Reasoning": "difficultyReasoning"
+};
   
   const rows = currentSearchResults.map(row => 
     headers.map(header => `"${(row[fieldMapping[header]] || '').replace(/"/g, '""')}"`).join(',')
