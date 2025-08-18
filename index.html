@@ -1191,59 +1191,6 @@ function escapeHtml(text) {
  return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-function getResultDate(result) {
-  // Try multiple date sources from Google Search results
-  const dateStr = result.htmlFormattedUrl || result.formattedUrl || result.displayLink;
-  
-  // Look for dates in the title or snippet first
-  const textToSearch = `${result.title} ${result.snippet}`;
-  const datePatterns = [
-    /(\w{3}\s+\d{1,2},?\s+\d{4})/g, // "Dec 17, 2024" or "Dec 17 2024"
-    /(\d{1,2}\/\d{1,2}\/\d{4})/g,   // "12/17/2024"
-    /(\d{4}-\d{2}-\d{2})/g          // "2024-12-17"
-  ];
-  
-  for (const pattern of datePatterns) {
-    const match = textToSearch.match(pattern);
-    if (match) {
-      try {
-        const date = new Date(match[0]);
-        if (!isNaN(date.getTime()) && date.getFullYear() >= 2020) {
-          return date.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
-          });
-        }
-      } catch (e) {
-        continue;
-      }
-    }
-  }
-  
-  // Try pagemap metadata as fallback
-  if (result.pagemap && result.pagemap.metatags && result.pagemap.metatags[0]) {
-    const meta = result.pagemap.metatags[0];
-    const metaDate = meta.date || meta['article:published_time'] || meta.pubdate;
-    if (metaDate) {
-      try {
-        const date = new Date(metaDate);
-        if (!isNaN(date.getTime())) {
-          return date.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
-          });
-        }
-      } catch (e) {
-        // Invalid date
-      }
-    }
-  }
-  
-  return null; // No valid date found
-}
-
 function displayResults(results, powerQuery, keyword, analysis) {
   const grid = document.getElementById('resultsGrid');
   const resultsHeader = document.getElementById('resultsHeader');
@@ -1267,7 +1214,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
   const html = results.map((result, i) => {
     const platformClass = getPlatformClass(result.displayLink);
     const platformName = getPlatformName(result.displayLink);
-    const resultDate = getResultDate(result);
     
     let snippet = result.snippet || '';
 
@@ -1374,22 +1320,21 @@ function displayResults(results, powerQuery, keyword, analysis) {
     });
 
     return `
-      <div class="result-card">
-        <div class="card-header">
-          <div class="source-info">
-            <div class="source-left">
-              <span class="source-badge ${platformClass}">${platformName}</span>
-              ${resultDate ? `<span class="source-date">${resultDate}</span>` : ''}
-            </div>
-          </div>
-          <div class="grumpy-meter-corner">
-            <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
-          </div>
-          <div class="problem-statement">
-            <h3 class="problem-title">COMPLAINT:</h3>
-            <p class="problem-text">"${highlightedSnippet}..."</p>
-          </div>
+  <div class="result-card">
+    <div class="card-header">
+      <div class="source-info">
+        <div class="source-left">
+          <span class="source-badge ${platformClass}">${platformName}</span>
         </div>
+      </div>
+      <div class="grumpy-meter-corner">
+        <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
+      </div>
+      <div class="problem-statement">
+        <h3 class="problem-title">COMPLAINT:</h3>
+        <p class="problem-text">"${highlightedSnippet}..."</p>
+      </div>
+    </div>
         <div class="card-body">
           <h4 class="solution-title">BIG IDEA</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
