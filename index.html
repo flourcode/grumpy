@@ -79,23 +79,18 @@ body {
 
 .logo { 
   display: flex; 
+  flex-direction: column; 
   align-items: center; 
-  gap: 6px;
   text-decoration: none; 
   color: var(--text-primary);
   font-weight: 800; 
   font-size: 18px; 
-  margin-bottom: 4px; 
+  margin-bottom: 16px; 
   padding: 12px 0; 
   text-align: center;
 }
 
-.logo-emoji { 
-  font-size: 48px; 
-  line-height: 1; 
-  display: inline-block; 
-  margin: 0 4px 0 0; 
-}
+.logo-emoji { font-size: 48px; margin-bottom: 4px; }
 
 .logo-text {
   margin-bottom: 0px;
@@ -109,9 +104,8 @@ body {
 }
 
 .logo-rant {
-  font-size: 18px;
-  margin: 2px 0 6px 0;
-  line-height: 1.3;
+  font-size: 24px;
+  margin: 0 0 14px 0;
   text-align: center;
 }
 
@@ -128,6 +122,7 @@ body {
   letter-spacing: 0.5px; 
   margin-bottom: 8px; 
 }
+
 /* Unified input styles */
 .search-input, 
 .select-input,
@@ -319,6 +314,7 @@ mark {
 }
 
 .solution-text { font-size: 14px; line-height: 1.5; color: var(--text-primary); }
+
 /* Business Viability Section Styles */
 .opportunity-section {
   padding: 16px 20px;
@@ -515,6 +511,7 @@ mark {
 }
 
 .download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(34,197,94,0.3); }
+
 .prd-container { 
   margin-top: 40px; 
   background: var(--bg-card); 
@@ -599,6 +596,66 @@ mark {
 .source-item:last-child { margin-bottom: 0; }
 .source-label { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-bottom: 6px; }
 .source-text { color: var(--text-secondary); font-style: italic; line-height: 1.5; font-size: 14px; }
+
+/* Responsive Design */
+@media (max-width: 1200px) { 
+  .results-grid { grid-template-columns: repeat(2, 1fr); } 
+}
+
+@media (max-width: 1024px) { 
+  .app { flex-direction: column; }
+  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-primary); }
+  .results-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .sidebar, .main-content { padding: 16px; }
+  .search-input, .select-input { font-size: 16px; }
+  .prd-header { flex-direction: column; gap: 16px; padding: 24px 20px; }
+  .prd-content { padding: 24px 20px; font-size: 14px; }
+  
+  .source-date {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+  
+  .source-info {
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+/* General tightening for all screen sizes */
+.logo-emoji {
+  font-size: 48px;   /* smaller but still bold */
+  line-height: 1;    /* kill the extra vertical padding */
+  display: inline-block; /* keeps it aligned without text spacing quirks */
+  margin: 0 4px 0 0; /* optional: space before logo text */
+}
+
+.logo {
+  display: flex;
+  align-items: center; /* vertically aligns emoji + text */
+  gap: 6px;            /* space between emoji and "GrumpyLinks" */
+  margin-bottom: 4px;  /* tighten space below logo block */
+}
+
+.logo-rant {
+  font-size: 18px;  /* keep bold, but not oversized */
+  margin: 2px 0 6px 0; /* much tighter spacing */
+  line-height: 1.3;
+}
+
+.logo-subtitle {
+  font-size: 13px;
+  margin: 0 0 10px 0; /* less gap under the rant line */
+  line-height: 1.4;
+}
 /* MVP Prompt Container Styles */
 .mvp-prompt-container {
   background: var(--bg-tertiary);
@@ -669,38 +726,6 @@ mark {
 
 .mvp-copy-btn.copied::before {
   content: "✅";
-}
-
-/* NEW: Preview Landing Page Button */
-.mvp-preview-btn {
-  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.mvp-preview-btn:hover {
-  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
-  transform: translateY(-1px);
-}
-
-.mvp-preview-btn::before {
-  content: "👁️";
-  font-size: 12px;
-}
-
-.mvp-preview-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
 }
 
 .mvp-prompt-content {
@@ -781,173 +806,9 @@ mark {
   background: linear-gradient(transparent, var(--bg-input));
   pointer-events: none;
 }
-/* NEW: Landing Page Preview Styles */
-.preview-container {
-  margin-top: 40px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 12px;
-  display: none;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  overflow: hidden;
-  animation: fadeInUp 0.4s ease-out;
-}
 
-.preview-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 32px;
-  border-bottom: 1px solid var(--border-primary);
-  background: var(--bg-secondary);
-}
-
-.preview-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.preview-title::before {
-  content: "🎨";
-  font-size: 28px;
-}
-
-.preview-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.preview-action-btn {
-  padding: 10px 18px;
-  background: var(--bg-button);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.preview-action-btn:hover {
-  background: var(--bg-button-hover);
-  transform: translateY(-1px);
-}
-
-.preview-action-btn.secondary {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-secondary);
-  color: var(--text-primary);
-}
-
-.preview-action-btn.secondary:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-accent);
-}
-
-.preview-iframe-container {
-  position: relative;
-  width: 100%;
-  height: 80vh;
-  background: white;
-}
-
-.preview-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-.preview-loading {
-  text-align: center;
-  padding: 80px 40px;
-}
-
-.preview-loading-spinner {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--border-primary);
-  border-top: 2px solid var(--text-accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 24px;
-}
-
-.preview-loading-text {
-  color: var(--text-primary);
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 12px;
-}
-
-.preview-loading-subtitle {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.preview-error {
-  text-align: center;
-  padding: 60px 40px;
-  color: var(--bg-danger);
-}
-
-.preview-error h3 {
-  font-size: 20px;
-  margin-bottom: 12px;
-}
-
-.preview-error p {
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) { 
-  .results-grid { grid-template-columns: repeat(2, 1fr); } 
-}
-
-@media (max-width: 1024px) { 
-  .app { flex-direction: column; }
-  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-primary); }
-  .results-grid { grid-template-columns: 1fr; }
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .sidebar, .main-content { padding: 16px; }
-  .search-input, .select-input { font-size: 16px; }
-  .prd-header { flex-direction: column; gap: 16px; padding: 24px 20px; }
-  .prd-content { padding: 24px 20px; font-size: 14px; }
-  
-  .source-date {
-    font-size: 9px;
-    padding: 2px 4px;
-  }
-  
-  .source-info {
-    flex-wrap: nowrap;
-    gap: 8px;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .preview-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  
-  .preview-actions {
-    width: 100%;
-    justify-content: flex-end;
-  }
-  
   .mvp-prompt-header {
     flex-direction: column;
     gap: 12px;
@@ -965,9 +826,6 @@ mark {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
-}
 </style>
 </head>
 <body>
@@ -1018,6 +876,7 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
   </div>
 </aside>
 
+
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
       <h2 class="results-title">Rants, Complaints, and Meltdowns about XYZ.</h2>
@@ -1030,11 +889,11 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
         <p class="loading-text">Loading demo search results...</p>
       </div>
     </div>
-	<footer class="footer">
+<footer class="footer">
   <div class="footer-content">
 
     <div class="footer-hero">
-      <h2>"Complaints are gifts. Customers are always beautifully, wonderfully dissatisfied." ~ Jeff B.</h2>
+      <h2>“Complaints are gifts. Customers are always beautifully, wonderfully dissatisfied.” ~ Jeff B.</h2>
       <p>Ideas built in a vacuum die. GrumpyLinks starts where the world is already complaining and hands you the fastest path from rant to revenue.</p>
     </div>
 
@@ -1047,8 +906,8 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>Because that's how most side hustles crash and burn. Building blind = months wasted on something nobody asked for. 
-          We start with real customer pain, so instead of rolling dice you're solving problems people already want fixed.</p>
+          <p>Because that’s how most side hustles crash and burn. Building blind = months wasted on something nobody asked for. 
+          We start with real customer pain, so instead of rolling dice you’re solving problems people already want fixed.</p>
         </div>
       </div>
 
@@ -1058,8 +917,8 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>We use powerful queries, Google's Custom Search Engine, and Gemini AI to mine gripes across 12+ platforms: Reddit, Twitter/X, YouTube, Instagram, Facebook, Discord, and more. 
-          If customers are grumpy online, we'll find it—and hand it to you on a platter.</p>
+          <p>We use powerful queries, Google’s Custom Search Engine, and Gemini AI to mine gripes across 12+ platforms: Reddit, Twitter/X, YouTube, Instagram, Facebook, Discord, and more. 
+          If customers are grumpy online, we’ll find it—and hand it to you on a platter.</p>
         </div>
       </div>
 
@@ -1069,21 +928,21 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>Dreaming of quitting your 9—5? This is your shortcut.  
+          <p>Dreaming of quitting your 9–5? This is your shortcut.  
           A content creator? Endless material.  
           A Fortune 500 Marketing VP? Cheap GTM validation before you burn through millions.  
-          Basically: anyone who'd rather hear the truth from customers than pay McKinsey $5M for a 100-page deck.</p>
+          Basically: anyone who’d rather hear the truth from customers than pay McKinsey $5M for a 100-page deck.</p>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFAQ(this)">
-          Isn't this just market research?
+          Isn’t this just market research?
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
           <p>Not even close. Traditional research = surveys nobody fills out and interviews where people lie to be polite.  
-          We surface what they're already shouting about. It's faster, cheaper, and honestly more fun. 
+          We surface what they’re already shouting about. It’s faster, cheaper, and honestly more fun. 
           Our version comes with launch-ready plans instead of slide decks.</p>
         </div>
       </div>
@@ -1105,20 +964,21 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>Your gut is biased. Customers aren't. They rant because they're fed up—and frustration is the raw material of opportunity. 
-          The fastest way to win? Fix what's broken. GrumpyLinks just makes sure you hear the signal above the noise.</p>
+          <p>Your gut is biased. Customers aren’t. They rant because they’re fed up—and frustration is the raw material of opportunity. 
+          The fastest way to win? Fix what’s broken. GrumpyLinks just makes sure you hear the signal above the noise.</p>
         </div>
       </div>
     </div>
 
     <div class="footer-hero">
       <h2>Ready to escape your 9 to 5? Get 😠 Grumpy.</h2>
-      <p>Join solopreneurs, side hustlers, and creators who know the secret: success isn't about guessing, it's about solving. GrumpyLinks makes it obvious what to build next.</p>
+      <p>Join solopreneurs, side hustlers, and creators who know the secret: success isn’t about guessing, it’s about solving. GrumpyLinks makes it obvious what to build next.</p>
       <p>© 2025 GrumpyLinks</p>
     </div>
 
   </div>
 </footer>
+
   </main>
 </div>
 <script>
@@ -1148,7 +1008,6 @@ const PLATFORMS = {
 // Global variables
 let currentAnalysis = null;
 let currentSearchResults = [];
-let currentLandingPageHtml = null;
 
 // Demo data
 const DEMO_RESULTS = {
@@ -1225,6 +1084,7 @@ function setupEventListeners() {
     localStorage.setItem('grumpy_search', e.target.value);
   };
 }
+
 function buildSearchQuery(template, keyword, platform) {
   let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
@@ -1365,6 +1225,7 @@ function getGrumpyMeterDisplay(level) {
   
   return displays[levelInt] || displays[2];
 }
+
 function performGoogleSearch(query, timeRange) {
   if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
     throw new Error('Google API not configured');
@@ -1457,7 +1318,6 @@ function performSearch() {
   updateResultsHeader(keyword);
   showLoading();
   closePrd();
-  closePreview();
 
   let query;
   let powerQuery = null;
@@ -1518,6 +1378,7 @@ function escapeHtml(text) {
   const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
   return text.replace(/[&<>"']/g, m => map[m]);
 }
+
 function displayResults(results, powerQuery, keyword, analysis) {
   const grid = document.getElementById('resultsGrid');
   const resultsHeader = document.getElementById('resultsHeader');
@@ -1551,7 +1412,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&#39;/g, "'")
-      .replace(/\s*ÃƒÆ'Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â·\s*/g, ' ')
+      .replace(/\s*Ãƒâ€šÃ‚Â·\s*/g, ' ')
       .replace(/\s*\.\.\.\s*/g, ' ')
       .replace(/\s+/g, ' ');
 
@@ -1588,8 +1449,8 @@ function displayResults(results, powerQuery, keyword, analysis) {
     });
 
     snippet = snippet
-      .replace(/^[.,\s-ÃƒÆ'Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â·:;]*/, '')
-      .replace(/[.,\s-ÃƒÆ'Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â·:;]*$/, '')
+      .replace(/^[.,\s-Ãƒâ€šÃ‚Â·:;]*/, '')
+      .replace(/[.,\s-Ãƒâ€šÃ‚Â·:;]*$/, '')
       .replace(/\s+/g, ' ')
       .trim();
 
@@ -1709,6 +1570,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
     downloadContainer.style.display = 'none';
   }
 }
+
 function downloadOpportunities() {
   if (currentSearchResults.length === 0) {
     const btn = event.target;
@@ -1767,6 +1629,7 @@ function downloadOpportunities() {
     btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
   }, 2000);
 }
+
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
   if (!API_CONFIG.LAMBDA_ENDPOINT) {
     showPrdError('Launch plan generation not configured. Please check your settings.');
@@ -1941,7 +1804,6 @@ function createMvpPromptContainer(mvpPrompt) {
         <div class="mvp-prompt-actions">
           <button class="mvp-prompt-toggle" onclick="toggleMvpPrompt('${promptId}')">Show/Hide</button>
           <button class="mvp-copy-btn" onclick="copyMvpPrompt('${promptId}')">Copy Prompt</button>
-          <button class="mvp-preview-btn" onclick="generateLandingPagePreview('${promptId}')">Preview Page</button>
         </div>
       </div>
       <div class="mvp-prompt-content" id="${promptId}">
@@ -1949,178 +1811,9 @@ function createMvpPromptContainer(mvpPrompt) {
       </div>
     </div>
     <p style="margin-top: 16px; color: var(--text-secondary); font-size: 14px;">
-      <strong>💡 How to use:</strong> Copy the prompt above and paste it into Claude or Gemini to generate your landing page, or click "Preview Page" to see it generated automatically.
+      <strong>💡 How to use:</strong> Copy the prompt above and paste it into Claude or Gemini to generate your landing page.
     </p>
   `;
-}
-function generateLandingPagePreview(promptId) {
-  if (!API_CONFIG.LAMBDA_ENDPOINT) {
-    showPreviewError('Landing page generation not configured. Please check your settings.');
-    return;
-  }
-
-  const promptElement = document.querySelector(`#${promptId} .mvp-prompt-code`);
-  const promptText = promptElement ? promptElement.textContent : window.currentMvpPrompt;
-  
-  if (!promptText || promptText.includes('MVP prompt generation failed')) {
-    showPreviewError('Invalid prompt. Please generate a launch plan first.');
-    return;
-  }
-
-  const button = event.target;
-  const originalText = button.textContent;
-  button.textContent = 'Generating...';
-  button.disabled = true;
-
-  showPreviewLoading();
-
-  fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-      action: 'generate_landing_page',
-      prompt: promptText
-    })
-  })
-  .then(response => {
-    if (!response.ok) throw new Error(`Landing page generation failed: ${response.status}`);
-    return response.json();
-  })
-  .then(data => {
-    if (data.landingPageHtml) {
-      currentLandingPageHtml = data.landingPageHtml;
-      showPreviewResults(data.landingPageHtml);
-    } else {
-      throw new Error('No landing page content received');
-    }
-  })
-  .catch(error => {
-    console.error('Landing page generation error:', error);
-    showPreviewError(error.message);
-  })
-  .finally(() => {
-    button.textContent = originalText;
-    button.disabled = false;
-  });
-}
-
-function showPreviewLoading() {
-  const container = getPreviewContainer();
-  container.innerHTML = `
-    <div class="preview-header">
-      <h2 class="preview-title">Creating Your Landing Page...</h2>
-    </div>
-    <div class="preview-loading">
-      <div class="preview-loading-spinner"></div>
-      <div class="preview-loading-text">Generating your landing page</div>
-      <div class="preview-loading-subtitle">This may take up to 30 seconds...</div>
-    </div>
-  `;
-  container.style.display = 'block';
-  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function showPreviewResults(htmlContent) {
-  const container = getPreviewContainer();
-  
-  container.innerHTML = `
-    <div class="preview-header">
-      <h2 class="preview-title">Landing Page Preview</h2>
-      <div class="preview-actions">
-        <button class="preview-action-btn" onclick="downloadLandingPage()">Download HTML</button>
-        <button class="preview-action-btn secondary" onclick="closePreview()">✕ Close</button>
-      </div>
-    </div>
-    <div class="preview-iframe-container">
-      <iframe class="preview-iframe" id="preview-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
-    </div>
-  `;
-
-  // Safely inject the HTML into the iframe
-  const iframe = document.getElementById('preview-iframe');
-  iframe.onload = function() {
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-    iframeDoc.open();
-    iframeDoc.write(htmlContent);
-    iframeDoc.close();
-  };
-  
-  // Trigger the iframe load
-  iframe.src = 'about:blank';
-
-  container.style.display = 'block';
-  setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-}
-
-function showPreviewError(errorMessage) {
-  const container = getPreviewContainer();
-  container.innerHTML = `
-    <div class="preview-header">
-      <h2 class="preview-title">⚠️ Preview Generation Failed</h2>
-      <div class="preview-actions">
-        <button class="preview-action-btn secondary" onclick="closePreview()">✕ Close</button>
-      </div>
-    </div>
-    <div class="preview-error">
-      <h3>Failed to generate landing page preview</h3>
-      <p>${escapeHtml(errorMessage)}<br>
-      <small>Please try again or check your connection.</small></p>
-    </div>
-  `;
-  container.style.display = 'block';
-}
-
-function getPreviewContainer() {
-  let container = document.getElementById('preview-container');
-  if (!container) {
-    container = document.createElement('div');
-    container.id = 'preview-container';
-    container.className = 'preview-container';
-    
-    const prdContainer = document.getElementById('prd-container');
-	if (prdContainer && prdContainer.parentNode) {
-      prdContainer.parentNode.insertBefore(container, prdContainer.nextSibling);
-    } else {
-      const resultsGrid = document.getElementById('resultsGrid');
-      resultsGrid.parentNode.insertBefore(container, resultsGrid.nextSibling);
-    }
-  }
-  return container;
-}
-
-function closePreview() {
-  const container = document.getElementById('preview-container');
-  if (container) container.style.display = 'none';
-}
-
-function downloadLandingPage() {
-  if (!currentLandingPageHtml) return;
-
-  // Extract title from HTML for filename
-  const titleMatch = currentLandingPageHtml.match(/<title[^>]*>([^<]+)<\/title>/i);
-  const pageTitle = titleMatch ? titleMatch[1] : 'landing-page';
-  
-  const filename = `${pageTitle.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}-${new Date().toISOString().slice(0,10)}.html`;
-
-  const blob = new Blob([currentLandingPageHtml], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-
-  const btn = event.target;
-  const originalText = btn.textContent;
-  btn.textContent = '✅ Downloaded!';
-  btn.style.background = 'var(--bg-success)';
-
-  setTimeout(() => {
-    btn.textContent = originalText;
-    btn.style.background = 'var(--bg-button)';
-  }, 2000);
 }
 
 function toggleMvpPrompt(promptId) {
@@ -2382,6 +2075,7 @@ function formatPrdContent(content) {
     .replace(/\n\s*\n/g, '\n')
     .trim();
 }
+
 function copyPrdToClipboard() {
   if (!window.currentPrdContent) return;
 
@@ -2531,10 +2225,7 @@ Object.assign(window, {
   downloadPrd, 
   closePrd,
   toggleMvpPrompt,
-  copyMvpPrompt,
-  generateLandingPagePreview,
-  closePreview,
-  downloadLandingPage
+  copyMvpPrompt
 });
 
 init();
