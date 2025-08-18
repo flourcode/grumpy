@@ -1814,6 +1814,9 @@ function loadDemoSearch() {
 function init() {
 loadConfig();
 setupEventListeners();
+document.getElementById('queryDropdown').value = '';
+document.getElementById('platformSelect').value = 'all';
+document.getElementById('timeSelect').value = 'd30';
 loadDemoSearch();
 }
 
