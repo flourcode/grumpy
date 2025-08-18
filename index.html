@@ -950,16 +950,46 @@ function getPlatformClass(domain) {
 }
 
 function getPlatformName(domain) {
- const platforms = {
-   reddit: 'Reddit', twitter: 'Twitter', 'x.com': 'Twitter', linkedin: 'LinkedIn',
-   'news.ycombinator': 'Hacker News', github: 'GitHub', stackoverflow: 'Stack Overflow',
-   medium: 'Medium', quora: 'Quora', youtube: 'YouTube', producthunt: 'Product Hunt',
-   discord: 'Discord', glassdoor: 'Glassdoor', trustpilot: 'Trustpilot', tiktok: 'TikTok',
-   'apps.apple.com': 'App Store', 'play.google.com': 'Play Store'
- };
- 
- const match = Object.keys(platforms).find(key => domain.includes(key));
- return match ? platforms[match] : domain.split('.')[0];
+  const platforms = {
+    reddit: 'Reddit', twitter: 'Twitter', 'x.com': 'Twitter', linkedin: 'LinkedIn',
+    'news.ycombinator': 'Hacker News', github: 'GitHub', stackoverflow: 'Stack Overflow',
+    medium: 'Medium', quora: 'Quora', youtube: 'YouTube', producthunt: 'Product Hunt',
+    discord: 'Discord', glassdoor: 'Glassdoor', trustpilot: 'Trustpilot', tiktok: 'TikTok',
+    'apps.apple.com': 'App Store', 'play.google.com': 'Play Store'
+  };
+  
+  // Check if it's a known platform first
+  const platformMatch = Object.keys(platforms).find(key => domain.includes(key));
+  if (platformMatch) {
+    return platforms[platformMatch];
+  }
+  
+  // For unknown domains, extract subdomain + main domain
+  const parts = domain.split('.');
+  
+  if (parts.length >= 2) {
+    // Get the subdomain (if exists) and main domain
+    if (parts.length >= 3) {
+      // Has subdomain: developers.redhat.com -> "developers.redhat"
+      const subdomain = parts[0];
+      const mainDomain = parts[parts.length - 2]; // redhat (skip .com)
+      
+      // Skip common subdomains that aren't useful
+      const skipSubdomains = ['www', 'm', 'mobile', 'old', 'new', 'beta', 'staging', 'support', 'help'];
+      if (skipSubdomains.includes(subdomain.toLowerCase())) {
+        return mainDomain.charAt(0).toUpperCase() + mainDomain.slice(1);
+      }
+      
+      return `${subdomain}.${mainDomain}`;
+    } else {
+      // No subdomain: redhat.com -> "Redhat"
+      const mainDomain = parts[0];
+      return mainDomain.charAt(0).toUpperCase() + mainDomain.slice(1);
+    }
+  }
+  
+  // Fallback to original domain
+  return domain;
 }
 
 function findInsightForResult(result, analysis) {
