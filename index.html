@@ -667,7 +667,7 @@ mark {
     <span class="logo-emoji">😠</span>
     <span class="logo-text">GrumpyLinks</span>
   </a>
-<p class="logo-rant">Where Grumpy Customers Become Big Ideas</p>
+<p class="logo-rant">Fresh Startup Ideas from Grumpy Customers</p>
 <p class="logo-subtitle">
 Search any topic, company, product for user complaints across Reddit, Facebook, Insta, X, YouTube, and more. 
 </p>
@@ -711,7 +711,7 @@ Search any topic, company, product for user complaints across Reddit, Facebook, 
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
       <h2 class="results-title">Rants, Complaints, and Meltdowns about XYZ.</h2>
-      <p class="results-subtitle">See what people are grumpy about and build a product to fix it.</p>
+      <p class="results-subtitle">See what people are grumpy about and build a product to delight them.</p>
     </div>
 
     <div id="resultsGrid" class="results-grid">
@@ -852,7 +852,6 @@ const DEMO_RESULTS = {
       insight: { 
         businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", 
         grumpyMeter: 2,
-        grumpyReasoning: "Users express strong frustration with poor AI performance",
         viability: 1,
         viabilityReasoning: "Requires massive resources and competes with tech giants"
       }
@@ -865,7 +864,6 @@ const DEMO_RESULTS = {
       insight: { 
         businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", 
         grumpyMeter: 2,
-        grumpyReasoning: "Common connectivity frustration many travelers experience",
         viability: 3,
         viabilityReasoning: "Simple content creation with clear market demand"
       }
@@ -878,7 +876,6 @@ const DEMO_RESULTS = {
       insight: { 
         businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", 
         grumpyMeter: 3,
-        grumpyReasoning: "Users blocked from accessing services creates urgent need",
         viability: 2,
         viabilityReasoning: "VPN market is competitive but traveler niche has potential"
       }
@@ -969,7 +966,6 @@ function findInsightForResult(result, analysis) {
     return {
       businessOpportunity: "AI analysis not available for this result",
       grumpyMeter: 2,
-      grumpyReasoning: "Analysis not available",
       viability: 2,
       viabilityReasoning: "Business assessment not available"
     };
@@ -1009,7 +1005,6 @@ function findInsightForResult(result, analysis) {
   return analysis.resultInsights[0] || {
     businessOpportunity: "Monitor this result for business opportunities",
     grumpyMeter: 2,
-    grumpyReasoning: "Requires further analysis",
     viability: 2,
     viabilityReasoning: "Business assessment needed"
   };
@@ -1350,7 +1345,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
       insight = {
         businessOpportunity: "AI analysis not available for this result",
         grumpyMeter: 2,
-        grumpyReasoning: "Analysis not available",
         viability: 2,
         viabilityReasoning: "Business assessment not available"
       };
@@ -1375,7 +1369,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
       platform: platformName,
       businessOpportunity: insight.businessOpportunity || 'N/A',
       grumpyMeter: insight.grumpyMeter || 2,
-      grumpyReasoning: insight.grumpyReasoning || 'Grumpy reasoning not available',
       viability: insight.viability || 2,
       viabilityReasoning: insight.viabilityReasoning || 'Business assessment not available'
     });
@@ -1393,12 +1386,12 @@ function displayResults(results, powerQuery, keyword, analysis) {
             <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
           </div>
           <div class="problem-statement">
-            <h3 class="problem-title">CUSTOMER PROBLEM:</h3>
+            <h3 class="problem-title">COMPLAINT:</h3>
             <p class="problem-text">"${highlightedSnippet}..."</p>
           </div>
         </div>
         <div class="card-body">
-          <h4 class="solution-title">PRODUCT OPPORTUNITY:</h4>
+          <h4 class="solution-title">BIG IDEA</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
         </div>
         <div class="opportunity-section ${viabilityDisplay.class}">
@@ -1412,7 +1405,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
                   data-title="${escapeHtml(result.title)}" 
                   data-snippet="${escapeHtml(result.snippet || '')}" 
                   data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
-            Product Launch Plan
+            Launch Plan
           </button>
           <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
         </div>
@@ -1467,7 +1460,7 @@ function downloadOpportunities() {
     return;
   }
 
-  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Grumpy Meter", "Grumpy Reasoning", "Viability", "Viability Reasoning"];
+  const headers = ["Title", "Link", "Snippet", "Platform", "Business Opportunity", "Grumpy Meter", "Viability", "Viability Reasoning"];
   const fieldMapping = {
     "Title": "title", 
     "Link": "link", 
@@ -1475,19 +1468,24 @@ function downloadOpportunities() {
     "Platform": "platform",
     "Business Opportunity": "businessOpportunity", 
     "Grumpy Meter": "grumpyMeter",
-    "Grumpy Reasoning": "grumpyReasoning",
     "Viability": "viability",
     "Viability Reasoning": "viabilityReasoning"
   };
   
   const rows = currentSearchResults.map(row => 
-    headers.map(header => `"${(row[fieldMapping[header]] || '').replace(/"/g, '""')}"`).join(',')
+    headers.map(header => {
+      const fieldValue = row[fieldMapping[header]] || '';
+      // Convert to string first, then escape quotes
+      const stringValue = String(fieldValue);
+      const escapedValue = stringValue.replace(/"/g, '""');
+      return `"${escapedValue}"`;
+    }).join(',')
   );
   
   const dataStr = headers.join(',') + '\n' + rows.join('\n');
   const filename = `grumpylinks_opportunities_${new Date().toISOString().slice(0,10)}.csv`;
 
-  const blob = new Blob([dataStr], { type: 'text/csv' });
+  const blob = new Blob([dataStr], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -1507,7 +1505,6 @@ function downloadOpportunities() {
     btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
   }, 2000);
 }
-
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
  if (!API_CONFIG.LAMBDA_ENDPOINT) {
    showPrdError('Launch plan generation not configured. Please check your settings.');
