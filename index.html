@@ -656,7 +656,175 @@ mark {
   margin: 0 0 10px 0; /* less gap under the rant line */
   line-height: 1.4;
 }
+/* MVP Prompt Container Styles */
+.mvp-prompt-container {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  margin: 32px 0;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
+.mvp-prompt-header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mvp-prompt-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mvp-prompt-title::before {
+  content: "⚡";
+  font-size: 18px;
+}
+
+.mvp-prompt-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.mvp-copy-btn {
+  background: var(--bg-button);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mvp-copy-btn:hover {
+  background: var(--bg-button-hover);
+  transform: translateY(-1px);
+}
+
+.mvp-copy-btn::before {
+  content: "📋";
+  font-size: 12px;
+}
+
+.mvp-copy-btn.copied {
+  background: var(--bg-success);
+}
+
+.mvp-copy-btn.copied::before {
+  content: "✅";
+}
+
+.mvp-prompt-content {
+  padding: 0;
+  position: relative;
+}
+
+.mvp-prompt-code {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  padding: 24px;
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.mvp-prompt-code::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.mvp-prompt-code::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 4px;
+}
+
+.mvp-prompt-code::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Expand/Collapse functionality */
+.mvp-prompt-toggle {
+  background: none;
+  border: none;
+  color: var(--text-accent);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mvp-prompt-toggle:hover {
+  color: var(--text-primary);
+}
+
+.mvp-prompt-toggle::after {
+  content: "▼";
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.mvp-prompt-toggle.collapsed::after {
+  transform: rotate(-90deg);
+}
+
+.mvp-prompt-content.collapsed .mvp-prompt-code {
+  max-height: 100px;
+  overflow: hidden;
+}
+
+.mvp-prompt-content.collapsed::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(transparent, var(--bg-input));
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mvp-prompt-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .mvp-prompt-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .mvp-prompt-code {
+    font-size: 12px;
+    padding: 16px;
+  }
+}
 
 </style>
 </head>
@@ -888,65 +1056,65 @@ function loadConfig() {
   if (window.ENV) {
     API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
     API_CONFIG.SEARCH_ENGINE_ID = window.ENV.SEARCH_ENGINE_ID || '';
-   API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
- }
+    API_CONFIG.LAMBDA_ENDPOINT = window.ENV.LAMBDA_ENDPOINT || '';
+  }
 }
 
 function toggleFAQ(element) {
- const answer = element.nextElementSibling;
- const isActive = element.classList.contains('active');
- 
- document.querySelectorAll('.faq-question').forEach(q => {
-   q.classList.remove('active');
-   q.nextElementSibling.classList.remove('active');
- });
- 
- if (!isActive) {
-   element.classList.add('active');
-   answer.classList.add('active');
- }
+  const answer = element.nextElementSibling;
+  const isActive = element.classList.contains('active');
+  
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.classList.remove('active');
+    q.nextElementSibling.classList.remove('active');
+  });
+  
+  if (!isActive) {
+    element.classList.add('active');
+    answer.classList.add('active');
+  }
 }
 
 function setupEventListeners() {
- document.getElementById('searchBtn').onclick = performSearch;
- document.getElementById('searchInput').onkeydown = e => {
-   if (e.key === 'Enter') performSearch();
- };
- document.getElementById('searchInput').oninput = e => {
-   localStorage.setItem('grumpy_search', e.target.value);
- };
+  document.getElementById('searchBtn').onclick = performSearch;
+  document.getElementById('searchInput').onkeydown = e => {
+    if (e.key === 'Enter') performSearch();
+  };
+  document.getElementById('searchInput').oninput = e => {
+    localStorage.setItem('grumpy_search', e.target.value);
+  };
 }
 
 function buildSearchQuery(template, keyword, platform) {
- let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
- const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
- if (platformConfig.sites.length > 0) {
-   query += ` (${platformConfig.sites.join(' OR ')})`;
- }
- return query;
+  let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
+  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+  if (platformConfig.sites.length > 0) {
+    query += ` (${platformConfig.sites.join(' OR ')})`;
+  }
+  return query;
 }
 
 function buildNormalSearchQuery(keyword, platform) {
- let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
- const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
- if (platformConfig.sites.length > 0) {
-   query += ` (${platformConfig.sites.join(' OR ')})`;
- }
- return query;
+  let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
+  const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
+  if (platformConfig.sites.length > 0) {
+    query += ` (${platformConfig.sites.join(' OR ')})`;
+  }
+  return query;
 }
 
 function getPlatformClass(domain) {
- const platforms = {
-   reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
-   linkedin: 'source-linkedin', 'news.ycombinator': 'source-hackernews', github: 'source-github',
-   stackoverflow: 'source-stackoverflow', medium: 'source-medium', quora: 'source-quora',
-   youtube: 'source-youtube', producthunt: 'source-producthunt', discord: 'source-discord',
-   glassdoor: 'source-glassdoor', trustpilot: 'source-trustpilot', tiktok: 'source-tiktok',
-   'apps.apple.com': 'source-appstore', 'play.google.com': 'source-appstore'
- };
- 
- const match = Object.keys(platforms).find(key => domain.includes(key));
- return match ? platforms[match] : 'source-default';
+  const platforms = {
+    reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
+    linkedin: 'source-linkedin', 'news.ycombinator': 'source-hackernews', github: 'source-github',
+    stackoverflow: 'source-stackoverflow', medium: 'source-medium', quora: 'source-quora',
+    youtube: 'source-youtube', producthunt: 'source-producthunt', discord: 'source-discord',
+    glassdoor: 'source-glassdoor', trustpilot: 'source-trustpilot', tiktok: 'source-tiktok',
+    'apps.apple.com': 'source-appstore', 'play.google.com': 'source-appstore'
+  };
+  
+  const match = Object.keys(platforms).find(key => domain.includes(key));
+  return match ? platforms[match] : 'source-default';
 }
 
 function getPlatformName(domain) {
@@ -958,23 +1126,18 @@ function getPlatformName(domain) {
     'apps.apple.com': 'App Store', 'play.google.com': 'Play Store'
   };
   
-  // Check if it's a known platform first
   const platformMatch = Object.keys(platforms).find(key => domain.includes(key));
   if (platformMatch) {
     return platforms[platformMatch];
   }
   
-  // For unknown domains, extract subdomain + main domain
   const parts = domain.split('.');
   
   if (parts.length >= 2) {
-    // Get the subdomain (if exists) and main domain
     if (parts.length >= 3) {
-      // Has subdomain: developers.redhat.com -> "developers.redhat"
       const subdomain = parts[0];
-      const mainDomain = parts[parts.length - 2]; // redhat (skip .com)
+      const mainDomain = parts[parts.length - 2];
       
-      // Skip common subdomains that aren't useful
       const skipSubdomains = ['www', 'm', 'mobile', 'old', 'new', 'beta', 'staging', 'support', 'help'];
       if (skipSubdomains.includes(subdomain.toLowerCase())) {
         return mainDomain.charAt(0).toUpperCase() + mainDomain.slice(1);
@@ -982,13 +1145,11 @@ function getPlatformName(domain) {
       
       return `${subdomain}.${mainDomain}`;
     } else {
-      // No subdomain: redhat.com -> "Redhat"
       const mainDomain = parts[0];
       return mainDomain.charAt(0).toUpperCase() + mainDomain.slice(1);
     }
   }
   
-  // Fallback to original domain
   return domain;
 }
 
@@ -1066,60 +1227,60 @@ function getGrumpyMeterDisplay(level) {
 }
 
 function performGoogleSearch(query, timeRange) {
- if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
-   throw new Error('Google API not configured');
- }
+  if (!API_CONFIG.GOOGLE_API_KEY || !API_CONFIG.SEARCH_ENGINE_ID) {
+    throw new Error('Google API not configured');
+  }
 
- const params = new URLSearchParams({
-   key: API_CONFIG.GOOGLE_API_KEY,
-   cx: API_CONFIG.SEARCH_ENGINE_ID,
-   q: query,
-   num: '9', 
-   dateRestrict: timeRange
- });
+  const params = new URLSearchParams({
+    key: API_CONFIG.GOOGLE_API_KEY,
+    cx: API_CONFIG.SEARCH_ENGINE_ID,
+    q: query,
+    num: '9', 
+    dateRestrict: timeRange
+  });
 
- return fetch(`https://www.googleapis.com/customsearch/v1?${params.toString()}`)
-   .then(response => {
-     if (!response.ok) {
-       return response.json().then(error => {
-         throw new Error(error.error?.message || 'Search failed');
-       });
-     }
-     return response.json();
-   })
-   .then(data => {
-     return data.items || [];
-   });
+  return fetch(`https://www.googleapis.com/customsearch/v1?${params.toString()}`)
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(error => {
+          throw new Error(error.error?.message || 'Search failed');
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      return data.items || [];
+    });
 }
 
 function analyzeWithAI(results, query, platform) {
- if (!API_CONFIG.LAMBDA_ENDPOINT) {
-   return Promise.resolve({
-     mainPainPoint: "AI analysis not configured",
-     resultInsights: [],
-     overallOpportunityScore: 3,
-     topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
-   });
- }
+  if (!API_CONFIG.LAMBDA_ENDPOINT) {
+    return Promise.resolve({
+      mainPainPoint: "AI analysis not configured",
+      resultInsights: [],
+      overallOpportunityScore: 3,
+      topActionableIdeas: ["Configure Lambda endpoint to enable AI analysis"]
+    });
+  }
 
- return fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-   method: 'POST',
-   headers: { 'Content-Type': 'application/json' },
-   body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
- })
- .then(response => {
-   if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
-   return response.json();
- })
- .catch(error => {
-   console.error('AI analysis error:', error);
-   return {
-     mainPainPoint: "AI analysis temporarily unavailable",
-     resultInsights: [],
-     overallOpportunityScore: 3,
-     topActionableIdeas: ["AI analysis error - please try again"]
-   };
- });
+  return fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, platform, results: results.slice(0, 10) })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error(`AI analysis failed: ${response.status}`);
+    return response.json();
+  })
+  .catch(error => {
+    console.error('AI analysis error:', error);
+    return {
+      mainPainPoint: "AI analysis temporarily unavailable",
+      resultInsights: [],
+      overallOpportunityScore: 3,
+      topActionableIdeas: ["AI analysis error - please try again"]
+    };
+  });
 }
 
 function updateResultsHeader(keyword) {
@@ -1154,72 +1315,68 @@ function performSearch() {
   const platform = document.getElementById('platformSelect').value;
   const timeRange = document.getElementById('timeSelect').value;
 
-  // Update the results header with the search term
   updateResultsHeader(keyword);
-
   showLoading();
-  
-  // Close any open PRD when starting a new search
   closePrd();
 
   let query;
   let powerQuery = null;
  
- if (queryType && POWER_QUERIES[queryType]) {
-   powerQuery = POWER_QUERIES[queryType];
-   query = buildSearchQuery(powerQuery.template, keyword, platform);
- } else {
-   query = buildNormalSearchQuery(keyword, platform);
- }
+  if (queryType && POWER_QUERIES[queryType]) {
+    powerQuery = POWER_QUERIES[queryType];
+    query = buildSearchQuery(powerQuery.template, keyword, platform);
+  } else {
+    query = buildNormalSearchQuery(keyword, platform);
+  }
  
- performGoogleSearch(query, timeRange)
-   .then(results => {
-     if (results.length > 0) {
-       return analyzeWithAI(results, query, platform)
-         .then(analysis => {
-           currentAnalysis = analysis;
-           displayResults(results, powerQuery, keyword, analysis);
-         });
-     } else {
-       displayResults(results, powerQuery, keyword, null);
-     }
-   })
-   .catch(error => {
-     showError(error.message);
-   });
+  performGoogleSearch(query, timeRange)
+    .then(results => {
+      if (results.length > 0) {
+        return analyzeWithAI(results, query, platform)
+          .then(analysis => {
+            currentAnalysis = analysis;
+            displayResults(results, powerQuery, keyword, analysis);
+          });
+      } else {
+        displayResults(results, powerQuery, keyword, null);
+      }
+    })
+    .catch(error => {
+      showError(error.message);
+    });
 }
 
 function showLoading() {
- const grid = document.getElementById('resultsGrid');
- const resultsHeader = document.getElementById('resultsHeader');
- const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
+  const grid = document.getElementById('resultsGrid');
+  const resultsHeader = document.getElementById('resultsHeader');
+  const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
 
- resultsHeader.style.display = 'block';
- if (downloadBtn) downloadBtn.style.display = 'none';
- grid.innerHTML = `
-   <div class="loading-container">
-     <div class="loading-spinner"></div>
-     <p class="loading-text">Analyzing pain points across platforms...</p>
-   </div>
- `;
+  resultsHeader.style.display = 'block';
+  if (downloadBtn) downloadBtn.style.display = 'none';
+  grid.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Analyzing pain points across platforms...</p>
+    </div>
+  `;
 }
 
 function showError(message) {
- const grid = document.getElementById('resultsGrid');
- const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
- if (downloadBtn) downloadBtn.style.display = 'none';
- grid.innerHTML = `
-   <div class="empty-state">
-     <h3>Search Error</h3>
-     <p>${message}</p>
-   </div>
- `;
+  const grid = document.getElementById('resultsGrid');
+  const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
+  if (downloadBtn) downloadBtn.style.display = 'none';
+  grid.innerHTML = `
+    <div class="empty-state">
+      <h3>Search Error</h3>
+      <p>${message}</p>
+    </div>
+  `;
 }
 
 function escapeHtml(text) {
- if (typeof text !== 'string') return text;
- const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
- return text.replace(/[&<>"']/g, m => map[m]);
+  if (typeof text !== 'string') return text;
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return text.replace(/[&<>"']/g, m => map[m]);
 }
 
 function displayResults(results, powerQuery, keyword, analysis) {
@@ -1248,18 +1405,17 @@ function displayResults(results, powerQuery, keyword, analysis) {
     
     let snippet = result.snippet || '';
 
-    // Enhanced cleaning - remove ALL date/time artifacts first
+    // Enhanced cleaning
     snippet = snippet
       .replace(/&quot;/g, '"')
       .replace(/&amp;/g, '&')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&#39;/g, "'")
-      .replace(/\s*Ã‚Â·\s*/g, ' ')
+      .replace(/\s*Ãƒâ€šÃ‚Â·\s*/g, ' ')
       .replace(/\s*\.\.\.\s*/g, ' ')
       .replace(/\s+/g, ' ');
 
-    // Aggressive removal of ALL date/time patterns that clutter problem snippets
     const timePatterns = [
       /\d+\s*(days?|hours?|minutes?|weeks?|months?|years?)\s*ago/gi,
       /\w{3}\s+\d{1,2},?\s+\d{4}/g,
@@ -1281,7 +1437,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
       snippet = snippet.replace(pattern, '').replace(/\s+/g, ' ').trim();
     });
 
-    // Remove common metadata prefixes that interfere with reading
     const metaPrefixes = [
       /^(posted by|by|from|via|source|update|edit|edited)\s+/gi,
       /^(share|comment|reply|repost|retweet)\s+/gi,
@@ -1293,18 +1448,15 @@ function displayResults(results, powerQuery, keyword, analysis) {
       snippet = snippet.replace(pattern, '').trim();
     });
 
-    // Clean up any leftover artifacts and normalize
     snippet = snippet
-      .replace(/^[.,\s-Ã‚Â·:;]*/, '')
-      .replace(/[.,\s-Ã‚Â·:;]*$/, '')
+      .replace(/^[.,\s-Ãƒâ€šÃ‚Â·:;]*/, '')
+      .replace(/[.,\s-Ãƒâ€šÃ‚Â·:;]*$/, '')
       .replace(/\s+/g, ' ')
       .trim();
 
-    // Truncate first, THEN escape HTML, THEN add highlighting
     const truncatedSnippet = snippet.substring(0, 120);
     const escapedSnippet = escapeHtml(truncatedSnippet);
 
-    // Apply highlighting AFTER HTML escaping
     const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
     let highlightedSnippet = escapedSnippet;
 
@@ -1327,7 +1479,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
       };
     }
 
-    // Ensure we have valid levels
     const validLevels = [1, 2, 3];
     if (!validLevels.includes(parseInt(insight.grumpyMeter))) {
       insight.grumpyMeter = 2;
@@ -1351,21 +1502,21 @@ function displayResults(results, powerQuery, keyword, analysis) {
     });
 
     return `
-  <div class="result-card">
-    <div class="card-header">
-      <div class="source-info">
-        <div class="source-left">
-          <span class="source-badge ${platformClass}">${platformName}</span>
+      <div class="result-card">
+        <div class="card-header">
+          <div class="source-info">
+            <div class="source-left">
+              <span class="source-badge ${platformClass}">${platformName}</span>
+            </div>
+          </div>
+          <div class="grumpy-meter-corner">
+            <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
+          </div>
+          <div class="problem-statement">
+            <h3 class="problem-title">COMPLAINT:</h3>
+            <p class="problem-text">"${highlightedSnippet}..."</p>
+          </div>
         </div>
-      </div>
-      <div class="grumpy-meter-corner">
-        <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
-      </div>
-      <div class="problem-statement">
-        <h3 class="problem-title">COMPLAINT:</h3>
-        <p class="problem-text">"${highlightedSnippet}..."</p>
-      </div>
-    </div>
         <div class="card-body">
           <h4 class="solution-title">BIG IDEA</h4>
           <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
@@ -1391,7 +1542,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
 
   grid.innerHTML = html;
 
-  // Add event listeners to PRD buttons
   document.querySelectorAll('.generate-prd-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       const { title, snippet, opportunity } = e.target.dataset;
@@ -1399,7 +1549,6 @@ function displayResults(results, powerQuery, keyword, analysis) {
     });
   });
   
-  // Add download section
   let downloadContainer = document.getElementById('download-container');
   if (!downloadContainer) {
     downloadContainer = document.createElement('div');
@@ -1451,7 +1600,6 @@ function downloadOpportunities() {
   const rows = currentSearchResults.map(row => 
     headers.map(header => {
       const fieldValue = row[fieldMapping[header]] || '';
-      // Convert to string first, then escape quotes
       const stringValue = String(fieldValue);
       const escapedValue = stringValue.replace(/"/g, '""');
       return `"${escapedValue}"`;
@@ -1481,125 +1629,347 @@ function downloadOpportunities() {
     btn.style.background = 'linear-gradient(135deg, var(--bg-success) 0%, #16a34a 100%)';
   }, 2000);
 }
+
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
- if (!API_CONFIG.LAMBDA_ENDPOINT) {
-   showPrdError('Launch plan generation not configured. Please check your settings.');
-   return;
- }
+  if (!API_CONFIG.LAMBDA_ENDPOINT) {
+    showPrdError('Launch plan generation not configured. Please check your settings.');
+    return;
+  }
 
- const button = event.target;
- const card = button.closest('.result-card');
- const sourceLink = card?.querySelector('.source-link').href || '#';
+  const button = event.target;
+  const card = button.closest('.result-card');
+  const sourceLink = card?.querySelector('.source-link').href || '#';
 
- const originalText = button.textContent;
- button.textContent = 'Generating...';
- button.disabled = true;
+  const originalText = button.textContent;
+  button.textContent = 'Generating...';
+  button.disabled = true;
 
- showPrdLoading(originalTitle);
- const progressInterval = startProgressAnimation();
+  showPrdLoading(originalTitle);
+  const progressInterval = startProgressAnimation();
 
- fetch(API_CONFIG.LAMBDA_ENDPOINT, {
-   method: 'POST',
-   headers: { 'Content-Type': 'application/json' },
-   body: JSON.stringify({ 
-     action: 'generate_launch_plan',
-     originalTitle, snippet, opportunity
-   })
- })
- .then(response => {
-   if (!response.ok) throw new Error(`Launch plan generation failed: ${response.status}`);
-   return response.json();
- })
- .then(data => {
-   clearInterval(progressInterval);
-   if (data.launchPlan) {
-     showPrdResults(data.launchPlan, originalTitle, snippet, opportunity, sourceLink);
-   } else {
-     throw new Error('No launch plan content received');
-   }
- })
- .catch(error => {
-   clearInterval(progressInterval);
-   console.error('Launch plan generation error:', error);
-   showPrdError(error.message);
- })
- .finally(() => {
-   button.textContent = originalText;
-   button.disabled = false;
- });
+  fetch(API_CONFIG.LAMBDA_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      action: 'generate_launch_plan',
+      originalTitle, snippet, opportunity
+    })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error(`Launch plan generation failed: ${response.status}`);
+    return response.json();
+  })
+  .then(data => {
+    clearInterval(progressInterval);
+    if (data.launchPlan) {
+      showPrdResults(data.launchPlan, originalTitle, snippet, opportunity, sourceLink);
+    } else {
+      throw new Error('No launch plan content received');
+    }
+  })
+  .catch(error => {
+    clearInterval(progressInterval);
+    console.error('Launch plan generation error:', error);
+    showPrdError(error.message);
+  })
+  .finally(() => {
+    button.textContent = originalText;
+    button.disabled = false;
+  });
 }
 
 function showPrdLoading(title) {
- const container = getPrdContainer();
- container.innerHTML = `
-   <div class="prd-header">
-     <h2 class="prd-title">🚀 Creating Launch Plan...</h2>
-   </div>
-   <div class="prd-loading">
-     <div class="prd-loading-spinner"></div>
-     <div class="prd-loading-text">Creating your launch plan for:<br><strong>"${escapeHtml(title)}"</strong></div>
-     <div class="prd-progress">
-       <div class="prd-progress-bar">
-         <div class="prd-progress-fill" id="prd-progress-fill"></div>
-       </div>
-     </div>
-   </div>
- `;
- container.style.display = 'block';
- container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const container = getPrdContainer();
+  container.innerHTML = `
+    <div class="prd-header">
+      <h2 class="prd-title">🚀 Creating Launch Plan...</h2>
+    </div>
+    <div class="prd-loading">
+      <div class="prd-loading-spinner"></div>
+      <div class="prd-loading-text">Creating your launch plan for:<br><strong>"${escapeHtml(title)}"</strong></div>
+      <div class="prd-progress">
+        <div class="prd-progress-bar">
+          <div class="prd-progress-fill" id="prd-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  container.style.display = 'block';
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function startProgressAnimation() {
- let progress = 0;
- const progressFill = document.getElementById('prd-progress-fill');
- 
- return setInterval(() => {
-   progress += 20;
-   if (progress > 90) progress = 90;
-   if (progressFill) progressFill.style.width = `${progress}%`;
- }, 800);
+  let progress = 0;
+  const progressFill = document.getElementById('prd-progress-fill');
+  
+  return setInterval(() => {
+    progress += 20;
+    if (progress > 90) progress = 90;
+    if (progressFill) progressFill.style.width = `${progress}%`;
+  }, 800);
 }
 
-function showPrdResults(launchPlanContent, originalTitle, snippet, opportunity, sourceLink) {
-const container = getPrdContainer();
-const formattedContent = formatPrdContent(launchPlanContent);
-
-container.innerHTML = `
-  <div class="prd-header">
-    <h2 class="prd-title">😊 Launch Plan</h2>
-    <div class="prd-actions">
-      <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy Plan</button>
-      <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
-      <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
-    </div>
-  </div>
+function showPrdResults(launchPlanData, originalTitle, snippet, opportunity, sourceLink) {
+  const container = getPrdContainer();
   
-  <div class="prd-content">
-    ${formattedContent}
-    
-    <h2>Source</h2>
-    <div class="prd-source-section">
-      <div class="source-item">
-        <div class="source-label">Customer Pain Point:</div>
-        <div class="source-text">"${escapeHtml(originalTitle)}"</div>
-      </div>
-      <div class="source-item">
-        <div class="source-label">Business Opportunity:</div>
-        <div class="source-text">${escapeHtml(opportunity)}</div>
-      </div>
-      <div class="source-item">
-        <div class="source-label">Original Source:</div>
-        <div class="source-text">${escapeHtml(sourceLink)}</div>
+  // Check if we got structured data or just text
+  if (launchPlanData.isText || typeof launchPlanData === 'string') {
+    // Handle old text-based response
+    const formattedContent = formatPrdContent(typeof launchPlanData === 'string' ? launchPlanData : launchPlanData.toString());
+    showTextBasedPrd(container, formattedContent, originalTitle, opportunity, sourceLink);
+    return;
+  }
+  
+  // Handle new structured response
+  const plan = launchPlanData;
+  const productName = plan.productName || "Your Product";
+  
+  container.innerHTML = `
+    <div class="prd-header">
+      <h2 class="prd-title">🚀 ${productName} - Launch Plan</h2>
+      <div class="prd-actions">
+        <button class="prd-action-btn" onclick="copyFullPlanToClipboard()">Copy Full Plan</button>
+        <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
+        <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
       </div>
     </div>
-  </div>
-`;
+    
+    <div class="prd-content">
+      <h2>Product Strategy</h2>
+      <div style="background: var(--bg-tertiary); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+        <p><strong>What You're Building:</strong> ${escapeHtml(plan.strategy?.whatYoureBuilding || 'Strategy not available')}</p>
+        <p><strong>Target Customer:</strong> ${escapeHtml(plan.strategy?.targetCustomer || 'Customer analysis not available')}</p>
+        <p><strong>Value Proposition:</strong> ${escapeHtml(plan.strategy?.valueProposition || 'Value prop not available')}</p>
+        <p><strong>Validation Goal:</strong> ${escapeHtml(plan.strategy?.validationGoal || 'Validation metrics not available')}</p>
+      </div>
 
-const productName = launchPlanContent.match(/^#\s+([^-]+)/m)?.[1]?.trim() || "Product";
+      ${createMvpPromptContainer(plan.mvpPrompt || 'MVP prompt not available')}
 
-window.currentPrdContent = `# ${productName} - Launch Plan
+      <h2>Next 48 Hours</h2>
+      <div style="background: var(--bg-tertiary); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+        <p><strong>Day 1:</strong> ${escapeHtml(plan.timeline?.day1 || 'Day 1 plan not available')}</p>
+        <p><strong>Day 2:</strong> ${escapeHtml(plan.timeline?.day2 || 'Day 2 plan not available')}</p>
+      </div>
 
-${launchPlanContent.replace(/^#\s+.+$/m, '').trim()}
+      <h2>Success Metrics</h2>
+      <div style="background: var(--bg-tertiary); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+        <p><strong>Week 1:</strong> ${escapeHtml(plan.successMetrics?.week1 || 'Week 1 metrics not available')}</p>
+        <p><strong>Pivot Signal:</strong> ${escapeHtml(plan.successMetrics?.pivotSignal || 'Pivot criteria not available')}</p>
+      </div>
+
+      <h2>Reality Check</h2>
+      <div style="background: var(--bg-card); padding: 20px; border-radius: 8px; border-left: 4px solid var(--text-accent); margin-bottom: 24px;">
+        <p style="font-style: italic; color: var(--text-primary);">${escapeHtml(plan.realityCheck || 'Motivational message not available')}</p>
+      </div>
+      
+      <h2>Source</h2>
+      <div class="prd-source-section">
+        <div class="source-item">
+          <div class="source-label">Customer Pain Point:</div>
+          <div class="source-text">"${escapeHtml(originalTitle)}"</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Business Opportunity:</div>
+          <div class="source-text">${escapeHtml(opportunity)}</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Original Source:</div>
+          <div class="source-text">${escapeHtml(sourceLink)}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Store for copying/downloading
+  window.currentPrdContent = generateMarkdownFromStructured(plan, originalTitle, opportunity, sourceLink);
+  window.currentMvpPrompt = plan.mvpPrompt || '';
+
+  const progressFill = document.getElementById('prd-progress-fill');
+  if (progressFill) {
+    progressFill.style.width = '100%';
+  }
+
+  container.style.display = 'block';
+  setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function createMvpPromptContainer(mvpPrompt) {
+  const promptId = 'mvp-prompt-' + Date.now();
+  
+  return `
+    <h2>MVP Implementation</h2>
+    <div class="mvp-prompt-container">
+      <div class="mvp-prompt-header">
+        <h3 class="mvp-prompt-title">Claude MVP Creation Prompt</h3>
+        <div class="mvp-prompt-actions">
+          <button class="mvp-prompt-toggle" onclick="toggleMvpPrompt('${promptId}')">Show/Hide</button>
+          <button class="mvp-copy-btn" onclick="copyMvpPrompt('${promptId}')">Copy Prompt</button>
+        </div>
+      </div>
+      <div class="mvp-prompt-content" id="${promptId}">
+        <pre class="mvp-prompt-code">${escapeHtml(mvpPrompt)}</pre>
+      </div>
+    </div>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 14px;">
+      <strong>💡 How to use:</strong> Copy the prompt above and paste it into Claude to generate your working MVP HTML file.
+    </p>
+  `;
+}
+
+function toggleMvpPrompt(promptId) {
+  const content = document.getElementById(promptId);
+  const button = event.target;
+  
+  if (content.classList.contains('collapsed')) {
+    content.classList.remove('collapsed');
+    button.textContent = 'Show/Hide';
+    button.classList.remove('collapsed');
+  } else {
+    content.classList.add('collapsed');
+    button.textContent = 'Show Full';
+    button.classList.add('collapsed');
+  }
+}
+
+function copyMvpPrompt(promptId) {
+  const promptElement = document.querySelector(`#${promptId} .mvp-prompt-code`);
+  const promptText = promptElement ? promptElement.textContent : window.currentMvpPrompt;
+  
+  const button = event.target;
+  
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(promptText).then(() => {
+      showCopySuccess(button);
+    }).catch(() => {
+      fallbackCopy(promptText, button);
+    });
+  } else {
+    fallbackCopy(promptText, button);
+  }
+}
+
+function fallbackCopy(text, button) {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      showCopySuccess(button);
+    } else {
+      alert('Could not copy prompt. Please select and copy manually.');
+    }
+  } catch (err) {
+    alert('Could not copy prompt. Please select and copy manually.');
+  } finally {
+    document.body.removeChild(textArea);
+  }
+}
+
+function showCopySuccess(button) {
+  const originalText = button.textContent;
+  const originalClass = button.className;
+  
+  button.textContent = 'Copied!';
+  button.classList.add('copied');
+  
+  setTimeout(() => {
+    button.textContent = originalText;
+    button.className = originalClass;
+  }, 2000);
+}
+
+function copyFullPlanToClipboard() {
+  if (!window.currentPrdContent) return;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(window.currentPrdContent).then(() => {
+      const btn = document.querySelector('.prd-action-btn[onclick="copyFullPlanToClipboard()"]');
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        btn.style.background = 'var(--bg-success)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--bg-button)';
+        }, 2000);
+      }
+    }).catch(() => {
+      fallbackCopyFullPlan();
+    });
+  } else {
+    fallbackCopyFullPlan();
+  }
+}
+
+function fallbackCopyFullPlan() {
+  const textArea = document.createElement('textarea');
+  textArea.value = window.currentPrdContent;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      const btn = document.querySelector('.prd-action-btn[onclick="copyFullPlanToClipboard()"]');
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        btn.style.background = 'var(--bg-success)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--bg-button)';
+        }, 2000);
+      }
+    } else {
+      alert('Could not copy to clipboard. Please select and copy manually.');
+    }
+  } catch (err) {
+    alert('Could not copy to clipboard. Please select and copy manually.');
+  } finally {
+    document.body.removeChild(textArea);
+  }
+}
+
+function generateMarkdownFromStructured(plan, originalTitle, opportunity, sourceLink) {
+  return `# ${plan.productName || 'Product'} - Launch Plan
+
+## Product Strategy
+
+**What You're Building:** ${plan.strategy?.whatYoureBuilding || 'Strategy not available'}
+**Target Customer:** ${plan.strategy?.targetCustomer || 'Customer analysis not available'}
+**Value Proposition:** ${plan.strategy?.valueProposition || 'Value prop not available'}
+**Validation Goal:** ${plan.strategy?.validationGoal || 'Validation metrics not available'}
+
+## MVP Implementation
+
+\`\`\`
+${plan.mvpPrompt || 'MVP prompt not available'}
+\`\`\`
+
+## Next 48 Hours
+
+**Day 1:** ${plan.timeline?.day1 || 'Day 1 plan not available'}
+**Day 2:** ${plan.timeline?.day2 || 'Day 2 plan not available'}
+
+## Success Metrics
+
+**Week 1:** ${plan.successMetrics?.week1 || 'Week 1 metrics not available'}
+**Pivot Signal:** ${plan.successMetrics?.pivotSignal || 'Pivot criteria not available'}
+
+---
+
+**Reality Check:** ${plan.realityCheck || 'Motivational message not available'}
 
 ## Source
 
@@ -1609,201 +1979,227 @@ ${launchPlanContent.replace(/^#\s+.+$/m, '').trim()}
 
 ---
 *This Launch Plan was created by GrumpyLinks.com based on customer feedback.*`;
-
-const progressFill = document.getElementById('prd-progress-fill');
-if (progressFill) {
-  progressFill.style.width = '100%';
 }
 
-setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-}
-
-function showPrdError(errorMessage) {
-const container = getPrdContainer();
-container.innerHTML = `
-  <div class="prd-header">
-    <h2 class="prd-title">⌫ Launch Plan Generation Failed</h2>
-    <div class="prd-actions">
-      <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
+function showTextBasedPrd(container, formattedContent, originalTitle, opportunity, sourceLink) {
+  // Fallback for text-based responses
+  container.innerHTML = `
+    <div class="prd-header">
+      <h2 class="prd-title">🚀 Launch Plan</h2>
+      <div class="prd-actions">
+        <button class="prd-action-btn" onclick="copyPrdToClipboard()">Copy Plan</button>
+        <button class="prd-action-btn secondary" onclick="downloadPrd()">Download</button>
+        <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
+      </div>
     </div>
-  </div>
-  <div class="prd-content">
-    <p style="color: var(--bg-danger); text-align: center; padding: 20px;">
-      Failed to generate launch plan: ${escapeHtml(errorMessage)}<br>
-      <small>Please try again or check your connection.</small>
-    </p>
-  </div>
-`;
-}
-
-function getPrdContainer() {
-let container = document.getElementById('prd-container');
-if (!container) {
-  container = document.createElement('div');
-  container.id = 'prd-container';
-  container.className = 'prd-container';
-  
-  const resultsGrid = document.getElementById('resultsGrid');
-  resultsGrid.parentNode.insertBefore(container, resultsGrid.nextSibling);
-}
-return container;
+    
+    <div class="prd-content">
+      ${formattedContent}
+      
+      <h2>Source</h2>
+      <div class="prd-source-section">
+        <div class="source-item">
+          <div class="source-label">Customer Pain Point:</div>
+          <div class="source-text">"${escapeHtml(originalTitle)}"</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Business Opportunity:</div>
+          <div class="source-text">${escapeHtml(opportunity)}</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Original Source:</div>
+          <div class="source-text">${escapeHtml(sourceLink)}</div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function formatPrdContent(content) {
-const cleaned = content
-  .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
-  .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '');
+  const cleaned = content
+    .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
+    .replace(/<span[^>]*>[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]<\/span>/gu, '');
 
-const sections = cleaned.split(/(?=^## )/gm);
+  const sections = cleaned.split(/(?=^## )/gm);
 
-const processedSections = sections.map(section => {
-  let processed = section
-    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-    .replace(/^### (.*$)/gm, '<h3>$1</h3>');
-  
-  const lines = processed.split('\n');
-  let inNumberedList = false;
-  let listItems = [];
-  
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  const processedSections = sections.map(section => {
+    let processed = section
+      .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+      .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+      .replace(/^### (.*$)/gm, '<h3>$1</h3>');
     
-    if (/^\d+\.\s+/.test(line)) {
-      const content = line.replace(/^\d+\.\s+/, '');
-      listItems.push(`<li>${content}</li>`);
-      inNumberedList = true;
-    } else {
-      if (inNumberedList && listItems.length > 0) {
-        lines[i - listItems.length] = `<ol>${listItems.join('')}</ol>`;
-        for (let j = 1; j < listItems.length; j++) {
-          lines[i - listItems.length + j] = '';
+    const lines = processed.split('\n');
+    let inNumberedList = false;
+    let listItems = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      
+      if (/^\d+\.\s+/.test(line)) {
+        const content = line.replace(/^\d+\.\s+/, '');
+        listItems.push(`<li>${content}</li>`);
+        inNumberedList = true;
+      } else {
+        if (inNumberedList && listItems.length > 0) {
+          lines[i - listItems.length] = `<ol>${listItems.join('')}</ol>`;
+          for (let j = 1; j < listItems.length; j++) {
+            lines[i - listItems.length + j] = '';
+          }
+          listItems = [];
+          inNumberedList = false;
         }
-        listItems = [];
-        inNumberedList = false;
       }
     }
-  }
-  
-  if (inNumberedList && listItems.length > 0) {
-    lines[lines.length - listItems.length] = `<ol>${listItems.join('')}</ol>`;
-    for (let k = 1; k < listItems.length; k++) {
-      lines[lines.length - listItems.length + k] = '';
+    
+    if (inNumberedList && listItems.length > 0) {
+      lines[lines.length - listItems.length] = `<ol>${listItems.join('')}</ol>`;
+      for (let k = 1; k < listItems.length; k++) {
+        lines[lines.length - listItems.length + k] = '';
+      }
     }
-  }
-  
-  return lines.join('\n');
-});
+    
+    return lines.join('\n');
+  });
 
-const result = processedSections.join('');
+  const result = processedSections.join('');
 
-return result
-  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-  .replace(/\*(.*?)\*/g, '<em>$1</em>')
-  .replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>')
-  .replace(/(<li>(?!.*<\/ol>).*<\/li>(?:\s*<li>(?!.*<\/ol>).*<\/li>)*)/gs, '<ul>$1</ul>')
-  .replace(/\n\n+/g, '</p><p>')
-  .replace(/^(?!<[huo])(.+)$/gm, '<p>$1</p>')
-  .replace(/<p><\/p>/g, '')
-  .replace(/<p>\s*<\/p>/g, '')
-  .replace(/\n\s*\n/g, '\n')
-  .trim();
+  return result
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>')
+    .replace(/(<li>(?!.*<\/ol>).*<\/li>(?:\s*<li>(?!.*<\/ol>).*<\/li>)*)/gs, '<ul>$1</ul>')
+    .replace(/\n\n+/g, '</p><p>')
+    .replace(/^(?!<[huo])(.+)$/gm, '<p>$1</p>')
+    .replace(/<p><\/p>/g, '')
+    .replace(/<p>\s*<\/p>/g, '')
+    .replace(/\n\s*\n/g, '\n')
+    .trim();
 }
 
 function copyPrdToClipboard() {
-if (!window.currentPrdContent) return;
+  if (!window.currentPrdContent) return;
 
-if (navigator.clipboard && window.isSecureContext) {
-  navigator.clipboard.writeText(window.currentPrdContent).then(() => {
-    const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
-    if (btn) {
-      const originalText = btn.textContent;
-      btn.textContent = '✅ Copied!';
-      btn.style.background = 'var(--bg-success)';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = 'var(--bg-button)';
-      }, 2000);
-    }
-  }).catch(() => {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(window.currentPrdContent).then(() => {
+      const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        btn.style.background = 'var(--bg-success)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--bg-button)';
+        }, 2000);
+      }
+    }).catch(() => {
+      fallbackCopyPrd();
+    });
+  } else {
     fallbackCopyPrd();
-  });
-} else {
-  fallbackCopyPrd();
-}
+  }
 }
 
 function fallbackCopyPrd() {
-const textArea = document.createElement('textarea');
-textArea.value = window.currentPrdContent;
-textArea.style.position = 'fixed';
-textArea.style.left = '-999999px';
-textArea.style.top = '-999999px';
-document.body.appendChild(textArea);
-textArea.focus();
-textArea.select();
+  const textArea = document.createElement('textarea');
+  textArea.value = window.currentPrdContent;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
 
-try {
-  const successful = document.execCommand('copy');
-  if (successful) {
-    const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
-    if (btn) {
-      const originalText = btn.textContent;
-      btn.textContent = '✅ Copied!';
-      btn.style.background = 'var(--bg-success)';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = 'var(--bg-button)';
-      }, 2000);
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      const btn = document.querySelector('.prd-action-btn[onclick="copyPrdToClipboard()"]');
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        btn.style.background = 'var(--bg-success)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--bg-button)';
+        }, 2000);
+      }
+    } else {
+      alert('Could not copy to clipboard. Please select and copy manually.');
     }
-  } else {
+  } catch (err) {
     alert('Could not copy to clipboard. Please select and copy manually.');
+  } finally {
+    document.body.removeChild(textArea);
   }
-} catch (err) {
-  alert('Could not copy to clipboard. Please select and copy manually.');
-} finally {
-  document.body.removeChild(textArea);
-}
 }
 
 function downloadPrd() {
-if (!window.currentPrdContent) return;
+  if (!window.currentPrdContent) return;
 
-const productName = window.currentPrdContent.match(/^#\s+([^-\n]+)/m)?.[1]?.trim()
-  ?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'product';
+  const productName = window.currentPrdContent.match(/^#\s+([^-\n]+)/m)?.[1]?.trim()
+    ?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'product';
 
-const filename = `${productName}-launch-plan-${new Date().toISOString().slice(0,10)}.md`;
+  const filename = `${productName}-launch-plan-${new Date().toISOString().slice(0,10)}.md`;
 
-const blob = new Blob([window.currentPrdContent], { type: 'text/markdown' });
-const url = URL.createObjectURL(blob);
-const a = document.createElement('a');
-a.href = url;
-a.download = filename;
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-URL.revokeObjectURL(url);
+  const blob = new Blob([window.currentPrdContent], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 
-const btn = event.target;
-const originalText = btn.textContent;
-btn.textContent = '✅ Downloaded!';
-btn.style.background = 'var(--bg-success)';
+  const btn = event.target;
+  const originalText = btn.textContent;
+  btn.textContent = '✅ Downloaded!';
+  btn.style.background = 'var(--bg-success)';
 
-setTimeout(() => {
-  btn.textContent = originalText;
-  btn.style.background = 'var(--bg-tertiary)';
-}, 2000);
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.background = 'var(--bg-tertiary)';
+  }, 2000);
+}
+
+function showPrdError(errorMessage) {
+  const container = getPrdContainer();
+  container.innerHTML = `
+    <div class="prd-header">
+      <h2 class="prd-title">⚠️ Launch Plan Generation Failed</h2>
+      <div class="prd-actions">
+        <button class="prd-action-btn secondary" onclick="closePrd()">✕ Close</button>
+      </div>
+    </div>
+    <div class="prd-content">
+      <p style="color: var(--bg-danger); text-align: center; padding: 20px;">
+        Failed to generate launch plan: ${escapeHtml(errorMessage)}<br>
+        <small>Please try again or check your connection.</small>
+      </p>
+    </div>
+  `;
+}
+
+function getPrdContainer() {
+  let container = document.getElementById('prd-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'prd-container';
+    container.className = 'prd-container';
+    
+    const resultsGrid = document.getElementById('resultsGrid');
+    resultsGrid.parentNode.insertBefore(container, resultsGrid.nextSibling);
+  }
+  return container;
 }
 
 function closePrd() {
-const container = document.getElementById('prd-container');
-if (container) container.style.display = 'none';
+  const container = document.getElementById('prd-container');
+  if (container) container.style.display = 'none';
 }
 
 function loadDemoSearch() {
   document.getElementById('searchInput').value = DEMO_RESULTS.query;
   
-  // Show the header with "Anything" on initial load
   const resultsHeader = document.getElementById('resultsHeader');
   resultsHeader.style.display = 'block';
   
@@ -1812,19 +2208,27 @@ function loadDemoSearch() {
 
 // Initialize
 function init() {
-loadConfig();
-setupEventListeners();
-document.getElementById('queryDropdown').value = '';
-document.getElementById('platformSelect').value = 'all';
-document.getElementById('timeSelect').value = 'd30';
-loadDemoSearch();
+  loadConfig();
+  setupEventListeners();
+  document.getElementById('queryDropdown').value = '';
+  document.getElementById('platformSelect').value = 'all';
+  document.getElementById('timeSelect').value = 'd30';
+  loadDemoSearch();
 }
 
 // Make functions global for onclick handlers
-Object.assign(window, { toggleFAQ, downloadOpportunities, copyPrdToClipboard, downloadPrd, closePrd });
+Object.assign(window, { 
+  toggleFAQ, 
+  downloadOpportunities, 
+  copyPrdToClipboard, 
+  copyFullPlanToClipboard,
+  downloadPrd, 
+  closePrd,
+  toggleMvpPrompt,
+  copyMvpPrompt
+});
 
 init();
 </script>
-
 </body>
 </html>
