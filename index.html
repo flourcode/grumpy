@@ -62,7 +62,7 @@
   --border-accent: #3B82F6;
   
   /* Dark mode platform colors */
-  --github: #FFFFFF; --medium: #FFFFFF; --tiktok: #FFFFFF;
+  --github: #24292f; --medium: #242424; --tiktok: #000000;
   --source-default: #9AA3B2;
 }
 
@@ -157,6 +157,7 @@ body {
 
 .logo { 
   display: flex; 
+  flex-direction: column;
   align-items: center; 
   text-decoration: none; 
   color: var(--text-primary);
@@ -167,16 +168,15 @@ body {
   gap: 8px;
   transition: color 0.2s ease;
 }
-
 .logo-emoji { 
-  font-size: 32px; 
+  font-size: 48px; 
   line-height: 1;
   margin: 0;
 }
-
 .logo-text {
   margin: 0;
   font-weight: 700;
+  text-align: center;
 }
 
 .logo-rant {
@@ -186,6 +186,7 @@ body {
   line-height: 1.4;
   color: var(--text-primary);
   transition: color 0.2s ease;
+  text-align: center;
 }
 
 .logo-subtitle {
@@ -1780,49 +1781,83 @@ let allResults = []; // Store all results for filtering
 let currentFilter = 'all';
 let currentSort = 'relevance';
 
-// Demo data
 const DEMO_RESULTS = {
   query: "",
   results: [
     {
-      title: "Zach (Probably) on X: \"This is actually painful, #ChatGPT works well ...\"",
-      snippet: "This is actually painful, #ChatGPT works well on airplane wifi more or less... #Grok... Sucks. Like holy fuck does it SUCK on whatever insane networking is ...",
-      link: "https://x.com/ThatOtherZach/status/1956024889560760322",
-      displayLink: "x.com",
+      title: "Why is the new AWS UI so freaking bad? : r/aws",
+      snippet: "AWS GUIs have always been horrible. Then you use GCP and Azure and realize... Why is this OS so awful? 5 comments. AWS official support quality...",
+      link: "https://www.reddit.com/r/aws/comments/1mo6uf7/why_is_the_new_aws_ui_so_freaking_bad/",
+      displayLink: "reddit.com",
       insight: { 
-        businessOpportunity: "Develop an AI model optimized for low-bandwidth airplane wifi that offers a competitive advantage over existing AI assistants like Grok. Market it directly to travelers.", 
-        grumpyMeter: 2,
-        viability: 1,
-        viabilityReasoning: "Requires massive resources and competes with tech giants"
-      }
-    },
-    {
-      title: "Why Wont Snapchat Work on Breeze Airplane Wifi | TikTok",
-      snippet: "... broken · original sound - The office quote.s · Why Wont My Snap Chat Let Me ... Snapchat Is So Annoying · Why Is Snapchat Not Sending My Snaps. 364Likes. 203 ...",
-      link: "https://www.tiktok.com/discover/why-wont-snapchat-work-on-breeze-airplane-wifi",
-      displayLink: "www.tiktok.com",
-      insight: { 
-        businessOpportunity: "Create a mobile app troubleshooting guide specifically for Snapchat and other popular apps on Breeze Airways wifi, offering solutions and workarounds.", 
-        grumpyMeter: 2,
-        viability: 3,
-        viabilityReasoning: "Simple content creation with clear market demand"
-      }
-    },
-    {
-      title: "iOS - NextDNS Help Center",
-      snippet: "Public WiFis / Airplane WiFI / Hotel WiFis / Captive Portal WiFis. Couldn't ... Wrongly 'seemingly' blocked from NextDNS and need help here.. also for ...",
-      link: "https://help.nextdns.io/tag/ios",
-      displayLink: "help.nextdns.io",
-      insight: { 
-        businessOpportunity: "Offer a VPN service optimized to bypass captive portals and improve connectivity on public and airplane wifi networks, specifically for iOS devices.", 
+        businessOpportunity: "Create a simplified, customizable dashboard that overlays the AWS UI, offering a more intuitive and user-friendly experience. This could involve a browser extension or a standalone application that allows users to create personalized workflows and access frequently used services more easily.", 
         grumpyMeter: 3,
         viability: 2,
-        viabilityReasoning: "VPN market is competitive but traveler niche has potential"
+        viabilityReasoning: "The AWS UI is consistently criticized for being complex and difficult to navigate. While a complete overhaul is unlikely, a user-friendly overlay could attract users seeking a better experience, however, AWS could change the UI at any time."
+      }
+    },
+    {
+      title: "WHY IS AWS NEWS SCREAMING AT ME??? : r/aws",
+      snippet: "Freaking horrible, they rolled it back once already, now its second try... The AWS console is PATHETIC for a company of this scale. 48 comments. Is AWS...",
+      link: "https://www.reddit.com/r/aws/comments/1meivvy/why_is_aws_news_screaming_at_me/",
+      displayLink: "reddit.com",
+      insight: { 
+        businessOpportunity: "Offer a service that filters and prioritizes AWS news and updates based on user-defined criteria, delivering only relevant information in a concise format. This could be a personalized newsletter, a Slack integration, or a dedicated dashboard that helps users stay informed without being overwhelmed.", 
+        grumpyMeter: 3,
+        viability: 2,
+        viabilityReasoning: "The constant stream of AWS announcements can be overwhelming. A curated news service could save users time and effort, but requires ongoing maintenance to ensure accuracy and relevance. The challenge is to provide sufficient value to justify a paid subscription."
+      }
+    },
+    {
+      title: "AWS Lambda cost nightmare: Vercel claims it found a way out • The Register",
+      snippet: "Vercel claims it's slashed AWS Lambda costs by up to 95 percent by reusing idle instances that would otherwise rack up charges while waiting on slow...",
+      link: "https://www.theregister.com/2025/07/31/aws_lambda_cost_nightmare/",
+      displayLink: "theregister.com",
+      insight: { 
+        businessOpportunity: "Develop a cost optimization tool specifically for AWS Lambda, focusing on techniques like instance reuse and right-sizing of function resources. This tool would analyze Lambda usage patterns and provide recommendations for reducing costs without sacrificing performance.", 
+        grumpyMeter: 3,
+        viability: 3,
+        viabilityReasoning: "Lambda costs can quickly spiral out of control, making cost optimization a top priority for many users. A specialized tool that automates this process can generate significant savings and attract a wide customer base."
+      }
+    },
+    {
+      title: "How I Cut Lambda Cold Starts in Half Without Changing My Code",
+      snippet: "Intermittent slowness is a nightmare to debug — there's no consistent trigger, no logs screaming failure. New AWS, Cloud, and DevOps content every day.",
+      link: "https://aws.plainenglish.io/how-i-cut-lambda-cold-starts-in-half-without-changing-my-code-b002f58034d0",
+      displayLink: "aws.plainenglish.io",
+      insight: { 
+        businessOpportunity: "Develop a managed service or tool that automatically optimizes AWS Lambda functions to minimize cold starts. This service would analyze function performance and apply techniques like provisioned concurrency or optimized code packaging, reducing latency without requiring code changes from users.", 
+        grumpyMeter: 2,
+        viability: 3,
+        viabilityReasoning: "Lambda cold starts are a persistent pain point, and a solution that reduces them automatically is highly valuable. The technical challenge is significant, but the potential market is large and willing to pay for performance improvements."
+      }
+    },
+    {
+      title: "How to Choose the Right Tech Stack for Multi-Team Projects | by Md",
+      snippet: "Then there's the integration nightmare. Different teams working in different... New AWS, Cloud, and DevOps content every day. Follow to join our 3.5M+...",
+      link: "https://aws.plainenglish.io/how-to-choose-the-right-tech-stack-for-multi-team-projects-6324582a80a6",
+      displayLink: "aws.plainenglish.io",
+      insight: { 
+        businessOpportunity: "Offer consulting services that specialize in helping organizations select and integrate the right tech stack for multi-team projects on AWS. This would involve assessing project requirements, evaluating different technologies, and providing guidance on best practices for collaboration and integration.", 
+        grumpyMeter: 2,
+        viability: 3,
+        viabilityReasoning: "Integration challenges are a common problem in multi-team projects. Expert consulting can significantly improve project outcomes and reduce risks, making it a valuable service for larger organizations."
+      }
+    },
+    {
+      title: "Max Rozen on X: \"having fun ETLing my big ass uptime_results...\"",
+      snippet: "having fun ETLing my big ass uptime_results table out of AWS RDS into Clickhouse via my laptop would be a nightmare on Australian Internet, thankfully we've...",
+      link: "https://x.com/RozenMD/status/1957717641528856630",
+      displayLink: "x.com",
+      insight: { 
+        businessOpportunity: "Provide a simplified ETL (Extract, Transform, Load) service for moving data from AWS RDS to other data warehouses like Clickhouse, with a focus on handling large datasets efficiently. This could involve a cloud-based ETL pipeline or a desktop application that automates the data transfer process.", 
+        grumpyMeter: 2,
+        viability: 2,
+        viabilityReasoning: "Moving large datasets between AWS services can be complex and time-consuming. A simplified ETL service could save users significant effort, but requires expertise in data warehousing and cloud infrastructure. Pre-built connectors and automated scaling are key differentiators."
       }
     }
   ]
 };
-
 function loadConfig() {
   if (window.ENV) {
     API_CONFIG.GOOGLE_API_KEY = window.ENV.GOOGLE_API_KEY || '';
