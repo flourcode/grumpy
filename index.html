@@ -1349,10 +1349,10 @@ function buildNormalSearchQuery(keyword, platform) {
   let query = `"${keyword}" AND (("absolutely hate" OR "fucking terrible" OR "complete disaster" OR "worst ever" OR "never again" OR "total garbage" OR "waste of money" OR "biggest mistake" OR "scam" OR "ripoff" OR "avoid at all costs") OR ("nightmare" OR "awful" OR "terrible" OR "horrible" OR "disgusting" OR "pathetic" OR "ridiculous" OR "useless" OR "broken" OR "fails" OR "doesn't work") OR ("frustrated" OR "angry" OR "pissed off" OR "fed up" OR "sick of" OR "tired of" OR "done with" OR "can't stand" OR "driving me crazy"))`;
   
   // AGGRESSIVELY exclude help docs, tutorials, official content
-  query += ` -site:docs.* -site:help.* -site:support.* -site:learn.* -site:tutorial.* -site:guide.* -site:manual.* -site:documentation.* -site:wiki.* -site:faq.* -site:howto.* -site:academy.* -site:training.* -site:course.*`;
+  query += ` -site:docs.* -site:help.* -site:support.* -site:learn.* -site:tutorial.* -site:guide.* -site:manual.* -site:documentation.* 
   
   // Exclude help-seeking phrases (these aren't complaints)
-  query += ` -"how to" -"tutorial" -"guide" -"documentation" -"help me" -"need help with" -"can someone help" -"looking for help" -"help please" -"step by step" -"instructions" -"how do I" -"how can I" -"getting started" -"beginner" -"learn" -"course" -"training" -"setup" -"configure" -"install" -"walkthrough" -"tips" -"tricks" -"best practices"`;
+  query += ` -"how to" -"tutorial" -"guide" -"documentation" -"step by step" -"instructions" -"getting started" -"beginner" -"learn" -"course" -"training" -"setup" -"configure" -"install" -"walkthrough" -"tips" -"tricks" -"best practices"`;
   
   // Exclude promotional and positive content
   query += ` -"review" -"rating" -"stars" -"recommend" -"love" -"great" -"awesome" -"amazing" -"perfect" -"excellent" -"fantastic" -"wonderful" -"brilliant" -"outstanding"`;
