@@ -879,7 +879,7 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
 
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
-      <h2 class="results-title">Rants, Complaints, and Meltdowns about XYZ.</h2>
+      <h2 class="results-title">👀 See who's grumpy about XYZ.</h2>
       <p class="results-subtitle">See what people are grumpy about and build a product to delight them.</p>
     </div>
 
@@ -893,7 +893,7 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
   <div class="footer-content">
 
     <div class="footer-hero">
-      <h2>“Complaints are gifts. Customers are always beautifully, wonderfully dissatisfied.” ~ Jeff B.</h2>
+      <h2>“Complaints are gifts.” ~ Jeff B.</h2>
       <p>Ideas built in a vacuum die. GrumpyLinks starts where the world is already complaining and hands you the fastest path from rant to revenue.</p>
     </div>
 
@@ -1288,10 +1288,10 @@ function updateResultsHeader(keyword) {
   
   if (resultsTitle) {
     if (!keyword || keyword.trim() === '') {
-      resultsTitle.textContent = `Rants, Complaints, and Meltdowns about Anything.`;
+      resultsTitle.textContent = `👀 See who's grumpy about XYZ.`;
     } else {
       const capitalizedKeyword = keyword.toUpperCase();
-      resultsTitle.textContent = `Rants, Complaints, and Meltdowns about ${capitalizedKeyword}.`;
+      resultsTitle.textContent = `👀 See who's grumpy about ${capitalizedKeyword}.`;
     }
   }
 }
