@@ -1095,14 +1095,16 @@ function buildSearchQuery(template, keyword, platform) {
 }
 
 function buildNormalSearchQuery(keyword, platform) {
-  let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks" OR "nightmare" OR "disaster" OR "failing" OR "useless" OR "garbage" OR "ridiculous" OR "pathetic" OR "joke" OR "waste of money" OR "regret buying" OR "never again" OR "absolute trash" OR "completely broken" OR "total failure" OR "worst ever" OR "fed up with" OR "sick of" OR "done with" OR "can't stand" OR "driving me crazy" OR "pulling my hair out" OR "ready to switch" OR "looking for alternative" OR "desperate for solution" OR "at my wit's end" OR "losing my mind" OR "about to give up" OR "seriously considering" OR "had enough" OR "last straw" OR "breaking point" OR "can't take it anymore" OR "why is" OR "how is this possible" OR "this can't be right" OR "makes no sense" OR "poorly designed" OR "badly implemented" OR "missing basic features" OR "lacks essential" OR "should have" OR "needs to add" OR "competitors do this" OR "everyone else has" OR "industry standard" OR "embarrassing" OR "unprofessional" OR "subpar" OR "disappointing" OR "let down" OR "expected better" OR "overhyped" OR "overpriced" OR "not worth it" OR "money down the drain" OR "buyer's remorse" OR "false advertising" OR "misleading" OR "bait and switch") "${keyword}"`;
+  let query = `"${keyword}" AND ("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "problem with" OR "doesn't work" OR "awful" OR "sucks" OR "nightmare" OR "disaster" OR "failing" OR "useless" OR "garbage" OR "ridiculous" OR "pathetic" OR "waste of money" OR "regret" OR "never again" OR "fed up" OR "sick of" OR "done with" OR "can't stand" OR "driving me crazy" OR "ready to switch" OR "looking for alternative" OR "desperate" OR "at my wit's end" OR "had enough" OR "last straw" OR "can't take it anymore" OR "embarrassing" OR "disappointing" OR "overpriced" OR "not worth it" OR "buyer's remorse" OR "expensive" OR "overcharged" OR "hidden fees" OR "surprise bill" OR "billing nightmare" OR "customer service sucks" OR "terrible support" OR "rude staff" OR "unhelpful" OR "ignored my" OR "no response" OR "waiting forever" OR "on hold" OR "terrible experience" OR "worst service" OR "never buying again")`;
+  
+  query += ` -site:help.* -site:support.* -site:learn.* -site:tutorial.* -site:guide.* -site:manual.* -site:documentation.* -"how to" -"tutorial" -"guide" -"documentation" -"help me" -"need help with" -"can someone help" -"step by step" -"instructions" -"how do I" -"getting started" -"beginner" -"learn" -"setup" -"configure" -"install"`;
+  
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
   if (platformConfig.sites.length > 0) {
     query += ` (${platformConfig.sites.join(' OR ')})`;
   }
   return query;
 }
-
 function getPlatformClass(domain) {
   const platforms = {
     reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
