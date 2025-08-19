@@ -189,6 +189,102 @@ body {
 .results-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; color: var(--text-primary); }
 .results-subtitle { color: var(--text-secondary); font-size: 16px; }
 
+/* Smart Filters and Sorting Controls */
+.results-controls {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  display: none; /* Hidden until search results are loaded */
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 8px;
+}
+
+.filter-btn {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-secondary);
+}
+
+.filter-btn.active {
+  background: var(--bg-button);
+  color: white;
+  border-color: var(--bg-button);
+}
+
+.sort-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-select {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  min-width: 160px;
+}
+
+.sort-select:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-secondary);
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 2px rgba(47, 128, 237, 0.2);
+}
+
+.results-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
 .results-grid { 
   display: grid; 
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
@@ -606,6 +702,16 @@ mark {
   .app { flex-direction: column; }
   .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-primary); }
   .results-grid { grid-template-columns: 1fr; }
+  
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  
+  .filter-group, .sort-group {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 768px) {
@@ -625,11 +731,21 @@ mark {
     align-items: center;
     justify-content: space-between;
   }
+  
+  .filter-group {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .controls-row {
+    text-align: center;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
 /* General tightening for all screen sizes */
 .logo-emoji {
   font-size: 48px;   /* smaller but still bold */
@@ -656,6 +772,7 @@ mark {
   margin: 0 0 10px 0; /* less gap under the rant line */
   line-height: 1.4;
 }
+
 /* MVP Prompt Container Styles */
 .mvp-prompt-container {
   background: var(--bg-tertiary);
@@ -845,11 +962,13 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
     <input id="searchInput" class="search-input" type="text" placeholder="Type a company, service, product…" />
     <select id="queryDropdown" class="select-input">
       <option value="">General Pain Points</option>
-      <option value="competitor_hate">Competitor Complaints</option>
-      <option value="switching_signals">Switching Signals</option>
-      <option value="wish_list">Unmet Needs</option>
-      <option value="feature_requests">Feature Requests</option>
-      <option value="urgent_help">Urgent Problems</option>
+      <option value="rage_mode">🔥 Full Rage Mode</option>
+      <option value="billing_fury">💸 Billing Nightmares</option>
+      <option value="service_apocalypse">☠️ Service Disasters</option>
+      <option value="feature_betrayal">💔 Missing Features</option>
+      <option value="competition_envy">🏃 Ready to Switch</option>
+      <option value="workflow_breakdown">⚙️ Process Hell</option>
+      <option value="support_abandonment">🆘 Support Failures</option>
     </select>
     <select id="platformSelect" class="select-input">
       <option value="all">All Platforms</option>
@@ -876,11 +995,35 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
   </div>
 </aside>
 
-
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
       <h2 class="results-title">See who's grumpy about something. 👀</h2>
       <p class="results-subtitle">See what people are grumpy about and build a product to delight them.</p>
+    </div>
+
+    <!-- Smart Filters and Sorting Controls -->
+    <div class="results-controls" id="resultsControls">
+      <div class="controls-row">
+        <div class="filter-group">
+          <span class="filter-label">Filter:</span>
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="hot">🔥 Hot Only</button>
+          <button class="filter-btn" data-filter="recent">⚡ Recent</button>
+        </div>
+        
+        <div class="sort-group">
+          <span class="filter-label">Sort:</span>
+          <select class="sort-select" id="sortSelect">
+            <option value="relevance">Sort by Relevance</option>
+            <option value="opportunity">Sort by Opportunity</option>
+            <option value="frustration">Sort by Frustration Level</option>
+          </select>
+        </div>
+        
+        <div class="results-count" id="resultsCount">
+          Showing 0 results
+        </div>
+      </div>
     </div>
 
     <div id="resultsGrid" class="results-grid">
@@ -889,11 +1032,12 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
         <p class="loading-text">Loading demo search results...</p>
       </div>
     </div>
+
 <footer class="footer">
   <div class="footer-content">
 
     <div class="footer-hero">
-      <h2>“Complaints are gifts.” ~ Jeff B.</h2>
+      <h2>"Complaints are gifts." ~ Jeff B.</h2>
       <p>Ideas built in a vacuum die. GrumpyLinks starts where the world is already complaining and hands you the fastest path from rant to revenue.</p>
     </div>
 
@@ -906,8 +1050,8 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>Because that’s how most side hustles crash and burn. Building blind = months wasted on something nobody asked for. 
-          We start with real customer pain, so instead of rolling dice you’re solving problems people already want fixed.</p>
+          <p>Because that's how most side hustles crash and burn. Building blind = months wasted on something nobody asked for. 
+          We start with real customer pain, so instead of rolling dice you're solving problems people already want fixed.</p>
         </div>
       </div>
 
@@ -917,8 +1061,8 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>We use powerful queries, Google’s Custom Search Engine, and Gemini AI to mine gripes across 12+ platforms: Reddit, Twitter/X, YouTube, Instagram, Facebook, Discord, and more. 
-          If customers are grumpy online, we’ll find it—and hand it to you on a platter.</p>
+          <p>We use powerful queries, Google's Custom Search Engine, and Gemini AI to mine gripes across 12+ platforms: Reddit, Twitter/X, YouTube, Instagram, Facebook, Discord, and more. 
+          If customers are grumpy online, we'll find it—and hand it to you on a platter.</p>
         </div>
       </div>
 
@@ -928,21 +1072,21 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>Dreaming of quitting your 9–5? This is your shortcut.  
+          <p>Dreaming of quitting your 9—5? This is your shortcut.  
           A content creator? Endless material.  
           A Fortune 500 Marketing VP? Cheap GTM validation before you burn through millions.  
-          Basically: anyone who’d rather hear the truth from customers than pay McKinsey $5M for a 100-page deck.</p>
+          Basically: anyone who'd rather hear the truth from customers than pay McKinsey $5M for a 100-page deck.</p>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFAQ(this)">
-          Isn’t this just market research?
+          Isn't this just market research?
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
           <p>Not even close. Traditional research = surveys nobody fills out and interviews where people lie to be polite.  
-          We surface what they’re already shouting about. It’s faster, cheaper, and honestly more fun. 
+          We surface what they're already shouting about. It's faster, cheaper, and honestly more fun. 
           Our version comes with launch-ready plans instead of slide decks.</p>
         </div>
       </div>
@@ -964,15 +1108,15 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
           <span class="faq-arrow">▼</span>
         </button>
         <div class="faq-answer">
-          <p>Your gut is biased. Customers aren’t. They rant because they’re fed up—and frustration is the raw material of opportunity. 
-          The fastest way to win? Fix what’s broken. GrumpyLinks just makes sure you hear the signal above the noise.</p>
+          <p>Your gut is biased. Customers aren't. They rant because they're fed up—and frustration is the raw material of opportunity. 
+          The fastest way to win? Fix what's broken. GrumpyLinks just makes sure you hear the signal above the noise.</p>
         </div>
       </div>
     </div>
 
     <div class="footer-hero">
       <h2>Ready to escape your 9 to 5? Get 😠 Grumpy.</h2>
-      <p>Join solopreneurs, side hustlers, and creators who know the secret: success isn’t about guessing, it’s about solving. GrumpyLinks makes it obvious what to build next.</p>
+      <p>Join solopreneurs, side hustlers, and creators who know the secret: success isn't about guessing, it's about solving. GrumpyLinks makes it obvious what to build next.</p>
       <p>© 2025 GrumpyLinks</p>
     </div>
 
@@ -985,13 +1129,42 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
 // Configuration
 const API_CONFIG = { GOOGLE_API_KEY: '', SEARCH_ENGINE_ID: '', LAMBDA_ENDPOINT: '' };
 
-// Power Queries
+// Enhanced Power Queries that find REAL complaints and frustrations
 const POWER_QUERIES = {
-  competitor_hate: { template: '("hate" OR "frustrated with" OR "terrible") {{keyword}}' },
-  switching_signals: { template: '("switching from" OR "alternative to" OR "quitting" OR "leaving") {{keyword}}' },
-  wish_list: { template: '"I wish there was" OR "someone should" {{keyword}}' },
-  feature_requests: { template: '("should add" OR "missing feature" OR "needs to support") {{keyword}}' },
-  urgent_help: { template: '("need help with" OR "urgent" OR "stuck with") {{keyword}}' }
+  // Extreme frustration and rage
+  rage_mode: { 
+    template: '"${keyword}" AND ("absolutely hate" OR "fucking terrible" OR "complete garbage" OR "total disaster" OR "worst ever" OR "never again" OR "avoid at all costs" OR "biggest mistake" OR "waste of money" OR "scam" OR "ripoff" OR "criminal" OR "lawsuit" OR "report them" OR "BBB complaint")'
+  },
+  
+  // Billing and pricing nightmares
+  billing_fury: { 
+    template: '"${keyword}" AND ("billing" OR "charges" OR "fees" OR "price" OR "cost") AND ("nightmare" OR "scam" OR "surprise" OR "hidden" OR "overcharged" OR "unauthorized" OR "dispute" OR "refund" OR "cancel" OR "fraud" OR "expensive" OR "ridiculous")'
+  },
+  
+  // Service disasters and failures
+  service_apocalypse: { 
+    template: '"${keyword}" AND ("service" OR "support" OR "help") AND ("terrible" OR "awful" OR "worst" OR "useless" OR "incompetent" OR "rude" OR "unhelpful" OR "ignored" OR "hours on hold" OR "never responded" OR "gave up" OR "nightmare")'
+  },
+  
+  // Missing features that people desperately want
+  feature_betrayal: { 
+    template: '"${keyword}" AND ("missing" OR "lacks" OR "doesn\'t have" OR "why no" OR "still no" OR "when will" OR "basic feature" OR "simple request" OR "obvious" OR "competitors have" OR "should be standard")'
+  },
+  
+  // Ready to switch to competitors
+  competition_envy: { 
+    template: '"${keyword}" AND ("switching to" OR "moving to" OR "trying" OR "considering" OR "better than" OR "alternative" OR "replacement" OR "competitor" OR "leaving" OR "done with" OR "fed up")'
+  },
+  
+  // Workflow and process breakdowns
+  workflow_breakdown: { 
+    template: '"${keyword}" AND ("workflow" OR "process" OR "integration") AND ("broken" OR "nightmare" OR "inefficient" OR "takes forever" OR "manual" OR "workaround" OR "hack" OR "impossible" OR "frustrating")'
+  },
+  
+  // Support abandonment and failures
+  support_abandonment: { 
+    template: '"${keyword}" AND ("support" OR "help" OR "ticket" OR "chat" OR "call") AND ("never responded" OR "ignored" OR "useless" OR "terrible" OR "gave up" OR "hours waiting" OR "no help" OR "waste of time")'
+  }
 };
 
 // Platform configurations
@@ -1008,6 +1181,9 @@ const PLATFORMS = {
 // Global variables
 let currentAnalysis = null;
 let currentSearchResults = [];
+let allResults = []; // Store all results for filtering
+let currentFilter = 'all';
+let currentSort = 'relevance';
 
 // Demo data
 const DEMO_RESULTS = {
@@ -1083,10 +1259,83 @@ function setupEventListeners() {
   document.getElementById('searchInput').oninput = e => {
     localStorage.setItem('grumpy_search', e.target.value);
   };
+  
+  // Filter button listeners
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const filter = e.target.dataset.filter;
+      setActiveFilter(filter);
+      applyFiltersAndSort();
+    });
+  });
+  
+  // Sort listener
+  document.getElementById('sortSelect').addEventListener('change', (e) => {
+    currentSort = e.target.value;
+    applyFiltersAndSort();
+  });
+}
+
+function setActiveFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.filter === filter) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+function applyFiltersAndSort() {
+  let filteredResults = [...allResults];
+  
+  // Apply filters
+  switch(currentFilter) {
+    case 'hot':
+      filteredResults = filteredResults.filter(result => result.viability === 3);
+      break;
+    case 'recent':
+      // Since we don't have dates, we'll use the first 50% as "recent"
+      filteredResults = filteredResults.slice(0, Math.ceil(filteredResults.length / 2));
+      break;
+    case 'all':
+    default:
+      // No filtering needed
+      break;
+  }
+  
+  // Apply sorting
+  switch(currentSort) {
+    case 'opportunity':
+      filteredResults.sort((a, b) => b.viability - a.viability);
+      break;
+    case 'frustration':
+      filteredResults.sort((a, b) => b.grumpyMeter - a.grumpyMeter);
+      break;
+    case 'relevance':
+    default:
+      // Keep original order
+      break;
+  }
+  
+  // Update results count
+  updateResultsCount(filteredResults.length, allResults.length);
+  
+  // Re-render results
+  renderFilteredResults(filteredResults);
+}
+
+function updateResultsCount(filtered, total) {
+  const countEl = document.getElementById('resultsCount');
+  if (filtered === total) {
+    countEl.textContent = `Showing ${total} results`;
+  } else {
+    countEl.textContent = `Showing ${filtered} of ${total} results`;
+  }
 }
 
 function buildSearchQuery(template, keyword, platform) {
-  let query = template.replace(/\{\{keyword\}\}/g, `"${keyword}"`);
+  let query = template.replace(/\$\{keyword\}/g, keyword);
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
   if (platformConfig.sites.length > 0) {
     query += ` (${platformConfig.sites.join(' OR ')})`;
@@ -1094,10 +1343,19 @@ function buildSearchQuery(template, keyword, platform) {
   return query;
 }
 
+// Enhanced normal search that finds REAL complaints
 function buildNormalSearchQuery(keyword, platform) {
-  let query = `"${keyword}" AND ("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "problem with" OR "doesn't work" OR "awful" OR "sucks" OR "nightmare" OR "disaster" OR "failing" OR "useless" OR "garbage" OR "ridiculous" OR "pathetic" OR "waste of money" OR "regret" OR "never again" OR "fed up" OR "sick of" OR "done with" OR "can't stand" OR "driving me crazy" OR "ready to switch" OR "looking for alternative" OR "desperate" OR "at my wit's end" OR "had enough" OR "last straw" OR "can't take it anymore" OR "embarrassing" OR "disappointing" OR "overpriced" OR "not worth it" OR "buyer's remorse" OR "expensive" OR "overcharged" OR "hidden fees" OR "surprise bill" OR "billing nightmare" OR "customer service sucks" OR "terrible support" OR "rude staff" OR "unhelpful" OR "ignored my" OR "no response" OR "waiting forever" OR "on hold" OR "terrible experience" OR "worst service" OR "never buying again")`;
+  // Multi-layer approach: emotional intensity + complaint context + exclusions
+  let query = `"${keyword}" AND (("absolutely hate" OR "fucking terrible" OR "complete disaster" OR "worst ever" OR "never again" OR "total garbage" OR "waste of money" OR "biggest mistake" OR "scam" OR "ripoff" OR "avoid at all costs") OR ("nightmare" OR "awful" OR "terrible" OR "horrible" OR "disgusting" OR "pathetic" OR "ridiculous" OR "useless" OR "broken" OR "fails" OR "doesn't work") OR ("frustrated" OR "angry" OR "pissed off" OR "fed up" OR "sick of" OR "tired of" OR "done with" OR "can't stand" OR "driving me crazy"))`;
   
-  query += ` -site:help.* -site:support.* -site:learn.* -site:tutorial.* -site:guide.* -site:manual.* -site:documentation.* -"how to" -"tutorial" -"guide" -"documentation" -"help me" -"need help with" -"can someone help" -"step by step" -"instructions" -"how do I" -"getting started" -"beginner" -"learn" -"setup" -"configure" -"install"`;
+  // AGGRESSIVELY exclude help docs, tutorials, official content
+  query += ` -site:docs.* -site:help.* -site:support.* -site:learn.* -site:tutorial.* -site:guide.* -site:manual.* -site:documentation.* -site:wiki.* -site:faq.* -site:howto.* -site:academy.* -site:training.* -site:course.*`;
+  
+  // Exclude help-seeking phrases (these aren't complaints)
+  query += ` -"how to" -"tutorial" -"guide" -"documentation" -"help me" -"need help with" -"can someone help" -"looking for help" -"help please" -"step by step" -"instructions" -"how do I" -"how can I" -"getting started" -"beginner" -"learn" -"course" -"training" -"setup" -"configure" -"install" -"walkthrough" -"tips" -"tricks" -"best practices"`;
+  
+  // Exclude promotional and positive content
+  query += ` -"review" -"rating" -"stars" -"recommend" -"love" -"great" -"awesome" -"amazing" -"perfect" -"excellent" -"fantastic" -"wonderful" -"brilliant" -"outstanding"`;
   
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
   if (platformConfig.sites.length > 0) {
@@ -1105,6 +1363,7 @@ function buildNormalSearchQuery(keyword, platform) {
   }
   return query;
 }
+
 function getPlatformClass(domain) {
   const platforms = {
     reddit: 'source-reddit', twitter: 'source-twitter', 'x.com': 'source-twitter',
@@ -1351,9 +1610,11 @@ function performSearch() {
 function showLoading() {
   const grid = document.getElementById('resultsGrid');
   const resultsHeader = document.getElementById('resultsHeader');
+  const resultsControls = document.getElementById('resultsControls');
   const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
 
   resultsHeader.style.display = 'block';
+  resultsControls.style.display = 'none';
   if (downloadBtn) downloadBtn.style.display = 'none';
   grid.innerHTML = `
     <div class="loading-container">
@@ -1365,7 +1626,9 @@ function showLoading() {
 
 function showError(message) {
   const grid = document.getElementById('resultsGrid');
+  const resultsControls = document.getElementById('resultsControls');
   const downloadBtn = document.getElementById('downloadOpportunitiesBtn');
+  resultsControls.style.display = 'none';
   if (downloadBtn) downloadBtn.style.display = 'none';
   grid.innerHTML = `
     <div class="empty-state">
@@ -1381,26 +1644,19 @@ function escapeHtml(text) {
   return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-function displayResults(results, powerQuery, keyword, analysis) {
+function renderFilteredResults(results) {
   const grid = document.getElementById('resultsGrid');
-  const resultsHeader = document.getElementById('resultsHeader');
-
-  resultsHeader.style.display = 'block';
-  updateResultsHeader(keyword);
-
+  
   if (!results.length) {
     grid.innerHTML = `
       <div class="empty-state">
-        <h3>No Pain Points Found</h3>
-        <p>Try a different search term, platform, or time range to discover customer complaints.</p>
+        <h3>No Results Match Your Filters</h3>
+        <p>Try adjusting your filters or search terms.</p>
       </div>
     `;
-    currentSearchResults = [];
     return;
   }
 
-  currentSearchResults = [];
-  
   const html = results.map((result, i) => {
     const platformClass = getPlatformClass(result.displayLink);
     const platformName = getPlatformName(result.displayLink);
@@ -1414,8 +1670,7 @@ function displayResults(results, powerQuery, keyword, analysis) {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&#39;/g, "'")
-      .replace(/\s*Ãƒâ€šÃ‚Â·\s*/g, ' ')
-      .replace(/\s*\.\.\.\s*/g, ' ')
+      .replace(/\s*…\s*/g, ' ')
       .replace(/\s+/g, ' ');
 
     const timePatterns = [
@@ -1451,15 +1706,15 @@ function displayResults(results, powerQuery, keyword, analysis) {
     });
 
     snippet = snippet
-      .replace(/^[.,\s-Ãƒâ€šÃ‚Â·:;]*/, '')
-      .replace(/[.,\s-Ãƒâ€šÃ‚Â·:;]*$/, '')
+      .replace(/^[.,\s-·:;]*/, '')
+      .replace(/[.,\s-·:;]*$/, '')
       .replace(/\s+/g, ' ')
       .trim();
 
     const truncatedSnippet = snippet.substring(0, 120);
     const escapedSnippet = escapeHtml(truncatedSnippet);
 
-    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack'];
+    const painWords = ['frustrated', 'hate', 'terrible', 'broken', 'annoying', 'wish', 'need', 'help', 'urgent', 'switching', 'alternative', 'missing', 'lack', 'awful', 'sucks', 'nightmare', 'disaster'];
     let highlightedSnippet = escapedSnippet;
 
     painWords.forEach(word => {
@@ -1467,6 +1722,83 @@ function displayResults(results, powerQuery, keyword, analysis) {
       highlightedSnippet = highlightedSnippet.replace(regex, '$1<mark>$2</mark>$3');
     });
     
+    const grumpyDisplay = getGrumpyMeterDisplay(result.grumpyMeter);
+    const viabilityDisplay = getViabilityDisplay(result.viability);
+
+    return `
+      <div class="result-card">
+        <div class="card-header">
+          <div class="source-info">
+            <div class="source-left">
+              <span class="source-badge ${platformClass}">${platformName}</span>
+            </div>
+          </div>
+          <div class="grumpy-meter-corner">
+            <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
+          </div>
+          <div class="problem-statement">
+            <h3 class="problem-title">COMPLAINT:</h3>
+            <p class="problem-text">"${highlightedSnippet}..."</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <h4 class="solution-title">BIG IDEA</h4>
+          <p class="solution-text">${result.businessOpportunity || 'Analyzing opportunity...'}</p>
+        </div>
+        <div class="opportunity-section ${viabilityDisplay.class}">
+          <div class="opportunity-title">
+            <span class="opportunity-score-badge ${viabilityDisplay.class}">${viabilityDisplay.label}</span>
+          </div>
+          <div class="opportunity-reasoning">${result.viabilityReasoning || 'Business assessment not available'}</div>
+        </div>
+        <div class="card-action">
+          <button class="generate-prd-btn" 
+                  data-title="${escapeHtml(result.title)}" 
+                  data-snippet="${escapeHtml(result.snippet || '')}" 
+                  data-opportunity="${escapeHtml(result.businessOpportunity || '')}">
+            Launch Plan
+          </button>
+          <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  grid.innerHTML = html;
+
+  document.querySelectorAll('.generate-prd-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const { title, snippet, opportunity } = e.target.dataset;
+      generatePrdPrompt(title, snippet, opportunity);
+    });
+  });
+}
+
+function displayResults(results, powerQuery, keyword, analysis) {
+  const grid = document.getElementById('resultsGrid');
+  const resultsHeader = document.getElementById('resultsHeader');
+  const resultsControls = document.getElementById('resultsControls');
+
+  resultsHeader.style.display = 'block';
+  updateResultsHeader(keyword);
+
+  if (!results.length) {
+    resultsControls.style.display = 'none';
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>No Pain Points Found</h3>
+        <p>Try a different search term, platform, or time range to discover customer complaints.</p>
+      </div>
+    `;
+    currentSearchResults = [];
+    allResults = [];
+    return;
+  }
+
+  currentSearchResults = [];
+  allResults = [];
+  
+  results.forEach((result, i) => {
     let insight;
     if (result.insight) {
       insight = result.insight;
@@ -1489,68 +1821,35 @@ function displayResults(results, powerQuery, keyword, analysis) {
       insight.viability = 2;
     }
 
-    const grumpyDisplay = getGrumpyMeterDisplay(insight.grumpyMeter);
-    const viabilityDisplay = getViabilityDisplay(insight.viability);
+    const platformName = getPlatformName(result.displayLink);
 
-    currentSearchResults.push({
+    const resultData = {
       title: result.title,
       link: result.link,
       snippet: result.snippet,
+      displayLink: result.displayLink,
       platform: platformName,
       businessOpportunity: insight.businessOpportunity || 'N/A',
       grumpyMeter: insight.grumpyMeter || 2,
       viability: insight.viability || 2,
       viabilityReasoning: insight.viabilityReasoning || 'Business assessment not available'
-    });
+    };
 
-    return `
-      <div class="result-card">
-        <div class="card-header">
-          <div class="source-info">
-            <div class="source-left">
-              <span class="source-badge ${platformClass}">${platformName}</span>
-            </div>
-          </div>
-          <div class="grumpy-meter-corner">
-            <div class="grumpy-emojis">${grumpyDisplay.emojis}</div>
-          </div>
-          <div class="problem-statement">
-            <h3 class="problem-title">COMPLAINT:</h3>
-            <p class="problem-text">"${highlightedSnippet}..."</p>
-          </div>
-        </div>
-        <div class="card-body">
-          <h4 class="solution-title">BIG IDEA</h4>
-          <p class="solution-text">${insight.businessOpportunity || 'Analyzing opportunity...'}</p>
-        </div>
-        <div class="opportunity-section ${viabilityDisplay.class}">
-          <div class="opportunity-title">
-            <span class="opportunity-score-badge ${viabilityDisplay.class}">${viabilityDisplay.label}</span>
-          </div>
-          <div class="opportunity-reasoning">${insight.viabilityReasoning || 'Business assessment not available'}</div>
-        </div>
-        <div class="card-action">
-          <button class="generate-prd-btn" 
-                  data-title="${escapeHtml(result.title)}" 
-                  data-snippet="${escapeHtml(result.snippet || '')}" 
-                  data-opportunity="${escapeHtml(insight.businessOpportunity || '')}">
-            Launch Plan
-          </button>
-          <a href="${result.link}" target="_blank" class="source-link">View Original Complaint</a>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  grid.innerHTML = html;
-
-  document.querySelectorAll('.generate-prd-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const { title, snippet, opportunity } = e.target.dataset;
-      generatePrdPrompt(title, snippet, opportunity);
-    });
+    currentSearchResults.push(resultData);
+    allResults.push(resultData);
   });
+
+  // Show controls and set initial filter/sort
+  resultsControls.style.display = 'block';
+  currentFilter = 'all';
+  currentSort = 'relevance';
+  setActiveFilter('all');
+  document.getElementById('sortSelect').value = 'relevance';
   
+  // Apply initial filters and sort
+  applyFiltersAndSort();
+  
+  // Update download section
   let downloadContainer = document.getElementById('download-container');
   if (!downloadContainer) {
     downloadContainer = document.createElement('div');
@@ -1632,6 +1931,7 @@ function downloadOpportunities() {
   }, 2000);
 }
 
+// PRD Generation functions (keeping existing functionality)
 function generatePrdPrompt(originalTitle, snippet, opportunity) {
   if (!API_CONFIG.LAMBDA_ENDPOINT) {
     showPrdError('Launch plan generation not configured. Please check your settings.');
@@ -1899,7 +2199,7 @@ function copyFullPlanToClipboard() {
         btn.style.background = 'var(--bg-success)';
         setTimeout(() => {
           btn.textContent = originalText;
-          btn.style.background = 'var(--bg-button)';
+		  btn.style.background = 'var(--bg-button)';
         }, 2000);
       }
     }).catch(() => {
