@@ -1735,7 +1735,7 @@ function showPrdResults(launchPlanData, originalTitle, snippet, opportunity, sou
     </div>
     
     <div class="prd-content">
-      <h2>Product Strategy</h2>
+      <h2>Overview</h2>
       <div style="background: var(--bg-tertiary); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
         <p><strong>What You're Building:</strong> ${escapeHtml(plan.strategy?.whatYoureBuilding || 'Strategy not available')}</p>
         <p><strong>Target Customer:</strong> ${escapeHtml(plan.strategy?.targetCustomer || 'Customer analysis not available')}</p>
@@ -1811,7 +1811,7 @@ function createMvpPromptContainer(mvpPrompt) {
       </div>
     </div>
     <p style="margin-top: 16px; color: var(--text-secondary); font-size: 14px;">
-      <strong>💡 How to use:</strong> Copy the prompt above and paste it into Claude or Gemini to generate your landing page.
+      <strong>💡 How to use:</strong> Copy the prompt above and paste it into Claude 4.0 or Gemini 2.5 to generate your landing page.
     </p>
   `;
 }
