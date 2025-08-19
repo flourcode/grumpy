@@ -879,7 +879,7 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
 
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
-      <h2 class="results-title">See who's grumpy about anything. 👀</h2>
+      <h2 class="results-title">See who's grumpy about something. 👀</h2>
       <p class="results-subtitle">See what people are grumpy about and build a product to delight them.</p>
     </div>
 
@@ -1095,7 +1095,7 @@ function buildSearchQuery(template, keyword, platform) {
 }
 
 function buildNormalSearchQuery(keyword, platform) {
-  let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks") "${keyword}"`;
+  let query = `("frustrated" OR "hate" OR "terrible" OR "broken" OR "annoying" OR "wish there was" OR "need help" OR "problem with" OR "doesn't work" OR "awful" OR "sucks" OR "nightmare" OR "disaster" OR "failing" OR "useless" OR "garbage" OR "ridiculous" OR "pathetic" OR "joke" OR "waste of money" OR "regret buying" OR "never again" OR "absolute trash" OR "completely broken" OR "total failure" OR "worst ever" OR "fed up with" OR "sick of" OR "done with" OR "can't stand" OR "driving me crazy" OR "pulling my hair out" OR "ready to switch" OR "looking for alternative" OR "desperate for solution" OR "at my wit's end" OR "losing my mind" OR "about to give up" OR "seriously considering" OR "had enough" OR "last straw" OR "breaking point" OR "can't take it anymore" OR "why is" OR "how is this possible" OR "this can't be right" OR "makes no sense" OR "poorly designed" OR "badly implemented" OR "missing basic features" OR "lacks essential" OR "should have" OR "needs to add" OR "competitors do this" OR "everyone else has" OR "industry standard" OR "embarrassing" OR "unprofessional" OR "subpar" OR "disappointing" OR "let down" OR "expected better" OR "overhyped" OR "overpriced" OR "not worth it" OR "money down the drain" OR "buyer's remorse" OR "false advertising" OR "misleading" OR "bait and switch") "${keyword}"`;
   const platformConfig = PLATFORMS[platform] || PLATFORMS.all;
   if (platformConfig.sites.length > 0) {
     query += ` (${platformConfig.sites.join(' OR ')})`;
@@ -1288,7 +1288,7 @@ function updateResultsHeader(keyword) {
   
   if (resultsTitle) {
     if (!keyword || keyword.trim() === '') {
-      resultsTitle.textContent = `See who's grumpy about anything. 👀`;
+      resultsTitle.textContent = `See who's grumpy about something. 👀`;
     } else {
       const capitalizedKeyword = keyword.toUpperCase();
       resultsTitle.textContent = `See who's grumpy about ${capitalizedKeyword}. 👀`;
