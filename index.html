@@ -879,7 +879,7 @@ Search any topic for user complaints across Reddit, Facebook, Insta, X, YouTube.
 
   <main class="main-content">
     <div class="results-header" id="resultsHeader" style="display: none;">
-      <h2 class="results-title">👀 See who's grumpy about XYZ.</h2>
+      <h2 class="results-title">See who's grumpy about anything. 👀</h2>
       <p class="results-subtitle">See what people are grumpy about and build a product to delight them.</p>
     </div>
 
@@ -1288,10 +1288,10 @@ function updateResultsHeader(keyword) {
   
   if (resultsTitle) {
     if (!keyword || keyword.trim() === '') {
-      resultsTitle.textContent = `👀 See who's grumpy about XYZ.`;
+      resultsTitle.textContent = `See who's grumpy about anything. 👀`;
     } else {
       const capitalizedKeyword = keyword.toUpperCase();
-      resultsTitle.textContent = `👀 See who's grumpy about ${capitalizedKeyword}.`;
+      resultsTitle.textContent = `See who's grumpy about ${capitalizedKeyword}. 👀`;
     }
   }
 }
